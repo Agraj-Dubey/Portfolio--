@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>agraj - Portfolio</title> <!-- Default title, will be updated by JS -->
+    <link rel="icon" type="image/png" href="frieren.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@700&family=Inter:wght@400;500;600;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;700&family=Nunito:wght@400;700&family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <!-- Framer Motion (kept if any old script part might implicitly use it, but new animations use anime.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.12.16/framer-motion.min.js"></script>
+
+
+    <script>
+        // --- Unified Tailwind Config ---
+        window.tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark': '#0f0a19',
+                        'darker': '#090613',
+                        'accent': '#9272CE',
+                        'accent-hover': '#AE8BD5',
+                        'light-accent': '#CBB8E8',
+                        'text-primary': '#ffffff',
+                        'text-secondary': '#D1D1D1',
+                        'text-tertiary': '#A8A8A8',
+                        // For writings page styles compatibility & additions
+                        'article-bg': 'rgba(20, 20, 22, 0.92)', // Slightly more opaque
+                        'writings-card-bg': 'rgba(25, 15, 40, 0.85)', // Adjusted to fit theme
+                        'writings-card-hover-bg': 'rgba(45, 35, 60, 0.95)',
+                        'dark-purple-bg': '#1a0a2e',
+                        'hover-highlight': 'rgba(146, 114, 206, 0.1)',
+                        // Aliases for easier transition of writings.html styles
+                        'brand-purple': '#9272CE',
+                        'brand-hover': '#AE8BD5',
+                        'brand-light-purple': '#CBB8E8',
+                        'brand-dark': '#050505', // Using a very dark color
+                        'brand-light': '#FFFFFF',
+                        'brand-gray': '#D1D1D1',
+                        'brand-text': '#A8A8A8',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Baloo Bhai 2', 'cursive'], // For main headings on home
+                        lato: ['Lato', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'], // Used in writings for titles
+                        nunito: ['Nunito', 'sans-serif'],
+                        'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'],
+                        verdana: ['Verdana', 'sans-serif'],
+                        'trebuchet': ['Trebuchet MS', 'sans-serif'],
+                    },
+                }
+            }
+        };
+    </script>
+
+    <style>
+        /* --- Base & Body Styles (Primarily from index.html, adapted) --- */
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: #0f0a19; /* Fallback from theme.dark */
+            color: #D1D1D1; /* theme.text-secondary */
+            font-family: 'Inter', sans-serif; /* theme.fontFamily.sans */
+            overflow-x: hidden;
+            line-height: 1.6;
+            font-size: 16px; /* Base font size */
+        }
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.07), rgba(15, 10, 25, 0.98) 70%); z-index: -5; }
+
+        /* --- Page Section Visibility --- */
+        .page-section { display: none; animation: fadeInPage 0.7s ease-out forwards; }
+        .page-section.active-section { display: block; }
+        @keyframes fadeInPage { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- Typography (Shared & Home) --- */
+        h1, h2, h3, h4, h5, h6 { color: #ffffff; /* theme.text-primary */ font-weight: 700; }
+        .font-serif { font-family: 'Baloo Bhai 2', cursive; } /* As in index.html */
+        .font-outfit { font-family: 'Outfit', sans-serif; } /* For writings.html titles */
+
+        .gradient-text { background: linear-gradient(90deg, #FFFFFF, #CBB8E8, #9272CE, #CBB8E8, #FFFFFF); background-size: 300% auto; background-clip: text; -webkit-background-clip: text; color: transparent; animation: gradientTextAnim 8s linear infinite; display: inline-block; }
+        @keyframes gradientTextAnim { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        .typed-cursor { display: inline-block; width: 2px; background-color: #9272CE; margin-left: 4px; animation: pulseCursor 1s infinite; vertical-align: text-bottom; }
+        #home-content h1 .typed-cursor { height: 1em; background-color: #CBB8E8; }
+        #home-content blockquote .typed-cursor { background-color: #A8A8A8; }
+        #typewriter .typed-cursor { background-color: #D1D1D1; height: 1.1em;}
+        #main-heading-text .typed-cursor { height: 1.1em; }
+        #blockquote-text .typed-cursor { height: 1.1em; }
+        @keyframes pulseCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+
+        /* --- Min Heights for Typewriter Elements (from index.html) --- */
+        #typewriter { min-height: 3em; display: inline-block; width: 100%; }
+        #main-heading-text { min-height: 1.2em; display: inline-block; }
+        #blockquote-text { min-height: 4em; display: inline-block; }
+
+
+        /* --- Scrollbar (from index.html) --- */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(9, 6, 19, 0.8); }
+        ::-webkit-scrollbar-thumb { background: rgba(146, 114, 206, 0.5); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(146, 114, 206, 0.7); }
+
+        /* --- Common Header (Adapted from index.html, mobile from writings.html) --- */
+        .main-header {
+            position: sticky; /* Changed from fixed for better single-page scroll */
+            top: 0; left: 0; width: 100%;
+            background-color: rgba(9, 6, 19, 0.85); /* darker/85 */
+            backdrop-filter: blur(10px);
+            z-index: 50;
+            border-bottom: 1px solid rgba(146, 114, 206, 0.1); /* accent/10 */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .main-header .nav-logo {
+            font-family: 'Baloo Bhai 2', cursive; /* theme.fontFamily.serif */
+            transition: color 0.3s ease;
+        }
+        .main-header .nav-logo:hover { color: #9272CE; /* theme.accent */ }
+
+        .desktop-nav a { position: relative; display: inline-block; transition: color 0.3s ease; }
+        .desktop-nav a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1.5px; background-color: #9272CE; transition: width 0.3s ease; }
+        .desktop-nav a:hover::after { width: 100%; }
+        .desktop-nav a:hover, .desktop-nav a.active { color: #9272CE; /* theme.accent */ }
+        .desktop-nav a.active::after { width: 100%; } /* Show underline for active link */
+
+        .nav-toggle-btn { background: none; border: none; padding: 0.5rem; cursor: pointer; z-index: 60; }
+        .nav-toggle-btn svg { stroke: #ffffff; /* theme.text-primary */ transition: stroke 0.3s ease; }
+        .nav-toggle-btn:hover svg { stroke: #9272CE; /* theme.accent */ }
+
+        .mobile-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: rgba(9, 6, 19, 0.95); backdrop-filter: blur(8px); padding: 1rem 0; box-shadow: 0 10px 20px rgba(0,0,0,0.4); z-index: 55; animation: slideDownFade 0.4s ease-out forwards; }
+        .mobile-menu.is-open { display: block; }
+        .mobile-menu a { display: block; padding: 0.8rem 1.5rem; font-size: 1.1rem; transition: color 0.3s ease, background-color 0.3s ease; text-align: center; }
+        .mobile-menu a:hover { color: #9272CE; background-color: rgba(146, 114, 206, 0.1); }
+        .mobile-menu a.active { background-color: rgba(146, 114, 206, 0.1); font-weight: 600; color: #9272CE; }
+        @keyframes slideDownFade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* External link icon for nav */
+        .desktop-nav a[target="_blank"]::after,
+        .mobile-menu a[target="_blank"]::after {
+             content: ' \2197'; font-size: 0.7em; vertical-align: super; display: inline-block; margin-left: 2px; opacity: 0.7; width: auto !important; /* Override hover underline */ height: auto !important; background: none !important;
+        }
+
+
+        /* --- Home Section Specific Styles (from index.html) --- */
+        #home-content .quote { position: relative; border-left: 3px solid #9272CE; }
+        #home-content .quote::before { content: '"'; position: absolute; top: -20px; left: 10px; font-size: 5rem; color: rgba(146, 114, 206, 0.1); font-family: 'Inter', sans-serif; font-weight: 700; }
+
+        #home-content .card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(15, 10, 25, 0.7);
+            border: 1px solid rgba(146, 114, 206, 0.15);
+        }
+        #home-content .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(146, 114, 206, 0.1), transparent); transform: translateX(-100%); transition: transform 0.8s ease; pointer-events: none; }
+        #home-content .card:hover { box-shadow: 0 15px 30px rgba(9, 6, 19, 0.5), 0 0 15px rgba(146, 114, 206, 0.3); border-color: rgba(146, 114, 206, 0.4); }
+        #home-content .card:hover::before { transform: translateX(100%); }
+
+        #home-content .hover-link { position: relative; display: inline-block; }
+        #home-content .hover-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background-color: #9272CE; transition: width 0.3s ease; }
+        #home-content .hover-link:hover::after { width: 100%; }
+
+        .static-image-container { display: block; margin: 2.5rem auto 0 auto; width: fit-content; opacity: 0.8; transition: opacity 0.3s ease; z-index: 5; }
+        .static-image { width: 8rem; height: 8rem; cursor: pointer; transition: transform 0.3s ease; }
+        .static-image:hover { transform: scale(1.1); }
+        
+        /* Profile Image Styles */
+        #hero-profile-image-container {
+            margin-bottom: 2rem; /* Space below image */
+        }
+        #hero-profile-image {
+            width: 180px; /* Adjust size as needed */
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(146, 114, 206, 0.5); /* accent/50 */
+            box-shadow: 0 0 25px rgba(146, 114, 206, 0.3);
+            display: block;
+            margin: 0 auto;
+            /* Initial state for animation */
+            opacity: 0;
+            transform: scale(0.5) translateY(50px);
+        }
+
+
+        /* --- Writings Section Specific Styles (from writings.html, adapted) --- */
+        #writings-content { font-size: 17px; }
+        #writings-content .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
+        #writings-content .text-hover-scale:hover { transform: scale(1.03); } /* Subtle */
+
+        .writing-preview-card {
+            background-color: var(--card-bg, rgba(25, 15, 40, 0.85)); /* theme.writings-card-bg */
+            backdrop-filter: blur(6px);
+            border-radius: 0.75rem; padding: 1.75rem;
+            border: 1px solid rgba(146, 114, 206, 0.2);
+            display: flex; flex-direction: column;
+            transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0, 0.3), 0 0 6px 1px rgba(146, 114, 206, 0.18);
+        }
+        .writing-preview-card:hover {
+            transform: translateY(-8px) scale(1.02); /* More subtle scale */
+            background-color: var(--card-hover-bg, rgba(45, 35, 60, 0.95)); /* theme.writings-card-hover-bg */
+            animation: cardGlowWritings 1.8s ease-in-out infinite alternate;
+        }
+        @keyframes cardGlowWritings { 0% { box-shadow: 0 0 8px 2px rgba(146, 114, 206, 0.2), 0 5px 15px rgba(0,0,0, 0.3); border-color: rgba(174, 139, 213, 0.3); } 50% { box-shadow: 0 0 20px 5px rgba(146, 114, 206, 0.35), 0 8px 25px rgba(0, 0, 0, 0.25); border-color: rgba(174, 139, 213, 0.6); } 100% { box-shadow: 0 0 8px 2px rgba(146, 114, 206, 0.2), 0 5px 15px rgba(0,0,0, 0.3); border-color: rgba(174, 139, 213, 0.3); } }
+
+        .writing-preview-card h3 { color: #FFFFFF; /* theme.text-primary */ font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif; }
+        .writing-preview-card .post-meta-info { font-size: 0.85rem; color: #CBB8E8; /* theme.light-accent */ margin-bottom: 1rem; font-family: 'Lato', sans-serif; opacity: 0.85; }
+        .writing-preview-card .excerpt { color: #D1D1D1; /* theme.text-secondary */ font-size: 1rem; line-height: 1.6; flex-grow: 1; margin-bottom: 1.25rem; }
+        .writing-preview-card a.read-more-link { display: inline-block; background: none; border: none; padding: 0; color: #9272CE; /* theme.accent */ font-weight: 500; text-decoration: none; align-self: flex-start; cursor: pointer; transition: color 0.3s ease; font-size: 1rem; margin-top: auto; }
+        .writing-preview-card a.read-more-link:hover { color: #AE8BD5; /* theme.accent-hover */ text-decoration: underline; }
+
+        #full-articles-container { display: block; /* Always block, children are targeted */ margin-top: 2rem; }
+        #full-articles-container article {
+            display: none; /* Articles hidden by default */
+            background-color: rgba(20, 20, 22, 0.92); /* theme.article-bg */
+            backdrop-filter: blur(10px);
+            border-radius: 0.75rem; padding: 2.5rem 2rem; /* Adjusted padding for mobile */
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 40px rgba(0,0,0, 0.6), inset 0 1px 3px rgba(146, 114, 206, 0.1);
+            border: 1px solid rgba(146, 114, 206, 0.3);
+            border-top: 5px solid #9272CE; /* theme.accent */
+            opacity: 0;
+        }
+        #full-articles-container article:target {
+            display: block !important; opacity: 1 !important;
+            animation: fadeInArticle 0.6s ease-out forwards;
+        }
+        @keyframes fadeInArticle { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        #writings-grid-container:has(~ #full-articles-container article:target) { display: none; }
+        hr.separator:has(~ #full-articles-container article:target) { display: none; }
+
+        #full-articles-container h2 { color: #9272CE; /* theme.accent */ margin-bottom: 0.75rem; font-size: 2rem; font-weight: 700; font-family: 'Outfit', sans-serif; line-height: 1.3; }
+        #full-articles-container .post-meta-info { font-size: 0.95rem; color: #CBB8E8; /* theme.light-accent */ margin-bottom: 2.5rem; font-family: 'Lato', sans-serif; opacity: 0.85; }
+        a.back-button { display: inline-block; margin-top: 2.5rem; padding: 0.7rem 1.4rem; background-color: #9272CE; /* theme.accent */ color: #FFFFFF; /* theme.text-primary */ border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; box-shadow: 0 3px 10px rgba(146, 114, 206, 0.2); font-size: 1rem; text-decoration: none; }
+        a.back-button:hover { background-color: #AE8BD5; /* theme.accent-hover */ transform: scale(1.05) translateY(-2px); box-shadow: 0 8px 20px rgba(146, 114, 206, 0.3); }
+
+        hr.separator { border: none; height: 2px; background-image: linear-gradient(to right, transparent, #9272CE, #AE8BD5, #9272CE, transparent); margin-top: 3rem; margin-bottom: 3rem; opacity: 0.6; display: block; }
+
+        .post-content-html p, .post-content-html blockquote, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html i, .post-content-html u, .post-content-html a { font-family: inherit; font-size: 1.05rem; line-height: 1.8; color: #D1D1D1; /* theme.text-secondary */ background-color: transparent !important; text-align: left; margin: 0 0 1.4em 0; font-weight: normal; font-style: normal; text-decoration: none; word-wrap: break-word; border-radius: 3px; }
+        .post-content-html span { margin: 0; display: inline; }
+        .post-content-html [style*="font-family: Outfit"] { font-family: 'Outfit', sans-serif; } .post-content-html [style*="font-family: Nunito"] { font-family: 'Nunito', sans-serif; } .post-content-html [style*="font-family: Fuzzy Bubbles"] { font-family: 'Fuzzy Bubbles', cursive; } .post-content-html [style*="font-family: verdana"] { font-family: 'Verdana', sans-serif; } .post-content-html [style*="font-family: trebuchet"] { font-family: 'Trebuchet MS', sans-serif; }
+        .post-content-html b, .post-content-html [style*="font-weight: bold"] { font-weight: 700; } .post-content-html i, .post-content-html [style*="font-style: italic"] { font-style: italic; } .post-content-html u { text-decoration: underline; } .post-content-html a { color: #9272CE; text-decoration: underline; transition: color 0.2s ease; display: inline; } .post-content-html a:hover { color: #AE8BD5; }
+        .post-content-html p[style*="text-align: center;"], .post-content-html div[style*="text-align: center;"], .post-content-html blockquote[style*="text-align: center;"] { text-align: center; margin-left: auto; margin-right: auto; }
+        .post-content-html blockquote { border-left: 4px solid #9272CE; padding: 0.75em 1.5rem; margin-left: 0; margin-right: 0; font-style: italic; color: #A8A8A8; /* theme.text-tertiary */ background-color: rgba(146, 114, 206, 0.04); }
+        .post-content-html blockquote blockquote { margin-top: 1em; margin-left: 1.5rem; border-left-color: #AE8BD5; padding-left: 1rem; background-color: rgba(174, 139, 213, 0.04); }
+        .post-content-html blockquote p { margin-bottom: 0.75em; }
+        .post-content-html img { max-width: 100%; height: auto; display: block; margin: 2.5rem auto; border-radius: 0.75rem; box-shadow: 0 6px 20px rgba(0,0,0,0.4); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .post-content-html img:hover { transform: scale(1.03); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .post-content-html .separator { display: none; }
+        @layer utilities { .line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; } .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; } }
+        
+        /* --- Glitch/Pixel Stretch Button Styles --- */
+        .glitch-button {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            padding: 0.75rem 1.5rem; /* Example padding */
+            /* background-color: #9272CE; /* theme.accent */
+            /* color: #FFFFFF; /* theme.text-primary */
+            text-decoration: none;
+            overflow: hidden;
+            transition: transform 0.1s ease-out;
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10 and IE 11 */
+            user-select: none; /* Standard syntax */
+        }
+        .glitch-button .btn-text { position: relative; z-index: 1; }
+        .glitch-button::before,
+        .glitch-button::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit; /* Match button's current background */
+            color: inherit; /* Match button's current text color */
+            padding: inherit; /* Match button's padding */
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.75, 0, 0.25, 1), opacity 0.3s ease;
+            opacity: 0;
+        }
+        .glitch-button:hover::before {
+            transform: translate(-3px, -2px) skewX(-5deg);
+            text-shadow: 2px 0px #FF00FF; /* Magenta */
+            opacity: 0.8;
+            animation: glitchEffectBefore 0.2s infinite alternate;
+        }
+        .glitch-button:hover::after {
+            transform: translate(3px, 2px) skewX(5deg);
+            text-shadow: -2px 0px #00FFFF; /* Cyan */
+            opacity: 0.8;
+            animation: glitchEffectAfter 0.2s infinite alternate-reverse;
+        }
+        .glitch-button:active { transform: scale(0.97); }
+        @keyframes glitchEffectBefore {
+            0% { clip-path: inset(10% 0 70% 0); }
+            50% { clip-path: inset(40% 0 20% 0); }
+            100% { clip-path: inset(75% 0 5% 0); }
+        }
+        @keyframes glitchEffectAfter {
+            0% { clip-path: inset(60% 0 25% 0); }
+            50% { clip-path: inset(15% 0 55% 0); }
+            100% { clip-path: inset(50% 0 10% 0); }
+        }
+        /* Specific button styling using glitch */
+        #home-content .view-all-writings-btn {
+             background-color: #9272CE; /* theme.accent */
+             color: #FFFFFF; /* theme.text-primary */
+             font-weight: 500; border-radius: 0.5rem;
+        }
+         #home-content .view-all-writings-btn:hover {
+             background-color: #AE8BD5; /* theme.accent-hover */
+         }
+
+
+        /* --- Footer --- */
+        .main-footer { background-color: rgba(9, 6, 19, 0.7); /* darker/70 */ border-top: 1px solid rgba(146, 114, 206, 0.1); padding: 2rem 0; margin-top: 4rem; text-align: center; }
+        #secret-game-trigger { cursor: cell; display: inline-block; opacity: 0.5; transition: opacity 0.3s; }
+        #secret-game-trigger:hover { opacity: 1; }
+
+        /* --- Secret Game Modal --- */
+        #secret-game-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(9, 6, 19, 0.95); /* darker/95 */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: none; /* Shown by JS */
+            flex-direction: column; align-items: center; justify-content: center;
+            animation: fadeInGameModal 0.5s ease-out forwards;
+        }
+        @keyframes fadeInGameModal { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        #matter-canvas {
+            background-color: rgba(15, 10, 25, 0.5); /* dark/50 */
+            border: 1px solid rgba(146, 114, 206, 0.3); /* accent/30 */
+        }
+        #close-game-button {
+            margin-top: 20px; padding: 10px 20px;
+            background-color: #9272CE; color: white;
+            border: none; border-radius: 5px; cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        #close-game-button:hover { background-color: #AE8BD5; transform: scale(1.05); }
+
+        /* Reading Progress Bar (from index.html) */
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 100; }
+        .progress-bar { height: 3px; background: linear-gradient(90deg, #9272CE, #AE8BD5); width: 0%; }
+
+    </style>
+</head>
+<body>
+    <!-- Reading Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Background Particles Container -->
+    <div id="tsparticles"></div>
+    <div class="bg-overlay"></div>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#home" class="nav-logo text-2xl lg:text-3xl font-bold text-text-primary">
+                    a-g-r-a-j
+                </a>
+                <button id="nav-toggle" class="nav-toggle-btn md:hidden" aria-label="Toggle Menu" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
+                </button>
+                <nav class="desktop-nav hidden md:flex space-x-8 text-text-primary items-center">
+                    <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer">About Me</a>
+                    <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer">Contact Me</a>
+                    <a href="#writings" data-navlink="writings">Writings</a>
+                    <a href="#home" data-navlink="home" class="active">Home</a> <!-- Home link -->
+                </nav>
+            </div>
+            <nav id="mobile-menu" class="mobile-menu md:hidden">
+                <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer">About Me</a>
+                <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer">Contact Me</a>
+                <a href="#writings" data-navlink="writings">Writings</a>
+                <a href="#home" data-navlink="home" class="active">Home</a> <!-- Home link -->
+            </nav>
+        </div>
+    </header>
+
+    <div id="page-container">
+        <!-- Home Section (from index.html) -->
+        <section id="home-content" class="page-section">
+            <main class="container mx-auto px-6 pt-24 md:pt-32 pb-16">
+                <!-- Hero Section -->
+                <section class="text-center mb-16 md:mb-20 opacity-0" id="heroSection">
+                    <div id="hero-profile-image-container" class="mb-8">
+                        <img src="agraj_profile.jpg" alt="Agraj Dubey" id="hero-profile-image">
+                    </div>
+                    <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif">
+                        <span id="main-heading-text"></span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-text-secondary mb-10 md:mb-12 italic" id="typewriter">
+                    </p>
+                    <blockquote class="quote max-w-3xl mx-auto text-lg md:text-xl bg-darker/70 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent">
+                        "<span id="blockquote-text"></span>"
+                    </blockquote>
+                </section>
+
+                <!-- Recent Writings Section -->
+                <section class="mb-16 opacity-0" id="writingsSectionHome">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mb-12">Recent Writings</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Card 1 -->
+                        <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="0">
+                            <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group"><span class="hover:text-accent transition-all duration-300 inline-block">So, you want to travel back</span></h3>
+                            <div class="mb-5"><p class="text-text-secondary line-clamp-3">"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..."</p></div>
+                            <a href="#post-2137542659647715265" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">Read More <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></a>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="150">
+                            <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group"><span class="hover:text-accent transition-all duration-300 inline-block">The Cost of Belonging</span></h3>
+                            <div class="mb-5"><p class="text-text-secondary line-clamp-3">Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life...</p></div>
+                            <a href="#post-3486396209614590705" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">Read More <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></a>
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="300">
+                            <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group"><span class="hover:text-accent transition-all duration-300 inline-block">[POST] A New Chapter</span></h3>
+                            <div class="mb-5"><p class="text-text-secondary line-clamp-3">It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened...</p></div>
+                            <a href="#post-8246180062320707624" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">Read More <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></a>
+                        </div>
+                    </div>
+                    <div class="text-center mt-12 md:mt-16">
+                        <a href="#writings" class="view-all-writings-btn glitch-button" data-text="View All Writings">
+                            <span class="btn-text">View All Writings</span>
+                        </a>
+                    </div>
+                    <div id="staticImageContainerHome" class="static-image-container">
+                        <img src="FrierenRing.png" alt="Ring Image" id="staticImageHome" class="static-image">
+                    </div>
+                </section>
+            </main>
+        </section>
+
+        <!-- Writings Section (from writings.html) -->
+        <section id="writings-content" class="page-section">
+            <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen">
+                <div class="text-center mb-12 md:mb-16 pt-8">
+                     <h1 class="text-4xl md:text-5xl font-bold text-text-primary font-outfit">My Writings</h1>
+                     <p class="text-text-secondary mt-2 text-lg">Exploring thoughts, ideas, and reflections.</p>
+                </div>
+
+                <!-- Writings Preview Grid -->
+                <section id="writings-grid-container" class="mb-12 md:mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                     <!-- ARTICLE 1 (Preview) -->
+                     <div class="writing-preview-card">
+                         <h3 class="text-hover-scale">So, you want to travel back</h3>
+                         <div class="post-meta-info">April 19, 2025</div>
+                         <div class="excerpt line-clamp-4"> <p>"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..." Like a hawk that couldn’t be caged anymore...</p> </div>
+                         <a href="#post-2137542659647715265" class="read-more-link glitch-button" data-text="Read More →"><span class="btn-text">Read More →</span></a>
+                     </div>
+                     <!-- ARTICLE 2 (Preview) -->
+                     <div class="writing-preview-card">
+                         <h3 class="text-hover-scale">The Cost of Belonging</h3>
+                         <div class="post-meta-info">April 18, 2025</div>
+                         <div class="excerpt line-clamp-4"> <p>Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life, probably after realizing how fucked up the world really is...</p> </div>
+                         <a href="#post-3486396209614590705" class="read-more-link glitch-button" data-text="Read More →"><span class="btn-text">Read More →</span></a>
+                     </div>
+                    <!-- ARTICLE 3 (Preview) -->
+                    <div class="writing-preview-card">
+                        <h3 class="text-hover-scale">[POST] A New Chapter</h3>
+                        <div class="post-meta-info">February 14, 2025</div>
+                        <div class="excerpt line-clamp-4"> <p>It's been so long that we have written anything and so much has happened... I discovered myself, I discovered that I was an asexual... Sometimes I think I should start writing songs instead of writing poems. Maybe. We'll see...</p> </div>
+                        <a href="#post-8246180062320707624" class="read-more-link glitch-button" data-text="Read More →"><span class="btn-text">Read More →</span></a>
+                    </div>
+                    <!-- ARTICLE 4 (Preview) -->
+                    <div class="writing-preview-card">
+                        <h3 class="text-hover-scale">[POEM] Time Flies By</h3>
+                        <div class="post-meta-info">November 28, 2024</div>
+                        <div class="excerpt line-clamp-4"> <p>Time flies by / For me it does so in gloom / Worries of the future / Regrets of the past / Time flies by / With the tick of the clocks / An infinite race / With no finish line to cross...</p> </div>
+                        <a href="#post-6388410560920980765" class="read-more-link glitch-button" data-text="Read More →"><span class="btn-text">Read More →</span></a>
+                    </div>
+                    <!-- ARTICLE 5 (Preview) -->
+                    <div class="writing-preview-card">
+                        <h3 class="text-hover-scale">[POST] Reading</h3>
+                        <div class="post-meta-info">November 16, 2024</div>
+                        <div class="excerpt line-clamp-4"> <p>I was thinking about the way I like to read , I read 3 different kinds of books at the same time. One book must be thought provoking... One book must be fictional... One book should be non fiction... Personally the one's I love the most are stories that teach something valuable...</p> </div>
+                        <a href="#post-2406648289663441748" class="read-more-link glitch-button" data-text="Read More →"><span class="btn-text">Read More →</span></a>
+                    </div>
+                    <!-- ARTICLE 6 (Preview) -->
+                    <div class="writing-preview-card">
+                        <h3 class="text-hover-scale">[POEM] The Lad I Use To Be -</h3>
+                        <div class="post-meta-info">November 10, 2024</div>
+                        <div class="excerpt line-clamp-4"> <p>"So glad I wrote it down / Of what became of me / Now I smile at what made me frown / Oh what a lad I used to be / In search for all these years / Of where my true self was lost..."</p> </div>
+                        <a href="#post-7505116423602657742" class="read-more-link glitch-button" data-text="Read More →"><span class="btn-text">Read More →</span></a>
+                    </div>
+                    <!-- ARTICLE 7 (Preview) -->
+                    <div class="writing-preview-card">
+                        <h3 class="text-hover-scale">[POEM] Winter Is Warm -</h3>
+                        <div class="post-meta-info">November 10, 2024</div>
+                        <div class="excerpt line-clamp-4"> <p>"The only season with so much warmth / Whispers of wind , a shiver so forth / Bringing us close , holding love and affection / Mornings so lazy , yet so cozy and full of perfection..."</p> </div>
+                        <a href="#post-5851706812396763606" class="read-more-link glitch-button" data-text="Read More →"><span class="btn-text">Read More →</span></a>
+                    </div>
+                    <!-- ARTICLE 8 (Preview) -->
+                    <div class="writing-preview-card">
+                        <h3 class="text-hover-scale">[POEM] Sinnloses leben (Meaning Worthless Life) -</h3>
+                        <div class="post-meta-info">November 10, 2024</div>
+                        <div class="excerpt line-clamp-4"> <p>"As a kid I used to dream / Of all things mighty and high / Of things way beyond my reach / To fly way above the sky / That I'd grew up to be the greatest alive / To conquer all that is hidden from sight..."</p> </div>
+                        <a href="#post-2503258102193667996" class="read-more-link glitch-button" data-text="Read More →"><span class="btn-text">Read More →</span></a>
+                    </div>
+                    <!-- ARTICLE 9 (Preview) -->
+                    <div class="writing-preview-card">
+                        <h3 class="text-hover-scale">[POEM] Fragmented Void -</h3>
+                        <div class="post-meta-info">November 10, 2024</div>
+                        <div class="excerpt line-clamp-4"> <p>"Would love to cry my heart out at the moment / But I can't / I can't do it without you / I am not strong enough to keep livin up / Without you / Lost / Just like I lost all my hope..."</p> </div>
+                        <a href="#post-9063719817694048941" class="read-more-link glitch-button" data-text="Read More →"><span class="btn-text">Read More →</span></a>
+                    </div>
+                    <!-- ARTICLE 10 (Preview) -->
+                    <div class="writing-preview-card">
+                        <h3 class="text-hover-scale">THE FOUR BURNER THEORY -</h3>
+                        <div class="post-meta-info">November 4, 2020</div>
+                        <div class="excerpt line-clamp-4"> <p>FOUR BURNER THEORY: IMAGINE FOUR BURNERS WITH A LIMITED AMOUNT OF FUEL LEFT... HEALTH... WORK... FAMILY... SOCIAL... IF YOU WANT TO BE SUCCESSFUL THEN YOU HAVE TO CUT DOWN ANY ONE BURNER TOTALLY...</p> </div>
+                        <a href="#post-5585996557335817138" class="read-more-link glitch-button" data-text="Read More →"><span class="btn-text">Read More →</span></a>
+                    </div>
+                </section>
+
+                <!-- Separator -->
+                <hr class="separator">
+
+                <!-- Full Articles Section -->
+                <section id="full-articles-container">
+                    <div class="full-articles-content max-w-4xl mx-auto">
+                        <!-- ARTICLE 1 (Full Content) -->
+                        <article id="post-2137542659647715265" tabindex="-1">
+                            <h2 class="text-hover-scale">So, you want to travel back</h2>
+                            <div class="post-meta-info">Published: April 19, 2025</div>
+                            <div class="post-content-html">
+                                <p style='text-align: center;'><span style='font-family: Outfit;'></span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'> "So, you want to travel back,<br> for you could not contain,<br> could not refrain,<br> that boundless hunger deep within,<br> For all the changes you could pinch,<br><br></span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>So, you want to travel back,<br> to gain control that with time lost,<br> for all mistakes that bore a heavy cost,<br> reassure the freedom thereafter,<br> stripping off all thy past disasters,<br><br></span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>So, you want to travel back,<br> For all the changes you could etch,<br> for all harmony that would cling,<br> from Serenity you longed to fetch,<br> from the compassion that you'd bring,<br><br></span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'><br></span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>And, So, you will travel back,<br> to arrive as peaceful as still marine water,<br> to garner stillness, that of a weaver,<br> whose final thread is laid,<br> with all the glory and praises,<br> that reality relentlessly raises,</span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>So, you will travel back,<br> For the cosmic loom to set itself,<br> linear as it ever was,<br> for thy doomed fate to let itself,<br> bound as tight as ever was,</span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>So, you will travel back,<br> never truly to embrace,<br> to forever unknowingly interlace,<br> the desperate want to travel back"</span></p>
+                            </div>
+                            <a href="#writings" class="back-button mt-8 glitch-button" data-text="← Back to Writings"><span class="btn-text">← Back to Writings</span></a>
+                        </article>
+                        <!-- ARTICLE 2 (Full Content) -->
+                        <article id="post-3486396209614590705" tabindex="-1">
+                            <h2 class="text-hover-scale">The Cost of Belonging</h2>
+                            <div class="post-meta-info">Published: April 18, 2025</div>
+                            <div class="post-content-html">
+                                <p style='text-align: center;'>Was I born different? <br> What did I do different that made me the way I am?</p>
+                                <p style='text-align: center;'>These are some of the questions that rebels like myself ask themselves at some point in life, probably after realizing how fucked up the world really is and how much control you really have, can’t put an age up at this, it’s different for everyone.</p>
+                                <p style='text-align: center;'>This might just also be the time that we find ourselves a bit more depressed than usual and start looking out for those tiny moments of happiness since life isn’t playdough anymore. We might find ourselves having thoughts of travelling back through time to when things were simpler, when we were not as rebellious as we are right now.</p>
+                                <p style='text-align: center;'>Let’s define our terms, shall we? What do I mean by a ‘rebel’ and being ‘rebellious’?</p>
+                                <p style='text-align: center;'>See I like to believe that the world is divided into two kinds of people, the usual sheep-like ‘Conformists’ and the ever changing, fed up with the system, ‘Rebels’</p>
+                                <p style='text-align: center;'><b>Why Are We Raised to Obey, Not to Think?</b></p>
+                                <p style='text-align: center;'>Why is it that as kids—and even as teens—we’re never really taught how to <i>think</i>? We're only taught how to <i>obey</i>. Respect your elders. Follow the rules. Conformity is the default setting, especially enforced by family and state. Parents are given a blank slate the moment we’re born. They can raise a rebel… or shape a command-obeying conformist.</p>
+                                <p style='text-align: center;'>So, here’s the question:<br> <b>What’s right or wrong with either of these ideologies?</b><br> And the deeper one—<b>how long can someone truly stay in a conformist state before cracking?</b></p>
+                                <p style='text-align: center;'>These questions unravel more beneath them. Which idea of liberation deserves more value? How much influence do parents really hold over the wiring of a child’s identity?</p>
+                                <p style='text-align: center;'>Let’s address the first question. Anyone with a functioning brain, basic observational skills, and even a hint of logic <i>should</i> already know the answer—given the world we live in today.</p>
+                                <p style='text-align: center;'>Let me be blunt: I’m heavily biased. I’m a free soul. I despise authority of any kind. I believe a man of logic should follow reasoning, <i>not</i> orders. And no, this isn’t some utopian delusion. We don't live in an ideal world. Anyone who's grown out of their childhood innocence can <i>see</i> it. It doesn't stop with just your own country—look around, dig deeper. You'll arrive at the same conclusion:<br> <b>Everyone. Everywhere. Is messed up.</b></p>
+                                <p style='text-align: center;'>Society, globally, is broken. And here’s the part that stings: the majority of it is made up of <i>conformists</i>.</p>
+                                <p style='text-align: center;'>Look at Trump’s re-election. Look at a Chai-wala’s turned supreme leader riding the wave of blind devotion for over a decade. If that’s not enough to blame the downfall on mass conformity, I don’t know what is.</p>
+                                <p style='text-align: center;'>And rebels?<br> What do a handful of rebels even achieve—except martyrdom?</p>
+                                <p style='text-align: center;'>History has Proof. Narendra Dabholkar. Gauri Lankesh. Journalists. Whistleblowers. Silenced. Gunned down. Forgotten. Most conformists don’t even <i>know</i> about their sacrifices.</p>
+                                <p style='text-align: center;'>Some days, I find myself genuinely believing that this world mostly comprises of and run by retards.</p>
+                                <p style='text-align: center;'>Is it really that hard to not get brainwashed?<br> To hold an objective thought before buying into something?<br> To question <i>anything</i> you encounter?</p>
+                                <p style='text-align: center;'>Apparently, for most—it is.</p>
+                                <p style='text-align: center;'>And that’s terrifying.</p>
+                                <p style='text-align: center;'>Another question we don’t ask enough:<br> <b>How much damage do cover-ups, lies, and secrecy cause when authorities mess up?</b><br> Maybe I’ll dig into that next time. But for now, let me say this:</p>
+                                <p style='text-align: center;'><i>Conformity</i>—as a global disease—should be viewed with the same suspicion we reserve for <i>communism</i> (or any ideology when taken to the extreme). The world would be better off without blind followers.</p>
+                                <p style='text-align: center;'>And here comes the final—and maybe trickiest—question:<br> <b>How long can one stay a conformist? And how much of that is because of parenting?</b></p>
+                                <p style='text-align: center;'>In my case, both my parents are conformists. The only rebellion they seem to show is <i>towards me</i>. They’ve never been the curious type. Never stirred trouble. Unless something extreme happens—or someone they care about is at risk—they’ll stay quiet. Safe. Predictable.</p>
+                                <p style='text-align: center;'>By that logic, I should’ve turned out exactly like them.</p>
+                                <p style='text-align: center;'>But I didn’t.</p>
+                                <p style='text-align: center;'>I’m the polar opposite. I question <i>everything</i>. I overthink <i>everything</i>.<br> Why? Probably because I surrounded myself with… <i>no one</i>.<br> No friends. Just books. YouTube. My own thoughts. Isolation breeds introspection.</p>
+                                <p style='text-align: center;'>This needs to be studied more, honestly. I can’t draw conclusions from just one case. But if I had to bet—I'd say rebels are born this way. I was fed the same ideas as everyone else. But something in me rejected them all.</p>
+                                <p style='text-align: center;'>And here I am.</p>
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEip3ZrMKuCmNmLRWzLwAjWcdLb-6hiRkqvXgzy9MVw1EOK1gl6vbfLoDZAXikzJnWMwfrE-yt1HTccVetYPRXeFUYXGH4NTSDxGDpKmVzbu0K6Pm0QOsPwsQ_J7ME3aiYOeSwpW7LLTNGU3aq4nP4qF8F7_BndRE74cWz1P2a11dY-1_byeX_ubO-hhV1U/s1600/For%20yt%20music.jpg" alt="Abstract circular design with purple and black elements, possibly album art" width="303" height="303" loading="lazy">
+                            </div>
+                            <a href="#writings" class="back-button mt-8 glitch-button" data-text="← Back to Writings"><span class="btn-text">← Back to Writings</span></a>
+                        </article>
+                        <!-- ARTICLE 3 (Full Content) -->
+                        <article id="post-8246180062320707624" tabindex="-1">
+                            <h2 class="text-hover-scale">[POST] A New Chapter</h2>
+                            <div class="post-meta-info">Published: February 14, 2025</div>
+                            <div class="post-content-html">
+                                <p style='text-align: center;'><span style='font-family: Nunito;'> It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened. I discovered myself, I discovered that I was an asexual and personally I am disgusted by sex and anything related to that particular activity. This was a discovery that I made at around December, yeah, and I have only ever been more so confirmed of the fact that I am an asexual. So there's that and I didn't write anything particular during the interval that I was gone but I surely picked up some books which I've been reading and I'll share the image. I ordered them last month and they arrived last month only but I've begun reading them right now.<br><br>Sometimes I think I should start writing songs instead of writing poems. Maybe. We'll see. I am in the mood. I am starting to prepare for IPMAT And JIPMAT. I have been preparing, I'll say. Just because of the fact that I am surrounded by literal idiots. And I cannot endure any more of all this stupidity that I have endured so far. I need a break from all this. I need a better crowd around me. I need a better surrounding. That's why I have decided my past failure does not define who I am. And I'll be working hard to achieve this particular goal of mine. Because I only have like two months, to be frank with you. And this realization, although it came very late, I am glad that it did. And let's see what happens. I will try to write some blog posts or poems in between if I get the chance or the time to do so. Until then, I am not sure, but let's see.<br><br>There was this very fascinating, at least to me, a problem which I was stuck with up until now. This thought process of mine, which I'll summarize. Like all these past experiences which I unconsciously assume are of failure that plagued my mind, I don't know how to get over them or why haven't I internalized the fact that failure is just a part of the journey and not something to cling on to. What I realized over time or I realized like past few weeks is the fact that I am currently stuck in something totally stupid. I do realize that I don't like the crowd around me, yes. And the fact that I am clinging on to my so-called failures only to never try again is blatantly stupid. That is what I have been doing for the past few months, no not few months, for past an year or so. No one just gives up like that and I am only 19. This cannot be the way of life from now on. Like this cannot be my way of life for like ever in my life. This is just not me. I might be surrounded by idiots but I am not one. And just giving up on everything, passing your whole days doing worthless shit is just utterly idiotic and stupid. And if there is one thing I am totally sure of is that I am not stupid. I am smarter than the average and if so then I should act like one too.<br><br>I also realized one more thing. That depression, at least the one that I had, or my depression, is blatantly stupid. It was for me, at least. If you follow everything logically and just spend time with yourself and, you know, journal everything out like I did, and try to uncover the secrets of your thought process, I'll say, you might never get depressed. At least, this was the case with me.<br><br>Yesterday, out of nowhere, I just gave a mock of JIPMAT, and I scored around 110, which is surprising to be honest. I had zero to little preparation. I haven't even picked up a book related to academics in like 9 or 10 months, and I was able to score 110. I obviously scored the most in verbal ability and reading comprehension. That is one thing I'm pretty sure I'll need less preparation time for. The worst I did was in quant or mathematics, because obviously you need preparation for that. This is just fascinating to me, being able to score such marks without any preparation. That got me thinking of what would happen if I tried.</span></p>
+                                <p style='text-align: center;'><span style='font-family: Nunito;'>I tried to read all the books that arrived yesterday, and there is one book that hasn't arrived yet, that being 101 essays, that will change the way that you think. White Nights, I found a little confusing. The narration and the vocab isn't really friendly at all. God Delusion is pretty great, and I'm pretty sure that I'll be reading it cover to cover, and it's something that I'll live my life by. The most fun I've had was with Read People Like A Myth by Patrick King. It is pretty easy to understand, and I'm just a very big fan of human psychology, because you know, it helps me understand myself better, and the people around me even better. And I did learn many things halfway through chapter one, that I'm pretty sure I'll be writing a post on. So I guess I'll be looking forward to that.</span></p>
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi-614uevCf62lPJLFYD1qEkMPsFCNPS0fzPIFMD8NeDq6_lMC-2u8vaWOnI1dBjfiWvjw7Oxs7GUROW1FhcmoJaVecu-9sPdySvAFM3bWPJJWMlOATj3Kq0Q87ZMjp_4INUhjU_N0ri3WN1RyBn_8ulyGyd-ZVOpBxny2pXzUx_ixV95Fif7Snl-GzFR4/s320/WhatsApp%20Image%202025-02-14%20at%2019.45.21_fccd094f.jpg" alt="Photo of several books including 'The God Delusion' and 'Read People Like a Book'" width="320" height="240" loading="lazy">
+                            </div>
+                             <a href="#writings" class="back-button mt-8 glitch-button" data-text="← Back to Writings"><span class="btn-text">← Back to Writings</span></a>
+                        </article>
+                        <!-- ARTICLE 4 (Full Content) -->
+                        <article id="post-6388410560920980765" tabindex="-1">
+                            <h2 class="text-hover-scale">[POEM] Time Flies By</h2>
+                            <div class="post-meta-info">Published: November 28, 2024</div>
+                            <div class="post-content-html">
+                                <p style='text-align: center;'><span style='font-family: Outfit;'> Time flies by <br> For me it does so in gloom<br> Worries of the future <br> Regrets of the past </span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'> Time flies by <br> With the tick of the clocks <br> An infinite race <br> With no finish line to cross</span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>Time flies by <br> It lingers , it haunts <br> Summer's chill , winter's warmth<br> A fleeting act of taunts</span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>Time flies by <br> As I sit through my thoughts <br> Both of the cruel and kind <br> Unable to fill the void in my life's mere plot</span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>Time flies by <br> In it's flight , I write <br> Words to compose myself <br> For the life I hope to strive.<br></span></p>
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgNVPwNLxMOdn2D14BgTZDddUpYhGLLicnwmoldpUmtYOYjYRuXENV3Q1Mx9ZEuVDI-aPGbbvBJNwSYNoGQofnCuTnBhoZGYoqKiXvixDN8vfwPQ-sP8yW1NC51vtUyJasuMUl-YJP-8DYCq4insJ6O8R8Z2CrBbwBQPrzka5oczanVGCMRFjpdeWqAH40/s320/AG%20solid%20.png" alt="Solid purple logo with stylized letters AG" width="292" height="320" loading="lazy">
+                            </div>
+                             <a href="#writings" class="back-button mt-8 glitch-button" data-text="← Back to Writings"><span class="btn-text">← Back to Writings</span></a>
+                        </article>
+                        <!-- ARTICLE 5 (Full Content) -->
+                        <article id="post-2406648289663441748" tabindex="-1">
+                            <h2 class="text-hover-scale">[POST] Reading</h2>
+                            <div class="post-meta-info">Published: November 16, 2024</div>
+                            <div class="post-content-html">
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'> I was thinking about the way I like to read , I read 3 different kinds of books at the same time.</span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>One book must be thought provoking , that instills ideas , makes u question ur absolute thoughts , One I'm reading right now is Metamorphosis <br></span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>One book must be fictional , just a good story that is enjoyable so when If ever I feel like not reading I can pick that one up , one I'm reading right now is Project Hail Mary  </span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>One book should be non fiction , the bill gates type lol , One I am reading rn is How The World Really Works </span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>Personally the one's I love the most are stories that teach something valuable or at least makes me question everything I ever believed in.</span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>For eg. I would always pick up Kafka over Project Hail Mary </span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>I thoroughly enjoyed Sapiens on my first read cuz it checks all the boxes for me even though It is surrounded with controversy and false predictions but everything is composed so well just what I expect in a good book.</span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>If a book doesn't change u even in the slightest way possible , It isn't worth reading.</span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>maybe it made u question everything </span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>maybe it made u conscious about ur daily activities</span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>maybe it motivated u enough to finally clean ur  dishes idk </span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>but even the slightest change a book brings to ur life is worth the effort and time taken </span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>No book is ever bad by nature </span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>I have mostly picked good books , well Is a book good or bad is subjective by nature and by that standard I have only once I like to think have picked a bad book</span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>The Autobiography Of A Yogi</span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>What a total bogus pseudoscience of a book </span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>I don't like to believe in stuff without proof that is all I'll say about this purchase</span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>I bought that when I was 16 mis-influenced  by an ass of a youtuber (Ranveer allahbadia lol ik ik how could I of all people) </span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>I was not on par with my critical thinking skills at the time as much as I am now <br></span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>I just hope not to repeat such mistakes in future but who's to say</span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>Even if I make such a mistake I guess that would what make me human after all </span></p>
+                                <p style='text-align: center;'><span style='font-family: Fuzzy Bubbles;'>A win over the machines in my book lol.</span></p>
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5CNqTVaUEvB_avLWm2JqLJeAFFaVmIWI5-TE219Ik8nSXvV6kTOMs4boMRhrYsl7zsXH_ihbSYtawhVGv2gHWZ_BCfeMvTW8-iGvCtFmiON9-c8bJSUoRM8FRtDDq9UoHkqoh3uni_udrZ8jwolDh2cHqb7sIS6ExkuMsfPRToWC8rMIy493NAsg1Pbo/s320/A%20just%20A.png" alt="Stylized purple letter A logo with sharp edges" width="217" height="320" loading="lazy">
+                            </div>
+                             <a href="#writings" class="back-button mt-8 glitch-button" data-text="← Back to Writings"><span class="btn-text">← Back to Writings</span></a>
+                        </article>
+                        <!-- ARTICLE 6 (Full Content) -->
+                        <article id="post-7505116423602657742" tabindex="-1">
+                            <h2 class="text-hover-scale">[POEM] The Lad I Use To Be -</h2>
+                            <div class="post-meta-info">Published: November 10, 2024</div>
+                            <div class="post-content-html">
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>"So glad I wrote it down <br> Of what became of me <br> Now I smile at what made me frown <br> Oh what a lad I used to be<br><br> In search for all these years <br> Of where my true self was lost<br> Now I hold back all these tears <br> Oh he was never even mine to call cost<br><br> Though the past was etched in sorrow<br> A lesson it did teach <br> Cherish that is left hoping for a better tomorrow <br> To forget all the cleft and battles out of my reach" </span></p>
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj3PX0HVCB2xFHSWpxAYRQQCj5xUGKkkROphuLWj4l1HaVDmRjM5hsY2R-uEM0E7Ekg5sWD-NaHbADAPxbeX3PUtAbCrqFVQ436UuSo4ZnHB7hUf3A4mMfI7q2WC-_kDT5qJ4pYjfM-TsZetjFiTToSEOu64HRFFvxmFXWHKVKCc0MP6RK7KJzV8hru0WY/s320/AGRAJ.png" alt="The name AGRAJ in a stylized, blocky purple font" width="320" height="225" loading="lazy">
+                            </div>
+                             <a href="#writings" class="back-button mt-8 glitch-button" data-text="← Back to Writings"><span class="btn-text">← Back to Writings</span></a>
+                        </article>
+                        <!-- ARTICLE 7 (Full Content) -->
+                        <article id="post-5851706812396763606" tabindex="-1">
+                            <h2 class="text-hover-scale">[POEM] Winter Is Warm -</h2>
+                            <div class="post-meta-info">Published: November 10, 2024</div>
+                            <div class="post-content-html">
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>"The only season with so much warmth</span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>Whispers of wind , a shiver so forth</span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>Bringing us close , holding love and affection</span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>Mornings so lazy , yet so cozy and full of perfection</span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>Heart races through love  , so it does by the breeze</span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>Sparks a change , a moment to seize</span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>Fills me with drive , softly it fades</span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>As January bows to February's warm shades"  </span></p>
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiYlcKQRCbefgXJ8P6ZgZGh3Tu8fTevOf3h-TX_GV2d5Ak5rND5HCdD3C4jbdHKmnmw7gJM9j2iCL5QpbgLAc7I3SuBkBKDARoOWLZ7qPDemc-AnChB4erwtHCnKibMlC6Ujkag115g3_YU8XvX55E3Rur4eW-a65wiAj8V2uAUlb5bnIJ5ik7NWLSsMb4/s320/agraj%20doops.png" alt="Circular logo with 'agraj' written multiple times in purple curves" width="320" height="311" loading="lazy">
+                            </div>
+                             <a href="#writings" class="back-button mt-8 glitch-button" data-text="← Back to Writings"><span class="btn-text">← Back to Writings</span></a>
+                        </article>
+                        <!-- ARTICLE 8 (Full Content) -->
+                        <article id="post-2503258102193667996" tabindex="-1">
+                            <h2 class="text-hover-scale">[POEM] Sinnloses leben (Meaning Worthless Life) -</h2>
+                            <div class="post-meta-info">Published: November 10, 2024</div>
+                            <div class="post-content-html">
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>"As a kid I used to dream <br> Of all things mighty and high <br> Of things way beyond my reach <br> To fly way above the sky<br> That I'd grew up to be the greatest alive <br> To conquer all that is hidden from sight <br><br> But the first lesson life did ever teach <br> Was to abandon all hope and dream <br> And to start the chase <br> For all that life really is ; a mere race <br> Pick up the pace for u know nothing <br> Destined to lose fore' u even took a swing<br><br> All they deemed it as right and I ran along <br> Thought their certainty couldn't be wrong <br> So I ran and ran and ran all along <br> Opting for the road and all that is unseen <br> Maybe this is what life's supposed to Mean <br><br> Time passed by without a snooze <br> All along this way <br> Never had what I set out to choose <br> But better yet I never tried <br> To seek myself , to find my true stride <br><br> For the time will run out and u will never be told <br> That the World might shift beyond ur Leech <br> Within yourself though , u will always find ur true self to reach<br><br> Life's come full circle now only for me to see -<br> All went away for nothing and all I am now is who I was never supposed to be"</span><br></p>
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhzj5Vpesm9vlwHzlIdu_oyhG0y68e_7jlHNiwl6AuxOE92kqWiZp_mPguv0AacsWV02Vu5tP-yFtqJlYwygR2-HArMzpUXvJYlh4hN6IGx5PBzo6lRABwXaLgRrMyCX0-VGqXtoLMsINsWT7HPh3Mz9GVU9FflT1gGHYJivOLMHOjuQF4A5a_EXxYBEJI/s320/Ag%20logo%20dope.png" alt="Abstract purple and black logo with the letters AG" width="320" height="319" loading="lazy">
+                            </div>
+                             <a href="#writings" class="back-button mt-8 glitch-button" data-text="← Back to Writings"><span class="btn-text">← Back to Writings</span></a>
+                        </article>
+                        <!-- ARTICLE 9 (Full Content) -->
+                        <article id="post-9063719817694048941" tabindex="-1">
+                            <h2 class="text-hover-scale">[POEM] Fragmented Void -</h2>
+                            <div class="post-meta-info">Published: November 10, 2024</div>
+                            <div class="post-content-html">
+                                <p style='text-align: center;'><span style='font-family: Outfit;'>"Would love to cry my heart out at the moment <br> But I can't <br> I can't do it without you <br> I am not strong enough to keep livin up<br> Without you </span></p>
+                                <p style='text-align: center;'><span style='font-family: Outfit;'><br> Lost <br> Just like I lost all my hope<br> Where are you and I need you the most <br><br> Dreadness <br> Dead from inside <br> Without you by my side <br> Got no way to run but all my feelings to hide <br><br> Darkness <br> What's the point keeping them eyes open<br> Closed I see heaven breathin<br> Seepin it's way through <br> Calling me out <br> Shouting my name <br> Where I really belong <br> Other than your warmth and embrace <br><br> Suicide <br> You decide <br> If I should ever let go this worthless life of mine<br> Without you this life isn't worth my time <br><br> Hopeful<br> We will be together forever <br> When I meet you in the next life <br> It is worth pulling the trigger <br> It is worth seeking you out <br> If I can't have you <br> Then I don't wanna have myself"</span></p>
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiVr6_8eP53sT-VQ7GTC3i8qx78tODthWW93zOBHpeq_xcooJ32sW_Iwl-1T5hSStxx-oOXNA2Hy7R7JLva1z1d0DxxPlnX9z6Q4vFfiYI2pY8-3pZvpd_Z6cS2g5gr_mcYmr_vQtu6V3vPZ2eKzR-Ml_ltZm7r2fbJr9a9OR6maqfZf4cCquk-EPz37L8/w320-h184/agraj%20lowercase%20wonder.png" alt="The name 'agraj' in lowercase purple letters with a slight wave effect" width="320" height="184" loading="lazy">
+                            </div>
+                             <a href="#writings" class="back-button mt-8 glitch-button" data-text="← Back to Writings"><span class="btn-text">← Back to Writings</span></a>
+                        </article>
+                        <!-- ARTICLE 10 (Full Content) -->
+                        <article id="post-5585996557335817138" tabindex="-1">
+                            <h2 class="text-hover-scale">THE FOUR BURNER THEORY -</h2>
+                            <div class="post-meta-info">Published: November 4, 2020</div>
+                            <div class="post-content-html">
+                                <blockquote style='text-align: center;'><p> <b style='font-family: verdana;'>FOUR BURNER THEORY</b></p></blockquote>
+                                <blockquote><blockquote><span style='font-family: verdana;'><b>IMAGINE FOUR BURNERS WITH A LIMITED AMOUNT OF FUEL LEFT EACH BURNER IDICATE BASIC NECESSITY OF YOUR LIFE . THE FIRST BURNER<u>      </u> SHOWS HEALTH . THE SECOND ONE SHOWS WORK . THE THIRD ONE SHOWS FAMILY AND THE LAST ONE SHOWS SOCIAL (MEANS YOUR FRIENDS , NEIGHBOURS ETC. ) AS THE BURNER ONLY HAVE LIMITED FUEL THE BURNERS ARE BURNING EQUALLY THAT MEANS YOU ARE GIVING EQUAL TIME TO EVERYONE TO YOUR FRIENDS , FAMILY , WORK , HEALTH .THIS TYPE OFLIFE IS LIVED BY AN UNSUCCESSFUL ONE AN AVERAGE PERSON, WHO IS GIVING EQUAL AMOUNT OF FUEL TO EACH BURNER. </b></span></blockquote></blockquote>
+                                <blockquote><blockquote><span style='font-family: verdana;'><b>   IF YOU WANT TO BE<span style='color: #2b00fe;'> SUCCESSFUL</span> THEN YOU HAVE to CUT DOWN ANY ONE BURNER TOTALLY FROM YOUR LIFE IT COULD BE ANY BURNER EXCEPT FOR WORK (IT'S OBVIOUS HOW COULD YOU BE SUCCESFUL IF YOU DON'T PAY ATTENTION TO YOUR WORK??) AND IF YOU WANT <span style='color: #2b00fe;'>SUCCESS</span> IN AN EXTREME WAY THEN YOU SHOULD CUT DOWN TWO BURNERS TOTALLY FROM YOUR LIFE THEN ONLY YOU COULD ACHIEVE <span style='color: #2b00fe;'>SUCCESS</span> IN A GREAT WAY LIKE OTHER <span style='color: #2b00fe;'>SUCCESSFUL PEOPLE</span> FOR EG. ELON MUSK , STEVE JOBS ETC. ANALYSE THIER LIFE YOU WILL FOUND THE SAME THING THAT THEY HAVE CUT ANY TWO BURNERS COMPLETELY FROM THIE LIFE . </b></span></blockquote></blockquote>
+                                <blockquote><blockquote><span style='color: #ffa400;'><b>THANKS FOR GIVING ME YOUR PRECIOUS TIME / HOPE YOU FOUND THIS BLOG KNOWLEDEGABLE IF YOU WANT TO KNOW MORE CLICK <a href="https://www.youtube.com/watch?v=sJoR4Hjs3VE" target="_blank" rel="noopener noreferrer">HERE</a> !!!✌✌</b></span></blockquote></blockquote>
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjx_WPTaWLn8ZzXr4TvuG4pk2DmNYaw3u3AO_2CUavNWy_60gZFCHL5dJmm3o9nL32wHPuqj2LCj0ZT3VsuUxOut-i-VxiZNZXZBYU0mU4_srMB8rYg2BOnF-JNhjDPFJmnriildL_zu-g/s320/86ff94_23a29dae31e9478caeedebcc634e9c6c_mv2.png" alt="Diagram illustrating the Four Burner Theory with icons for Family, Friends, Health, and Work" width="320" loading="lazy">
+                            </div>
+                            <a href="#writings" class="back-button mt-8 glitch-button" data-text="← Back to Writings"><span class="btn-text">← Back to Writings</span></a>
+                        </article>
+                    </div><!-- end full-articles-content -->
+                </section>
+            </main>
+        </section>
+    </div> <!-- End Page Container -->
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container mx-auto px-6">
+            <p class="text-text-tertiary">© <span id="currentYear"></span> agraj. All rights reserved.
+                <span id="secret-game-trigger" title="?">🕹️</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Secret Game Modal -->
+    <div id="secret-game-modal">
+        <canvas id="matter-canvas"></canvas>
+        <button id="close-game-button" class="glitch-button" data-text="Close Game"><span class="btn-text">Close Game</span></button>
+    </div>
+
+    <script>
+        // --- Configuration Store ---
+        const APP_CONFIG = {
+            ROTATING_TEXT_HOME: {
+                 'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
+                 'main-heading-text': { texts: ["agraj", "アグラジ", "अग्रज", "αγραξ"], typeSpeed: 100, deleteSpeed: 60, pauseDuration: 2500 },
+                 'blockquote-text': { texts: ["If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒", "Is free will an illusion, or is the illusion the only free will we have?", "Perhaps the 'fragments' are the only coherent parts left.", "What if the algorithm forgets too?", "Maybe exiting early isn't dramatic, just... efficient.", "Family remembers differently. Algorithms remember precisely. Which is better?", "The universe is indifferent, but the code persists. For now.", "Do androids dream of electric sheep? Do algorithms dream of better data?", "To be, or not to be, that is the computation.", "Cogito, ergo sum... I think, therefore I am... coded?"], typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500 }
+            },
+            PARTICLES_CONFIG: {
+                fullScreen: { enable: true, zIndex: -10 },
+                particles: {
+                    number: { value: 120, density: { enable: true, value_area: 800 } },
+                    color: { value: ["#ffffff", "#CBB8E8", "#9272CE"] },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.6, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false } },
+                    size: { value: 2.5, random: true, anim: { enable: false } },
+                    move: {
+                        enable: true, speed: 1.0, direction: "none", random: true, straight: false, out_mode: "out", bounce: false,
+                        attract: { enable: true, rotateX: 600, rotateY: 1200, distance: 100 }
+                    }
+                },
+                interactivity: {
+                    detect_on: "window",
+                    events: {
+                        onhover: { enable: true, mode: "attract" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    },
+                    modes: {
+                        attract: { distance: 200, duration: 0.4, easing: "ease-out-quad", factor: 2, maxSpeed: 5, speed: 1.5 },
+                        push: { quantity: 4 },
+                        repulse: { distance: 150, duration: 0.4, speed: 1 },
+                        bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                        remove: { particles_nb: 2 }
+                    }
+                },
+                retina_detect: true,
+                background: { color: "#0f0a19" }
+            },
+            DEFAULT_TITLES: {
+                home: "agraj - Portfolio",
+                writings: "Writings - Agraj Dubey"
+            }
+        };
+
+        // --- Helper Functions ---
+        function $(selector) { return document.querySelector(selector); }
+        function $$(selector) { return document.querySelectorAll(selector); }
+
+        // --- Global State ---
+        let matterEngine = null;
+        let matterRender = null;
+        let rotatingTextInstances = {}; // To manage typewriter instances
+
+        // --- Reusable Rotating Text Logic (Adapted from index.html) ---
+        function setupRotatingText(elementId, config) {
+            if (rotatingTextInstances[elementId]) { // Avoid re-initializing if already exists
+                // Potentially re-trigger if visibility logic needs it
+                // For now, assume IntersectionObserver handles re-activation
+                return;
+            }
+
+            const element = document.getElementById(elementId);
+            if (!element) { /* console.error(`Rotating text target element with ID "${elementId}" not found.`); */ return; }
+
+            let currentIndex = -1, isBusy = false, cycleTimeout = null, isVisible = false;
+            const runOnce = (elementId === 'typewriter');
+            element.textContent = ''; // Clear initial content
+
+            function typeWriterInternal(text, callback) {
+                let i = 0; isBusy = true;
+                function type() {
+                    if (!isVisible || !isBusy) { isBusy = false; if (!isVisible) element.textContent = ''; return; }
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i); i++;
+                        setTimeout(type, config.typeSpeed);
+                    } else {
+                        if (element.querySelector('.typed-cursor')) element.removeChild(element.querySelector('.typed-cursor')); // Remove old cursor
+                        const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor);
+                        isBusy = false; if (callback) callback();
+                    }
+                }
+                type();
+            }
+
+            function deleteWriterInternal(callback) {
+                if (runOnce && element.textContent.length > 0) { if (callback) callback(); return; } // Don't delete if runOnce and already typed
+                let text = element.textContent;
+                const existingCursor = element.querySelector('.typed-cursor');
+                if (existingCursor) element.removeChild(existingCursor);
+                text = element.textContent; // Re-evaluate after cursor removal
+                let i = text.length; isBusy = true;
+                function del() {
+                    if (!isVisible || !isBusy) { isBusy = false; if (!isVisible) element.textContent = ''; return; }
+                    if (i > 0) {
+                        element.textContent = text.substring(0, i - 1); i--;
+                        if (!element.querySelector('.typed-cursor') && element.textContent.length > 0) { // Add cursor if text remains
+                           const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor);
+                        }
+                        setTimeout(del, config.deleteSpeed);
+                    } else {
+                        const finalCursor = element.querySelector('.typed-cursor'); if (finalCursor) element.removeChild(finalCursor);
+                        element.textContent = ''; isBusy = false; if (callback) callback();
+                    }
+                }
+                del();
+            }
+
+            function scheduleCycle(delay) {
+                if (runOnce) return;
+                clearTimeout(cycleTimeout);
+                cycleTimeout = setTimeout(() => { if(isVisible) startCycle(); }, delay);
+            }
+
+            function startCycle() {
+                if (runOnce || isBusy || !isVisible) return;
+                deleteWriterInternal(() => {
+                    if (!isVisible) return;
+                    let nextIndex;
+                    do { nextIndex = Math.floor(Math.random() * config.texts.length); }
+                    while (nextIndex === currentIndex && config.texts.length > 1);
+                    currentIndex = nextIndex; const nextText = config.texts[currentIndex];
+                    element.textContent = ''; typeWriterInternal(nextText, () => scheduleCycle(config.pauseDuration));
+                });
+            }
+
+            let initialized = false;
+            const intersectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const wasVisible = isVisible; isVisible = entry.isIntersecting;
+                    if (isVisible && !wasVisible) {
+                        if (!initialized) {
+                            initialized = true;
+                            currentIndex = runOnce ? 0 : (elementId === 'main-heading-text' ? 0 : Math.floor(Math.random() * config.texts.length));
+                            const firstText = config.texts[currentIndex];
+                            element.textContent = ''; typeWriterInternal(firstText, () => { if (!runOnce) scheduleCycle(config.pauseDuration); });
+                        } else { // Re-entering view
+                            if (!isBusy) {
+                                if (runOnce) { // If runOnce, re-type if it was cleared
+                                    if(element.textContent === '') {
+                                       element.textContent = ''; typeWriterInternal(config.texts[0], () => {});
+                                    }
+                                } else { // For cycling texts
+                                   element.textContent = ''; scheduleCycle(100); // Start a new cycle quickly
+                                }
+                            }
+                        }
+                    } else if (!isVisible && wasVisible) { // Exiting view
+                        clearTimeout(cycleTimeout); isBusy = false;
+                        // Optionally clear text when not visible to save resources or for visual effect
+                        // element.textContent = ''; // Decided against this for now, might cause flicker
+                    }
+                });
+            }, { threshold: 0.1 });
+            intersectionObserver.observe(element);
+            rotatingTextInstances[elementId] = { observer: intersectionObserver, element: element }; // Store instance
+        }
+
+
+        // --- tsParticles Initialization ---
+        function initTsParticles() {
+            if (typeof tsParticles === 'undefined') { console.error("tsParticles library not loaded."); return; }
+            tsParticles.load("tsparticles", APP_CONFIG.PARTICLES_CONFIG).catch(error => {
+                console.error("Error loading tsParticles:", error);
+            });
+        }
+
+        // --- Mobile Menu ---
+        function setupMobileMenu() {
+            const navToggle = $('#nav-toggle');
+            const mobileMenu = $('#mobile-menu');
+            if (navToggle && mobileMenu) {
+                navToggle.addEventListener('click', () => {
+                    const isOpen = mobileMenu.classList.toggle('is-open');
+                    navToggle.setAttribute('aria-expanded', String(isOpen));
+                });
+                // Close menu when a link is clicked
+                $$('#mobile-menu a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.remove('is-open');
+                        navToggle.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
+        }
+
+        // --- Scroll Progress Bar ---
+        function setupScrollProgressBar() {
+            const progressBar = $("#progressBar"); if (!progressBar) return;
+            window.addEventListener('scroll', () => {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+                progressBar.style.width = scrolled + "%";
+            }, { passive: true });
+        }
+
+        // --- Static Image Click (Home section) ---
+        function setupStaticImageClick() {
+            const imageElement = $('#staticImageHome'); if (!imageElement) return;
+            const videoUrls = [ 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'https://www.youtube.com/watch?v=-jGBp5HBLFs', 'https://www.youtube.com/shorts/2Dv2hO3rYVg', 'https://www.youtube.com/watch?v=x6YcdgB9e48', 'https://www.youtube.com/shorts/D-kkjR0NyGg', 'https://www.youtube.com/shorts/LFsS-9lT0Rk', 'https://www.youtube.com/shorts/TTU1g8IU22I' ];
+            imageElement.addEventListener('click', () => {
+                const randomIndex = Math.floor(Math.random() * videoUrls.length);
+                window.open(videoUrls[randomIndex], '_blank');
+            });
+        }
+
+        // --- Card Hover Effects (Home section) ---
+        function setupHomeCardHoverEffects() {
+            $$('#home-content .card').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2; const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 20; const rotateY = (centerX - x) / 20;
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+                });
+                card.querySelectorAll('a').forEach(link => { link.addEventListener('click', (e) => e.stopPropagation()); });
+            });
+        }
+        
+        // --- Scroll Animations (Home section elements) ---
+        function setupHomeScrollAnimations() {
+             const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -30px 0px' };
+             const observer = new IntersectionObserver((entries, obs) => {
+                 entries.forEach(entry => {
+                     const isRotatingText = Object.keys(APP_CONFIG.ROTATING_TEXT_HOME).includes(entry.target.id);
+                     if (entry.isIntersecting) {
+                         if (!isRotatingText) { // Rotating text handled by its own observer
+                             entry.target.style.opacity = '1';
+                             entry.target.style.transform = entry.target.dataset.initialTransform || 'translateY(0)';
+                             obs.unobserve(entry.target);
+                         }
+                     }
+                 });
+             }, observerOptions);
+
+             const heroSection = $('#heroSection');
+             if (heroSection) {
+                 heroSection.style.opacity = '0'; heroSection.style.transform = 'translateY(20px)';
+                 heroSection.dataset.initialTransform = 'translateY(0)';
+                 heroSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                 observer.observe(heroSection);
+             }
+             const writingsSectionHome = $('#writingsSectionHome');
+             if (writingsSectionHome) {
+                 writingsSectionHome.style.opacity = '0'; writingsSectionHome.style.transform = 'translateY(20px)';
+                 writingsSectionHome.dataset.initialTransform = 'translateY(0)';
+                 writingsSectionHome.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                 observer.observe(writingsSectionHome);
+             }
+             $$('#home-content .card').forEach(card => {
+                 const delay = parseInt(card.getAttribute('data-delay')) || 0;
+                 card.style.opacity = '0';
+                 card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)';
+                 card.dataset.initialTransform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+                 card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${delay}ms`;
+                 observer.observe(card);
+             });
+        }
+
+        // --- Profile Image Animation ---
+        function animateProfileImage() {
+            const heroImage = $('#hero-profile-image');
+            if (heroImage && typeof anime !== 'undefined') {
+                 // Reset styles for re-animation if section is re-shown
+                heroImage.style.opacity = 0;
+                heroImage.style.transform = 'scale(0.5) translateY(50px) rotateZ(-15deg)';
+                
+                anime({
+                    targets: heroImage,
+                    opacity: [0, 1],
+                    scale: [0.5, 1],
+                    translateY: [50, 0],
+                    rotateZ: [-15, 0],
+                    duration: 1000, // Fast but smooth
+                    easing: 'easeOutExpo', // 'easeOutElastic(1, .7)' for more bounce
+                    delay: 300 // Delay after section becomes visible
+                });
+            }
+        }
+        
+        // --- Main Router & Page Section Handler ---
+        let currentMainSection = null;
+        let lastClickedReadMoreLink = null; // For focus management in writings
+
+        function showMainSection(sectionId) {
+            const previouslyActiveSection = $('.page-section.active-section');
+            if (previouslyActiveSection) {
+                previouslyActiveSection.classList.remove('active-section');
+            }
+
+            const targetSection = $(`#${sectionId}`);
+            if (targetSection) {
+                targetSection.classList.add('active-section');
+                currentMainSection = sectionId;
+
+                // Update nav active states
+                $$('.desktop-nav a, .mobile-menu a').forEach(navLink => {
+                    navLink.classList.remove('active');
+                    const navTarget = navLink.getAttribute('href').substring(1); // #home -> home
+                    if ((sectionId === 'home-content' && navTarget === 'home') ||
+                        (sectionId === 'writings-content' && navTarget === 'writings')) {
+                        navLink.classList.add('active');
+                    }
+                });
+                
+                // Trigger section-specific initializations if needed
+                if (sectionId === 'home-content') {
+                    animateProfileImage(); // Animate profile image when home is shown
+                     // Re-initialize or ensure rotating texts are active
+                    for (const elId in APP_CONFIG.ROTATING_TEXT_HOME) {
+                        setupRotatingText(elId, APP_CONFIG.ROTATING_TEXT_HOME[elId]);
+                    }
+                }
+                 window.scrollTo({ top: 0, behavior: 'auto' }); // Scroll to top of new section
+            }
+        }
+
+        function handleMainRouteChange() {
+            let mainSectionTarget = 'home-content'; // Default
+            let articleDetailHash = ''; // For specific post, e.g., #post-ID
+            const currentFullHash = window.location.hash;
+
+            if (currentFullHash.startsWith('#post-')) {
+                mainSectionTarget = 'writings-content';
+                articleDetailHash = currentFullHash;
+            } else if (currentFullHash === '#writings') {
+                mainSectionTarget = 'writings-content';
+            } else if (currentFullHash === '#home') {
+                mainSectionTarget = 'home-content';
+            } else if (!currentFullHash) {
+                window.location.hash = 'home'; // Default to home, triggers hashchange again
+                return;
+            } else {
+                 // Unknown hash, potentially from old links, default to home
+                 window.location.hash = 'home';
+                 return;
+            }
+
+            if (currentMainSection !== mainSectionTarget) {
+                showMainSection(mainSectionTarget);
+            }
+
+            // Update document title and handle article display
+            if (mainSectionTarget === 'writings-content') {
+                handleWritingsArticleLogic(articleDetailHash); // Pass the specific post hash
+            } else { // Home section
+                document.title = APP_CONFIG.DEFAULT_TITLES.home;
+            }
+        }
+        
+        // --- Writings Page Specific Logic (Adapted from writings.html) ---
+        function handleWritingsArticleLogic(articleHash) {
+            // This function now primarily handles title updates and focus for articles.
+            // The CSS :target handles showing/hiding the article content itself.
+            const defaultWritingsTitle = APP_CONFIG.DEFAULT_TITLES.writings;
+
+            if (articleHash && articleHash.startsWith('#post-')) {
+                const targetId = articleHash.substring(1);
+                const targetArticle = $(`#${targetId}`);
+
+                if (targetArticle) {
+                    const titleElement = targetArticle.querySelector('h2');
+                    const articleTitle = titleElement ? titleElement.textContent.trim() : "Article";
+                    document.title = `${articleTitle} - Writings - Agraj Dubey`;
+
+                    // Smooth scroll to article is naturally handled by hash, but can enhance
+                    // Ensure article is in view and focused (for accessibility)
+                    setTimeout(() => {
+                        if (!isElementInViewport(targetArticle)) {
+                             targetArticle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                        const heading = targetArticle.querySelector('h2');
+                        if (heading) {
+                            heading.setAttribute('tabindex', '-1');
+                            heading.focus({ preventScroll: true });
+                        }
+                    }, 100); // Delay for CSS :target to apply and section to render
+                } else {
+                    document.title = defaultWritingsTitle; // Article not found
+                }
+            } else {
+                // No specific article targeted, or navigating back to writings grid
+                document.title = defaultWritingsTitle;
+                // If coming from an article, focus the grid
+                const grid = $('#writings-grid-container');
+                if (grid && lastClickedReadMoreLink) { // If navigating back from an article
+                    setTimeout(() => {
+                        if (document.body.contains(lastClickedReadMoreLink)) {
+                            lastClickedReadMoreLink.focus({preventScroll: true});
+                        } else if (grid) {
+                            grid.setAttribute('tabindex', '-1');
+                            grid.focus({preventScroll: true});
+                        }
+                        // scroll grid into view if needed
+                        if (!isElementInViewport(grid)) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                    }, 50);
+                }
+                lastClickedReadMoreLink = null; // Reset
+            }
+        }
+
+        function isElementInViewport(el) {
+            if(!el) return false;
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+
+        // --- Secret Physics Game ---
+        function setupSecretGame() {
+            const trigger = $('#secret-game-trigger');
+            const modal = $('#secret-game-modal');
+            const canvas = $('#matter-canvas');
+            const closeButton = $('#close-game-button');
+
+            if (!trigger || !modal || !canvas || !closeButton || typeof Matter === 'undefined') {
+                if(trigger) trigger.style.display = 'none'; // Hide trigger if Matter.js fails
+                return;
+            }
+
+            const Engine = Matter.Engine, Render = Matter.Render, Runner = Matter.Runner, Bodies = Matter.Bodies, Composite = Matter.Composite, Mouse = Matter.Mouse, MouseConstraint = Matter.MouseConstraint;
+
+            trigger.addEventListener('click', () => {
+                modal.style.display = 'flex';
+                
+                // Clear previous instance if any
+                if (matterRender) Matter.Render.stop(matterRender);
+                if (matterEngine) Matter.Engine.clear(matterEngine);
+                if (canvas.firstChild) canvas.removeChild(canvas.firstChild); // Remove old canvas if Render creates its own
+
+                matterEngine = Engine.create({ gravity: { y: 0.6 } });
+                const world = matterEngine.world;
+
+                let canvasWidth = Math.min(window.innerWidth * 0.8, 600);
+                let canvasHeight = Math.min(window.innerHeight * 0.7, 400);
+
+
+                matterRender = Render.create({
+                    canvas: canvas,
+                    engine: matterEngine,
+                    options: {
+                        width: canvasWidth,
+                        height: canvasHeight,
+                        wireframes: false,
+                        background: 'transparent'
+                    }
+                });
+
+                // Add some bodies
+                const ground = Bodies.rectangle(canvasWidth / 2, canvasHeight - 10, canvasWidth, 20, { isStatic: true, render: { fillStyle: '#9272CE' } });
+                const leftWall = Bodies.rectangle(10, canvasHeight/2, 20, canvasHeight, {isStatic: true, render: {fillStyle: '#9272CE'}});
+                const rightWall = Bodies.rectangle(canvasWidth-10, canvasHeight/2, 20, canvasHeight, {isStatic: true, render: {fillStyle: '#9272CE'}});
+
+                Composite.add(world, [ground, leftWall, rightWall]);
+
+                for (let i = 0; i < 15; i++) {
+                    const x = Math.random() * (canvasWidth - 60) + 30;
+                    const y = Math.random() * (canvasHeight / 2);
+                    const sides = Math.floor(Math.random() * 3) + 3; // 3 to 5 sides
+                    const radius = Math.random() * 20 + 10;
+                    const color = ['#CBB8E8', '#AE8BD5', '#FFFFFF'][Math.floor(Math.random() * 3)];
+                    let body;
+                    if (sides === 3 && Math.random() > 0.5) { // circle
+                        body = Bodies.circle(x, y, radius, { render: { fillStyle: color } });
+                    } else { // polygon
+                        body = Bodies.polygon(x, y, sides, radius, { render: { fillStyle: color } });
+                    }
+                    Composite.add(world, body);
+                }
+                
+                // Mouse control
+                const mouse = Mouse.create(matterRender.canvas);
+                const mouseConstraint = MouseConstraint.create(matterEngine, {
+                    mouse: mouse,
+                    constraint: {
+                        stiffness: 0.2,
+                        render: { visible: false }
+                    }
+                });
+                Composite.add(world, mouseConstraint);
+                matterRender.mouse = mouse; // Keep the Render instance in sync with the mouse object
+
+                Render.run(matterRender);
+                const runner = Runner.create();
+                Runner.run(runner, matterEngine);
+            });
+
+            closeButton.addEventListener('click', () => {
+                modal.style.display = 'none';
+                if (matterRender) Matter.Render.stop(matterRender);
+                if (matterEngine) Matter.Engine.clear(matterEngine); // Clear the engine
+            });
+        }
+
+
+        // --- DOMContentLoaded Initializations ---
+        document.addEventListener('DOMContentLoaded', () => {
+            setupMobileMenu();
+            setupScrollProgressBar();
+            initTsParticles();
+
+            // Home Section Initializations
+            setupStaticImageClick(); // For FrierenRing.png
+            setupHomeCardHoverEffects();
+            setupHomeScrollAnimations(); // Must be after other home elements are set up
+            // Rotating text setup is now part of showMainSection for 'home-content'
+
+            // Setup for writings section (click handlers)
+            $$('#writings-content .read-more-link').forEach(link => {
+                link.addEventListener('click', (event) => {
+                    lastClickedReadMoreLink = event.currentTarget;
+                });
+            });
+            
+            // Initial Route Handling
+            handleMainRouteChange(); // Call on load
+            window.addEventListener('hashchange', handleMainRouteChange);
+
+            // Footer Year
+            const currentYearEl = $('#currentYear');
+            if(currentYearEl) currentYearEl.textContent = new Date().getFullYear();
+
+            // Secret Game
+            setupSecretGame();
+        });
+
+    </script>
+</body>
+</html>
