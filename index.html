@@ -11,14 +11,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@700&family=Inter:wght@400;500;600;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;700&family=Nunito:wght@400;700&family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Removed tsParticles -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 
     <script>
         // Tailwind Config (Same as previous)
-        window.tailwind.config = { /* ... */ };
-        // Paste the full Tailwind config from the previous successful response
         window.tailwind.config = {
             theme: {
                 extend: {
@@ -52,16 +49,13 @@
             background-color: #0f0a19; color: #D1D1D1; font-family: 'Inter', sans-serif;
             overflow-x: hidden; line-height: 1.6; font-size: 16px;
         }
-        /* Hyperspeed Canvas background */
         #hyperspeed-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; background-color: #07040e; }
         .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.03), rgba(15, 10, 25, 0.85) 70%); z-index: -5; pointer-events:none; }
 
-        .page-section { /* ... Same ... */ } @keyframes fadeInPage { /* ... Same ... */ }
-        /* General Typography & Header Styles (Keep these from your working version) */
-        /* Paste them here... */
         .page-section { display: none; animation: fadeInPage 0.7s ease-out forwards; }
         .page-section.active-section { display: block; }
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
         h1, h2, h3, h4, h5, h6 { color: #ffffff; font-weight: 700; }
         .font-serif { font-family: 'Baloo Bhai 2', cursive; }
         .font-outfit { font-family: 'Outfit', sans-serif; }
@@ -100,33 +94,10 @@
         @keyframes slideDownFade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         .desktop-nav a[target="_blank"]::after, .mobile-menu a[target="_blank"]::after { content: ' \2197'; font-size: 0.7em; vertical-align: super; display: inline-block; margin-left: 2px; opacity: 0.7; width: auto !important; height: auto !important; background: none !important; }
 
-
-        /* --- Home Section Styles (Small Circular Profile Image) --- */
-        #heroSection {
-            text-align: center;
-            padding-top: 1rem; /* More space from header */
-            min-height: 70vh;
-            display: flex; flex-direction: column; justify-content: center;
-        }
-        #hero-circular-profile-image-container {
-            margin-bottom: 1.5rem; /* Space below image */
-        }
-        #hero-circular-profile-image {
-            width: 130px; /* Adjust size as needed */
-            height: 130px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid rgba(146, 114, 206, 0.4); /* accent/40 */
-            box-shadow: 0 0 20px rgba(146, 114, 206, 0.25);
-            display: block;
-            margin: 0 auto;
-            opacity: 0; /* Initial state for animation */
-            transform: scale(0.8) translateY(10px);
-            transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
-        }
-
-        /* Home Cards & Links (from original combined version) */
-        /* ... (Same as previous correct version) ... */
+        #heroSection { text-align: center; padding-top: 1rem; min-height: 70vh; display: flex; flex-direction: column; justify-content: center; }
+        #hero-circular-profile-image-container { margin-bottom: 1.5rem; }
+        #hero-circular-profile-image { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(146, 114, 206, 0.4); box-shadow: 0 0 20px rgba(146, 114, 206, 0.25); display: block; margin: 0 auto; opacity: 0; transform: scale(0.8) translateY(10px); transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s; }
+        #home-hero-text-content, #home-content .quote, #writingsSectionHome { position: relative; z-index: 5; }
         #home-content .quote { position: relative; border-left: 3px solid #9272CE; margin-top: 1.5rem; } 
         #home-content .quote::before { content: '"'; position: absolute; top: -20px; left: 10px; font-size: 5rem; color: rgba(146, 114, 206, 0.1); font-family: 'Inter', sans-serif; font-weight: 700; }
         #home-content .card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(15, 10, 25, 0.75); border: 1px solid rgba(146, 114, 206, 0.2); }
@@ -140,9 +111,6 @@
         .static-image { width: 8rem; height: 8rem; cursor: pointer; transition: transform 0.3s ease; }
         .static-image:hover { transform: scale(1.1); }
 
-
-        /* Writings Section Styles (Stable base from earlier versions) */
-        /* ... (Same as previous correct version, ensure .post-content-html styles are correct for line spacing) ... */
         #writings-content { font-size: 17px; }
         #writings-content .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
         #writings-content .text-hover-scale:hover { transform: scale(1.03); }
@@ -166,26 +134,9 @@
         a.back-button:hover { background-color: #AE8BD5; transform: scale(1.05) translateY(-2px); box-shadow: 0 8px 20px rgba(146, 114, 206, 0.3); }
         hr.separator { border: none; height: 2px; background-image: linear-gradient(to right, transparent, #9272CE, #AE8BD5, #9272CE, transparent); margin-top: 3rem; margin-bottom: 3rem; opacity: 0.6; display: block; }
         
-        .post-content-html {
-            white-space: pre-line; 
-            text-align: left;
-            line-height: 1.7; /* Adjusted for poems - can be more specific if needed */
-        }
-        .post-content-html p, .post-content-html blockquote, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html strong, .post-content-html i, .post-content-html em, .post-content-html u, .post-content-html a { 
-            font-family: inherit; font-size: 1.1rem; 
-            /* line-height is now on parent .post-content-html */
-            color: #D1D1D1; 
-            background-color: transparent !important; 
-            margin: 0 0 0.8em 0; /* Reduced bottom margin for tighter poem lines */
-            font-weight: normal; font-style: normal; 
-            text-decoration: none; word-wrap: break-word; border-radius: 3px; 
-        }
-        .post-content-html br {
-            content: "";
-            display: block;
-            margin-bottom: 0.1em; /* Small gap for <br>, adjust as needed for poem pacing */
-        }
-        /* Other .post-content-html child styles (bold, italic, links, etc.) - Keep as before */
+        .post-content-html { white-space: pre-line; text-align: left; line-height: 1.7; }
+        .post-content-html p, .post-content-html blockquote, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html strong, .post-content-html i, .post-content-html em, .post-content-html u, .post-content-html a { font-family: inherit; font-size: 1.1rem; color: #D1D1D1; background-color: transparent !important; margin: 0 0 0.8em 0; font-weight: normal; font-style: normal; text-decoration: none; word-wrap: break-word; border-radius: 3px; }
+        .post-content-html br { content: ""; display: block; margin-bottom: 0.1em; /* Tighten <br> spacing */ }
         .post-content-html span { margin: 0; display: inline; }
         .post-content-html [style*="font-family: Outfit"] { font-family: 'Outfit', sans-serif; } 
         .post-content-html [style*="font-family: Nunito"] { font-family: 'Nunito', sans-serif; } 
@@ -210,9 +161,7 @@
         .post-content-html .separator { display: none; }
         @layer utilities { .line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; } .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; } }
 
-
         /* Glitch Button, Footer, Secret Game, Progress Bar (Keep from previous working version) */
-        /* ... Paste these styles ... */
         .glitch-button { position: relative; display: inline-block; cursor: pointer; padding: 0.75rem 1.5rem; text-decoration: none; overflow: hidden; transition: transform 0.1s ease-out; -webkit-user-select: none; -ms-user-select: none; user-select: none; }
         .glitch-button .btn-text { position: relative; z-index: 1; }
         .glitch-button::before, .glitch-button::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: inherit; color: inherit; padding: inherit; overflow: hidden; transition: transform 0.3s cubic-bezier(0.75, 0, 0.25, 1), opacity 0.3s ease; opacity: 0; }
@@ -246,8 +195,8 @@
     <div id="secret-game-modal"> <canvas id="matter-canvas"></canvas> <button id="close-game-button" class="glitch-button" data-text="Close Game"><span class="btn-text">Close Game</span></button> </div>
 
     <script>
-        const APP_CONFIG = { /* ... (Same as before, including ROTATING_TEXT_HOME, DEFAULT_TITLES, POSTS_JSON_PATH) ... */ };
-        // Paste the full APP_CONFIG from the previous response here
+        const APP_CONFIG = { /* ... (Same as before) ... */ };
+        // Paste the full APP_CONFIG from the previous response
          APP_CONFIG.ROTATING_TEXT_HOME = {
              'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
              'main-heading-text': { texts: ["agraj", "アグラジ", "अग्रज", "αγραξ"], typeSpeed: 100, deleteSpeed: 60, pauseDuration: 2500 },
@@ -263,8 +212,7 @@
         function $(selector) { return document.querySelector(selector); }
         function $$(selector) { return document.querySelectorAll(selector); }
 
-        // --- Hyperspeed Animation (WITH MOUSE PULL INTERACTION) ---
-               // --- Hyperspeed Animation (WITH MOUSE PULL INTERACTION) ---
+        // --- Hyperspeed Animation (WITH MOUSE PULL INTERACTION - from previous corrected response) ---
         const hyperspeedCanvas = $('#hyperspeed-canvas');
         const hsCtx = hyperspeedCanvas.getContext('2d');
         let stars = [];
@@ -279,9 +227,6 @@
             hyperspeedCanvas.height = window.innerHeight;
             mouseX = hyperspeedCanvas.width / 2;
             mouseY = hyperspeedCanvas.height / 2;
-            // Re-initialize stars on resize if their positions depend on canvas dimensions
-            // or if you want a fresh distribution. For this effect, it's often good.
-            // initStars(); // Optional: uncomment if you want stars to reset on resize
         }
 
         function initStars() {
@@ -289,14 +234,8 @@
             for (let i = 0; i < numStars; i++) {
                 const randomAceColor = aceFlagColors[Math.floor(Math.random() * aceFlagColors.length)];
                 stars.push({
-                    x: Math.random() * 2 - 1, // Normalized: -1 to 1
-                    y: Math.random() * 2 - 1, // Normalized: -1 to 1
-                    z: Math.random() * 1.8 + 0.2, // Initial depth
-                    // Store original x, y for more stable pull calculation if needed, but current approach is fine
-                    // ox: Math.random() * 2 - 1, 
-                    // oy: Math.random() * 2 - 1,
-                    color: randomAceColor,
-                    opacity: Math.random() * 0.4 + 0.2
+                    x: Math.random() * 2 - 1, y: Math.random() * 2 - 1, z: Math.random() * 1.8 + 0.2,
+                    color: randomAceColor, opacity: Math.random() * 0.4 + 0.2
                 });
             }
         }
@@ -305,94 +244,61 @@
             hsCtx.clearRect(0, 0, hyperspeedCanvas.width, hyperspeedCanvas.height);
             const centerX = hyperspeedCanvas.width / 2;
             const centerY = hyperspeedCanvas.height / 2;
-
-            // Normalize mouse position to the same conceptual space as star.x, star.y (~[-1, 1])
-            // This helps make the pull effect consistent regardless of canvas size.
-            const normMouseX = (mouseX - centerX) / (hyperspeedCanvas.width / 2); // Or just centerX if square
-            const normMouseY = (mouseY - centerY) / (hyperspeedCanvas.height / 2); // Or just centerY
+            const normMouseX = (mouseX - centerX) / (hyperspeedCanvas.width / 2);
+            const normMouseY = (mouseY - centerY) / (hyperspeedCanvas.height / 2);
 
             stars.forEach(star => {
-                // --- MOUSE PULL INTERACTION (New Logic) ---
                 const dxToMouseNorm = normMouseX - star.x;
                 const dyToMouseNorm = normMouseY - star.y;
                 const distToMouseSqNorm = dxToMouseNorm * dxToMouseNorm + dyToMouseNorm * dyToMouseNorm;
-                
-                const interactionRadiusNormSq = 0.3 * 0.3; // Pull radius in normalized space, squared
-                const pullStrength = 0.0003; // Strength of the pull, adjust for subtlety
+                const interactionRadiusNormSq = 0.3 * 0.3;
+                const pullStrength = 0.0003;
 
-                if (distToMouseSqNorm < interactionRadiusNormSq && distToMouseSqNorm > 0.00001) { // Check dist > 0 to avoid division by zero
+                if (distToMouseSqNorm < interactionRadiusNormSq && distToMouseSqNorm > 0.00001) {
                     const distNorm = Math.sqrt(distToMouseSqNorm);
-                    // Force is stronger when closer
-                    const forceFactor = (1 - distNorm / Math.sqrt(interactionRadiusNormSq)) * pullStrength; 
-                    
-                    // Nudge the star's normalized (x,y) towards the normalized mouse position
-                    // The change is small each frame, creating a curve.
-                    star.x += (dxToMouseNorm / distNorm) * forceFactor / star.z; // Effect less pronounced for distant stars (dividing by z)
+                    const forceFactor = (1 - distNorm / Math.sqrt(interactionRadiusNormSq)) * pullStrength;
+                    star.x += (dxToMouseNorm / distNorm) * forceFactor / star.z;
                     star.y += (dyToMouseNorm / distNorm) * forceFactor / star.z;
                 }
-                // --- END MOUSE PULL INTERACTION ---
 
-
-                // --- Z-axis movement and speed-up on hover (Existing Logic) ---
-                const projX = centerX + (star.x / star.z) * centerX; // Projected X on screen
-                const projY = centerY + (star.y / star.z) * centerY; // Projected Y on screen
-
+                const projX = centerX + (star.x / star.z) * centerX;
+                const projY = centerY + (star.y / star.z) * centerY;
                 const dxMouseForSpeed = projX - mouseX;
                 const dyMouseForSpeed = projY - mouseY;
                 const distMouseForSpeed = Math.sqrt(dxMouseForSpeed * dxMouseForSpeed + dyMouseForSpeed * dyMouseForSpeed);
-                
                 let currentSpeedFactor = 1;
-                const speedUpRadius = 120; // Pixel radius for Z-speed up
+                const speedUpRadius = 120;
                 if (distMouseForSpeed < speedUpRadius) {
                     currentSpeedFactor = 1 + (4.5 * (1 - distMouseForSpeed / speedUpRadius));
                 }
-                // --- End Z-axis speed-up ---
-
                 star.z -= baseSpeed * currentSpeedFactor;
 
-                // Reset star
                 if (star.z <= 0.005) {
-                    star.x = Math.random() * 2 - 1;
-                    star.y = Math.random() * 2 - 1;
-                    star.z = Math.random() * 1.8 + 0.2; // Reset further back
+                    star.x = Math.random() * 2 - 1; star.y = Math.random() * 2 - 1;
+                    star.z = Math.random() * 1.8 + 0.2;
                     star.color = aceFlagColors[Math.floor(Math.random() * aceFlagColors.length)];
                     star.opacity = Math.random() * 0.4 + 0.2;
                 }
                 
-                // Calculate final screen position after pull and z-movement
                 const screenX = centerX + (star.x / star.z) * centerX;
                 const screenY = centerY + (star.y / star.z) * centerY;
                 const size = Math.max(0.3, (1 / star.z) * 2.5);
                 const dynamicOpacity = Math.min(1, (star.opacity + (1 / star.z) * 0.3));
 
-                // Draw star
                 if (screenX > -size && screenX < hyperspeedCanvas.width + size && screenY > -size && screenY < hyperspeedCanvas.height + size) {
                     hsCtx.fillStyle = star.color.startsWith('#') ? `${star.color}${Math.round(dynamicOpacity * 255).toString(16).padStart(2, '0')}` : `rgba(${star.color.slice(5,-1)}, ${dynamicOpacity})`;
                     if (star.color === '#000000' && dynamicOpacity > 0.1) {
                         hsCtx.fillStyle = `rgba(50,50,50, ${dynamicOpacity * 0.5})`;
                     }
-                    hsCtx.beginPath();
-                    hsCtx.arc(screenX, screenY, size, 0, Math.PI * 2);
-                    hsCtx.fill();
+                    hsCtx.beginPath(); hsCtx.arc(screenX, screenY, size, 0, Math.PI * 2); hsCtx.fill();
                 }
             });
             requestAnimationFrame(animateHyperspeed);
         }
-
         hyperspeedCanvas.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
-        hyperspeedCanvas.addEventListener('mouseleave', () => { 
-            // Optionally, slowly return mouseX/Y to center or just leave it at last known position
-            // For now, leaving at last known position is fine for this effect.
-            // mouseX = hyperspeedCanvas.width / 2; 
-            // mouseY = hyperspeedCanvas.height / 2;
-        });
+        hyperspeedCanvas.addEventListener('mouseleave', () => { /* Keep mouseX/Y at last known for continuous effect or reset */ });
 
-        // ... (rest of your JavaScript, including setupRotatingText, simpleMarkdownToHtml, loadAndRenderPosts, showMainSection, etc.)
-        // Ensure all the other functions from the "content finally" version are present here.
-        // For brevity, I'm not repeating them all, but they MUST be here.
-    </script>
-        // --- Content Rendering (simpleMarkdownToHtml from previous correct version) ---
-        // (createPostPreviewCard, createFullArticleHtml, loadAndRenderPosts - Ensure these are the robust versions)
+        // --- Content Rendering (simpleMarkdownToHtml, createPostPreviewCard, createFullArticleHtml, loadAndRenderPosts - Same as previous correct version) ---
         // Paste them here
         let ALL_POST_DATA_FOR_HOME_RECENT = []; let ALL_POSTS_DATA = [];
         function simpleMarkdownToHtml(md) {
@@ -410,7 +316,7 @@
             html = html.replace(/(<br>\n\s*){2,}/gi, '<br>\n');
             return html;
         }
-        function createPostPreviewCard(post, isForHome = false) { /* ... Same as previous successful version ... */ 
+        function createPostPreviewCard(post, isForHome = false) { /* ... */ 
             const cardClass = isForHome ? 'card' : 'writing-preview-card';
             const delay = isForHome && ALL_POST_DATA_FOR_HOME_RECENT.length > 0 ? (ALL_POST_DATA_FOR_HOME_RECENT.indexOf(post) * 150) : 0;
 
@@ -428,7 +334,7 @@
                 </div>
             `;
         }
-        function createFullArticleHtml(post) { /* ... Same as previous successful version ... */ 
+        function createFullArticleHtml(post) { /* ... */ 
             const htmlContent = simpleMarkdownToHtml(post.contentMarkdown); 
             return `
                 <article id="${post.id}" tabindex="-1">
@@ -440,7 +346,7 @@
                 </article>
             `;
         }
-        async function loadAndRenderPosts() { /* ... Same as previous successful version with console logs ... */ 
+        async function loadAndRenderPosts() { /* ... */ 
             console.log("Attempting to load posts...");
             try {
                 const response = await fetch(APP_CONFIG.POSTS_JSON_PATH);
@@ -472,7 +378,6 @@
 
 
         // --- Other JS functions (Rotating Text, Menu, Scroll, Image Click, Card Hovers, Scroll Animations, Router, Secret Game etc.) ---
-        // (These should be the robust versions from a stable previous iteration)
         // Paste them here
         let rotatingTextInstances = {};
         function setupRotatingText(elementId, config) { /* ... */ 
@@ -586,10 +491,9 @@
                  const delay = parseInt(card.getAttribute('data-delay')) || 0; card.style.opacity = '0'; card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)'; card.dataset.initialTransform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${delay}ms`; observer.observe(card);
              });
         }
-        function animateCircularProfileImage() { // For the small circular image
+        function animateCircularProfileImage() { 
             const heroImage = $('#hero-circular-profile-image');
             if (heroImage) {
-                 // CSS handles initial opacity:0 and transform
                 heroImage.style.opacity = '1'; 
                 heroImage.style.transform = 'scale(1) translateY(0px)';
             }
@@ -611,7 +515,7 @@
                     }
                 });
                 if (sectionId === 'home-content') {
-                    animateCircularProfileImage(); // Animate the circular profile image
+                    animateCircularProfileImage(); 
                     for (const elId in APP_CONFIG.ROTATING_TEXT_HOME) {
                         setupRotatingText(elId, APP_CONFIG.ROTATING_TEXT_HOME[elId]);
                     }
@@ -675,7 +579,7 @@
             if(!el) return false; const rect = el.getBoundingClientRect();
             return (rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth));
         }
-        let matterEngine = null, matterRender = null; // Keep these global for secret game
+        let matterEngine = null, matterRender = null; 
         function setupSecretGame() { /* ... */ 
             const trigger = $('#secret-game-trigger'); const modal = $('#secret-game-modal'); const canvas = $('#matter-canvas'); const closeButton = $('#close-game-button');
             if (!trigger || !modal || !canvas || !closeButton || typeof Matter === 'undefined') { if(trigger) trigger.style.display = 'none'; return; }
@@ -700,7 +604,7 @@
 
 
         document.addEventListener('DOMContentLoaded', async () => {
-            resizeHyperspeedCanvas(); initStars(); animateHyperspeed(); // Hyperspeed BG
+            resizeHyperspeedCanvas(); initStars(); animateHyperspeed(); // Use hyperspeed
             window.addEventListener('resize', resizeHyperspeedCanvas);
 
             setupMobileMenu(); 
