@@ -11,11 +11,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@700&family=Inter:wght@400;500;600;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;700&family=Nunito:wght@400;700&family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 
     <script>
-        // Tailwind Config (Same as previous)
+        // Tailwind Config (Unified - ensure it's complete from previous successful versions)
         window.tailwind.config = {
             theme: {
                 extend: {
@@ -23,12 +24,14 @@
                         'dark': '#0f0a19', 'darker': '#090613', 'accent': '#9272CE',
                         'accent-hover': '#AE8BD5', 'light-accent': '#CBB8E8',
                         'text-primary': '#ffffff', 'text-secondary': '#D1D1D1', 'text-tertiary': '#A8A8A8',
-                        'article-bg': 'rgba(20, 20, 22, 0.93)', 'writings-card-bg': 'rgba(25, 15, 40, 0.9)',
-                        'writings-card-hover-bg': 'rgba(45, 35, 60, 0.97)', 'dark-purple-bg': '#1a0a2e',
-                        'hover-highlight': 'rgba(146, 114, 206, 0.1)', 'brand-purple': '#9272CE',
-                        'brand-hover': '#AE8BD5', 'brand-light-purple': '#CBB8E8',
-                        'brand-dark': '#050505', 'brand-light': '#FFFFFF', 'brand-gray': '#D1D1D1',
-                        'brand-text': '#A8A8A8',
+                        'article-bg': 'rgba(20, 20, 22, 0.93)', 
+                        'writings-card-bg': 'rgba(25, 15, 40, 0.88)', // Adjusted for better theme fit
+                        'writings-card-hover-bg': 'rgba(45, 35, 60, 0.96)',
+                        'dark-purple-bg': '#1a0a2e',
+                        'hover-highlight': 'rgba(146, 114, 206, 0.1)',
+                        'brand-purple': '#9272CE', 'brand-hover': '#AE8BD5',
+                        'brand-light-purple': '#CBB8E8', 'brand-dark': '#050505',
+                        'brand-light': '#FFFFFF', 'brand-gray': '#D1D1D1', 'brand-text': '#A8A8A8',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'], serif: ['Baloo Bhai 2', 'cursive'],
@@ -47,14 +50,15 @@
             background-color: #0f0a19; color: #D1D1D1; font-family: 'Inter', sans-serif;
             overflow-x: hidden; line-height: 1.6; font-size: 16px;
         }
-        #hyperspeed-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; background-color: #07040e; }
-        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.03), rgba(15, 10, 25, 0.85) 70%); z-index: -5; pointer-events: none; }
+        /* tsparticles background */
+        #tsparticles-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.07), rgba(15, 10, 25, 0.98) 70%); z-index: -5; pointer-events:none; }
 
         .page-section { display: none; animation: fadeInPage 0.7s ease-out forwards; }
         .page-section.active-section { display: block; }
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* General Typography & Header Styles (Keep these from your working version) */
+        /* Typography & Header (Reverted to a stable base, similar to first combined version) */
         h1, h2, h3, h4, h5, h6 { color: #ffffff; font-weight: 700; }
         .font-serif { font-family: 'Baloo Bhai 2', cursive; }
         .font-outfit { font-family: 'Outfit', sans-serif; }
@@ -94,83 +98,39 @@
         .desktop-nav a[target="_blank"]::after, .mobile-menu a[target="_blank"]::after { content: ' \2197'; font-size: 0.7em; vertical-align: super; display: inline-block; margin-left: 2px; opacity: 0.7; width: auto !important; height: auto !important; background: none !important; }
 
 
-        /* --- Home Section Styles (REVISED HERO LAYOUT) --- */
+        /* --- Home Section Styles (Faded Background Image - Original Approach) --- */
         #heroSection {
-            position: relative;
-            display: flex; /* Default to row for larger screens */
-            flex-direction: row;
-            align-items: center; 
-            width: 100%;
-            /* min-height: 70vh; /* Let content dictate height, or set a specific reasonable min-height */
-            padding-top: 2rem; /* Add some overall top padding */
-            padding-bottom: 3rem; /* Space below hero */
+            position: relative; /* For positioning background image */
+            text-align: center; /* Center main content */
+             min-height: 70vh; /* Ensure hero has enough height */
+             display: flex; flex-direction: column; justify-content: center; /* Vertical centering */
+        }
+        #hero-profile-image-bg-container { /* Container for the large faded bg image */
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; z-index: -1; /* Behind text content */
+            pointer-events: none; /* Doesn't interfere with clicks */
+        }
+        #hero-profile-image-bg { /* The actual image */
+            position: absolute;
+            top: 50%; left: 50%;
+            width: auto; height: 110vh; /* Large, will be clipped */
+            min-width: 100%; min-height: 100%;
+            object-fit: cover; object-position: center;
+            transform: translate(-50%, -50%) scale(1.05);
+            opacity: 0; /* Initial state for animation */
+            filter: grayscale(60%) brightness(0.6) blur(1px); /* More subdued, slightly blurred */
+            transition: opacity 1.8s ease-in-out 0.2s; /* Slower fade-in */
+        }
+        /* Ensure text content in hero is above the background image */
+        #home-hero-text-content, 
+        #home-content .quote, 
+        #writingsSectionHome {
+            position: relative; z-index: 5;
         }
 
-        #home-hero-text-content {
-            flex: 1 1 60%; /* Text takes up more space, allows shrinking/growing */
-            min-width: 0; /* Important for flex item to shrink properly */
-            text-align: left; 
-            position: relative; 
-            z-index: 10;
-            padding: 1rem 2rem 1rem 1rem; /* Adjust padding */
-        }
-
-        #home-hero-image-container {
-            flex: 0 0 35%; /* Image takes fixed 35%, doesn't grow or shrink as much */
-            max-width: 400px; /* Max width for the image */
-            align-self: center; /* Align image container itself to center of cross-axis */
-            opacity: 0; 
-            transition: opacity 1s ease-in-out 0.4s, transform 0.8s ease-in-out 0.4s;
-            transform: translateY(15px) scale(0.95);
-            border-radius: 0.75rem;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3), 0 0 15px rgba(146, 114, 206, 0.2);
-            margin-left: 1rem; /* Space from text */
-            margin-right: 1rem; /* Space from edge */
-            display: none; /* Hidden by default, shown for larger screens */
-        }
-        #home-hero-profile-image {
-            display: block;
-            width: 100%; height: auto;
-            max-height: 65vh; /* Prevent image from becoming too tall */
-            object-fit: cover;
-            filter: grayscale(10%) brightness(0.95);
-        }
-
-        /* Mobile adjustments for Hero */
-        @media (max-width: 1023px) { /* Up to lg breakpoint */
-            #heroSection {
-                flex-direction: column;
-                align-items: center; /* Center items vertically on mobile */
-                padding-top: 1rem;
-            }
-            #home-hero-text-content {
-                width: 100%;
-                text-align: center;
-                padding-right: 1rem; /* Reset padding */
-                order: 1; /* Text first */
-            }
-            #home-hero-image-container {
-                display: block; /* Show on mobile */
-                width: 70%; /* Adjust width for mobile */
-                max-width: 320px; /* Max image width on mobile */
-                margin-top: 2.5rem; /* Space above image */
-                margin-left: auto; margin-right: auto; /* Center block */
-                order: 2; /* Image second */
-                flex-basis: auto; /* Reset flex basis */
-            }
-        }
-        
-        @media (min-width: 1024px) {
-             #home-hero-image-container {
-                display: block; /* Ensure it's shown */
-             }
-        }
-
-
-        /* Styles for .quote, .card, .hover-link, .static-image (ensure these are correct) */
-        /* These were largely okay, re-pasting from a previous good state */
-        #home-content .quote { position: relative; border-left: 3px solid #9272CE; margin-top: 1.5rem; } /* Added margin-top */
+        /* Home Cards & Links (from original combined version) */
+        #home-content .quote { position: relative; border-left: 3px solid #9272CE; }
         #home-content .quote::before { content: '"'; position: absolute; top: -20px; left: 10px; font-size: 5rem; color: rgba(146, 114, 206, 0.1); font-family: 'Inter', sans-serif; font-weight: 700; }
         #home-content .card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(15, 10, 25, 0.75); border: 1px solid rgba(146, 114, 206, 0.2); }
         #home-content .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(146, 114, 206, 0.1), transparent); transform: translateX(-100%); transition: transform 0.8s ease; pointer-events: none; }
@@ -183,8 +143,7 @@
         .static-image { width: 8rem; height: 8rem; cursor: pointer; transition: transform 0.3s ease; }
         .static-image:hover { transform: scale(1.1); }
 
-        /* Writings Section Styles (ensure .post-content-html has white-space: pre-line and text-align: left) */
-        /* These styles should be largely correct from previous versions */
+        /* Writings Section Styles (Stable base from earlier versions) */
         #writings-content { font-size: 17px; }
         #writings-content .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
         #writings-content .text-hover-scale:hover { transform: scale(1.03); }
@@ -208,18 +167,9 @@
         a.back-button:hover { background-color: #AE8BD5; transform: scale(1.05) translateY(-2px); box-shadow: 0 8px 20px rgba(146, 114, 206, 0.3); }
         hr.separator { border: none; height: 2px; background-image: linear-gradient(to right, transparent, #9272CE, #AE8BD5, #9272CE, transparent); margin-top: 3rem; margin-bottom: 3rem; opacity: 0.6; display: block; }
         
-        .post-content-html {
-            white-space: pre-line; 
-            text-align: left; 
-        }
-        .post-content-html p, .post-content-html blockquote, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html strong, .post-content-html i, .post-content-html em, .post-content-html u, .post-content-html a { 
-            font-family: inherit; font-size: 1.1rem; line-height: 1.85; color: #D1D1D1; 
-            background-color: transparent !important; 
-            /* text-align: left; /* Inherited from .post-content-html */
-            margin: 0 0 1.5em 0; font-weight: normal; font-style: normal; 
-            text-decoration: none; word-wrap: break-word; border-radius: 3px; 
-        }
-        /* Other .post-content-html child styles are largely the same */
+        .post-content-html { white-space: pre-line; text-align: left; }
+        .post-content-html p, .post-content-html blockquote, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html strong, .post-content-html i, .post-content-html em, .post-content-html u, .post-content-html a { font-family: inherit; font-size: 1.1rem; line-height: 1.85; color: #D1D1D1; background-color: transparent !important; margin: 0 0 1.5em 0; font-weight: normal; font-style: normal; text-decoration: none; word-wrap: break-word; border-radius: 3px; }
+        /* Other .post-content-html child styles (bold, italic, links, etc.) - Keep as before */
         .post-content-html span { margin: 0; display: inline; }
         .post-content-html [style*="font-family: Outfit"] { font-family: 'Outfit', sans-serif; } 
         .post-content-html [style*="font-family: Nunito"] { font-family: 'Nunito', sans-serif; } 
@@ -244,9 +194,7 @@
         .post-content-html .separator { display: none; }
         @layer utilities { .line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; } .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; } }
 
-
-        /* Glitch Button, Footer, Secret Game, Progress Bar (Keep these from your working version) */
-        /* Paste them here */
+        /* Glitch Button, Footer, Secret Game, Progress Bar (Keep from previous working version) */
         .glitch-button { position: relative; display: inline-block; cursor: pointer; padding: 0.75rem 1.5rem; text-decoration: none; overflow: hidden; transition: transform 0.1s ease-out; -webkit-user-select: none; -ms-user-select: none; user-select: none; }
         .glitch-button .btn-text { position: relative; z-index: 1; }
         .glitch-button::before, .glitch-button::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: inherit; color: inherit; padding: inherit; overflow: hidden; transition: transform 0.3s cubic-bezier(0.75, 0, 0.25, 1), opacity 0.3s ease; opacity: 0; }
@@ -268,15 +216,14 @@
         .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 100; }
         .progress-bar { height: 3px; background: linear-gradient(90deg, #9272CE, #AE8BD5); width: 0%; }
 
-
     </style>
 </head>
 <body>
-    <canvas id="hyperspeed-canvas"></canvas>
+    <div id="tsparticles-bg"></div> <!-- Changed from #hyperspeed-canvas -->
     <!-- HTML Structure (Progress Bar, BG Overlay, Header, Page Container, Footer, Modal) - Same as before -->
     <div class="progress-container"> <div class="progress-bar" id="progressBar"></div> </div> <div class="bg-overlay"></div>
     <header class="main-header"> <div class="container mx-auto px-6 py-4"> <div class="flex justify-between items-center"> <a href="#home" class="nav-logo text-2xl lg:text-3xl font-bold text-text-primary">a-g-r-a-j</a> <button id="nav-toggle" class="nav-toggle-btn md:hidden" aria-label="Toggle Menu" aria-expanded="false"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg> </button> <nav class="desktop-nav hidden md:flex space-x-8 text-text-primary items-center"> <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer">About Me</a> <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer">Contact Me</a> <a href="#writings" data-navlink="writings">Writings</a> <a href="#home" data-navlink="home" class="active">Home</a> </nav> </div> <nav id="mobile-menu" class="mobile-menu md:hidden"> <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer">About Me</a> <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer">Contact Me</a> <a href="#writings" data-navlink="writings">Writings</a> <a href="#home" data-navlink="home" class="active">Home</a> </nav> </div> </header>
-    <div id="page-container"> <section id="home-content" class="page-section"> <main class="container mx-auto px-4 md:px-6 pt-12 md:pt-16 pb-16"> <section class="opacity-0" id="heroSection"> <div id="home-hero-text-content"> <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif"> <span id="main-heading-text"></span> </h1> <p class="text-xl md:text-2xl text-text-secondary mb-10 md:mb-12 italic" id="typewriter"></p> <blockquote class="quote max-w-xl mx-auto md:mx-0 text-lg md:text-xl bg-darker/80 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent"> "<span id="blockquote-text"></span>" </blockquote> </div> <div id="home-hero-image-container"> <img src="agraj_profile.jpg" alt="Agraj Dubey" id="home-hero-profile-image"> </div> </section> <section class="mb-16 opacity-0 relative z-10" id="writingsSectionHome"> <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mt-16 mb-12">Recent Writings</h2> <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="home-recent-writings-grid"></div> <div class="text-center mt-12 md:mt-16"> <a href="#writings" class="view-all-writings-btn glitch-button" data-text="View All Writings"> <span class="btn-text">View All Writings</span> </a> </div> <div id="staticImageContainerHome" class="static-image-container"> <img src="FrierenRing.png" alt="Ring Image" id="staticImageHome" class="static-image"> </div> </section> </main> </section> <section id="writings-content" class="page-section"> <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen"> <div class="text-center mb-12 md:mb-16 pt-8"> <h1 class="text-4xl md:text-5xl font-bold text-text-primary font-outfit">My Writings</h1> </div> <section id="writings-grid-container" class="mb-12 md:mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"></section> <hr class="separator"> <section id="full-articles-container"> <div class="full-articles-content max-w-4xl mx-auto" id="full-articles-dynamic-content"></div> </section> </main> </section> </div>
+    <div id="page-container"> <section id="home-content" class="page-section"> <main class="container mx-auto px-4 md:px-6 pt-16 md:pt-24 pb-16"> <section class="opacity-0" id="heroSection"> <div id="hero-profile-image-bg-container"> <img src="agraj_profile.jpg" alt="Agraj Dubey background" id="hero-profile-image-bg"> </div> <div id="home-hero-text-content"> <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif"> <span id="main-heading-text"></span> </h1> <p class="text-xl md:text-2xl text-text-secondary mb-10 md:mb-12 italic" id="typewriter"></p> <blockquote class="quote max-w-xl mx-auto text-lg md:text-xl bg-darker/80 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent"> "<span id="blockquote-text"></span>" </blockquote> </div> </section> <section class="mb-16 opacity-0" id="writingsSectionHome"> <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mt-16 mb-12">Recent Writings</h2> <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="home-recent-writings-grid"></div> <div class="text-center mt-12 md:mt-16"> <a href="#writings" class="view-all-writings-btn glitch-button" data-text="View All Writings"> <span class="btn-text">View All Writings</span> </a> </div> <div id="staticImageContainerHome" class="static-image-container"> <img src="FrierenRing.png" alt="Ring Image" id="staticImageHome" class="static-image"> </div> </section> </main> </section> <section id="writings-content" class="page-section"> <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen"> <div class="text-center mb-12 md:mb-16 pt-8"> <h1 class="text-4xl md:text-5xl font-bold text-text-primary font-outfit">My Writings</h1> </div> <section id="writings-grid-container" class="mb-12 md:mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"></section> <hr class="separator"> <section id="full-articles-container"> <div class="full-articles-content max-w-4xl mx-auto" id="full-articles-dynamic-content"></div> </section> </main> </section> </div>
     <footer class="main-footer relative z-10"> <div class="container mx-auto px-6"> <p class="text-text-tertiary">© <span id="currentYear"></span> agraj. All rights reserved. <span id="secret-game-trigger" title="?">🕹️</span> </p> </div> </footer>
     <div id="secret-game-modal"> <canvas id="matter-canvas"></canvas> <button id="close-game-button" class="glitch-button" data-text="Close Game"><span class="btn-text">Close Game</span></button> </div>
 
@@ -294,49 +241,69 @@
             writings: "Writings - Agraj Dubey"
         };
         APP_CONFIG.POSTS_JSON_PATH = 'posts.json';
+        // tsParticles config from original index.html (first working version)
+        APP_CONFIG.PARTICLES_CONFIG = {
+            fullScreen: { enable: true, zIndex: -10 },
+            particles: {
+                number: { value: 120, density: { enable: true, value_area: 800 } },
+                color: { value: ["#ffffff", "#CBB8E8", "#9272CE"] },
+                shape: { type: "circle" },
+                opacity: { value: 0.6, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false } },
+                size: { value: 2.5, random: true, anim: { enable: false } },
+                move: {
+                    enable: true, speed: 1.0, direction: "none", random: true, straight: false, out_mode: "out", bounce: false,
+                    attract: { enable: true, rotateX: 600, rotateY: 1200, distance: 100 }
+                }
+            },
+            interactivity: {
+                detect_on: "window",
+                events: {
+                    onhover: { enable: true, mode: "attract" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                },
+                modes: {
+                    attract: { distance: 200, duration: 0.4, easing: "ease-out-quad", factor: 2, maxSpeed: 5, speed: 1.5 },
+                    push: { quantity: 4 },
+                    repulse: { distance: 150, duration: 0.4, speed: 1 },
+                    bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                    remove: { particles_nb: 2 }
+                }
+            },
+            retina_detect: true,
+            background: { color: "transparent" } // Transparent so body bg shows through
+        };
 
 
         function $(selector) { return document.querySelector(selector); }
         function $$(selector) { return document.querySelectorAll(selector); }
 
-        // --- Hyperspeed Animation (Same as previous version) ---
-        // (Keep the refined version from the last response)
-        const hyperspeedCanvas = $('#hyperspeed-canvas'); const hsCtx = hyperspeedCanvas.getContext('2d'); let stars = []; const numStars = 400; let mouseX = window.innerWidth / 2; let mouseY = window.innerHeight / 2; let baseSpeed = 0.008; const aceFlagColors = ['#000000', '#A3A3A3', '#FFFFFF', '#800080']; 
-        function resizeHyperspeedCanvas() { hyperspeedCanvas.width = window.innerWidth; hyperspeedCanvas.height = window.innerHeight; mouseX = hyperspeedCanvas.width / 2; mouseY = hyperspeedCanvas.height / 2;}
-        function initStars() { stars = []; for (let i = 0; i < numStars; i++) { const randomAceColor = aceFlagColors[Math.floor(Math.random() * aceFlagColors.length)]; stars.push({ x: Math.random() * 2 - 1, y: Math.random() * 2 - 1, z: Math.random() * 1.8 + 0.2, color: randomAceColor, opacity: Math.random() * 0.4 + 0.2 }); } }
-        function animateHyperspeed() { hsCtx.clearRect(0, 0, hyperspeedCanvas.width, hyperspeedCanvas.height); const centerX = hyperspeedCanvas.width / 2; const centerY = hyperspeedCanvas.height / 2; stars.forEach(star => { const screenX = centerX + (star.x / star.z) * centerX; const screenY = centerY + (star.y / star.z) * centerY; let currentSpeedFactor = 1; const dxMouse = screenX - mouseX; const dyMouse = screenY - mouseY; const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse); if (distMouse < 100) { currentSpeedFactor = 1 + (5 * (1 - distMouse / 100)); } star.z -= baseSpeed * currentSpeedFactor; if (star.z <= 0.005) { star.x = Math.random() * 2 - 1; star.y = Math.random() * 2 - 1; star.z = Math.random() * 1.8 + 0.2; star.color = aceFlagColors[Math.floor(Math.random() * aceFlagColors.length)]; star.opacity = Math.random() * 0.4 + 0.2; } const size = Math.max(0.3, (1 / star.z) * 2.5); const dynamicOpacity = Math.min(1, (star.opacity + (1 / star.z) * 0.3)); if (screenX > -size && screenX < hyperspeedCanvas.width + size && screenY > -size && screenY < hyperspeedCanvas.height + size) { hsCtx.fillStyle = star.color.startsWith('#') ? `${star.color}${Math.round(dynamicOpacity * 255).toString(16).padStart(2, '0')}` : `rgba(${star.color.slice(5,-1)}, ${dynamicOpacity})`; if (star.color === '#000000' && dynamicOpacity > 0.1) { hsCtx.fillStyle = `rgba(50,50,50, ${dynamicOpacity * 0.5})`; } hsCtx.beginPath(); hsCtx.arc(screenX, screenY, size, 0, Math.PI * 2); hsCtx.fill(); } }); requestAnimationFrame(animateHyperspeed); }
-        hyperspeedCanvas.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
-        hyperspeedCanvas.addEventListener('mouseleave', () => { mouseX = hyperspeedCanvas.width / 2; mouseY = hyperspeedCanvas.height / 2; });
+        // --- tsParticles Initialization (Reverted to original) ---
+        function initTsParticles() {
+            if (typeof tsParticles === 'undefined') { console.error("tsParticles library not loaded."); return; }
+            tsParticles.load("tsparticles-bg", APP_CONFIG.PARTICLES_CONFIG).catch(error => {
+                console.error("Error loading tsParticles:", error);
+            });
+        }
 
-
-        // --- Content Rendering (REVISED simpleMarkdownToHtml) ---
+        // --- Content Rendering (simpleMarkdownToHtml from previous correct version) ---
+        // (createPostPreviewCard, createFullArticleHtml, loadAndRenderPosts - Ensure these are the robust versions)
         function simpleMarkdownToHtml(md) {
-            if (typeof md !== 'string') return ''; // Ensure md is a string
+            if (typeof md !== 'string') return '';
             let html = md;
-
-            // Remove potential surrounding backticks ONLY if they are the very first and last character
-            // and are not part of actual code blocks like ```code```
             if (html.startsWith('`') && html.endsWith('`') && !html.startsWith('```') && !html.endsWith('```')) {
                 html = html.substring(1, html.length - 1);
             }
-            
-            // Convert actual newlines to <br> tags. This is crucial for poems.
             html = html.replace(/\n/g, '<br>\n');
-
-            // Basic Markdown to HTML conversions
-            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Bold
-            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');     // Italic
-            html = html.replace(/\\\"/g, '"'); // Unescape quotes that might have come from JSON
-            
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');    
+            html = html.replace(/\\\"/g, '"');
             return html;
         }
-
-        // (createPostPreviewCard, createFullArticleHtml, loadAndRenderPosts - Ensure these are correct from previous)
-        // Paste the correct, working versions here.
-        let ALL_POST_DATA_FOR_HOME_RECENT = [];
+        // Paste the correct, working versions of createPostPreviewCard, createFullArticleHtml, loadAndRenderPosts
+        let ALL_POST_DATA_FOR_HOME_RECENT = []; let ALL_POSTS_DATA = [];
         function createPostPreviewCard(post, isForHome = false) {
             const cardClass = isForHome ? 'card' : 'writing-preview-card';
-            // Ensure ALL_POST_DATA_FOR_HOME_RECENT is populated before accessing indexOf
             const delay = isForHome && ALL_POST_DATA_FOR_HOME_RECENT.length > 0 ? (ALL_POST_DATA_FOR_HOME_RECENT.indexOf(post) * 150) : 0;
 
             return `
@@ -383,44 +350,40 @@
                 if (homeGrid) {
                     if (ALL_POST_DATA_FOR_HOME_RECENT.length > 0) {
                         homeGrid.innerHTML = ALL_POST_DATA_FOR_HOME_RECENT.map(post => createPostPreviewCard(post, true)).join('');
-                        console.log("Home recent writings rendered.");
                     } else {
                         homeGrid.innerHTML = '<p class="text-text-secondary col-span-full text-center">No recent writings to display.</p>';
-                        console.log("No recent writings for home.");
                     }
-                    setupHomeCardHoverEffects(); 
-                    setupHomeScrollAnimations(); 
-                } else { console.error("#home-recent-writings-grid not found"); }
+                    setupHomeCardHoverEffects(); setupHomeScrollAnimations(); 
+                }
 
                 const writingsGrid = $('#writings-grid-container');
                 if (writingsGrid) {
                      if (ALL_POSTS_DATA.length > 0) {
                         writingsGrid.innerHTML = ALL_POSTS_DATA.map(post => createPostPreviewCard(post, false)).join('');
-                        console.log("All writings grid rendered.");
                      } else {
                         writingsGrid.innerHTML = '<p class="text-text-secondary col-span-full text-center">No writings available.</p>';
                      }
-                } else { console.error("#writings-grid-container not found"); }
+                }
                 
                 const fullArticlesTarget = $('#full-articles-dynamic-content');
                  if (fullArticlesTarget) { 
                     fullArticlesTarget.innerHTML = ALL_POSTS_DATA.map(post => createFullArticleHtml(post)).join('');
-                    console.log("Full articles prepared.");
-                 } else { console.error("#full-articles-dynamic-content not found"); }
-
-                handleMainRouteChange(); // Important to call after content might affect routing targets
+                 }
+                // Do not call handleMainRouteChange() here if it causes issues on initial load.
+                // It will be called by DOMContentLoaded's hash check or hashchange event.
             } catch (error) {
-                console.error("MAJOR ERROR: Failed to load or render posts:", error);
-                if ($('#home-recent-writings-grid')) $('#home-recent-writings-grid').innerHTML = '<p class="text-text-secondary col-span-full text-center">Error: Could not load recent writings. Check console.</p>';
-                if ($('#writings-grid-container')) $('#writings-grid-container').innerHTML = '<p class="text-text-secondary col-span-full text-center">Error: Could not load writings. Check console.</p>';
+                console.error("ERROR in loadAndRenderPosts:", error);
+                if ($('#home-recent-writings-grid')) $('#home-recent-writings-grid').innerHTML = '<p class="text-text-secondary col-span-full text-center">Error: Could not load recent writings.</p>';
+                if ($('#writings-grid-container')) $('#writings-grid-container').innerHTML = '<p class="text-text-secondary col-span-full text-center">Error: Could not load writings.</p>';
             }
         }
 
 
         // --- Other JS functions (Rotating Text, Menu, Scroll, Image Click, Card Hovers, Scroll Animations, Router, Secret Game etc.) ---
-        // (These should be the robust versions from before)
+        // (Ensure these are the robust versions from a stable previous iteration)
         // Paste them here
-        function setupRotatingText(elementId, config) { /* ... */ 
+        let rotatingTextInstances = {};
+        function setupRotatingText(elementId, config) { 
             if (rotatingTextInstances[elementId]) { return; }
             const element = document.getElementById(elementId);
             if (!element) { return; }
@@ -494,30 +457,30 @@
             intersectionObserver.observe(element);
             rotatingTextInstances[elementId] = { observer: intersectionObserver, element: element };
         }
-        function setupMobileMenu() { /* ... */ 
+        function setupMobileMenu() { 
             const navToggle = $('#nav-toggle'); const mobileMenu = $('#mobile-menu');
             if (navToggle && mobileMenu) {
                 navToggle.addEventListener('click', () => { const isOpen = mobileMenu.classList.toggle('is-open'); navToggle.setAttribute('aria-expanded', String(isOpen)); });
                 $$('#mobile-menu a').forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.remove('is-open'); navToggle.setAttribute('aria-expanded', 'false'); }); });
             }
         }
-        function setupScrollProgressBar() { /* ... */ 
+        function setupScrollProgressBar() { 
             const progressBar = $("#progressBar"); if (!progressBar) return;
             window.addEventListener('scroll', () => { const winScroll = document.body.scrollTop || document.documentElement.scrollTop; const height = document.documentElement.scrollHeight - document.documentElement.clientHeight; const scrolled = height > 0 ? (winScroll / height) * 100 : 0; progressBar.style.width = scrolled + "%"; }, { passive: true });
         }
-        function setupStaticImageClick() { /* ... */
+        function setupStaticImageClick() {
             const imageElement = $('#staticImageHome'); if (!imageElement) return;
             const videoUrls = [ 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'https://www.youtube.com/watch?v=-jGBp5HBLFs', 'https://www.youtube.com/shorts/2Dv2hO3rYVg', 'https://www.youtube.com/watch?v=x6YcdgB9e48', 'https://www.youtube.com/shorts/D-kkjR0NyGg', 'https://www.youtube.com/shorts/LFsS-9lT0Rk', 'https://www.youtube.com/shorts/TTU1g8IU22I' ];
             imageElement.addEventListener('click', () => { const randomIndex = Math.floor(Math.random() * videoUrls.length); window.open(videoUrls[randomIndex], '_blank'); });
         }
-        function setupHomeCardHoverEffects() { /* ... */ 
+        function setupHomeCardHoverEffects() { 
              $$('#home-content .card').forEach(card => {
                 card.addEventListener('mousemove', (e) => { const rect = card.getBoundingClientRect(); const x = e.clientX - rect.left; const y = e.clientY - rect.top; const centerX = rect.width / 2; const centerY = rect.height / 2; const rotateX = (y - centerY) / 20; const rotateY = (centerX - x) / 20; card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`; });
                 card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; });
                 card.querySelectorAll('a').forEach(link => { link.addEventListener('click', (e) => e.stopPropagation()); });
             });
         }
-        function setupHomeScrollAnimations() { /* ... */ 
+        function setupHomeScrollAnimations() { 
              const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -30px 0px' };
              const observer = new IntersectionObserver((entries, obs) => {
                  entries.forEach(entry => {
@@ -531,20 +494,15 @@
                  const delay = parseInt(card.getAttribute('data-delay')) || 0; card.style.opacity = '0'; card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)'; card.dataset.initialTransform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${delay}ms`; observer.observe(card);
              });
         }
-        function animateProfileSideImage() { /* ... */ 
-            const heroImageContainer = $('#home-hero-image-container');
-            if (heroImageContainer) {
-                heroImageContainer.style.opacity = '0'; 
-                heroImageContainer.style.transform = 'translateY(15px) scale(0.95)';
-                setTimeout(() => { 
-                    heroImageContainer.style.opacity = '1'; 
-                    heroImageContainer.style.transform = 'translateY(0px) scale(1)';
-                }, 400); // Slightly faster animation start
+        function animateProfileBGImage() { // Reverted to original name and logic for faded BG
+            const heroBGImage = $('#hero-profile-image-bg');
+            if (heroBGImage) {
+                setTimeout(() => { heroBGImage.style.opacity = '0.09'; }, 300); // Low opacity for faded BG
             }
         }
         let currentMainSection = null;
         let lastClickedReadMoreLink = null;
-        function showMainSection(sectionId) { /* ... */ 
+        function showMainSection(sectionId) { 
             const previouslyActiveSection = $('.page-section.active-section');
             if (previouslyActiveSection) previouslyActiveSection.classList.remove('active-section');
             const targetSection = $(`#${sectionId}`);
@@ -559,7 +517,7 @@
                     }
                 });
                 if (sectionId === 'home-content') {
-                    animateProfileSideImage(); 
+                    animateProfileBGImage(); // Use the BG image animation
                     for (const elId in APP_CONFIG.ROTATING_TEXT_HOME) {
                         setupRotatingText(elId, APP_CONFIG.ROTATING_TEXT_HOME[elId]);
                     }
@@ -567,7 +525,7 @@
                 window.scrollTo({ top: 0, behavior: 'auto' });
             }
         }
-        function handleMainRouteChange() { /* ... */ 
+        function handleMainRouteChange() { 
             let mainSectionTarget = 'home-content';
             let articleDetailHash = '';
             const currentFullHash = window.location.hash;
@@ -580,13 +538,23 @@
                 mainSectionTarget = 'home-content'; if (!currentFullHash) window.location.hash = 'home';
             } else { window.location.hash = 'home'; return; }
 
+            // Ensure content for the target section is ready, especially writings.
+            // `loadAndRenderPosts` is called once on DOMContentLoaded.
+            // If navigating to writings and ALL_POSTS_DATA is empty, it implies an issue with initial load.
+            if (mainSectionTarget === 'writings-content' && ALL_POSTS_DATA.length === 0) {
+                console.warn("Navigating to writings, but posts data is not yet available. Check loadAndRenderPosts.");
+                // Optionally, you could re-trigger loadAndRenderPosts or show a loading state.
+                // For now, rely on initial load.
+            }
+
+
             if (currentMainSection !== mainSectionTarget) showMainSection(mainSectionTarget);
             
             if (mainSectionTarget === 'writings-content') {
                 handleWritingsArticleLogic(articleDetailHash);
             } else { document.title = APP_CONFIG.DEFAULT_TITLES.home; }
         }
-        function handleWritingsArticleLogic(articleHash) { /* ... */ 
+        function handleWritingsArticleLogic(articleHash) { 
             const defaultWritingsTitle = APP_CONFIG.DEFAULT_TITLES.writings;
             if (articleHash && articleHash.startsWith('#post-')) {
                 const targetId = articleHash.substring(1);
@@ -613,11 +581,12 @@
                 } lastClickedReadMoreLink = null;
             }
         }
-        function isElementInViewport(el) { /* ... */ 
+        function isElementInViewport(el) { 
             if(!el) return false; const rect = el.getBoundingClientRect();
             return (rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth));
         }
-        function setupSecretGame() { /* ... */ 
+        let matterEngine = null, matterRender = null;
+        function setupSecretGame() { 
             const trigger = $('#secret-game-trigger'); const modal = $('#secret-game-modal'); const canvas = $('#matter-canvas'); const closeButton = $('#close-game-button');
             if (!trigger || !modal || !canvas || !closeButton || typeof Matter === 'undefined') { if(trigger) trigger.style.display = 'none'; return; }
             const Engine = Matter.Engine, Render = Matter.Render, Runner = Matter.Runner, Bodies = Matter.Bodies, Composite = Matter.Composite, Mouse = Matter.Mouse, MouseConstraint = Matter.MouseConstraint;
@@ -640,20 +609,20 @@
         }
 
 
-        // --- DOMContentLoaded Initializations ---
         document.addEventListener('DOMContentLoaded', async () => {
-            resizeHyperspeedCanvas(); initStars(); animateHyperspeed();
-            window.addEventListener('resize', resizeHyperspeedCanvas);
-            setupMobileMenu(); setupScrollProgressBar();
+            initTsParticles(); // Reverted to tsParticles
+            setupMobileMenu(); 
+            setupScrollProgressBar();
             
-            // Load posts and then initialize dependent functionalities
-            // Make sure this runs and completes successfully.
-            await loadAndRenderPosts(); 
+            await loadAndRenderPosts(); // Load posts data first
 
-            setupStaticImageClick();
-            // setupHomeScrollAnimations() is called within loadAndRenderPosts if homeGrid elements are successfully created.
+            // These are called within loadAndRenderPosts after home grid is populated:
+            // setupHomeCardHoverEffects();
+            // setupHomeScrollAnimations(); 
             
-            handleMainRouteChange(); // Call once after posts are loaded.
+            setupStaticImageClick(); // General setup
+            
+            handleMainRouteChange(); // Initial route check
             window.addEventListener('hashchange', handleMainRouteChange);
 
             const currentYearEl = $('#currentYear');
