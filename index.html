@@ -15,6 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 
     <script>
+        // Tailwind CSS configuration
         window.tailwind.config = {
             theme: {
                 extend: {
@@ -46,6 +47,7 @@
     </script>
 
     <style>
+        /* Basic Setup & Theming */
         html { scroll-behavior: smooth; }
         body {
             background-color: #0f0a19; color: #D1D1D1; font-family: 'Inter', sans-serif;
@@ -53,14 +55,20 @@
         }
         #hyperspeed-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; background-color: #07040e; }
         .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.03), rgba(15, 10, 25, 0.85) 70%); z-index: -5; pointer-events:none; }
+        
+        /* Page Section Transitions */
         .page-section { display: none; animation: fadeInPage 0.7s ease-out forwards; }
         .page-section.active-section { display: block; }
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Typography */
         h1, h2, h3, h4, h5, h6 { color: #ffffff; font-weight: 700; }
         .font-serif { font-family: 'Baloo Bhai 2', cursive; }
         .font-outfit { font-family: 'Outfit', sans-serif; }
         .gradient-text { background: linear-gradient(90deg, #FFFFFF, #CBB8E8, #9272CE, #CBB8E8, #FFFFFF); background-size: 300% auto; background-clip: text; -webkit-background-clip: text; color: transparent; animation: gradientTextAnim 8s linear infinite; display: inline-block; }
         @keyframes gradientTextAnim { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+        /* Typewriter Effect Cursor */
         .typed-cursor { display: inline-block; width: 2px; background-color: #9272CE; margin-left: 4px; animation: pulseCursor 1s infinite; vertical-align: text-bottom; }
         #home-content h1 .typed-cursor { height: 1em; background-color: #CBB8E8; }
         #home-content blockquote .typed-cursor { background-color: #A8A8A8; }
@@ -68,13 +76,17 @@
         #main-heading-text .typed-cursor { height: 1.1em; }
         #blockquote-text .typed-cursor { height: 1.1em; }
         @keyframes pulseCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-        #typewriter { min-height: 3em; display: inline-block; width: 100%; }
+        #typewriter { min-height: 3em; display: inline-block; width: 100%; } /* Ensure space for text */
         #main-heading-text { min-height: 1.2em; display: inline-block; }
         #blockquote-text { min-height: 4em; display: inline-block; }
+
+        /* Scrollbar Styling */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: rgba(9, 6, 19, 0.8); }
         ::-webkit-scrollbar-thumb { background: rgba(146, 114, 206, 0.5); border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(146, 114, 206, 0.7); }
+
+        /* Header and Navigation */
         .main-header { position: sticky; top: 0; left: 0; width: 100%; background-color: rgba(9, 6, 19, 0.85); backdrop-filter: blur(10px); z-index: 50; border-bottom: 1px solid rgba(146, 114, 206, 0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .main-header .nav-logo { font-family: 'Baloo Bhai 2', cursive; transition: color 0.3s ease; }
         .main-header .nav-logo:hover { color: #9272CE; }
@@ -93,6 +105,8 @@
         .mobile-menu a.active { background-color: rgba(146, 114, 206, 0.1); font-weight: 600; color: #9272CE; }
         @keyframes slideDownFade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         .desktop-nav a[target="_blank"]::after, .mobile-menu a[target="_blank"]::after { content: ' \2197'; font-size: 0.7em; vertical-align: super; display: inline-block; margin-left: 2px; opacity: 0.7; width: auto !important; height: auto !important; background: none !important; }
+        
+        /* Home Section Specific Styles */
         #heroSection { text-align: center; padding-top: 1rem; min-height: 70vh; display: flex; flex-direction: column; justify-content: center; }
         #hero-circular-profile-image-container { margin-bottom: 1.5rem; }
         #hero-circular-profile-image { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(146, 114, 206, 0.4); box-shadow: 0 0 20px rgba(146, 114, 206, 0.25); display: block; margin: 0 auto; opacity: 0; transform: scale(0.8) translateY(10px); transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s; }
@@ -108,6 +122,8 @@
         .static-image-container { display: block; margin: 2.5rem auto 0 auto; width: fit-content; opacity: 0.8; transition: opacity 0.3s ease; z-index: 5; }
         .static-image { width: 8rem; height: 8rem; cursor: pointer; transition: transform 0.3s ease; }
         .static-image:hover { transform: scale(1.1); }
+
+        /* Writings Section Specific Styles */
         #writings-content { font-size: 17px; }
         #writings-content .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
         #writings-content .text-hover-scale:hover { transform: scale(1.03); }
@@ -119,10 +135,14 @@
         .writing-preview-card .excerpt { color: #D1D1D1; font-size: 1.05rem; line-height: 1.65; flex-grow: 1; margin-bottom: 1.5rem; }
         .writing-preview-card a.read-more-link { display: inline-block; background: none; border: none; padding: 0; color: #9272CE; font-weight: 500; text-decoration: none; align-self: flex-start; cursor: pointer; transition: color 0.3s ease; font-size: 1.05rem; margin-top: auto; }
         .writing-preview-card a.read-more-link:hover { color: #AE8BD5; text-decoration: underline; }
+        
+        /* Full Article View Styles */
         #full-articles-container { display: block; margin-top: 2rem; }
         #full-articles-container article { display: none; background-color: rgba(20, 20, 22, 0.94); backdrop-filter: blur(10px); border-radius: 0.75rem; padding: 2.5rem 2rem; margin-bottom: 3rem; box-shadow: 0 10px 40px rgba(0,0,0, 0.6), inset 0 1px 3px rgba(146, 114, 206, 0.1); border: 1px solid rgba(146, 114, 206, 0.3); border-top: 5px solid #9272CE; opacity: 0; }
+        /* :target selector used to show specific article. !important used to override initial hidden state. */
         #full-articles-container article:target { display: block !important; opacity: 1 !important; animation: fadeInArticle 0.6s ease-out forwards; }
         @keyframes fadeInArticle { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* Hide grid and separator when an article is targeted */
         #writings-grid-container:has(~ #full-articles-container article:target) { display: none; }
         hr.separator:has(~ #full-articles-container article:target) { display: none; }
         #full-articles-container h2 { color: #9272CE; margin-bottom: 0.75rem; font-size: 2.1rem; font-weight: 700; font-family: 'Outfit', sans-serif; line-height: 1.3; }
@@ -130,7 +150,11 @@
         a.back-button { display: inline-block; margin-top: 2.5rem; padding: 0.7rem 1.4rem; background-color: #9272CE; color: #FFFFFF; border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; box-shadow: 0 3px 10px rgba(146, 114, 206, 0.2); font-size: 1rem; text-decoration: none; }
         a.back-button:hover { background-color: #AE8BD5; transform: scale(1.05) translateY(-2px); box-shadow: 0 8px 20px rgba(146, 114, 206, 0.3); }
         hr.separator { border: none; height: 2px; background-image: linear-gradient(to right, transparent, #9272CE, #AE8BD5, #9272CE, transparent); margin-top: 3rem; margin-bottom: 3rem; opacity: 0.6; display: block; }
+        
+        /* Article Content HTML Styling (from Markdown) */
         .post-content-html { white-space: pre-line; text-align: left; line-height: 1.7; }
+        /* Base styles for elements within post-content-html, ensuring consistency and overriding potential external styles. */
+        /* `background-color: transparent !important;` is used to prevent unwanted backgrounds from pasted content. */
         .post-content-html p, .post-content-html blockquote, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html strong, .post-content-html i, .post-content-html em, .post-content-html u, .post-content-html a { font-family: inherit; font-size: 1.1rem; color: #D1D1D1; background-color: transparent !important; margin: 0 0 0.8em 0; font-weight: normal; font-style: normal; text-decoration: none; word-wrap: break-word; border-radius: 3px; }
         .post-content-html br { content: ""; display: block; margin-bottom: 0.1em; }
         .post-content-html span { margin: 0; display: inline; }
@@ -150,7 +174,9 @@
         .post-content-html blockquote p { margin-bottom: 0.75em; }
         .post-content-html img { max-width: 100%; height: auto; display: block; margin: 2.5rem auto; border-radius: 0.75rem; box-shadow: 0 6px 20px rgba(0,0,0,0.4); transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .post-content-html img:hover { transform: scale(1.03); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .post-content-html .separator { display: none; }
+        .post-content-html .separator { display: none; } /* Hides hr tags if they come from markdown, main page uses its own styled hr */
+        
+        /* Tailwind Custom Utilities */
         @layer utilities { .line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; } .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; } }
         
         /* Glitch Button and General Interactive Elements */
@@ -165,19 +191,73 @@
         #home-content .view-all-writings-btn { background-color: #9272CE; color: #FFFFFF; font-weight: 500; border-radius: 0.5rem; }
         #home-content .view-all-writings-btn:hover { background-color: #AE8BD5; }
         
-        /* Footer, Secret Game, Progress Bar */
+        /* Footer, Progress Bar */
         .main-footer { background-color: rgba(9, 6, 19, 0.7); border-top: 1px solid rgba(146, 114, 206, 0.1); padding: 2rem 0; margin-top: 4rem; text-align: center; }
-        #secret-game-trigger { cursor: cell; display: inline-block; opacity: 0.5; transition: opacity 0.3s; }
-        #secret-game-trigger:hover { opacity: 1; }
-        #secret-game-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(9, 6, 19, 0.95); backdrop-filter: blur(5px); z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center; animation: fadeInGameModal 0.5s ease-out forwards; }
-        @keyframes fadeInGameModal { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        #matter-canvas { background-color: rgba(15, 10, 25, 0.5); border: 1px solid rgba(146, 114, 206, 0.3); }
-        #close-game-button { margin-top: 20px; padding: 10px 20px; background-color: #9272CE; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 500; transition: background-color 0.3s, transform 0.2s; }
-        #close-game-button:hover { background-color: #AE8BD5; transform: scale(1.05); }
         .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 100; }
         .progress-bar { height: 3px; background: linear-gradient(90deg, #9272CE, #AE8BD5); width: 0%; }
 
-        /* --- About Section Styles --- */
+
+        /* --- SECRET GAME STYLES --- */
+        #secret-game-trigger { cursor: cell; display: inline-block; opacity: 0.5; transition: opacity 0.3s; }
+        #secret-game-trigger:hover { opacity: 1; }
+        #secret-game-modal { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background-color: rgba(9, 6, 19, 0.97); 
+            backdrop-filter: blur(8px); 
+            z-index: 1000; 
+            display: none; 
+            flex-direction: column; align-items: center; justify-content: center; 
+            animation: fadeInGameModal 0.5s ease-out forwards; 
+        }
+        @keyframes fadeInGameModal { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        #matter-canvas { 
+            background-color: rgba(20, 15, 35, 0.6); 
+            border: 2px solid rgba(146, 114, 206, 0.4); 
+            border-radius: 8px; 
+            box-shadow: 0 0 20px rgba(146, 114, 206, 0.2);
+        }
+        .game-controls { 
+            margin-top: 20px; 
+            display: flex; 
+            gap: 15px; 
+        }
+        .game-controls button { 
+            padding: 10px 20px; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-weight: 500; 
+            transition: background-color 0.3s, transform 0.2s;
+            font-family: 'Outfit', sans-serif;
+        }
+        #close-game-button { background-color: #7c5bab; }
+        #close-game-button:hover { background-color: #6a4a9a; transform: scale(1.05); }
+        #reset-game-button { background-color: #5887a7; }
+        #reset-game-button:hover { background-color: #4a7593; transform: scale(1.05); }
+
+        #game-info {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 15px;
+            background-color: rgba(0,0,0,0.4);
+            border-radius: 5px;
+            color: #CBB8E8;
+            font-size: 0.9rem;
+            text-align: center;
+            min-width: 250px; 
+        }
+        #game-info p { margin: 2px 0; }
+        #game-win-message { font-weight: bold; color: #AE8BD5; }
+        .game-instructions {
+            color: #A8A8A8;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        /* --- ABOUT SECTION STYLES (Questionnaire) --- */
         #about-content .questionnaire-container-wrapper { max-width: 850px; margin-left: auto; margin-right: auto; }
         .question-block { 
             background-color: rgba(28, 18, 52, 0.85); 
@@ -206,7 +286,6 @@
             text-align: left;
             font-size: 1.05rem;
             line-height: 1.4;
-            /* For Anime.js targetting individual options after selection */
             opacity: 1; 
             transform: scale(1);
         }
@@ -216,6 +295,7 @@
             transform: translateY(-4px) scale(1.035); 
             box-shadow: 0 5px 15px rgba(174, 139, 213, 0.25);
         }
+        /* !important used here to ensure these state-based styles reliably override base and hover styles when JS applies classes. */
         .answer-option.selected-visitor { 
             background-color: #825FBD !important; 
             color: #FFFFFF !important; 
@@ -238,7 +318,7 @@
             box-shadow: 0 0 15px rgba(174, 139, 213, 0.6);
         }
         .answer-option[disabled] {
-            background-color: var(--disabled-option-bg, rgba(40, 30, 60, 0.75)) !important;
+            background-color: var(--disabled-option-bg, rgba(40, 30, 60, 0.75)) !important; /* Ensures disabled style overrides others */
             color: #9a9a9a !important; 
             cursor: not-allowed;
             border-color: rgba(146, 114, 206, 0.25) !important;
@@ -263,7 +343,8 @@
             text-align: center; 
             box-shadow: 0 10px 35px rgba(0,0,0,0.4); 
         }
-        #personality-match-section.visible { /* Added this to control visibility for animation */
+        /* !important used to ensure visibility overrides initial hidden state via JS class toggle. */
+        #personality-match-section.visible {
             opacity: 1 !important; 
             transform: translateY(0) !important; 
             display: block !important; 
@@ -280,14 +361,13 @@
             border-radius: 0.5rem;
             background: linear-gradient(135deg, #AE8BD5, #9272CE);
             box-shadow: 0 4px 15px rgba(146, 114, 206, 0.4);
-            /* Initial state for animation handled by JS, ensure CSS doesn't override to hidden */
             opacity: 1; 
             transform: scale(1);
         }
         #personality-match-section #mbti-type-value { font-weight: 600; color: #CBB8E8; font-size: 1.3rem; }
         #contact-telegram-btn {
             margin-top: 2rem;
-            display: none; 
+            display: none; /* Initially hidden, shown by JS */
             background-color: #28A8EA; 
             color: white;
             font-size: 1.1rem;
@@ -300,21 +380,97 @@
         #calculate-match-button { margin-top: 3rem; padding: 1rem 2.2rem; background-color: #9272CE; color: #FFFFFF; border: none; border-radius: 0.6rem; font-weight: 600; font-size: 1.15rem; }
          #calculate-match-button:disabled { background: #5a506b; color: #a8a8a8; cursor: not-allowed; opacity: 0.7; }
         #calculate-match-button:disabled::before,
-        #calculate-match-button:disabled::after { display: none; }
+        #calculate-match-button:disabled::after { display: none; } /* Disable glitch effect when button is disabled */
 
     </style>
 </head>
 <body>
+    <!-- Audio elements for game and UI sounds -->
+    <audio id="gameSpawnSound" src="spawn_sound.mp3" preload="auto"></audio>
+    <audio id="gameWinSound" src="win_sound.mp3" preload="auto"></audio>
     <audio id="revealSound" src="reveal_sound.mp3" preload="auto"></audio>
+
     <canvas id="hyperspeed-canvas"></canvas>
-    <div class="progress-container"> <div class="progress-bar" id="progressBar"></div> </div> <div class="bg-overlay"></div>
-    <header class="main-header"> <div class="container mx-auto px-6 py-4"> <div class="flex justify-between items-center"> <a href="#home" class="nav-logo text-2xl lg:text-3xl font-bold text-text-primary">a-g-r-a-j</a> <button id="nav-toggle" class="nav-toggle-btn md:hidden" aria-label="Toggle Menu" aria-expanded="false"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg> </button> <nav class="desktop-nav hidden md:flex space-x-8 text-text-primary items-center"> <a href="#about" data-navlink="about">About Me</a> <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" data-navlink="contact">Contact Me</a> <a href="#writings" data-navlink="writings">Writings</a> <a href="#home" data-navlink="home" class="active">Home</a> </nav> </div> <nav id="mobile-menu" class="mobile-menu md:hidden"> <a href="#about" data-navlink="about">About Me</a> <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" data-navlink="contact">Contact Me</a> <a href="#writings" data-navlink="writings">Writings</a> <a href="#home" data-navlink="home" class="active">Home</a> </nav> </div> </header>
+    <div class="progress-container"> <div class="progress-bar" id="progressBar"></div> </div> 
+    <div class="bg-overlay"></div>
+
+    <header class="main-header"> 
+        <div class="container mx-auto px-6 py-4"> 
+            <div class="flex justify-between items-center"> 
+                <a href="#home" class="nav-logo text-2xl lg:text-3xl font-bold text-text-primary">a-g-r-a-j</a> 
+                <button id="nav-toggle" class="nav-toggle-btn md:hidden" aria-label="Toggle Menu" aria-expanded="false"> 
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg> 
+                </button> 
+                <nav class="desktop-nav hidden md:flex space-x-8 text-text-primary items-center"> 
+                    <a href="#about" data-navlink="about">About Me</a> 
+                    <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" data-navlink="contact">Contact Me</a> 
+                    <a href="#writings" data-navlink="writings">Writings</a> 
+                    <a href="#home" data-navlink="home" class="active">Home</a> 
+                </nav> 
+            </div> 
+            <nav id="mobile-menu" class="mobile-menu md:hidden"> 
+                <a href="#about" data-navlink="about">About Me</a> 
+                <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" data-navlink="contact">Contact Me</a> 
+                <a href="#writings" data-navlink="writings">Writings</a> 
+                <a href="#home" data-navlink="home" class="active">Home</a> 
+            </nav> 
+        </div> 
+    </header>
     
     <div id="page-container">
-        <section id="home-content" class="page-section"> <main class="container mx-auto px-4 md:px-6 pt-16 md:pt-24 pb-16"> <section class="opacity-0" id="heroSection">  <div id="hero-circular-profile-image-container"> <img src="agraj_profile.jpg" alt="Agraj Dubey" id="hero-circular-profile-image"> </div> <div id="home-hero-text-content" class="w-full"> <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif"> <span id="main-heading-text"></span> </h1> <p class="text-xl md:text-2xl text-text-secondary mb-10 md:mb-12 italic" id="typewriter"></p> <blockquote class="quote max-w-xl mx-auto text-lg md:text-xl bg-darker/80 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent"> "<span id="blockquote-text"></span>" </blockquote> </div> </section> <section class="mb-16 opacity-0" id="writingsSectionHome"> <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mt-16 mb-12">Recent Writings</h2> <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="home-recent-writings-grid"></div> <div class="text-center mt-12 md:mt-16"> <a href="#writings" class="view-all-writings-btn glitch-button" data-text="View All Writings"> <span class="btn-text">View All Writings</span> </a> </div> <div id="staticImageContainerHome" class="static-image-container"> <img src="FrierenRing.png" alt="Ring Image" id="staticImageHome" class="static-image"> </div> </section> </main> </section>
+        <!-- Home Section -->
+        <section id="home-content" class="page-section"> 
+            <main class="container mx-auto px-4 md:px-6 pt-16 md:pt-24 pb-16"> 
+                <section class="opacity-0" id="heroSection">  
+                    <div id="hero-circular-profile-image-container"> 
+                        <img src="agraj_profile.jpg" alt="Agraj Dubey profile picture" id="hero-circular-profile-image"> 
+                    </div> 
+                    <div id="home-hero-text-content" class="w-full"> 
+                        <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif"> 
+                            <span id="main-heading-text"></span> 
+                        </h1> 
+                        <p class="text-xl md:text-2xl text-text-secondary mb-10 md:mb-12 italic" id="typewriter"></p> 
+                        <blockquote class="quote max-w-xl mx-auto text-lg md:text-xl bg-darker/80 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent"> 
+                            "<span id="blockquote-text"></span>" 
+                        </blockquote> 
+                    </div> 
+                </section> 
+                <section class="mb-16 opacity-0" id="writingsSectionHome"> 
+                    <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mt-16 mb-12">Recent Writings</h2> 
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="home-recent-writings-grid">
+                        <!-- Recent writings will be populated here by JavaScript -->
+                    </div> 
+                    <div class="text-center mt-12 md:mt-16"> 
+                        <a href="#writings" class="view-all-writings-btn glitch-button" data-text="View All Writings"> 
+                            <span class="btn-text">View All Writings</span> 
+                        </a> 
+                    </div> 
+                    <div id="staticImageContainerHome" class="static-image-container"> 
+                        <img src="FrierenRing.png" alt="Frieren's Ring image (interactive)" id="staticImageHome" class="static-image"> 
+                    </div> 
+                </section> 
+            </main> 
+        </section>
         
-        <section id="writings-content" class="page-section"> <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen"> <div class="text-center mb-12 md:mb-16 pt-8"> <h1 class="text-4xl md:text-5xl font-bold text-text-primary font-outfit">My Writings</h1> </div> <section id="writings-grid-container" class="mb-12 md:mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"></section> <hr class="separator"> <section id="full-articles-container"> <div class="full-articles-content max-w-4xl mx-auto" id="full-articles-dynamic-content"></div> </section> </main> </section>
+        <!-- Writings Section -->
+        <section id="writings-content" class="page-section"> 
+            <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen"> 
+                <div class="text-center mb-12 md:mb-16 pt-8"> 
+                    <h1 class="text-4xl md:text-5xl font-bold text-text-primary font-outfit">My Writings</h1> 
+                </div> 
+                <section id="writings-grid-container" class="mb-12 md:mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    <!-- Writing preview cards will be populated here by JavaScript -->
+                </section> 
+                <hr class="separator"> 
+                <section id="full-articles-container"> 
+                    <div class="full-articles-content max-w-4xl mx-auto" id="full-articles-dynamic-content">
+                        <!-- Full articles will be populated here by JavaScript -->
+                    </div> 
+                </section> 
+            </main> 
+        </section>
 
+        <!-- About Section -->
         <section id="about-content" class="page-section">
             <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen">
                 <div class="text-center mb-12 md:mb-16 pt-8">
@@ -342,12 +498,34 @@
         </section>
     </div>
 
-    <footer class="main-footer relative z-10"> <div class="container mx-auto px-6"> <p class="text-text-tertiary">© <span id="currentYear"></span> agraj. All rights reserved. <span id="secret-game-trigger" title="?">🕹️</span> </p> </div> </footer>
-    <div id="secret-game-modal"> <canvas id="matter-canvas"></canvas> <button id="close-game-button" class="glitch-button" data-text="Close Game"><span class="btn-text">Close Game</span></button> </div>
+    <footer class="main-footer relative z-10"> 
+        <div class="container mx-auto px-6"> 
+            <p class="text-text-tertiary">© <span id="currentYear"></span> agraj. All rights reserved. <span id="secret-game-trigger" title="Feeling lucky?">🕹️</span> </p> 
+        </div> 
+    </footer>
+    
+    <!-- Secret Game Modal -->
+    <div id="secret-game-modal">
+        <div id="game-info">
+            <p>Shapes dropped: <span id="game-shapes-dropped">0</span>/<span id="game-max-shapes">0</span></p>
+            <p>In target: <span id="game-shapes-in-target">0</span>/<span id="game-shapes-to-win">0</span></p>
+            <p id="game-win-message" class="game-instructions">Drag shapes into the purple zone!</p>
+        </div>
+        <canvas id="matter-canvas"></canvas>
+        <div class="game-controls">
+            <button id="reset-game-button" class="glitch-button" data-text="Reset Game"><span class="btn-text">Reset Game</span></button>
+            <button id="close-game-button" class="glitch-button" data-text="Close Game"><span class="btn-text">Close Game</span></button>
+        </div>
+    </div>
 
     <script>
-        const APP_CONFIG = { 
-            ROTATING_TEXT_HOME: { /* ... Your rotating text config ... */ },
+        // Application Configuration
+        const APP_CONFIG = {
+             ROTATING_TEXT_HOME: {
+                 'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
+                 'main-heading-text': { texts: ["agraj", "アグラジ", "अग्रज", "αγραξ"], typeSpeed: 100, deleteSpeed: 60, pauseDuration: 2500 },
+                 'blockquote-text': { texts: ["If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒", "Is free will an illusion, or is the illusion the only free will we have?", "Perhaps the 'fragments' are the only coherent parts left.", "What if the algorithm forgets too?", "Maybe exiting early isn't dramatic, just... efficient.", "Family remembers differently. Algorithms remember precisely. Which is better?", "The universe is indifferent, but the code persists. For now.", "Do androids dream of electric sheep? Do algorithms dream of better data?", "To be, or not to be, that is the computation.", "Cogito, ergo sum... I think, therefore I am... coded?"], typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500 }
+            },
             DEFAULT_TITLES: {
                 home: "agraj - Portfolio",
                 writings: "Writings - Agraj Dubey",
@@ -355,25 +533,21 @@
             },
             POSTS_JSON_PATH: 'posts.json',
             QUESTIONS_JSON_PATH: 'questions.json',
-            TELEGRAM_USERNAME: 'agraj0669', 
-            MATCH_THRESHOLD_FOR_CONTACT: 70 
-        };
-        APP_CONFIG.ROTATING_TEXT_HOME = {
-             'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
-             'main-heading-text': { texts: ["agraj", "アグラジ", "अग्रज", "αγραξ"], typeSpeed: 100, deleteSpeed: 60, pauseDuration: 2500 },
-             'blockquote-text': { texts: ["If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒", "Is free will an illusion, or is the illusion the only free will we have?", "Perhaps the 'fragments' are the only coherent parts left.", "What if the algorithm forgets too?", "Maybe exiting early isn't dramatic, just... efficient.", "Family remembers differently. Algorithms remember precisely. Which is better?", "The universe is indifferent, but the code persists. For now.", "Do androids dream of electric sheep? Do algorithms dream of better data?", "To be, or not to be, that is the computation.", "Cogito, ergo sum... I think, therefore I am... coded?"], typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500 }
+            TELEGRAM_USERNAME: 'agraj0669', // Your Telegram username
+            MATCH_THRESHOLD_FOR_CONTACT: 70 // Percentage match to show contact button
         };
         
+        // Global variables for questionnaire and audio
         let ALL_QUESTIONNAIRE_DATA = [];
         let visitorAnswers = {}; 
         let questionsAnsweredCount = 0;
-        let revealSound; 
+        let revealSound, gameSpawnSoundEl, gameWinSoundEl; // Audio elements
 
+        // --- Helper Functions ---
         function $(selector) { return document.querySelector(selector); }
         function $$(selector) { return document.querySelectorAll(selector); }
 
-        // --- Hyperspeed Animation --- (Keep as is)
-        // ...
+        // --- Hyperspeed Canvas Animation ---
         const hyperspeedCanvas = $('#hyperspeed-canvas');
         const hsCtx = hyperspeedCanvas.getContext('2d');
         let stars = [];
@@ -381,47 +555,93 @@
         let mouseX = window.innerWidth / 2;
         let mouseY = window.innerHeight / 2;
         let baseSpeed = 0.008; 
-        const aceFlagColors = ['#000000', '#A3A3A3', '#FFFFFF', '#800080']; 
-        function resizeHyperspeedCanvas() { hyperspeedCanvas.width = window.innerWidth; hyperspeedCanvas.height = window.innerHeight; mouseX = hyperspeedCanvas.width / 2; mouseY = hyperspeedCanvas.height / 2;}
+        const aceFlagColors = ['#000000', '#A3A3A3', '#FFFFFF', '#800080']; // Ace flag colors for stars
+        
+        function resizeHyperspeedCanvas() { 
+            hyperspeedCanvas.width = window.innerWidth; 
+            hyperspeedCanvas.height = window.innerHeight; 
+            mouseX = hyperspeedCanvas.width / 2; 
+            mouseY = hyperspeedCanvas.height / 2;
+        }
         function initStars() { 
             stars = [];
             for (let i = 0; i < numStars; i++) {
                 const randomAceColor = aceFlagColors[Math.floor(Math.random() * aceFlagColors.length)];
-                stars.push({ x: Math.random() * 2 - 1, y: Math.random() * 2 - 1, z: Math.random() * 1.8 + 0.2, color: randomAceColor, opacity: Math.random() * 0.4 + 0.2 });
+                stars.push({ 
+                    x: Math.random() * 2 - 1, 
+                    y: Math.random() * 2 - 1, 
+                    z: Math.random() * 1.8 + 0.2, 
+                    color: randomAceColor, 
+                    opacity: Math.random() * 0.4 + 0.2 
+                });
             }
         }
         function animateHyperspeed() { 
             hsCtx.clearRect(0, 0, hyperspeedCanvas.width, hyperspeedCanvas.height);
-            const centerX = hyperspeedCanvas.width / 2; const centerY = hyperspeedCanvas.height / 2;
+            const centerX = hyperspeedCanvas.width / 2; 
+            const centerY = hyperspeedCanvas.height / 2;
+            
             stars.forEach(star => {
-                const screenX = centerX + (star.x / star.z) * centerX; const screenY = centerY + (star.y / star.z) * centerY;
+                const screenX = centerX + (star.x / star.z) * centerX; 
+                const screenY = centerY + (star.y / star.z) * centerY;
+                
                 let currentSpeedFactor = 1;
-                const dxMouse = screenX - mouseX; const dyMouse = screenY - mouseY; const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
-                if (distMouse < 100) { currentSpeedFactor = 1 + (5 * (1 - distMouse / 100)); }
+                const dxMouse = screenX - mouseX; 
+                const dyMouse = screenY - mouseY; 
+                const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+                if (distMouse < 100) { currentSpeedFactor = 1 + (5 * (1 - distMouse / 100)); } // Speed up near mouse
+                
                 star.z -= baseSpeed * currentSpeedFactor;
-                if (star.z <= 0.005) { star.x = Math.random() * 2 - 1; star.y = Math.random() * 2 - 1; star.z = Math.random() * 1.8 + 0.2; star.color = aceFlagColors[Math.floor(Math.random() * aceFlagColors.length)]; star.opacity = Math.random() * 0.4 + 0.2; }
-                const size = Math.max(0.3, (1 / star.z) * 2.5); const dynamicOpacity = Math.min(1, (star.opacity + (1 / star.z) * 0.3));
+                
+                if (star.z <= 0.005) { // Reset star if too close or behind
+                    star.x = Math.random() * 2 - 1; 
+                    star.y = Math.random() * 2 - 1; 
+                    star.z = Math.random() * 1.8 + 0.2; 
+                    star.color = aceFlagColors[Math.floor(Math.random() * aceFlagColors.length)]; 
+                    star.opacity = Math.random() * 0.4 + 0.2; 
+                }
+                
+                const size = Math.max(0.3, (1 / star.z) * 2.5); 
+                const dynamicOpacity = Math.min(1, (star.opacity + (1 / star.z) * 0.3));
+                
                 if (screenX > -size && screenX < hyperspeedCanvas.width + size && screenY > -size && screenY < hyperspeedCanvas.height + size) {
-                    hsCtx.fillStyle = star.color.startsWith('#') ? `${star.color}${Math.round(dynamicOpacity * 255).toString(16).padStart(2, '0')}` : `rgba(${star.color.slice(5,-1)}, ${dynamicOpacity})`;
-                    if (star.color === '#000000' && dynamicOpacity > 0.1) { hsCtx.fillStyle = `rgba(50,50,50, ${dynamicOpacity * 0.5})`; }
+                    hsCtx.fillStyle = star.color.startsWith('#') 
+                        ? `${star.color}${Math.round(dynamicOpacity * 255).toString(16).padStart(2, '0')}` 
+                        : `rgba(${star.color.slice(5,-1)}, ${dynamicOpacity})`;
+                    if (star.color === '#000000' && dynamicOpacity > 0.1) { // Make black stars slightly visible
+                        hsCtx.fillStyle = `rgba(50,50,50, ${dynamicOpacity * 0.5})`; 
+                    }
                     hsCtx.beginPath(); hsCtx.arc(screenX, screenY, size, 0, Math.PI * 2); hsCtx.fill();
                 }
-            }); requestAnimationFrame(animateHyperspeed);
+            }); 
+            requestAnimationFrame(animateHyperspeed);
         }
         hyperspeedCanvas.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
         hyperspeedCanvas.addEventListener('mouseleave', () => { mouseX = hyperspeedCanvas.width / 2; mouseY = hyperspeedCanvas.height / 2; });
 
-        // --- Content Rendering (Writings) --- (Keep as is)
-        // ...
-        let ALL_POST_DATA_FOR_HOME_RECENT = []; let ALL_POSTS_DATA = [];
+        // --- Content Rendering (Writings) ---
+        let ALL_POST_DATA_FOR_HOME_RECENT = []; 
+        let ALL_POSTS_DATA = [];
+
+        // Basic Markdown to HTML converter (handles bold, italic, and line breaks).
+        // Not a full-fledged parser, designed for controlled input.
         function simpleMarkdownToHtml(md) {
-            if (typeof md !== 'string') return ''; let html = md;
-            if (html.startsWith('`') && html.endsWith('`') && !html.startsWith('```') && !html.endsWith('```')) { html = html.substring(1, html.length - 1); }
-            html = html.replace(/<br\s*\/?>/gi, '[[BR_TAG]]'); html = html.replace(/\n/g, '[[BR_TAG]]');
-            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');    
-            html = html.replace(/\\\"/g, '"'); html = html.replace(/\[\[BR_TAG\]\]/g, '<br>\n');
-            html = html.replace(/(<br>\n\s*){2,}/gi, '<br>\n'); return html;
+            if (typeof md !== 'string') return ''; 
+            let html = md;
+            // Handle backticks for inline code-like text if not part of a code block
+            if (html.startsWith('`') && html.endsWith('`') && !html.startsWith('```') && !html.endsWith('```')) { 
+                html = html.substring(1, html.length - 1); 
+            }
+            html = html.replace(/<br\s*\/?>/gi, '[[BR_TAG]]'); // Normalize existing <br> tags
+            html = html.replace(/\n/g, '[[BR_TAG]]');          // Convert newlines to placeholder
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Bold
+            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');          // Italic
+            html = html.replace(/\\\"/g, '"');                           // Unescape quotes
+            html = html.replace(/\[\[BR_TAG\]\]/g, '<br>\n');           // Convert placeholder to <br>
+            html = html.replace(/(<br>\n\s*){2,}/gi, '<br>\n');       // Consolidate multiple line breaks
+            return html;
         }
+
         function createPostPreviewCard(post, isForHome = false) { 
             const cardClass = isForHome ? 'card' : 'writing-preview-card';
             const delay = isForHome && ALL_POST_DATA_FOR_HOME_RECENT.length > 0 ? (ALL_POST_DATA_FOR_HOME_RECENT.indexOf(post) * 150) : 0;
@@ -439,6 +659,7 @@
                 </div>
             `;
         }
+
         function createFullArticleHtml(post) { 
             const htmlContent = simpleMarkdownToHtml(post.contentMarkdown); 
             return `
@@ -451,27 +672,41 @@
                 </article>
             `;
         }
+
         async function loadAndRenderPosts() { 
-            console.log("Attempting to load posts...");
+            console.log("Attempting to load posts from:", APP_CONFIG.POSTS_JSON_PATH);
             try {
                 const response = await fetch(APP_CONFIG.POSTS_JSON_PATH);
                 if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}, path: ${APP_CONFIG.POSTS_JSON_PATH}`); }
                 ALL_POSTS_DATA = await response.json();
-                ALL_POSTS_DATA.sort((a, b) => new Date(b.date) - new Date(a.date)); 
-                ALL_POST_DATA_FOR_HOME_RECENT = ALL_POSTS_DATA.slice(0, 3);
+                ALL_POSTS_DATA.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by most recent
+                
+                ALL_POST_DATA_FOR_HOME_RECENT = ALL_POSTS_DATA.slice(0, 3); // Get top 3 for home page
+                
                 const homeGrid = $('#home-recent-writings-grid');
                 if (homeGrid) {
-                    if (ALL_POST_DATA_FOR_HOME_RECENT.length > 0) { homeGrid.innerHTML = ALL_POST_DATA_FOR_HOME_RECENT.map(post => createPostPreviewCard(post, true)).join(''); } 
-                    else { homeGrid.innerHTML = '<p class="text-text-secondary col-span-full text-center">No recent writings to display.</p>'; }
-                    setupHomeCardHoverEffects(); setupHomeScrollAnimations(); 
+                    if (ALL_POST_DATA_FOR_HOME_RECENT.length > 0) { 
+                        homeGrid.innerHTML = ALL_POST_DATA_FOR_HOME_RECENT.map(post => createPostPreviewCard(post, true)).join(''); 
+                    } else { 
+                        homeGrid.innerHTML = '<p class="text-text-secondary col-span-full text-center">No recent writings to display.</p>'; 
+                    }
+                    setupHomeCardHoverEffects(); 
+                    setupHomeScrollAnimations(); 
                 }
+                
                 const writingsGrid = $('#writings-grid-container');
                 if (writingsGrid) {
-                     if (ALL_POSTS_DATA.length > 0) { writingsGrid.innerHTML = ALL_POSTS_DATA.map(post => createPostPreviewCard(post, false)).join(''); } 
-                     else { writingsGrid.innerHTML = '<p class="text-text-secondary col-span-full text-center">No writings available.</p>'; }
+                     if (ALL_POSTS_DATA.length > 0) { 
+                         writingsGrid.innerHTML = ALL_POSTS_DATA.map(post => createPostPreviewCard(post, false)).join(''); 
+                     } else { 
+                         writingsGrid.innerHTML = '<p class="text-text-secondary col-span-full text-center">No writings available.</p>'; 
+                     }
                 }
+                
                 const fullArticlesTarget = $('#full-articles-dynamic-content');
-                 if (fullArticlesTarget) {  fullArticlesTarget.innerHTML = ALL_POSTS_DATA.map(post => createFullArticleHtml(post)).join(''); }
+                 if (fullArticlesTarget) {  
+                     fullArticlesTarget.innerHTML = ALL_POSTS_DATA.map(post => createFullArticleHtml(post)).join(''); 
+                 }
             } catch (error) {
                 console.error("ERROR in loadAndRenderPosts:", error);
                 if ($('#home-recent-writings-grid')) $('#home-recent-writings-grid').innerHTML = '<p class="text-text-secondary col-span-full text-center">Error: Could not load recent writings.</p>';
@@ -488,7 +723,7 @@
 
             if (!container || !calculateButton || !personalityMatchSection || !contactTelegramBtn) {
                 console.error("One or more questionnaire UI elements not found. Aborting render.");
-                if(container) container.innerHTML = '<p class="text-text-secondary text-center">Core UI elements missing.</p>';
+                if(container) container.innerHTML = '<p class="text-text-secondary text-center">Core UI elements missing for questionnaire.</p>';
                 return;
             }
             container.innerHTML = '<p class="text-center text-text-secondary">Loading questions...</p>'; 
@@ -498,13 +733,13 @@
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status} for ${APP_CONFIG.QUESTIONS_JSON_PATH}`);
                 ALL_QUESTIONNAIRE_DATA = await response.json();
             } catch (error) {
-                console.error("Error loading questionnaire:", error);
+                console.error("Error loading questionnaire data:", error);
                 container.innerHTML = `<p class="text-text-secondary text-center">Error: Could not load questions. (${error.message})</p>`;
                 return;
             }
             
             if (ALL_QUESTIONNAIRE_DATA.length === 0) {
-                container.innerHTML = '<p class="text-text-secondary text-center">No questions available.</p>';
+                container.innerHTML = '<p class="text-text-secondary text-center">No questions available at the moment.</p>';
                 return;
             }
 
@@ -516,7 +751,7 @@
                         <div class="answer-options">
                 `;
                 q.options.forEach((opt) => {
-                    const escapedOptionText = String(opt.text).replace(/"/g, '"');
+                    const escapedOptionText = String(opt.text).replace(/"/g, '"'); // Escape quotes for data attribute
                     html += `<button class="answer-option" data-option-text="${escapedOptionText}">${opt.text}</button>`;
                 });
                 html += `
@@ -527,7 +762,7 @@
             });
             container.innerHTML = html;
             
-            if (typeof anime === 'function') {
+            if (typeof anime === 'function') { // Animate question blocks appearing
                 anime({
                     targets: '.question-block', translateY: [30, 0], opacity: [0, 1],
                     delay: anime.stagger(120, { start: 100 }), duration: 600, easing: 'easeOutExpo'
@@ -539,6 +774,8 @@
 
             personalityMatchSection.style.display = 'none'; 
             personalityMatchSection.classList.remove('visible');
+            personalityMatchSection.style.opacity = '0'; // Reset for re-animation
+            personalityMatchSection.style.transform = 'translateY(20px)';
             contactTelegramBtn.style.display = 'none';
             calculateButton.style.display = 'none'; 
             calculateButton.disabled = true;
@@ -552,7 +789,7 @@
             answerOptionButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const questionBlock = this.closest('.question-block');
-                    if (questionBlock.classList.contains('answered')) return;
+                    if (questionBlock.classList.contains('answered')) return; // Prevent re-answering
 
                     const questionId = questionBlock.dataset.questionId;
                     const selectedOptionText = this.dataset.optionText;
@@ -567,33 +804,34 @@
                     visitorAnswers[questionId] = selectedOptionText; 
                     
                     const optionsInBlock = questionBlock.querySelectorAll('.answer-option');
-                    optionsInBlock.forEach(opt => {
+                    optionsInBlock.forEach(opt => { // Disable all options in this block
                         opt.disabled = true;
                         opt.classList.remove('selected-visitor', 'selected-visitor-wrong', 'agraj-correct-answer'); 
-                        // Anime.js fade out non-selected, non-correct answers
+                        // Fade out unselected, non-Agraj answers
                         if (opt !== this && opt.dataset.optionText !== questionData.agrajAnswerText && typeof anime === 'function') {
                             anime({ targets: opt, opacity: 0.4, scale: 0.95, duration: 400, easing: 'easeOutQuad' });
                         }
                     });
 
+                    // Style the selected option and Agraj's answer
                     let animParams = { targets: this, duration: 400, easing: 'easeOutBack' };
                     if (selectedOptionText === questionData.agrajAnswerText) {
-                        this.classList.add('selected-visitor');
-                        animParams.scale = [1, 1.05, 1]; // Slight pulse
-                        animParams.backgroundColor = '#825FBD'; // Target color from CSS
+                        this.classList.add('selected-visitor'); // Visitor chose correctly
+                        animParams.scale = [1, 1.05, 1]; 
+                        animParams.backgroundColor = '#825FBD'; 
                     } else {
-                        this.classList.add('selected-visitor-wrong');
+                        this.classList.add('selected-visitor-wrong'); // Visitor chose differently
                         animParams.backgroundColor = tailwind.theme.extend.colors['selected-wrong-bg'] || 'rgba(120,120,120,0.45)';
 
                         const agrajAnswerButton = Array.from(optionsInBlock).find(optBtn => optBtn.dataset.optionText === questionData.agrajAnswerText);
                         if (agrajAnswerButton) {
-                            agrajAnswerButton.classList.add('agraj-correct-answer');
+                            agrajAnswerButton.classList.add('agraj-correct-answer'); // Highlight Agraj's answer
                              if (typeof anime === 'function') {
                                 anime({ targets: agrajAnswerButton, scale: [1, 1.03, 1], backgroundColor: tailwind.theme.extend.colors['correct-answer-bg'] || 'rgba(146,114,206,0.55)', duration: 400, delay:100, easing: 'easeOutBack' });
                             }
                         }
                     }
-                    if (typeof anime === 'function') anime(animParams); // Animate the clicked button
+                    if (typeof anime === 'function') anime(animParams); 
                     
                     const feedbackArea = questionBlock.querySelector('.feedback-area');
                     feedbackArea.innerHTML = selectedOptionData.feedback; 
@@ -602,7 +840,7 @@
                         anime({ targets: feedbackArea, opacity: [0, 1], translateY: [10,0], duration: 500, delay: 200, easing: 'easeOutExpo' });
                     }
 
-
+                    // Check if all questions are answered to enable calculation button
                     const calculateButton = $('#calculate-match-button');
                     if (ALL_QUESTIONNAIRE_DATA.length > 0 && questionsAnsweredCount === ALL_QUESTIONNAIRE_DATA.length) {
                         calculateButton.style.display = 'inline-block';
@@ -622,14 +860,10 @@
         }
 
         function calculateAndShowMatch() {
-            console.log("calculateAndShowMatch: Called.");
             const calcButton = $('#calculate-match-button'); 
-            if(calcButton) calcButton.disabled = true; 
+            if(calcButton) calcButton.disabled = true; // Prevent multiple clicks
 
-            if (ALL_QUESTIONNAIRE_DATA.length === 0 || questionsAnsweredCount < ALL_QUESTIONNAIRE_DATA.length) {
-                 console.warn("Match calculation aborted: Data missing or not all questions answered.");
-                 return;
-            }
+            if (ALL_QUESTIONNAIRE_DATA.length === 0 || questionsAnsweredCount < ALL_QUESTIONNAIRE_DATA.length) return;
 
             let matches = 0;
             ALL_QUESTIONNAIRE_DATA.forEach(qData => {
@@ -642,202 +876,510 @@
             
             const totalQuestions = ALL_QUESTIONNAIRE_DATA.length;
             const percentage = totalQuestions > 0 ? Math.round((matches / totalQuestions) * 100) : 0;
-            console.log(`Final Match: ${matches}/${totalQuestions} = ${percentage}%`);
-
-
+            
             const percentageEl = $('#match-percentage-value');
             const personalityMatchSection = $('#personality-match-section');
             const contactTelegramBtn = $('#contact-telegram-btn');
             
-            if (!percentageEl || !personalityMatchSection || !contactTelegramBtn) {
-                console.error("Result display elements not found!");
-                return;
-            }
+            if (!percentageEl || !personalityMatchSection || !contactTelegramBtn) return;
 
-            percentageEl.textContent = percentage; // Set final value directly
-            percentageEl.style.opacity = '0'; // Prepare for animation
+            percentageEl.textContent = percentage; // Set final percentage
+            percentageEl.style.opacity = '0'; 
             percentageEl.style.transform = 'scale(0.5)';
-
 
             if (revealSound && typeof revealSound.play === 'function') {
                 revealSound.currentTime = 0; 
-                revealSound.play().catch(e => console.warn("Audio play failed:", e));
+                revealSound.play().catch(e => console.warn("Reveal sound play failed:", e));
             }
             
-            personalityMatchSection.style.display = 'block'; 
+            personalityMatchSection.style.display = 'block'; // Make section visible for animation
             
-            setTimeout(() => { // Allow display:block to apply
+            setTimeout(() => { // Short delay to ensure display:block is applied before animation
                 if (typeof anime === 'function') {
                     anime.timeline({ easing: 'easeOutExpo' })
-                    .add({
+                    .add({ // Animate personality match section appearance
                         targets: personalityMatchSection,
                         opacity: [0, 1],
                         translateY: [30, 0],
-                        duration: 700
+                        duration: 700,
+                        begin: () => personalityMatchSection.classList.add('visible')
                     })
-                    .add({
+                    .add({ // Animate percentage value
                         targets: percentageEl,
                         opacity: [0,1],
-                        scale: [0.5, 1.1, 1], // Add a little bounce
+                        scale: [0.5, 1.1, 1], 
                         duration: 800,
-                    }, '-=400') // Start this animation partly through the section reveal
-                    .add({
+                        // Anime.js can animate numbers directly by setting the target to an object property
+                        // but here we are animating the textContent.
+                        // For smooth number animation, you'd typically animate an object property and update textContent in `update`.
+                        // However, a simple scale and opacity animation is often sufficient for the visual effect.
+                        // The textContent is already set above.
+                    }, '-=400') 
+                    .add({ // Animate other text elements in the section
                         targets: [$('#personality-match-section h2'), $('#personality-match-section p'), $('#personality-match-section #mbti-type-value')],
                         opacity: [0,1],
                         translateY: [10,0],
                         delay: anime.stagger(100),
                         duration: 500
                     }, '-=500')
-                    .finished.then(() => {
+                    .finished.then(() => { // After all animations complete
                         personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) {
-                            contactTelegramBtn.style.display = 'inline-block'; // make it part of layout before animating
+                            contactTelegramBtn.style.display = 'inline-block'; 
                             anime({targets: contactTelegramBtn, opacity: [0,1], scale: [0.8,1], duration: 500, easing: 'easeOutExpo'});
                         } else {
                             contactTelegramBtn.style.display = 'none';
                         }
                     });
-                } else { 
-                    // Fallback: Simple show without complex Anime.js timeline
+                } else { // Fallback if anime.js is not available
                     percentageEl.style.opacity = '1';
                     percentageEl.style.transform = 'scale(1)';
                     personalityMatchSection.style.opacity = '1';
                     personalityMatchSection.style.transform = 'translateY(0)';
-                    personalityMatchSection.classList.add('visible'); // For CSS consistency
+                    personalityMatchSection.classList.add('visible');
                     personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) {
                         contactTelegramBtn.style.display = 'inline-block';
-                        contactTelegramBtn.href = `https://t.me/${APP_CONFIG.TELEGRAM_USERNAME}`;
                     } else {
                         contactTelegramBtn.style.display = 'none';
                     }
                 }
             }, 50);
         }
-        // --- End Questionnaire Logic ---
 
 
-        // --- Other JS functions (Routing, Utils, etc.) --- (Keep as is)
-        // ...
-        let rotatingTextInstances = {};
+        // --- Secret Game Logic (Matter.js) ---
+        let matterEngine, matterRender, matterRunner;
+        let gameShapes = []; // Array to store dynamic shapes in the game
+        const MAX_SHAPES_TO_SPAWN = 10;
+        const SHAPES_TO_WIN = 3;
+        let shapesSpawned = 0;
+        let gameHasBeenWon = false;
+        let targetZoneBody; // Matter.js body for the target zone
+
+        // Helper to play sounds, with error catching
+        function playSound(soundElement) {
+            if (soundElement && typeof soundElement.play === 'function') {
+                soundElement.currentTime = 0; // Rewind to start
+                soundElement.play().catch(e => console.warn("Game sound play failed:", e.message));
+            }
+        }
+
+        // Resets the game state and Matter.js world
+        function resetSecretGame() {
+            console.log("Resetting secret game...");
+            gameHasBeenWon = false;
+            shapesSpawned = 0;
+            if (matterEngine) Matter.Composite.clear(matterEngine.world, false); // Clear dynamic bodies, keep static ones if true
+            gameShapes = []; // Clear our tracking array
+            
+            const canvas = $('#matter-canvas');
+            if (!canvas || !matterEngine) return; // Guard if called too early or engine not ready
+            
+            const canvasWidth = parseFloat(canvas.width);
+            const canvasHeight = parseFloat(canvas.height);
+
+            // Re-add static bodies: ground, walls, and the target zone
+            const ground = Matter.Bodies.rectangle(canvasWidth / 2, canvasHeight - 10, canvasWidth + 20, 60, { isStatic: true, render: { fillStyle: '#6a4a9a' } });
+            const leftWall = Matter.Bodies.rectangle(-30, canvasHeight / 2, 60, canvasHeight, { isStatic: true, render: { fillStyle: '#6a4a9a' } });
+            const rightWall = Matter.Bodies.rectangle(canvasWidth + 30, canvasHeight / 2, 60, canvasHeight, { isStatic: true, render: { fillStyle: '#6a4a9a' } });
+            
+            const targetZoneHeight = 50;
+            const targetZoneY = canvasHeight - 30 - (targetZoneHeight / 2) - 10; // Position above ground
+            targetZoneBody = Matter.Bodies.rectangle(canvasWidth / 2, targetZoneY, canvasWidth * 0.5, targetZoneHeight, {
+                isStatic: true, isSensor: true, // Sensor means it detects collisions but doesn't cause physical reaction
+                label: 'targetZone',
+                render: { fillStyle: 'rgba(174, 139, 213, 0.35)', strokeStyle: 'rgba(203, 184, 232, 0.6)', lineWidth: 2 }
+            });
+
+            Matter.Composite.add(matterEngine.world, [ground, leftWall, rightWall, targetZoneBody]);
+            updateGameInfoDisplay(); // Update score, etc.
+            if ($('#game-win-message')) $('#game-win-message').textContent = "Drag shapes into the purple zone!";
+        }
+
+        // Updates the game's information display (shapes dropped, in target, win message)
+        function updateGameInfoDisplay() {
+            if ($('#game-shapes-dropped')) $('#game-shapes-dropped').textContent = shapesSpawned;
+            if ($('#game-max-shapes')) $('#game-max-shapes').textContent = MAX_SHAPES_TO_SPAWN;
+            
+            let shapesInTargetCount = 0;
+            if (targetZoneBody && gameShapes.length > 0) {
+                gameShapes.forEach(shape => {
+                    // Check if shape is overlapping with target zone and relatively settled
+                    if (Matter.Bounds.overlaps(shape.bounds, targetZoneBody.bounds) && 
+                        shape.position.y > targetZoneBody.bounds.min.y && 
+                        shape.position.y < targetZoneBody.bounds.max.y &&
+                        Math.abs(shape.velocity.x) < 0.1 && Math.abs(shape.velocity.y) < 0.1) { 
+                        shapesInTargetCount++;
+                    }
+                });
+            }
+            if ($('#game-shapes-in-target')) $('#game-shapes-in-target').textContent = shapesInTargetCount;
+            if ($('#game-shapes-to-win')) $('#game-shapes-to-win').textContent = SHAPES_TO_WIN;
+
+            const winMessageEl = $('#game-win-message');
+            if (winMessageEl) {
+                if (!gameHasBeenWon && shapesInTargetCount >= SHAPES_TO_WIN) {
+                    gameHasBeenWon = true;
+                    winMessageEl.textContent = "YOU WIN! ✨";
+                    playSound(gameWinSoundEl);
+                    if (typeof anime === 'function') { // Win message animation
+                        anime({ targets: winMessageEl, scale: [1, 1.2, 1], color: ['#AE8BD5', '#FFFFFF', '#AE8BD5'], duration: 1000, easing: 'easeInOutQuad' });
+                    }
+                } else if (!gameHasBeenWon && shapesSpawned >= MAX_SHAPES_TO_SPAWN && shapesInTargetCount < SHAPES_TO_WIN) {
+                     winMessageEl.textContent = "Out of shapes! Try again?";
+                }
+            }
+        }
+
+        // Sets up the secret game trigger and modal with Matter.js
+        function setupSecretGame() {
+            const trigger = $('#secret-game-trigger'); 
+            const modal = $('#secret-game-modal'); 
+            const canvas = $('#matter-canvas'); 
+            const closeButton = $('#close-game-button');
+            const resetButton = $('#reset-game-button');
+            
+            if (!trigger || !modal || !canvas || !closeButton || !resetButton || typeof Matter === 'undefined') { 
+                if(trigger) trigger.style.display = 'none'; // Hide trigger if setup fails
+                console.warn("Secret game elements not found or Matter.js missing. Game disabled.");
+                return; 
+            }
+
+            const Engine = Matter.Engine, Render = Matter.Render, Runner = Matter.Runner, 
+                  Bodies = Matter.Bodies, Composite = Matter.Composite, Mouse = Matter.Mouse, 
+                  MouseConstraint = Matter.MouseConstraint, Events = Matter.Events;
+
+            trigger.addEventListener('click', () => {
+                modal.style.display = 'flex'; // Show modal
+                if (typeof anime === 'function') { // Animate modal appearance
+                    anime({ targets: modal, opacity: [0,1], scale: [0.9, 1], duration: 400, easing: 'easeOutExpo' });
+                }
+
+                // Clean up previous Matter.js instances if any
+                if (matterRender) Matter.Render.stop(matterRender); 
+                if (matterRunner) Runner.stop(matterRunner);
+                if (matterEngine) Matter.Engine.clear(matterEngine); 
+                if (canvas.firstChild && canvas.firstChild.tagName === 'CANVAS') { // Matter.js might create its own canvas child
+                     canvas.removeChild(canvas.firstChild);
+                }
+
+
+                matterEngine = Engine.create({ gravity: { y: 0.7 } }); // Create new engine
+                
+                // Adjust canvas size to fit modal, with max dimensions
+                let canvasWidth = Math.min(window.innerWidth * 0.85, 700); 
+                let canvasHeight = Math.min(window.innerHeight * 0.75, 450);
+                canvas.width = canvasWidth;
+                canvas.height = canvasHeight;
+
+                matterRender = Render.create({ 
+                    element: modal, // Render inside the modal, specifically using the #matter-canvas
+                    canvas: canvas, 
+                    engine: matterEngine, 
+                    options: { 
+                        width: canvasWidth, height: canvasHeight, 
+                        wireframes: false, background: 'transparent' // Transparent background for the Matter.js canvas
+                    } 
+                });
+                
+                resetSecretGame(); // Initialize game state, static bodies
+
+                // Add mouse controls for dragging shapes
+                const mouse = Mouse.create(matterRender.canvas); 
+                const mouseConstraint = MouseConstraint.create(matterEngine, { 
+                    mouse: mouse, 
+                    constraint: { stiffness: 0.1, render: { visible: false } } 
+                });
+                Composite.add(matterEngine.world, mouseConstraint); 
+                matterRender.mouse = mouse; // Attach mouse to renderer for interaction
+
+                // Event listener for spawning shapes on mousedown
+                Events.on(mouseConstraint, 'mousedown', (event) => {
+                    if (gameHasBeenWon || shapesSpawned >= MAX_SHAPES_TO_SPAWN) return; // Limit shape spawning
+
+                    const mousePosition = event.mouse.position;
+                    let body;
+                    const size = Math.random() * 20 + 15; // Random size for shapes
+                    const color = ['#CBB8E8', '#AE8BD5', '#FFFFFF', '#9272CE'][Math.floor(Math.random() * 4)]; // Random color
+
+                    // Alternate between rectangles and circles
+                    if (shapesSpawned % 2 === 0) { 
+                        body = Bodies.rectangle(mousePosition.x, mousePosition.y, size, size, { 
+                            render: { fillStyle: color }, frictionAir: 0.03, restitution: 0.4
+                        });
+                    } else {
+                        body = Bodies.circle(mousePosition.x, mousePosition.y, size / 1.8, { 
+                            render: { fillStyle: color }, frictionAir: 0.02, restitution: 0.6
+                        });
+                    }
+                    Composite.add(matterEngine.world, body);
+                    gameShapes.push(body); // Track spawned shape
+                    shapesSpawned++;
+                    playSound(gameSpawnSoundEl); // Play spawn sound
+                    updateGameInfoDisplay(); // Update UI
+                });
+
+                // Continuously update game info (like score) after each engine update
+                Events.on(matterEngine, 'afterUpdate', updateGameInfoDisplay);
+
+                Render.run(matterRender); // Start rendering
+                matterRunner = Runner.create(); 
+                Runner.run(matterRunner, matterEngine); // Start physics engine simulation
+            });
+
+            closeButton.addEventListener('click', () => { 
+                if (typeof anime === 'function') { // Animate modal closing
+                    anime({
+                        targets: modal, opacity: [1,0], scale: [1, 0.9], duration: 300, easing: 'easeInExpo',
+                        complete: () => modal.style.display = 'none'
+                    });
+                } else {
+                    modal.style.display = 'none'; 
+                }
+                // Stop Matter.js processes
+                if (matterRender) Matter.Render.stop(matterRender); 
+                if (matterRunner) Runner.stop(matterRunner);
+                if (matterEngine) Matter.Engine.clear(matterEngine); 
+            });
+            resetButton.addEventListener('click', resetSecretGame);
+        }
+
+
+        // --- General UI & Page Logic ---
+        let rotatingTextInstances = {}; // To manage multiple typewriter instances
+
+        // Sets up a typewriter effect for a given element
         function setupRotatingText(elementId, config) { 
-            if (rotatingTextInstances[elementId]) { return; }
+            if (rotatingTextInstances[elementId]) { return; } // Prevent re-initialization
             const element = document.getElementById(elementId);
-            if (!element) { return; }
+            if (!element) { console.warn(`Rotating text element not found: #${elementId}`); return; }
+            
             let currentIndex = -1, isBusy = false, cycleTimeout = null, isVisible = false;
-            const runOnce = (elementId === 'typewriter');
+            const runOnce = (elementId === 'typewriter'); // 'typewriter' element types only once
             element.textContent = ''; 
+            
             function typeWriterInternal(text, callback) {
                 let i = 0; isBusy = true;
                 function type() {
-                    if (!isVisible || !isBusy) { isBusy = false; if (!isVisible) element.textContent = ''; return; }
+                    if (!isVisible || !isBusy) { // Stop if not visible or interrupted
+                        isBusy = false; if (!isVisible) element.textContent = ''; 
+                        return; 
+                    }
                     if (i < text.length) {
                         element.textContent += text.charAt(i); i++;
                         setTimeout(type, config.typeSpeed);
-                    } else {
+                    } else { // Typing finished
                         if (element.querySelector('.typed-cursor')) element.removeChild(element.querySelector('.typed-cursor'));
                         const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor);
                         isBusy = false; if (callback) callback();
                     }
                 } type();
             }
+
             function deleteWriterInternal(callback) {
-                if (runOnce && element.textContent.length > 0) { if (callback) callback(); return; }
+                if (runOnce && element.textContent.length > 0) { // Don't delete if runOnce and already typed
+                    if (callback) callback(); return; 
+                }
                 let text = element.textContent;
                 const existingCursor = element.querySelector('.typed-cursor');
                 if (existingCursor) element.removeChild(existingCursor);
                 text = element.textContent; 
                 let i = text.length; isBusy = true;
                 function del() {
-                    if (!isVisible || !isBusy) { isBusy = false; if (!isVisible) element.textContent = ''; return; }
+                    if (!isVisible || !isBusy) { // Stop if not visible or interrupted
+                        isBusy = false; if (!isVisible) element.textContent = ''; 
+                        return; 
+                    }
                     if (i > 0) {
                         element.textContent = text.substring(0, i - 1); i--;
                         if (!element.querySelector('.typed-cursor') && element.textContent.length > 0) {
                            const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor);
                         } setTimeout(del, config.deleteSpeed);
-                    } else {
+                    } else { // Deleting finished
                         const finalCursor = element.querySelector('.typed-cursor'); if (finalCursor) element.removeChild(finalCursor);
                         element.textContent = ''; isBusy = false; if (callback) callback();
                     }
                 } del();
             }
-            function scheduleCycle(delay) { if (runOnce) return; clearTimeout(cycleTimeout); cycleTimeout = setTimeout(() => { if(isVisible) startCycle(); }, delay); }
+
+            function scheduleCycle(delay) { 
+                if (runOnce) return; // No further cycles if runOnce
+                clearTimeout(cycleTimeout); 
+                cycleTimeout = setTimeout(() => { if(isVisible) startCycle(); }, delay); 
+            }
+
             function startCycle() {
                 if (runOnce || isBusy || !isVisible) return;
                 deleteWriterInternal(() => {
-                    if (!isVisible) return; let nextIndex;
-                    do { nextIndex = Math.floor(Math.random() * config.texts.length); }
-                    while (nextIndex === currentIndex && config.texts.length > 1);
-                    currentIndex = nextIndex; const nextText = config.texts[currentIndex];
-                    element.textContent = ''; typeWriterInternal(nextText, () => scheduleCycle(config.pauseDuration));
+                    if (!isVisible) return; 
+                    let nextIndex;
+                    do { nextIndex = Math.floor(Math.random() * config.texts.length); } // Pick a new random text
+                    while (nextIndex === currentIndex && config.texts.length > 1); // Ensure it's different if possible
+                    currentIndex = nextIndex; 
+                    const nextText = config.texts[currentIndex];
+                    element.textContent = ''; 
+                    typeWriterInternal(nextText, () => scheduleCycle(config.pauseDuration));
                 });
             }
+
             let initialized = false;
+            // Use IntersectionObserver to start/stop animation based on visibility
             const intersectionObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    const wasVisible = isVisible; isVisible = entry.isIntersecting;
-                    if (isVisible && !wasVisible) {
-                        if (!initialized) {
+                    const wasVisible = isVisible; 
+                    isVisible = entry.isIntersecting;
+                    if (isVisible && !wasVisible) { // Became visible
+                        if (!initialized) { // First time visible
                             initialized = true;
                             currentIndex = runOnce ? 0 : (elementId === 'main-heading-text' ? 0 : Math.floor(Math.random() * config.texts.length));
                             const firstText = config.texts[currentIndex];
-                            element.textContent = ''; typeWriterInternal(firstText, () => { if (!runOnce) scheduleCycle(config.pauseDuration); });
-                        } else { 
+                            element.textContent = ''; 
+                            typeWriterInternal(firstText, () => { if (!runOnce) scheduleCycle(config.pauseDuration); });
+                        } else { // Became visible again
                             if (!isBusy) {
-                                if (runOnce) { if(element.textContent === '') { element.textContent = ''; typeWriterInternal(config.texts[0], () => {}); }
-                                } else { element.textContent = ''; scheduleCycle(100); }
+                                if (runOnce) { // If runOnce, re-type if content was cleared
+                                    if(element.textContent === '') { 
+                                        element.textContent = ''; typeWriterInternal(config.texts[0], () => {}); 
+                                    }
+                                } else { // For cycling text, restart cycle
+                                    element.textContent = ''; scheduleCycle(100); 
+                                }
                             }
                         }
-                    } else if (!isVisible && wasVisible) { clearTimeout(cycleTimeout); isBusy = false; }
+                    } else if (!isVisible && wasVisible) { // Became hidden
+                        clearTimeout(cycleTimeout); 
+                        isBusy = false; // Allow ongoing type/delete to finish gracefully if needed, or stop immediately
+                    }
                 });
-            }, { threshold: 0.1 });
+            }, { threshold: 0.1 }); // Trigger when 10% visible
             intersectionObserver.observe(element);
             rotatingTextInstances[elementId] = { observer: intersectionObserver, element: element };
         }
+
         function setupMobileMenu() { 
-            const navToggle = $('#nav-toggle'); const mobileMenu = $('#mobile-menu');
+            const navToggle = $('#nav-toggle'); 
+            const mobileMenu = $('#mobile-menu');
             if (navToggle && mobileMenu) {
-                navToggle.addEventListener('click', () => { const isOpen = mobileMenu.classList.toggle('is-open'); navToggle.setAttribute('aria-expanded', String(isOpen)); });
-                $$('#mobile-menu a').forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.remove('is-open'); navToggle.setAttribute('aria-expanded', 'false'); }); });
+                navToggle.addEventListener('click', () => { 
+                    const isOpen = mobileMenu.classList.toggle('is-open'); 
+                    navToggle.setAttribute('aria-expanded', String(isOpen)); 
+                });
+                // Close mobile menu when a link is clicked
+                $$('#mobile-menu a').forEach(link => { 
+                    link.addEventListener('click', () => { 
+                        mobileMenu.classList.remove('is-open'); 
+                        navToggle.setAttribute('aria-expanded', 'false'); 
+                    }); 
+                });
             }
         }
+
         function setupScrollProgressBar() { 
-            const progressBar = $("#progressBar"); if (!progressBar) return;
-            window.addEventListener('scroll', () => { const winScroll = document.body.scrollTop || document.documentElement.scrollTop; const height = document.documentElement.scrollHeight - document.documentElement.clientHeight; const scrolled = height > 0 ? (winScroll / height) * 100 : 0; progressBar.style.width = scrolled + "%"; }, { passive: true });
+            const progressBar = $("#progressBar"); 
+            if (!progressBar) return;
+            window.addEventListener('scroll', () => { 
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop; 
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight; 
+                const scrolled = height > 0 ? (winScroll / height) * 100 : 0; 
+                progressBar.style.width = scrolled + "%"; 
+            }, { passive: true }); // Use passive listener for scroll performance
         }
+
         function setupStaticImageClick() {
-            const imageElement = $('#staticImageHome'); if (!imageElement) return;
-            const videoUrls = [ 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'https://www.youtube.com/watch?v=-jGBp5HBLFs', 'https://www.youtube.com/shorts/2Dv2hO3rYVg', 'https://www.youtube.com/watch?v=x6YcdgB9e48', 'https://www.youtube.com/shorts/D-kkjR0NyGg', 'https://www.youtube.com/shorts/LFsS-9lT0Rk', 'https://www.youtube.com/shorts/TTU1g8IU22I' ];
-            imageElement.addEventListener('click', () => { const randomIndex = Math.floor(Math.random() * videoUrls.length); window.open(videoUrls[randomIndex], '_blank'); });
-        }
-        function setupHomeCardHoverEffects() { 
-             $$('#home-content .card').forEach(card => {
-                card.addEventListener('mousemove', (e) => { const rect = card.getBoundingClientRect(); const x = e.clientX - rect.left; const y = e.clientY - rect.top; const centerX = rect.width / 2; const centerY = rect.height / 2; const rotateX = (y - centerY) / 20; const rotateY = (centerX - x) / 20; card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`; });
-                card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; });
-                card.querySelectorAll('a').forEach(link => { link.addEventListener('click', (e) => e.stopPropagation()); });
+            const imageElement = $('#staticImageHome'); 
+            if (!imageElement) return;
+            // Array of "surprise" video links
+            const videoUrls = [ 
+                'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'https://www.youtube.com/watch?v=-jGBp5HBLFs', 
+                'https://www.youtube.com/shorts/2Dv2hO3rYVg', 'https://www.youtube.com/watch?v=x6YcdgB9e48', 
+                'https://www.youtube.com/shorts/D-kkjR0NyGg', 'https://www.youtube.com/shorts/LFsS-9lT0Rk', 
+                'https://www.youtube.com/shorts/TTU1g8IU22I' 
+            ];
+            imageElement.addEventListener('click', () => { 
+                const randomIndex = Math.floor(Math.random() * videoUrls.length); 
+                window.open(videoUrls[randomIndex], '_blank'); 
             });
         }
+
+        // Adds 3D-like hover effect to cards on the home page
+        function setupHomeCardHoverEffects() { 
+             $$('#home-content .card').forEach(card => {
+                card.addEventListener('mousemove', (e) => { 
+                    const rect = card.getBoundingClientRect(); 
+                    const x = e.clientX - rect.left; 
+                    const y = e.clientY - rect.top; 
+                    const centerX = rect.width / 2; 
+                    const centerY = rect.height / 2; 
+                    const rotateX = (y - centerY) / 20; // Adjust divisor for sensitivity
+                    const rotateY = (centerX - x) / 20; 
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`; 
+                });
+                card.addEventListener('mouseleave', () => { 
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; 
+                });
+                // Prevent card hover effect from triggering if clicking a link inside the card
+                card.querySelectorAll('a').forEach(link => { 
+                    link.addEventListener('click', (e) => e.stopPropagation()); 
+                });
+            });
+        }
+
+        // Sets up scroll-triggered fade-in animations for home page elements
         function setupHomeScrollAnimations() { 
-             const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -30px 0px' };
+             const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }; // Trigger slightly before fully visible
              const observer = new IntersectionObserver((entries, obs) => {
                  entries.forEach(entry => {
                      const isRotatingText = Object.keys(APP_CONFIG.ROTATING_TEXT_HOME).includes(entry.target.id);
-                     if (entry.isIntersecting) { if (!isRotatingText) { entry.target.style.opacity = '1'; entry.target.style.transform = entry.target.dataset.initialTransform || 'translateY(0)'; obs.unobserve(entry.target); } }
+                     if (entry.isIntersecting) { 
+                         if (!isRotatingText) { // Don't interfere with rotating text visibility logic
+                            entry.target.style.opacity = '1'; 
+                            entry.target.style.transform = entry.target.dataset.initialTransform || 'translateY(0)'; 
+                            obs.unobserve(entry.target); // Animate only once
+                         }
+                     }
                  });
              }, observerOptions);
-             const heroSection = $('#heroSection'); if (heroSection) { heroSection.style.opacity = '0'; heroSection.style.transform = 'translateY(20px)'; heroSection.dataset.initialTransform = 'translateY(0)'; heroSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out'; observer.observe(heroSection); }
-             const writingsSectionHome = $('#writingsSectionHome'); if (writingsSectionHome) { writingsSectionHome.style.opacity = '0'; writingsSectionHome.style.transform = 'translateY(20px)'; writingsSectionHome.dataset.initialTransform = 'translateY(0)'; writingsSectionHome.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out'; observer.observe(writingsSectionHome); }
+
+             const heroSection = $('#heroSection'); 
+             if (heroSection) { 
+                 heroSection.style.opacity = '0'; heroSection.style.transform = 'translateY(20px)'; 
+                 heroSection.dataset.initialTransform = 'translateY(0)'; 
+                 heroSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out'; 
+                 observer.observe(heroSection); 
+             }
+             const writingsSectionHome = $('#writingsSectionHome'); 
+             if (writingsSectionHome) { 
+                 writingsSectionHome.style.opacity = '0'; writingsSectionHome.style.transform = 'translateY(20px)'; 
+                 writingsSectionHome.dataset.initialTransform = 'translateY(0)'; 
+                 writingsSectionHome.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out'; 
+                 observer.observe(writingsSectionHome); 
+             }
+             // Animate home page cards with a stagger effect
              $$('#home-content .card').forEach(card => { 
-                 const delay = parseInt(card.getAttribute('data-delay')) || 0; card.style.opacity = '0'; card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)'; card.dataset.initialTransform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${delay}ms`; observer.observe(card);
+                 const delay = parseInt(card.getAttribute('data-delay')) || 0; 
+                 card.style.opacity = '0'; 
+                 card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)'; 
+                 card.dataset.initialTransform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; 
+                 card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${delay}ms`; 
+                 observer.observe(card);
              });
         }
+        
+        // Animates the circular profile image on the home page
         function animateCircularProfileImage() { 
             const heroImage = $('#hero-circular-profile-image');
-            if (heroImage) { heroImage.style.opacity = '1';  heroImage.style.transform = 'scale(1) translateY(0px)'; }
+            if (heroImage) { // Apply final state styles, transition is handled by CSS
+                heroImage.style.opacity = '1';  
+                heroImage.style.transform = 'scale(1) translateY(0px)'; 
+            }
         }
-        let currentMainSection = null;
-        let lastClickedReadMoreLink = null; 
 
+        // --- SPA Routing Logic ---
+        let currentMainSection = null; // Tracks the currently displayed main section
+        let lastClickedReadMoreLink = null; // For focus management when returning to writings grid
+
+        // Shows a specific main page section and hides others
         function showMainSection(sectionId) { 
             const previouslyActiveSection = $('.page-section.active-section');
             if (previouslyActiveSection) previouslyActiveSection.classList.remove('active-section');
@@ -847,6 +1389,7 @@
                 targetSection.classList.add('active-section');
                 currentMainSection = sectionId;
                 
+                // Update active state in navigation links
                 $$('.desktop-nav a, .mobile-menu a').forEach(navLink => {
                     navLink.classList.remove('active');
                     const navTarget = navLink.dataset.navlink;
@@ -857,79 +1400,92 @@
                     }
                 });
 
+                // Section-specific initializations
                 if (sectionId === 'home-content') {
                     animateCircularProfileImage(); 
-                    for (const elId in APP_CONFIG.ROTATING_TEXT_HOME) {
-                        const rotEl = document.getElementById(elId);
-                        if(rotEl && typeof setupRotatingText === 'function') { 
+                    for (const elId in APP_CONFIG.ROTATING_TEXT_HOME) { // Initialize/re-initialize rotating texts
+                        if (document.getElementById(elId) && typeof setupRotatingText === 'function') { 
                              setupRotatingText(elId, APP_CONFIG.ROTATING_TEXT_HOME[elId]);
                         }
                     }
                 } else if (sectionId === 'about-content') {
-                    if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); 
+                    if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); // Load/reload questionnaire
                 }
-                window.scrollTo({ top: 0, behavior: 'auto' });
+                window.scrollTo({ top: 0, behavior: 'auto' }); // Scroll to top of new section
+            } else {
+                console.warn(`Target section #${sectionId} not found.`);
             }
         }
 
+        // Handles hash changes for SPA navigation
         function handleMainRouteChange() { 
-            let mainSectionTarget = 'home-content';
+            let mainSectionTarget = 'home-content'; // Default section
             let articleDetailHash = '';
             const currentFullHash = window.location.hash;
 
-            if (currentFullHash.startsWith('#post-')) {
-                mainSectionTarget = 'writings-content'; articleDetailHash = currentFullHash;
+            // Determine target section based on hash
+            if (currentFullHash.startsWith('#post-')) { // Individual article view
+                mainSectionTarget = 'writings-content'; 
+                articleDetailHash = currentFullHash;
             } else if (currentFullHash === '#writings') {
                 mainSectionTarget = 'writings-content';
             } else if (currentFullHash === '#about') {
                 mainSectionTarget = 'about-content';
             } else if (currentFullHash === '#home' || currentFullHash === '' || currentFullHash === '#') {
                 mainSectionTarget = 'home-content'; 
-                if (currentFullHash === '' || currentFullHash === '#') window.location.hash = 'home';
-            } else { 
+                if (currentFullHash === '' || currentFullHash === '#') window.location.hash = 'home'; // Normalize empty hash
+            } else { // Unknown hash, redirect to home
+                console.warn("Unknown hash, redirecting to #home:", currentFullHash);
                 window.location.hash = 'home'; 
                 return; 
             }
 
+            // Show the main section if it's different from the current one
             if (currentMainSection !== mainSectionTarget) {
                  showMainSection(mainSectionTarget);
             } else if (mainSectionTarget === 'writings-content' && articleDetailHash) { 
+                 // If already on writings, but navigating to a specific article
                  if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash);
             } else if (mainSectionTarget === 'about-content' && currentMainSection === 'about-content') {
-                 // If already on about page (e.g. from refresh), ensure questionnaire is re-rendered to reset state
-                 if(typeof renderQuestionnaire === 'function') renderQuestionnaire();
+                 // If already on about, re-render questionnaire (e.g., if hash was just #about)
+                 if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); 
             }
             
-            // Update page title based on current main section
+            // Handle specific logic for writings section (article view vs grid view)
             if (mainSectionTarget === 'writings-content') {
-                // This function will handle if it's an article or the main writings grid
                 if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash); 
             } else if (mainSectionTarget === 'about-content') {
                 document.title = APP_CONFIG.DEFAULT_TITLES.about;
-            } else { // Home or default
+            } else { // Home or other sections
                 document.title = APP_CONFIG.DEFAULT_TITLES.home; 
             }
         }
 
+        // Manages UI changes within the Writings section (showing/hiding articles, updating title)
         function handleWritingsArticleLogic(articleHash) { 
             const defaultWritingsTitle = APP_CONFIG.DEFAULT_TITLES.writings;
-            if (articleHash && articleHash.startsWith('#post-')) {
+            if (articleHash && articleHash.startsWith('#post-')) { // Viewing a specific article
                 const targetId = articleHash.substring(1);
                 const targetArticle = $(`#${targetId}`);
                 if (targetArticle) {
                     const titleElement = targetArticle.querySelector('h2');
                     const articleTitle = titleElement ? titleElement.textContent.trim() : "Article";
                     document.title = `${articleTitle} - Writings - Agraj Dubey`;
+                    // Scroll to and focus the article heading for accessibility
                     setTimeout(() => {
                         if (!isElementInViewport(targetArticle)) targetArticle.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         const heading = targetArticle.querySelector('h2');
                         if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); }
-                    }, 100);
-                } else { document.title = defaultWritingsTitle; }
-            } else {
+                    }, 100); // Delay to ensure article is displayed
+                } else { 
+                    document.title = defaultWritingsTitle; 
+                    console.warn(`Article with ID ${targetId} not found.`);
+                }
+            } else { // Viewing the writings grid
                 document.title = defaultWritingsTitle;
                 const grid = $('#writings-grid-container');
-                if (grid && typeof lastClickedReadMoreLink !== 'undefined' && lastClickedReadMoreLink && document.body.contains(lastClickedReadMoreLink)) {
+                // Focus management: return focus to last clicked "Read More" or the grid itself
+                if (grid && lastClickedReadMoreLink && document.body.contains(lastClickedReadMoreLink)) {
                      setTimeout(() => {
                         lastClickedReadMoreLink.focus({preventScroll: true});
                         if (!isElementInViewport(lastClickedReadMoreLink)) lastClickedReadMoreLink.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -940,62 +1496,60 @@
                          if (!isElementInViewport(grid)) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }, 50);
                 }
-                lastClickedReadMoreLink = null; 
+                lastClickedReadMoreLink = null; // Reset for next navigation
             }
         }
+        
+        // Helper to check if an element is currently in the viewport
         function isElementInViewport(el) { 
-            if(!el) return false; const rect = el.getBoundingClientRect();
-            return (rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth));
+            if(!el) return false; 
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top >= 0 && rect.left >= 0 && 
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && 
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
         }
-        let matterEngine = null, matterRender = null; 
-        function setupSecretGame() { 
-            const trigger = $('#secret-game-trigger'); const modal = $('#secret-game-modal'); const canvas = $('#matter-canvas'); const closeButton = $('#close-game-button');
-            if (!trigger || !modal || !canvas || !closeButton || typeof Matter === 'undefined') { if(trigger) trigger.style.display = 'none'; return; }
-            const Engine = Matter.Engine, Render = Matter.Render, Runner = Matter.Runner, Bodies = Matter.Bodies, Composite = Matter.Composite, Mouse = Matter.Mouse, MouseConstraint = Matter.MouseConstraint;
-            trigger.addEventListener('click', () => {
-                modal.style.display = 'flex';
-                if (matterRender) Matter.Render.stop(matterRender); if (matterEngine) Matter.Engine.clear(matterEngine); if (canvas.firstChild) canvas.removeChild(canvas.firstChild);
-                matterEngine = Engine.create({ gravity: { y: 0.6 } }); const world = matterEngine.world;
-                let canvasWidth = Math.min(window.innerWidth * 0.8, 600); let canvasHeight = Math.min(window.innerHeight * 0.7, 400);
-                matterRender = Render.create({ canvas: canvas, engine: matterEngine, options: { width: canvasWidth, height: canvasHeight, wireframes: false, background: 'transparent' } });
-                const ground = Bodies.rectangle(canvasWidth / 2, canvasHeight - 10, canvasWidth, 20, { isStatic: true, render: { fillStyle: '#9272CE' } });
-                const leftWall = Bodies.rectangle(10, canvasHeight/2, 20, canvasHeight, {isStatic: true, render: {fillStyle: '#9272CE'}});
-                const rightWall = Bodies.rectangle(canvasWidth-10, canvasHeight/2, 20, canvasHeight, {isStatic: true, render: {fillStyle: '#9272CE'}});
-                Composite.add(world, [ground, leftWall, rightWall]);
-                for (let i = 0; i < 15; i++) { const x = Math.random() * (canvasWidth - 60) + 30; const y = Math.random() * (canvasHeight / 2); const sides = Math.floor(Math.random() * 3) + 3; const radius = Math.random() * 20 + 10; const color = ['#CBB8E8', '#AE8BD5', '#FFFFFF'][Math.floor(Math.random() * 3)]; let body; if (sides === 3 && Math.random() > 0.5) { body = Bodies.circle(x, y, radius, { render: { fillStyle: color } }); } else { body = Bodies.polygon(x, y, sides, radius, { render: { fillStyle: color } }); } Composite.add(world, body); }
-                const mouse = Mouse.create(matterRender.canvas); const mouseConstraint = MouseConstraint.create(matterEngine, { mouse: mouse, constraint: { stiffness: 0.2, render: { visible: false } } });
-                Composite.add(world, mouseConstraint); matterRender.mouse = mouse;
-                Render.run(matterRender); const runner = Runner.create(); Runner.run(runner, matterEngine);
-            });
-            closeButton.addEventListener('click', () => { modal.style.display = 'none'; if (matterRender) Matter.Render.stop(matterRender); if (matterEngine) Matter.Engine.clear(matterEngine); });
-        }
-        // --- End Other JS functions ---
-
+        
         // --- DOMContentLoaded ---
+        // Main execution starts after the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', async () => {
+            // Initialize audio elements
             revealSound = $('#revealSound'); 
+            gameSpawnSoundEl = $('#gameSpawnSound');
+            gameWinSoundEl = $('#gameWinSound');
 
-            resizeHyperspeedCanvas(); initStars(); animateHyperspeed();
-            window.addEventListener('resize', resizeHyperspeedCanvas);
+            // Initialize hyperspeed background
+            resizeHyperspeedCanvas(); 
+            initStars(); 
+            animateHyperspeed();
+            window.addEventListener('resize', resizeHyperspeedCanvas); // Adjust on window resize
 
+            // Setup UI components
             setupMobileMenu(); 
             setupScrollProgressBar();
             
-            await loadAndRenderPosts(); 
+            await loadAndRenderPosts(); // Load blog posts
+            
+            // Track last clicked "Read More" link for focus management
             document.body.addEventListener('click', function(event) {
                 if (event.target.matches('#writings-grid-container a.read-more-link, #home-recent-writings-grid a[href^="#post-"]')) {
                     lastClickedReadMoreLink = event.target;
                 }
             });
             
-            setupStaticImageClick(); 
+            setupStaticImageClick(); // Interactive image on home page
             
+            // Initial route handling based on URL hash
             handleMainRouteChange(); 
+            // Listen for hash changes to navigate SPA
             window.addEventListener('hashchange', handleMainRouteChange); 
 
+            // Set current year in footer
             const currentYearEl = $('#currentYear');
             if(currentYearEl) currentYearEl.textContent = new Date().getFullYear();
-            setupSecretGame();
+            
+            setupSecretGame(); // Initialize the secret Matter.js game
         });
     </script>
 </body>
