@@ -34,11 +34,7 @@
                         'correct-answer-bg': 'rgba(146, 114, 206, 0.35)', 
                         'selected-wrong-bg': 'rgba(100, 100, 100, 0.3)', 
                         'disabled-option-bg': 'rgba(30, 20, 50, 0.7)',
-                        'skill-tag-bg': 'rgba(146, 114, 206, 0.15)',
-                        'skill-tag-border': 'rgba(146, 114, 206, 0.3)',
-                        'skill-tag-text': '#CBB8E8',
-                        'skill-tag-hover-bg': 'rgba(146, 114, 206, 0.25)',
-                        'skill-tag-hover-border': 'rgba(174, 139, 213, 0.5)',
+                        // REMOVED: skill-tag colors
                     },
                     fontFamily: { 
                         sans: ['Inter', 'sans-serif'], serif: ['Baloo Bhai 2', 'cursive'],
@@ -77,7 +73,7 @@
         #typewriter .typed-cursor { background-color: #D1D1D1; height: 1.1em;}
         #main-heading-text .typed-cursor { height: 1.1em; }
         #blockquote-text .typed-cursor { height: 1.1em; }
-        #blockquote-text .letter { display: inline-block; /* For anime.js letter animation */ }
+        /* REMOVED: #blockquote-text .letter style */
         @keyframes pulseCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         #typewriter { min-height: 3em; display: inline-block; width: 100%; }
         #main-heading-text { min-height: 1.2em; display: inline-block; }
@@ -127,21 +123,10 @@
         @keyframes subtleRingPulse { 0%, 100% { filter: drop-shadow(0 0 3px rgba(203, 184, 232, 0.3)); transform: scale(1); } 50% { filter: drop-shadow(0 0 8px rgba(203, 184, 232, 0.5)); transform: scale(1.03); } }
         .static-image:hover { transform: scale(1.1); animation-play-state: paused; }
 
-        #skillsInterestsSection { text-align: center; margin-top: 3rem; margin-bottom: 3rem; opacity: 0; transform: translateY(20px); /* Initial state for JS animation */ }
-        .skill-tags-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 1.5rem; }
-        .skill-tag {
-            background-color: var(--skill-tag-bg); border: 1px solid var(--skill-tag-border);
-            color: var(--skill-tag-text); padding: 0.6rem 1.2rem; border-radius: 2rem;
-            font-size: 0.95rem; font-weight: 500; font-family: 'Outfit', sans-serif;
-            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
-            opacity: 0; transform: translateY(10px); /* Initial state for anime.js */
-        }
-        .skill-tag:hover {
-            background-color: var(--skill-tag-hover-bg); border-color: var(--skill-tag-hover-border);
-            transform: translateY(-2px) scale(1.05); color: #FFFFFF;
-        }
+        /* REMOVED: Styles for Skills/Interests Section */
 
-        /* Writings Section Styles ... (Keep as is) */
+        /* Writings Section Styles ... */
+        /* ... (Rest of the CSS remains the same as the previous "working" version) ... */
         #writings-content { font-size: 17px; }
         #writings-content .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
         #writings-content .text-hover-scale:hover { transform: scale(1.03); }
@@ -294,10 +279,9 @@
                         </blockquote> 
                     </div> 
                 </section> 
-                <section id="skillsInterestsSection">
-                    <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mb-8">I Dabble In...</h2>
-                    <div class="skill-tags-container" id="skillTagsContainer"></div>
-                </section>
+
+                <!-- REMOVED: Skills/Interests Section from HTML -->
+
                 <section class="mb-16 opacity-0" id="writingsSectionHome"> 
                     <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mt-16 mb-12">Recent Writings</h2> 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="home-recent-writings-grid"></div> 
@@ -357,47 +341,15 @@
              ROTATING_TEXT_HOME: {
                  'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
                  'main-heading-text': { texts: ["agraj", "アグラジ", "अग्रज", "αγραξ"], typeSpeed: 100, deleteSpeed: 60, pauseDuration: 2500 },
-                 'blockquote-text': { 
+                 'blockquote-text': { // REMOVED: onDone callback for letter animation
                      texts: ["If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒", "Is free will an illusion, or is the illusion the only free will we have?", "Perhaps the 'fragments' are the only coherent parts left.", "What if the algorithm forgets too?", "Maybe exiting early isn't dramatic, just... efficient.", "Family remembers differently. Algorithms remember precisely. Which is better?", "The universe is indifferent, but the code persists. For now.", "Do androids dream of electric sheep? Do algorithms dream of better data?", "To be, or not to be, that is the computation.", "Cogito, ergo sum... I think, therefore I am... coded?"], 
-                     typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500,
-                     onDone: function(element) { // This onDone will be called after typing is complete
-                        if (typeof anime !== 'function' || !element || element.dataset.letterAnimated === 'true') return;
-                        element.dataset.letterAnimated = 'true'; // Prevent re-animating letters
-                        const originalText = element.textContent; // Get current text (without cursor)
-                        const cursor = element.querySelector('.typed-cursor');
-                        if (cursor) element.removeChild(cursor); // Temporarily remove cursor
-
-                        element.innerHTML = originalText.split('').map(letter => `<span class="letter">${letter}</span>`).join('');
-                        
-                        anime.timeline({loop: false})
-                          .add({
-                            targets: `#${element.id} .letter`,
-                            opacity: [0,1],
-                            easing: "easeOutExpo",
-                            duration: 600,
-                            delay: (el, i) => 34 * (i+1)
-                          }).add({
-                            targets: `#${element.id} .letter`,
-                            translateY: [0, -5, 0],
-                            opacity: [1, 0.8, 1],
-                            easing: "easeOutElastic(1, .8)",
-                            duration: 800,
-                            delay: (el, i) => 45 * i,
-                            complete: () => { // Add cursor back after animation
-                                if (!element.querySelector('.typed-cursor')) {
-                                    const newCursor = document.createElement('span');
-                                    newCursor.className = 'typed-cursor';
-                                    element.appendChild(newCursor);
-                                }
-                            }
-                          }, '-=200');
-                     }
+                     typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500
                  }
             },
             DEFAULT_TITLES: { home: "agraj - Portfolio", writings: "Writings - Agraj Dubey", about: "About Me - Agraj Dubey" },
             POSTS_JSON_PATH: 'posts.json', QUESTIONS_JSON_PATH: 'questions.json',
             TELEGRAM_USERNAME: 'agraj0669', MATCH_THRESHOLD_FOR_CONTACT: 70,
-            SKILLS_INTERESTS: [ "Creative Writing", "Philosophy", "Web Development", "Anime Aesthetics", "Existential Pondering", "UI/UX Curiosity", "Python", "JavaScript", "Problem Solving" ]
+            // REMOVED: SKILLS_INTERESTS array
         };
         
         let ALL_QUESTIONNAIRE_DATA = []; let visitorAnswers = {}; let questionsAnsweredCount = 0;
@@ -446,147 +398,135 @@
         function setupSecretGame() { const trigger = $('#secret-game-trigger'); const modal = $('#secret-game-modal'); const canvas = $('#matter-canvas'); const closeButton = $('#close-game-button'); const resetButton = $('#reset-game-button'); if (!trigger || !modal || !canvas || !closeButton || !resetButton || typeof Matter === 'undefined') { if(trigger) trigger.style.display = 'none'; console.warn("Secret game elements not found or Matter.js missing."); return; } const Engine = Matter.Engine, Render = Matter.Render, Runner = Matter.Runner, Bodies = Matter.Bodies, Composite = Matter.Composite, Mouse = Matter.Mouse, MouseConstraint = Matter.MouseConstraint, Events = Matter.Events; trigger.addEventListener('click', () => { modal.style.display = 'flex'; if (typeof anime === 'function') { anime({ targets: modal, opacity: [0,1], scale: [0.9, 1], duration: 400, easing: 'easeOutExpo' }); } if (matterRender) Matter.Render.stop(matterRender); if (matterRunner) Runner.stop(matterRunner); if (matterEngine) Matter.Engine.clear(matterEngine); if (canvas.firstChild && canvas.firstChild.tagName === 'CANVAS') { canvas.removeChild(canvas.firstChild); } matterEngine = Engine.create({ gravity: { y: 0.7 } }); let canvasWidth = Math.min(window.innerWidth * 0.85, 700); let canvasHeight = Math.min(window.innerHeight * 0.75, 450); canvas.width = canvasWidth; canvas.height = canvasHeight; matterRender = Render.create({ element: modal, canvas: canvas, engine: matterEngine, options: { width: canvasWidth, height: canvasHeight, wireframes: false, background: 'transparent' }}); resetSecretGame(); const mouse = Mouse.create(matterRender.canvas); const mouseConstraint = MouseConstraint.create(matterEngine, { mouse: mouse, constraint: { stiffness: 0.1, render: { visible: false } }}); Composite.add(matterEngine.world, mouseConstraint); matterRender.mouse = mouse; Events.on(mouseConstraint, 'mousedown', (event) => { if (gameHasBeenWon || shapesSpawned >= MAX_SHAPES_TO_SPAWN) return; const mousePosition = event.mouse.position; let body; const size = Math.random() * 20 + 15; const color = ['#CBB8E8', '#AE8BD5', '#FFFFFF', '#9272CE'][Math.floor(Math.random() * 4)]; if (shapesSpawned % 2 === 0) { body = Bodies.rectangle(mousePosition.x, mousePosition.y, size, size, { render: { fillStyle: color }, frictionAir: 0.03, restitution: 0.4 });} else { body = Bodies.circle(mousePosition.x, mousePosition.y, size / 1.8, { render: { fillStyle: color }, frictionAir: 0.02, restitution: 0.6 });} Composite.add(matterEngine.world, body); gameShapes.push(body); shapesSpawned++; playSound(gameSpawnSoundEl); updateGameInfoDisplay(); }); Events.on(matterEngine, 'afterUpdate', updateGameInfoDisplay); Render.run(matterRender); matterRunner = Runner.create(); Runner.run(matterRunner, matterEngine); }); closeButton.addEventListener('click', () => { if (typeof anime === 'function') { anime({ targets: modal, opacity: [1,0], scale: [1, 0.9], duration: 300, easing: 'easeInExpo', complete: () => modal.style.display = 'none' });} else { modal.style.display = 'none'; } if (matterRender) Matter.Render.stop(matterRender); if (matterRunner) Runner.stop(matterRunner); if (matterEngine) Matter.Engine.clear(matterEngine); }); resetButton.addEventListener('click', resetSecretGame);}
         
         let rotatingTextInstances = {};
-        // FIX: Refined setupRotatingText for better state management and re-triggering
+        // FIX: Simplified and more robust setupRotatingText
         function setupRotatingText(elementId, config) {
             const element = document.getElementById(elementId);
             if (!element) { console.warn(`Rotating text element not found: #${elementId}`); return; }
 
-            let instance = rotatingTextInstances[elementId];
-
-            if (instance && instance.isVisible) { // If instance exists and is visible, may not need full re-init
-                if (instance.isBusy) return; // Don't interfere if already typing/deleting
-                if (instance.runOnce && element.textContent !== '' && (elementId !== 'blockquote-text' || element.dataset.letterAnimated === 'true')) {
-                     // If runOnce and already typed (and letter animation done for blockquote), do nothing
-                    return;
+            // If instance exists, clear its timers and reset relevant state before re-initializing
+            if (rotatingTextInstances[elementId]) {
+                const oldInstance = rotatingTextInstances[elementId];
+                clearTimeout(oldInstance.cycleTimeout);
+                if (oldInstance.observer) {
+                    oldInstance.observer.disconnect(); // Disconnect old observer
                 }
             }
             
-            // Initialize or re-initialize instance data
-            instance = {
+            const instance = {
                 element: element,
                 config: config,
+                texts: config.texts,
+                typeSpeed: config.typeSpeed,
+                deleteSpeed: config.deleteSpeed,
+                pauseDuration: config.pauseDuration,
                 currentIndex: -1,
                 isBusy: false,
                 isVisible: false, // Will be set by observer
-                runOnce: (elementId === 'typewriter' || elementId === 'blockquote-text'),
-                initialized: false, // Has the first type animation run?
+                runOnce: (elementId === 'typewriter' || elementId === 'blockquote-text'), // blockquote also runs once
+                initializedThisView: false, // Has it run since this current visibility?
                 cycleTimeout: null,
-                observer: instance ? instance.observer : null // Reuse observer if it exists
+                observer: null
             };
             rotatingTextInstances[elementId] = instance;
 
             function typeWriterInternal(text, callback) {
                 let i = 0; instance.isBusy = true;
-                element.dataset.letterAnimated = 'false'; // Reset for blockquote letter animation
-                
+                element.textContent = ''; // Clear before typing
+
                 function type() {
-                    if (!instance.isVisible || !instance.isBusy) {
+                    if (!instance.isVisible || !instance.isBusy) { // Stop if not visible or interrupted
                         instance.isBusy = false;
-                        // if (!instance.isVisible) element.textContent = ''; // Clear if hidden mid-type
                         return;
                     }
                     if (i < text.length) {
                         element.textContent += text.charAt(i); i++;
-                        setTimeout(type, instance.config.typeSpeed);
-                    } else {
+                        setTimeout(type, instance.typeSpeed);
+                    } else { // Typing finished
                         if (element.querySelector('.typed-cursor')) element.removeChild(element.querySelector('.typed-cursor'));
                         const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor);
                         instance.isBusy = false;
                         if (callback) callback();
-                        if (instance.config.onDone) instance.config.onDone(element);
                     }
-                }
-                type();
+                } type();
             }
 
             function deleteWriterInternal(callback) {
-                if (instance.runOnce && element.textContent.length > 0) { if (callback) callback(); return; }
-                let textContentWithCursor = element.innerHTML; // Get innerHTML to find cursor
-                const cursorHTML = '<span class="typed-cursor"></span>';
-                if (textContentWithCursor.endsWith(cursorHTML)) {
-                    textContentWithCursor = textContentWithCursor.substring(0, textContentWithCursor.length - cursorHTML.length);
+                if (instance.runOnce && element.textContent.length > 0) { // Don't delete if runOnce and already typed
+                    if (callback) callback(); return; 
                 }
-                element.innerHTML = textContentWithCursor; // Remove cursor before deleting
                 
-                let currentText = element.textContent;
-                let i = currentText.length; instance.isBusy = true;
-
+                let text = element.textContent;
+                const existingCursor = element.querySelector('.typed-cursor');
+                if (existingCursor) element.removeChild(existingCursor);
+                text = element.textContent; 
+                
+                let i = text.length; instance.isBusy = true;
                 function del() {
-                    if (!instance.isVisible || !instance.isBusy) {
+                    if (!instance.isVisible || !instance.isBusy) { // Stop if not visible or interrupted
                         instance.isBusy = false;
-                        // if (!instance.isVisible) element.textContent = ''; // Clear if hidden mid-delete
                         return;
                     }
                     if (i > 0) {
-                        element.textContent = currentText.substring(0, i - 1); i--;
+                        element.textContent = text.substring(0, i - 1); i--;
                         if (!element.querySelector('.typed-cursor') && element.textContent.length > 0) {
-                           const tempCursor = document.createElement('span'); tempCursor.className = 'typed-cursor'; element.appendChild(tempCursor);
-                        }
-                        setTimeout(del, instance.config.deleteSpeed);
-                    } else {
+                           const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor);
+                        } setTimeout(del, instance.deleteSpeed);
+                    } else { // Deleting finished
                         const finalCursor = element.querySelector('.typed-cursor'); if (finalCursor) element.removeChild(finalCursor);
-                        element.textContent = ''; instance.isBusy = false;
+                        element.textContent = ''; instance.isBusy = false; 
                         if (callback) callback();
                     }
-                }
-                del();
+                } del();
             }
 
-            function scheduleCycle(delay) {
-                if (instance.runOnce) return;
-                clearTimeout(instance.cycleTimeout);
-                instance.cycleTimeout = setTimeout(() => { if (instance.isVisible) startCycle(); }, delay);
+            function scheduleCycle(delay) { 
+                if (instance.runOnce) return; 
+                clearTimeout(instance.cycleTimeout); 
+                instance.cycleTimeout = setTimeout(() => { if(instance.isVisible) startCycle(); }, delay); 
             }
 
             function startCycle() {
                 if (instance.runOnce || instance.isBusy || !instance.isVisible) return;
                 deleteWriterInternal(() => {
-                    if (!instance.isVisible) return;
+                    if (!instance.isVisible) return; 
                     let nextIndex;
-                    do { nextIndex = Math.floor(Math.random() * instance.config.texts.length); }
-                    while (nextIndex === instance.currentIndex && instance.config.texts.length > 1);
-                    instance.currentIndex = nextIndex;
-                    const nextText = instance.config.texts[instance.currentIndex];
-                    element.textContent = ''; // Clear before typing new text
-                    typeWriterInternal(nextText, () => scheduleCycle(instance.config.pauseDuration));
+                    do { nextIndex = Math.floor(Math.random() * instance.texts.length); } 
+                    while (nextIndex === instance.currentIndex && instance.texts.length > 1); 
+                    instance.currentIndex = nextIndex; 
+                    const nextText = instance.texts[instance.currentIndex];
+                    element.textContent = ''; 
+                    typeWriterInternal(nextText, () => scheduleCycle(instance.pauseDuration));
                 });
             }
+            
+            instance.observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const wasVisible = instance.isVisible;
+                    instance.isVisible = entry.isIntersecting;
 
-            if (!instance.observer) { // Setup observer only once
-                instance.observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        const wasVisible = instance.isVisible;
-                        instance.isVisible = entry.isIntersecting;
-                        if (instance.isVisible && !wasVisible) { // Became visible
-                            if (!instance.initialized || (instance.runOnce && element.textContent === '')) {
-                                instance.initialized = true;
-                                instance.currentIndex = instance.runOnce ? 0 : (elementId === 'main-heading-text' ? 0 : Math.floor(Math.random() * instance.config.texts.length));
-                                const firstText = instance.config.texts[instance.currentIndex];
-                                element.textContent = ''; // Ensure it's empty before starting
+                    if (instance.isVisible && !wasVisible) { // Became visible
+                        instance.initializedThisView = false; // Reset for this view
+                        if (!instance.isBusy) {
+                             // Always (re)start typing if it's supposed to runOnce and is empty, or if it cycles
+                            if ((instance.runOnce && element.textContent === '') || !instance.runOnce) {
+                                instance.currentIndex = instance.runOnce ? 0 : (elementId === 'main-heading-text' ? 0 : Math.floor(Math.random() * instance.texts.length));
+                                const firstText = instance.texts[instance.currentIndex];
+                                element.textContent = ''; // Ensure clear before starting/restarting
                                 typeWriterInternal(firstText, () => {
-                                    if (!instance.runOnce) scheduleCycle(instance.config.pauseDuration);
+                                    if (!instance.runOnce) scheduleCycle(instance.pauseDuration);
                                 });
-                            } else if (!instance.isBusy && !instance.runOnce) { // Re-entering view, not busy, and cycles
-                                scheduleCycle(100); // Restart cycle quickly
+                                instance.initializedThisView = true;
                             }
-                        } else if (!instance.isVisible && wasVisible) { // Became hidden
-                            clearTimeout(instance.cycleTimeout);
-                            // instance.isBusy = false; // Allow current operation to finish or stop it
                         }
-                    });
-                }, { threshold: 0.1 });
-                instance.observer.observe(element);
-            }
-            // Trigger initial animation if already visible and not initialized
-            if (instance.isVisible && !instance.initialized) {
-                 instance.initialized = true;
-                 instance.currentIndex = instance.runOnce ? 0 : (elementId === 'main-heading-text' ? 0 : Math.floor(Math.random() * instance.config.texts.length));
-                 const firstText = instance.config.texts[instance.currentIndex];
-                 element.textContent = '';
-                 typeWriterInternal(firstText, () => {
-                     if (!instance.runOnce) scheduleCycle(instance.config.pauseDuration);
-                 });
-            }
+                    } else if (!instance.isVisible && wasVisible) { // Became hidden
+                        clearTimeout(instance.cycleTimeout);
+                        // Potentially stop ongoing typing/deleting by setting isBusy to false
+                        // This might leave text partially typed/deleted if an operation was long.
+                        // instance.isBusy = false; // Uncomment if immediate stop on hide is desired
+                    }
+                });
+            }, { threshold: 0.1 });
+            instance.observer.observe(element);
         }
 
         function setupMobileMenu() { const navToggle = $('#nav-toggle'); const mobileMenu = $('#mobile-menu'); if (navToggle && mobileMenu) { const burgerIcon = navToggle.querySelector('.burger-icon'); const closeIcon = navToggle.querySelector('.close-icon'); navToggle.addEventListener('click', () => { const isOpen = mobileMenu.classList.toggle('is-open'); navToggle.setAttribute('aria-expanded', String(isOpen)); if (burgerIcon && closeIcon) { burgerIcon.classList.toggle('hidden', isOpen); closeIcon.classList.toggle('hidden', !isOpen); }}); $$('#mobile-menu a').forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.remove('is-open'); navToggle.setAttribute('aria-expanded', 'false'); if (burgerIcon && closeIcon) { burgerIcon.classList.remove('hidden'); closeIcon.classList.add('hidden'); }}); });}}
@@ -594,27 +534,16 @@
         function setupStaticImageClick() { const imageElement = $('#staticImageHome'); if (!imageElement) return; const videoUrls = [ 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'https://www.youtube.com/watch?v=-jGBp5HBLFs', 'https://www.youtube.com/shorts/2Dv2hO3rYVg', 'https://www.youtube.com/watch?v=x6YcdgB9e48', 'https://www.youtube.com/shorts/D-kkjR0NyGg', 'https://www.youtube.com/shorts/LFsS-9lT0Rk', 'https://www.youtube.com/shorts/TTU1g8IU22I' ]; imageElement.addEventListener('click', () => { const randomIndex = Math.floor(Math.random() * videoUrls.length); window.open(videoUrls[randomIndex], '_blank'); });}
         function setupHomeCardHoverEffects() { $$('#home-content .card').forEach(card => { card.addEventListener('mousemove', (e) => { const rect = card.getBoundingClientRect(); const x = e.clientX - rect.left; const y = e.clientY - rect.top; const centerX = rect.width / 2; const centerY = rect.height / 2; const rotateX = (y - centerY) / 20; const rotateY = (centerX - x) / 20; card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`; }); card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; }); card.querySelectorAll('a').forEach(link => { link.addEventListener('click', (e) => e.stopPropagation()); });});}
         
-        function animateSkillsInterests() {
-            const skillsContainer = $('#skillTagsContainer'); const skillsSection = $('#skillsInterestsSection');
-            if (!skillsContainer || !skillsSection || !APP_CONFIG.SKILLS_INTERESTS || skillsSection.dataset.animated === 'true') return;
-            skillsSection.dataset.animated = 'true'; // Prevent re-animation on section re-show
-            skillsContainer.innerHTML = APP_CONFIG.SKILLS_INTERESTS.map(skill => `<span class="skill-tag">${skill}</span>`).join('');
-            if (typeof anime === 'function') {
-                anime({
-                    targets: skillsSection, opacity: [0, 1], translateY: [20, 0], duration: 600, easing: 'easeOutExpo', delay: 200,
-                    complete: () => { anime({ targets: '.skill-tag', opacity: [0, 1], translateY: [10, 0], scale: [0.9, 1], duration: 500, delay: anime.stagger(70, {easing: 'easeOutSine'}), easing: 'easeOutExpo' });}
-                });
-            } else { skillsSection.style.opacity = '1'; skillsSection.style.transform = 'translateY(0)'; $$('.skill-tag').forEach(tag => { tag.style.opacity = '1'; tag.style.transform = 'translateY(0)'; });}
-        }
+        // REMOVED: animateSkillsInterests function
 
         function setupHomeScrollAnimations() { 
              const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -30px 0px' };
              const observer = new IntersectionObserver((entries, obs) => {
                  entries.forEach(entry => {
                      const isRotatingText = Object.keys(APP_CONFIG.ROTATING_TEXT_HOME).includes(entry.target.id);
-                     const isSkillsSection = entry.target.id === 'skillsInterestsSection'; // This section has its own trigger in showMainSection
+                     // REMOVED: isSkillsSection check
                      if (entry.isIntersecting) { 
-                         if (!isRotatingText && !isSkillsSection) { 
+                         if (!isRotatingText) { 
                             entry.target.style.opacity = '1'; entry.target.style.transform = entry.target.dataset.initialTransform || 'translateY(0)'; 
                             obs.unobserve(entry.target); 
                          }
@@ -640,10 +569,12 @@
                 });
                 if (sectionId === 'home-content') {
                     animateCircularProfileImage(); 
-                    for (const elId in APP_CONFIG.ROTATING_TEXT_HOME) {
-                        if (document.getElementById(elId) && typeof setupRotatingText === 'function') { setupRotatingText(elId, APP_CONFIG.ROTATING_TEXT_HOME[elId]); }
+                    for (const elId in APP_CONFIG.ROTATING_TEXT_HOME) { // Re-trigger/initialize rotating texts
+                        if (document.getElementById(elId) && typeof setupRotatingText === 'function') { 
+                            setupRotatingText(elId, APP_CONFIG.ROTATING_TEXT_HOME[elId]); 
+                        }
                     }
-                    if (typeof animateSkillsInterests === 'function') animateSkillsInterests();
+                    // REMOVED: Call to animateSkillsInterests
                 } else if (sectionId === 'about-content') {
                     if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); 
                 }
@@ -659,7 +590,7 @@
             } else { window.location.hash = 'home'; return; }
             if (currentMainSection !== mainSectionTarget) { showMainSection(mainSectionTarget);
             } else if (mainSectionTarget === 'writings-content' && articleDetailHash) { if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash);
-            } else if (mainSectionTarget === 'about-content' && currentMainSection === 'about-content') { if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); }
+            } else if (mainSectionTarget === 'about-content' && currentMainSection === 'about-content') { if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); } // Re-render if already on about page (e.g. for reset)
             if (mainSectionTarget === 'writings-content') { if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash); 
             } else if (mainSectionTarget === 'about-content') { document.title = APP_CONFIG.DEFAULT_TITLES.about;
             } else { document.title = APP_CONFIG.DEFAULT_TITLES.home; }
