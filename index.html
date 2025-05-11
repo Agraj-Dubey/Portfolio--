@@ -30,15 +30,18 @@
                         'brand-purple': '#9272CE', 'brand-hover': '#AE8BD5',
                         'brand-light-purple': '#CBB8E8', 'brand-dark': '#050505',
                         'brand-light': '#FFFFFF', 'brand-gray': '#D1D1D1', 'brand-text': '#A8A8A8',
+                        'correct-answer-bg': 'rgba(146, 114, 206, 0.25)', // For correct answer highlight if visitor chose wrong
+                        'selected-wrong-bg': 'rgba(209, 209, 209, 0.15)', // For selected but wrong answer
                     },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'], serif: ['Baloo Bhai 2', 'cursive'],
-                        lato: ['Lato', 'sans-serif'], outfit: ['Outfit', 'sans-serif'],
-                        nunito: ['Nunito', 'sans-serif'], 'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'],
-                        verdana: ['Verdana', 'sans-serif'], 'trebuchet': ['Trebuchet MS', 'sans-serif'],
-                    },
+                    fontFamily: { /* ... same ... */ },
                 }
             }
+        };
+         window.tailwind.config.theme.extend.fontFamily = {
+            sans: ['Inter', 'sans-serif'], serif: ['Baloo Bhai 2', 'cursive'],
+            lato: ['Lato', 'sans-serif'], outfit: ['Outfit', 'sans-serif'],
+            nunito: ['Nunito', 'sans-serif'], 'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'],
+            verdana: ['Verdana', 'sans-serif'], 'trebuchet': ['Trebuchet MS', 'sans-serif'],
         };
     </script>
 
@@ -149,6 +152,8 @@
         .post-content-html img:hover { transform: scale(1.03); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .post-content-html .separator { display: none; }
         @layer utilities { .line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; } .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; } }
+        
+        /* Glitch Button and General Interactive Elements */
         .glitch-button { position: relative; display: inline-block; cursor: pointer; padding: 0.75rem 1.5rem; text-decoration: none; overflow: hidden; transition: transform 0.1s ease-out; -webkit-user-select: none; -ms-user-select: none; user-select: none; }
         .glitch-button .btn-text { position: relative; z-index: 1; }
         .glitch-button::before, .glitch-button::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: inherit; color: inherit; padding: inherit; overflow: hidden; transition: transform 0.3s cubic-bezier(0.75, 0, 0.25, 1), opacity 0.3s ease; opacity: 0; }
@@ -159,6 +164,8 @@
         @keyframes glitchEffectAfter { 0% { clip-path: inset(60% 0 25% 0); } 50% { clip-path: inset(15% 0 55% 0); } 100% { clip-path: inset(50% 0 10% 0); } }
         #home-content .view-all-writings-btn { background-color: #9272CE; color: #FFFFFF; font-weight: 500; border-radius: 0.5rem; }
         #home-content .view-all-writings-btn:hover { background-color: #AE8BD5; }
+        
+        /* Footer, Secret Game, Progress Bar */
         .main-footer { background-color: rgba(9, 6, 19, 0.7); border-top: 1px solid rgba(146, 114, 206, 0.1); padding: 2rem 0; margin-top: 4rem; text-align: center; }
         #secret-game-trigger { cursor: cell; display: inline-block; opacity: 0.5; transition: opacity 0.3s; }
         #secret-game-trigger:hover { opacity: 1; }
@@ -171,123 +178,82 @@
         .progress-bar { height: 3px; background: linear-gradient(90deg, #9272CE, #AE8BD5); width: 0%; }
 
         /* --- About Section Styles --- */
-        #about-content .questionnaire-container-wrapper {
-            max-width: 750px; /* Increased width slightly */
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .question-block {
-            background-color: rgba(25, 15, 40, 0.75); 
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(146, 114, 206, 0.25);
-            border-radius: 0.75rem; 
-            padding: 1.75rem; /* Increased padding */
-            margin-bottom: 2.5rem; /* Increased margin */
-            box-shadow: 0 5px 20px rgba(0,0,0,0.25);
-        }
-        .question-block h3 {
-            color: #CBB8E8; 
-            font-size: 1.35rem; /* Slightly larger */
-            font-weight: 600;
-            margin-bottom: 1.25rem; 
-            font-family: 'Outfit', sans-serif;
-        }
-        .answer-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Wider minmax */
-            gap: 1rem; 
-        }
+        #about-content .questionnaire-container-wrapper { max-width: 750px; margin-left: auto; margin-right: auto; }
+        .question-block { background-color: rgba(25, 15, 40, 0.75); backdrop-filter: blur(6px); border: 1px solid rgba(146, 114, 206, 0.25); border-radius: 0.75rem; padding: 1.75rem; margin-bottom: 2.5rem; box-shadow: 0 5px 20px rgba(0,0,0,0.25); }
+        .question-block h3 { color: #CBB8E8; font-size: 1.35rem; font-weight: 600; margin-bottom: 1.25rem; font-family: 'Outfit', sans-serif; }
+        .answer-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
         .answer-option {
             background-color: rgba(15, 10, 25, 0.85); 
             color: #D1D1D1; 
-            padding: 0.85rem 1.1rem; /* Adjusted padding */
+            padding: 0.85rem 1.1rem; 
             border-radius: 0.5rem; 
             border: 1px solid rgba(146, 114, 206, 0.35);
             cursor: pointer;
-            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
             text-align: left;
-            font-size: 1rem; /* Slightly larger */
+            font-size: 1rem;
         }
-        .answer-option:hover {
+        .answer-option:hover:not(.selected):not(.agraj-correct-answer) { /* Prevent hover if already styled as selected/correct */
             background-color: rgba(146, 114, 206, 0.2); 
             border-color: #9272CE; 
-            transform: translateY(-2px) scale(1.02); /* Added subtle scale */
+            transform: translateY(-2px) scale(1.02);
         }
-        .answer-option.selected {
-            background-color: #9272CE; 
-            color: #FFFFFF; 
-            border-color: #AE8BD5; 
-            font-weight: 600; /* Bolder */
+        .answer-option.selected-visitor { /* Visitor's chosen answer - if it matches Agraj */
+            background-color: #9272CE !important; 
+            color: #FFFFFF !important; 
+            border-color: #AE8BD5 !important; 
+            font-weight: 600;
             box-shadow: 0 0 12px rgba(146, 114, 206, 0.5);
         }
-        .feedback-area {
-            margin-top: 1.5rem; 
-            padding: 1.25rem;
-            background-color: rgba(9, 6, 19, 0.85); 
-            border-radius: 0.5rem;
-            border-left: 4px solid #9272CE; 
-            color: #CBB8E8; 
-            font-size: 0.95rem; /* Slightly larger */
-            line-height: 1.6;
-            display: none; 
-            animation: fadeInFeedback 0.5s ease-out;
+        .answer-option.selected-visitor-wrong { /* Visitor's chosen answer - if it DOES NOT match Agraj */
+            background-color: var(--selected-wrong-bg, rgba(209, 209, 209, 0.2)) !important; /* Whitish/Greyish */
+            color: #FFFFFF !important; 
+            border-color: var(--text-secondary, #D1D1D1) !important;
+            font-weight: 500; /* Slightly less bold than correct */
+            box-shadow: 0 0 8px rgba(209, 209, 209, 0.3);
         }
+        .answer-option.agraj-correct-answer { /* Agraj's actual answer if visitor chose differently */
+            background-color: var(--correct-answer-bg, rgba(146, 114, 206, 0.35)) !important; /* Purplish, but distinct from selected-visitor */
+            color: #FFFFFF !important; 
+            border-color: #CBB8E8 !important; /* Lighter purple border */
+            font-weight: 600;
+            box-shadow: 0 0 10px rgba(146, 114, 206, 0.4);
+        }
+
+        .feedback-area { margin-top: 1.5rem; padding: 1.25rem; background-color: rgba(9, 6, 19, 0.85); border-radius: 0.5rem; border-left: 4px solid #9272CE; color: #CBB8E8; font-size: 0.95rem; line-height: 1.6; display: none; animation: fadeInFeedback 0.5s ease-out; }
         .feedback-area.visible { display: block; }
         @keyframes fadeInFeedback { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .feedback-area strong { color: #FFFFFF; font-weight: 600; }
         
-        #personality-match-section {
-            margin-top: 3rem;
-            padding: 2rem;
-            background-color: rgba(25, 15, 40, 0.8);
-            backdrop-filter: blur(5px);
-            border-radius: 0.75rem;
-            border: 1px solid rgba(146, 114, 206, 0.3);
-            text-align: center;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
-        }
-        #personality-match-section h2 {
-            color: #AE8BD5; /* accent-hover */
-            font-size: 1.75rem;
-            font-family: 'Outfit', sans-serif;
-            margin-bottom: 1.5rem;
-        }
-        #personality-match-section p {
-            font-size: 1.1rem;
-            color: #D1D1D1;
-            margin-bottom: 0.75rem;
-        }
-        #personality-match-section #match-percentage-value {
-            font-weight: 700;
-            font-size: 2rem;
-            color: #9272CE; /* accent */
-        }
-        #personality-match-section #mbti-type-value {
-            font-weight: 600;
-            color: #CBB8E8; /* light-accent */
-        }
+        #personality-match-section { margin-top: 3rem; padding: 2rem; background-color: rgba(25, 15, 40, 0.8); backdrop-filter: blur(5px); border-radius: 0.75rem; border: 1px solid rgba(146, 114, 206, 0.3); text-align: center; box-shadow: 0 6px 25px rgba(0,0,0,0.3); }
+        #personality-match-section h2 { color: #AE8BD5; font-size: 1.75rem; font-family: 'Outfit', sans-serif; margin-bottom: 1.5rem; }
+        #personality-match-section p { font-size: 1.1rem; color: #D1D1D1; margin-bottom: 0.75rem; }
+        #personality-match-section #match-percentage-value { font-weight: 700; font-size: 2rem; color: #9272CE; }
+        #personality-match-section #mbti-type-value { font-weight: 600; color: #CBB8E8; }
+        
+        /* Ensure #calculate-match-button uses glitch styles */
         #calculate-match-button {
-            margin-top: 1.5rem;
-            padding: 0.8rem 1.8rem;
-            background-color: #9272CE;
-            color: #FFFFFF;
-            border: none;
-            border-radius: 0.5rem;
+            /* Basic styles are already glitch-button, add specific margin if needed */
+            margin-top: 2rem; /* Increased margin */
+            padding: 0.8rem 1.8rem; /* Copied from old button for consistency */
+            background-color: #9272CE; /* Base color for glitch */
+            color: #FFFFFF; /* Base text color for glitch */
+            border: none; /* Glitch button handles its own look */
+            border-radius: 0.5rem; /* Consistent rounding */
             font-weight: 500;
             font-size: 1.05rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-        }
-        #calculate-match-button:hover {
-            background-color: #AE8BD5;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(146, 114, 206, 0.3);
         }
          #calculate-match-button:disabled {
-            background-color: #A8A8A8; /* text-tertiary or a gray */
+            background: #5a506b; /* A muted purple/gray for disabled glitch */
+            color: #a8a8a8;
             cursor: not-allowed;
             opacity: 0.7;
         }
+        #calculate-match-button:disabled::before,
+        #calculate-match-button:disabled::after {
+            display: none; /* Hide glitch effects when disabled */
+        }
+
 
     </style>
 </head>
@@ -305,18 +271,20 @@
             <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen">
                 <div class="text-center mb-12 md:mb-16 pt-8">
                     <h1 class="text-4xl md:text-5xl font-bold text-text-primary font-outfit">A Little More About Me</h1>
-                    <p class="text-text-secondary mt-4 text-lg">Answer a few questions to see how our perspectives align (or amusingly diverge!).</p>
+                    <p class="text-text-secondary mt-4 text-lg">Answer these questions to see how our perspectives align (or amusingly diverge!).</p>
                 </div>
                 <div id="questionnaire-container-wrapper" class="questionnaire-container-wrapper">
                     <div id="questionnaire-render-area">
                         <!-- Questionnaire will be rendered here by JavaScript -->
+                        <p class="text-center text-text-secondary">Loading questions...</p>
                     </div>
                     <div id="personality-match-section" style="display: none;">
                         <h2>Personality Snapshot</h2>
                         <p>Your alignment with my perspectives: <span id="match-percentage-value">0</span>%</p>
                         <p>My MBTI Type: <span id="mbti-type-value">INFJ</span></p>
+                        <p class="text-sm text-text-tertiary mt-4">Note: This is a simplified alignment based on these specific questions.</p>
                     </div>
-                    <div class="text-center"> <!-- Centering the button -->
+                    <div class="text-center">
                          <button id="calculate-match-button" class="glitch-button" data-text="See How We Match!" style="display: none;"><span class="btn-text">See How We Match!</span></button>
                     </div>
                 </div>
@@ -336,7 +304,7 @@
                 about: "About Me - Agraj Dubey"
             },
             POSTS_JSON_PATH: 'posts.json',
-            QUESTIONS_JSON_PATH: 'questions.json' // Path to your new questions file
+            QUESTIONS_JSON_PATH: 'questions.json'
         };
         APP_CONFIG.ROTATING_TEXT_HOME = {
              'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
@@ -345,7 +313,7 @@
         };
         
         let ALL_QUESTIONNAIRE_DATA = [];
-        let visitorAnswers = {}; // To store { questionId: selectedOptionText }
+        let visitorAnswers = {}; 
         let questionsAnsweredCount = 0;
 
 
@@ -465,15 +433,20 @@
         async function renderQuestionnaire() {
             const container = $('#questionnaire-render-area');
             const calculateButton = $('#calculate-match-button');
-            if (!container || !calculateButton) return;
+            if (!container || !calculateButton) {
+                console.error("Questionnaire container or button not found.");
+                return;
+            }
+            container.innerHTML = '<p class="text-center text-text-secondary">Loading questions...</p>'; // Loading message
 
             try {
                 const response = await fetch(APP_CONFIG.QUESTIONS_JSON_PATH);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status} for ${APP_CONFIG.QUESTIONS_JSON_PATH}`);
                 ALL_QUESTIONNAIRE_DATA = await response.json();
+                console.log("Questions loaded:", ALL_QUESTIONNAIRE_DATA.length);
             } catch (error) {
                 console.error("Error loading questionnaire:", error);
-                container.innerHTML = '<p class="text-text-secondary text-center">Error: Could not load questions. Please try again later.</p>';
+                container.innerHTML = '<p class="text-text-secondary text-center">Error: Could not load questions. Please ensure \'questions.json\' is present and valid.</p>';
                 return;
             }
             
@@ -499,16 +472,16 @@
                 `;
             });
             container.innerHTML = html;
-            visitorAnswers = {}; // Reset visitor answers
+            visitorAnswers = {}; 
             questionsAnsweredCount = 0;
-            $('#personality-match-section').style.display = 'none'; // Hide results
-            calculateButton.style.display = 'none'; // Hide button initially
+            $('#personality-match-section').style.display = 'none'; 
+            calculateButton.style.display = 'none'; 
             calculateButton.disabled = true;
             setupQuestionnaireInteractions();
         }
 
         function setupQuestionnaireInteractions() {
-            $$('.answer-option').forEach(button => {
+            $$('#questionnaire-render-area .answer-option').forEach(button => {
                 button.addEventListener('click', function() {
                     const questionBlock = this.closest('.question-block');
                     const questionId = questionBlock.dataset.questionId;
@@ -520,26 +493,39 @@
                     const selectedOptionData = questionData.options.find(opt => opt.text === selectedOptionText);
                     if (!selectedOptionData) return;
 
-                    // Update visitorAnswers and count
-                    if (!visitorAnswers[questionId]) {
+                    if (!visitorAnswers[questionId]) { // Only increment if it's the first time answering THIS question
                         questionsAnsweredCount++;
                     }
                     visitorAnswers[questionId] = selectedOptionText;
                     
-                    // Style options
-                    questionBlock.querySelectorAll('.answer-option').forEach(opt => opt.classList.remove('selected'));
-                    this.classList.add('selected');
+                    // Reset styles for all options in this question block first
+                    questionBlock.querySelectorAll('.answer-option').forEach(opt => {
+                        opt.classList.remove('selected-visitor', 'selected-visitor-wrong', 'agraj-correct-answer');
+                    });
+
+                    // Apply styles
+                    if (selectedOptionText === questionData.agrajAnswerText) {
+                        this.classList.add('selected-visitor'); // Visitor chose correctly (Agraj's answer)
+                    } else {
+                        this.classList.add('selected-visitor-wrong'); // Visitor chose differently
+                        // Highlight Agraj's actual answer
+                        const agrajAnswerButton = Array.from(questionBlock.querySelectorAll('.answer-option')).find(optBtn => optBtn.dataset.optionText === questionData.agrajAnswerText);
+                        if (agrajAnswerButton) {
+                            agrajAnswerButton.classList.add('agraj-correct-answer');
+                        }
+                    }
                     
-                    // Display feedback
                     const feedbackArea = questionBlock.querySelector('.feedback-area');
-                    feedbackArea.innerHTML = selectedOptionData.feedback; // This feedback is already crafted to include Agraj's view
+                    feedbackArea.innerHTML = selectedOptionData.feedback; 
                     feedbackArea.classList.add('visible');
 
-                    // Check if all questions answered to show button
+                    const calculateButton = $('#calculate-match-button');
                     if (questionsAnsweredCount === ALL_QUESTIONNAIRE_DATA.length) {
-                        const calculateButton = $('#calculate-match-button');
-                        calculateButton.style.display = 'inline-block'; // Use inline-block for proper glitch button rendering
+                        calculateButton.style.display = 'inline-block';
                         calculateButton.disabled = false;
+                    } else {
+                        calculateButton.style.display = 'none';
+                        calculateButton.disabled = true;
                     }
                 });
             });
@@ -551,40 +537,31 @@
         }
 
         function calculateAndShowMatch() {
-            if (Object.keys(visitorAnswers).length === 0 || ALL_QUESTIONNAIRE_DATA.length === 0) {
-                // alert("Please answer at least one question to see the match!");
+            if (ALL_QUESTIONNAIRE_DATA.length === 0) return;
+            if (questionsAnsweredCount < ALL_QUESTIONNAIRE_DATA.length) {
+                 // This should ideally not happen if button logic is correct, but as a safeguard:
+                console.warn("Attempted to calculate match before all questions were answered.");
+                alert("Please answer all questions to see your match!");
                 return;
             }
 
-            let matches = 0;
-            let answeredQuestionsCountForMatch = 0;
 
+            let matches = 0;
             ALL_QUESTIONNAIRE_DATA.forEach(q => {
-                if (visitorAnswers[q.id]) { // Only consider questions the visitor has answered
-                    answeredQuestionsCountForMatch++;
-                    if (visitorAnswers[q.id] === q.agrajAnswerText) {
-                        matches++;
-                    }
+                if (visitorAnswers[q.id] && visitorAnswers[q.id] === q.agrajAnswerText) {
+                    matches++;
                 }
             });
             
-            // Calculate percentage based on questions *attempted* by visitor, or all questions if that's preferred.
-            // For now, let's base it on all available questions to give a score out of the total.
             const totalQuestions = ALL_QUESTIONNAIRE_DATA.length;
             const percentage = totalQuestions > 0 ? Math.round((matches / totalQuestions) * 100) : 0;
 
             $('#match-percentage-value').textContent = percentage;
-            // MBTI type is hardcoded in HTML for now, but could be dynamic if needed.
-            // $('#mbti-type-value').textContent = "INFJ"; 
-
             $('#personality-match-section').style.display = 'block';
-            
-            // Scroll to results
             $('#personality-match-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-            // Optionally disable button after calculation
-            // this.disabled = true; // 'this' would be the button if event listener was directly on it.
-             $('#calculate-match-button').disabled = true;
+            
+            const calcButton = $('#calculate-match-button');
+            if(calcButton) calcButton.disabled = true;
         }
         // --- End Questionnaire Logic ---
 
@@ -707,7 +684,7 @@
             if (heroImage) { heroImage.style.opacity = '1';  heroImage.style.transform = 'scale(1) translateY(0px)'; }
         }
         let currentMainSection = null;
-        let lastClickedReadMoreLink = null; // For writings page focus management
+        let lastClickedReadMoreLink = null; 
 
         function showMainSection(sectionId) { 
             const previouslyActiveSection = $('.page-section.active-section');
@@ -731,10 +708,13 @@
                 if (sectionId === 'home-content') {
                     animateCircularProfileImage(); 
                     for (const elId in APP_CONFIG.ROTATING_TEXT_HOME) {
-                        if(document.getElementById(elId)) setupRotatingText(elId, APP_CONFIG.ROTATING_TEXT_HOME[elId]);
+                        const rotEl = document.getElementById(elId);
+                        if(rotEl && typeof setupRotatingText === 'function') { // Ensure element exists and function is defined
+                             setupRotatingText(elId, APP_CONFIG.ROTATING_TEXT_HOME[elId]);
+                        }
                     }
                 } else if (sectionId === 'about-content') {
-                    renderQuestionnaire(); // Render/Re-render questionnaire for About section
+                    if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); 
                 }
                 window.scrollTo({ top: 0, behavior: 'auto' });
             }
@@ -751,30 +731,27 @@
                 mainSectionTarget = 'writings-content';
             } else if (currentFullHash === '#about') {
                 mainSectionTarget = 'about-content';
-            } else if (currentFullHash === '#home' || currentFullHash === '' || currentFullHash === '#') { // Adjusted for empty hash
+            } else if (currentFullHash === '#home' || currentFullHash === '' || currentFullHash === '#') {
                 mainSectionTarget = 'home-content'; 
-                if (currentFullHash === '' || currentFullHash === '#') window.location.hash = 'home'; // Default to #home
+                if (currentFullHash === '' || currentFullHash === '#') window.location.hash = 'home';
             } else { 
-                // If hash is unrecognized, default to home
                 window.location.hash = 'home'; 
-                return; // Route change will be handled by the hashchange event recursively
+                return; 
             }
 
             if (currentMainSection !== mainSectionTarget) {
                  showMainSection(mainSectionTarget);
-            } else if (mainSectionTarget === 'writings-content' && articleDetailHash) { // Only if navigating to specific article within writings
-                 handleWritingsArticleLogic(articleDetailHash);
+            } else if (mainSectionTarget === 'writings-content' && articleDetailHash) { 
+                 if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash);
             } else if (mainSectionTarget === 'about-content' && currentMainSection === 'about-content') {
-                 // If already on about page and hash is #about (e.g. from a refresh), ensure questionnaire is rendered
-                 renderQuestionnaire();
+                 if(typeof renderQuestionnaire === 'function') renderQuestionnaire();
             }
             
-            // Update page title
             if (mainSectionTarget === 'writings-content') {
-                handleWritingsArticleLogic(articleDetailHash); // This handles article title or default writings title
+                if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash); 
             } else if (mainSectionTarget === 'about-content') {
                 document.title = APP_CONFIG.DEFAULT_TITLES.about;
-            } else { // Home
+            } else { 
                 document.title = APP_CONFIG.DEFAULT_TITLES.home; 
             }
         }
@@ -797,7 +774,6 @@
             } else {
                 document.title = defaultWritingsTitle;
                 const grid = $('#writings-grid-container');
-                // Focus management for returning to grid from an article view
                 if (grid && typeof lastClickedReadMoreLink !== 'undefined' && lastClickedReadMoreLink && document.body.contains(lastClickedReadMoreLink)) {
                      setTimeout(() => {
                         lastClickedReadMoreLink.focus({preventScroll: true});
@@ -809,14 +785,14 @@
                          if (!isElementInViewport(grid)) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }, 50);
                 }
-                lastClickedReadMoreLink = null; // Reset after use
+                lastClickedReadMoreLink = null; 
             }
         }
         function isElementInViewport(el) { 
             if(!el) return false; const rect = el.getBoundingClientRect();
             return (rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth));
         }
-        let matterEngine = null, matterRender = null; // Secret Game
+        let matterEngine = null, matterRender = null; 
         function setupSecretGame() { 
             const trigger = $('#secret-game-trigger'); const modal = $('#secret-game-modal'); const canvas = $('#matter-canvas'); const closeButton = $('#close-game-button');
             if (!trigger || !modal || !canvas || !closeButton || typeof Matter === 'undefined') { if(trigger) trigger.style.display = 'none'; return; }
@@ -849,18 +825,17 @@
             setupMobileMenu(); 
             setupScrollProgressBar();
             
-            await loadAndRenderPosts(); // For Home and Writings sections
-            // Writings links need event listeners for lastClickedReadMoreLink
+            await loadAndRenderPosts(); 
             document.body.addEventListener('click', function(event) {
                 if (event.target.matches('#writings-grid-container a.read-more-link, #home-recent-writings-grid a[href^="#post-"]')) {
                     lastClickedReadMoreLink = event.target;
                 }
             });
             
-            setupStaticImageClick(); // For Home section
+            setupStaticImageClick(); 
             
-            handleMainRouteChange(); // Initial route handling
-            window.addEventListener('hashchange', handleMainRouteChange); // Listen for route changes
+            handleMainRouteChange(); 
+            window.addEventListener('hashchange', handleMainRouteChange); 
 
             const currentYearEl = $('#currentYear');
             if(currentYearEl) currentYearEl.textContent = new Date().getFullYear();
