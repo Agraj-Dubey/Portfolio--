@@ -15,6 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 
     <script>
+        // ... (Keep your existing Tailwind config) ...
         window.tailwind.config = {
             theme: {
                 extend: {
@@ -46,6 +47,7 @@
     </script>
 
     <style>
+        /* ... (Keep existing CSS for other sections: html, body, hyperspeed, header, page sections, typography, home, writings, etc.) ... */
         html { scroll-behavior: smooth; }
         body {
             background-color: #0f0a19; color: #D1D1D1; font-family: 'Inter', sans-serif;
@@ -165,19 +167,74 @@
         #home-content .view-all-writings-btn { background-color: #9272CE; color: #FFFFFF; font-weight: 500; border-radius: 0.5rem; }
         #home-content .view-all-writings-btn:hover { background-color: #AE8BD5; }
         
-        /* Footer, Secret Game, Progress Bar */
+        /* Footer, Progress Bar */
         .main-footer { background-color: rgba(9, 6, 19, 0.7); border-top: 1px solid rgba(146, 114, 206, 0.1); padding: 2rem 0; margin-top: 4rem; text-align: center; }
-        #secret-game-trigger { cursor: cell; display: inline-block; opacity: 0.5; transition: opacity 0.3s; }
-        #secret-game-trigger:hover { opacity: 1; }
-        #secret-game-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(9, 6, 19, 0.95); backdrop-filter: blur(5px); z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center; animation: fadeInGameModal 0.5s ease-out forwards; }
-        @keyframes fadeInGameModal { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        #matter-canvas { background-color: rgba(15, 10, 25, 0.5); border: 1px solid rgba(146, 114, 206, 0.3); }
-        #close-game-button { margin-top: 20px; padding: 10px 20px; background-color: #9272CE; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 500; transition: background-color 0.3s, transform 0.2s; }
-        #close-game-button:hover { background-color: #AE8BD5; transform: scale(1.05); }
         .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 100; }
         .progress-bar { height: 3px; background: linear-gradient(90deg, #9272CE, #AE8BD5); width: 0%; }
 
-        /* --- About Section Styles --- */
+
+        /* --- SECRET GAME STYLES --- */
+        #secret-game-trigger { cursor: cell; display: inline-block; opacity: 0.5; transition: opacity 0.3s; }
+        #secret-game-trigger:hover { opacity: 1; }
+        #secret-game-modal { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background-color: rgba(9, 6, 19, 0.97); /* More opaque */
+            backdrop-filter: blur(8px); /* Stronger blur */
+            z-index: 1000; 
+            display: none; /* Initially hidden */
+            flex-direction: column; align-items: center; justify-content: center; 
+            animation: fadeInGameModal 0.5s ease-out forwards; 
+        }
+        @keyframes fadeInGameModal { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        #matter-canvas { 
+            background-color: rgba(20, 15, 35, 0.6); /* Darker, slightly purplish canvas bg */
+            border: 2px solid rgba(146, 114, 206, 0.4); /* Thicker, more visible border */
+            border-radius: 8px; /* Rounded corners for canvas */
+            box-shadow: 0 0 20px rgba(146, 114, 206, 0.2);
+        }
+        .game-controls { 
+            margin-top: 20px; 
+            display: flex; /* For reset and close side-by-side */
+            gap: 15px; /* Space between buttons */
+        }
+        .game-controls button { /* Base style for game buttons */
+            padding: 10px 20px; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-weight: 500; 
+            transition: background-color 0.3s, transform 0.2s;
+            font-family: 'Outfit', sans-serif;
+        }
+        #close-game-button { background-color: #7c5bab; /* Slightly muted purple */ }
+        #close-game-button:hover { background-color: #6a4a9a; transform: scale(1.05); }
+        #reset-game-button { background-color: #5887a7; /* A complementary blueish */ }
+        #reset-game-button:hover { background-color: #4a7593; transform: scale(1.05); }
+
+        #game-info {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 15px;
+            background-color: rgba(0,0,0,0.4);
+            border-radius: 5px;
+            color: #CBB8E8;
+            font-size: 0.9rem;
+            text-align: center;
+            min-width: 250px; /* Ensure enough space for text */
+        }
+        #game-info p { margin: 2px 0; }
+        #game-win-message { font-weight: bold; color: #AE8BD5; }
+        .game-instructions {
+            color: #A8A8A8;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        /* --- ABOUT SECTION STYLES --- */
+        /* ... (Keep your up-to-date About Section styles from the previous correct version) ... */
         #about-content .questionnaire-container-wrapper { max-width: 850px; margin-left: auto; margin-right: auto; }
         .question-block { 
             background-color: rgba(28, 18, 52, 0.85); 
@@ -206,7 +263,6 @@
             text-align: left;
             font-size: 1.05rem;
             line-height: 1.4;
-            /* For Anime.js targetting individual options after selection */
             opacity: 1; 
             transform: scale(1);
         }
@@ -263,7 +319,7 @@
             text-align: center; 
             box-shadow: 0 10px 35px rgba(0,0,0,0.4); 
         }
-        #personality-match-section.visible { /* Added this to control visibility for animation */
+        #personality-match-section.visible {
             opacity: 1 !important; 
             transform: translateY(0) !important; 
             display: block !important; 
@@ -280,7 +336,6 @@
             border-radius: 0.5rem;
             background: linear-gradient(135deg, #AE8BD5, #9272CE);
             box-shadow: 0 4px 15px rgba(146, 114, 206, 0.4);
-            /* Initial state for animation handled by JS, ensure CSS doesn't override to hidden */
             opacity: 1; 
             transform: scale(1);
         }
@@ -305,7 +360,13 @@
     </style>
 </head>
 <body>
-    <audio id="revealSound" src="reveal_sound.mp3" preload="auto"></audio>
+    <!-- Add Audio elements for game sounds (optional) -->
+    <audio id="gameSpawnSound" src="spawn_sound.mp3" preload="auto"></audio>
+    <audio id="gameWinSound" src="win_sound.mp3" preload="auto"></audio>
+    <audio id="revealSound" src="reveal_sound.mp3" preload="auto"></audio> <!-- For questionnaire results -->
+
+    <!-- ... (Keep the rest of your body HTML structure: hyperspeed, progress bar, header, page-container with home/writings/about sections, footer) ... -->
+    <!-- Ensure the #secret-game-modal HTML is updated as below -->
     <canvas id="hyperspeed-canvas"></canvas>
     <div class="progress-container"> <div class="progress-bar" id="progressBar"></div> </div> <div class="bg-overlay"></div>
     <header class="main-header"> <div class="container mx-auto px-6 py-4"> <div class="flex justify-between items-center"> <a href="#home" class="nav-logo text-2xl lg:text-3xl font-bold text-text-primary">a-g-r-a-j</a> <button id="nav-toggle" class="nav-toggle-btn md:hidden" aria-label="Toggle Menu" aria-expanded="false"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg> </button> <nav class="desktop-nav hidden md:flex space-x-8 text-text-primary items-center"> <a href="#about" data-navlink="about">About Me</a> <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" data-navlink="contact">Contact Me</a> <a href="#writings" data-navlink="writings">Writings</a> <a href="#home" data-navlink="home" class="active">Home</a> </nav> </div> <nav id="mobile-menu" class="mobile-menu md:hidden"> <a href="#about" data-navlink="about">About Me</a> <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" data-navlink="contact">Contact Me</a> <a href="#writings" data-navlink="writings">Writings</a> <a href="#home" data-navlink="home" class="active">Home</a> </nav> </div> </header>
@@ -343,32 +404,45 @@
     </div>
 
     <footer class="main-footer relative z-10"> <div class="container mx-auto px-6"> <p class="text-text-tertiary">© <span id="currentYear"></span> agraj. All rights reserved. <span id="secret-game-trigger" title="?">🕹️</span> </p> </div> </footer>
-    <div id="secret-game-modal"> <canvas id="matter-canvas"></canvas> <button id="close-game-button" class="glitch-button" data-text="Close Game"><span class="btn-text">Close Game</span></button> </div>
+    
+    <!-- Updated Secret Game Modal HTML -->
+    <div id="secret-game-modal">
+        <div id="game-info">
+            <p>Shapes dropped: <span id="game-shapes-dropped">0</span>/<span id="game-max-shapes">0</span></p>
+            <p>In target: <span id="game-shapes-in-target">0</span>/<span id="game-shapes-to-win">0</span></p>
+            <p id="game-win-message" class="game-instructions">Drag shapes into the purple zone!</p>
+        </div>
+        <canvas id="matter-canvas"></canvas>
+        <div class="game-controls">
+            <button id="reset-game-button" class="glitch-button" data-text="Reset Game"><span class="btn-text">Reset Game</span></button>
+            <button id="close-game-button" class="glitch-button" data-text="Close Game"><span class="btn-text">Close Game</span></button>
+        </div>
+    </div>
 
     <script>
-        const APP_CONFIG = { 
-            ROTATING_TEXT_HOME: { /* ... Your rotating text config ... */ },
-            DEFAULT_TITLES: {
-                home: "agraj - Portfolio",
-                writings: "Writings - Agraj Dubey",
-                about: "About Me - Agraj Dubey"
-            },
-            POSTS_JSON_PATH: 'posts.json',
-            QUESTIONS_JSON_PATH: 'questions.json',
-            TELEGRAM_USERNAME: 'agraj0669', 
-            MATCH_THRESHOLD_FOR_CONTACT: 70 
-        };
+        const APP_CONFIG = { /* ... (Keep your existing APP_CONFIG, ensure TELEGRAM_USERNAME and MATCH_THRESHOLD_FOR_CONTACT are there) ... */ };
         APP_CONFIG.ROTATING_TEXT_HOME = {
              'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
              'main-heading-text': { texts: ["agraj", "アグラジ", "अग्रज", "αγραξ"], typeSpeed: 100, deleteSpeed: 60, pauseDuration: 2500 },
              'blockquote-text': { texts: ["If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒", "Is free will an illusion, or is the illusion the only free will we have?", "Perhaps the 'fragments' are the only coherent parts left.", "What if the algorithm forgets too?", "Maybe exiting early isn't dramatic, just... efficient.", "Family remembers differently. Algorithms remember precisely. Which is better?", "The universe is indifferent, but the code persists. For now.", "Do androids dream of electric sheep? Do algorithms dream of better data?", "To be, or not to be, that is the computation.", "Cogito, ergo sum... I think, therefore I am... coded?"], typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500 }
         };
+         APP_CONFIG.DEFAULT_TITLES = {
+            home: "agraj - Portfolio",
+            writings: "Writings - Agraj Dubey",
+            about: "About Me - Agraj Dubey"
+        };
+        APP_CONFIG.POSTS_JSON_PATH = 'posts.json';
+        APP_CONFIG.QUESTIONS_JSON_PATH = 'questions.json';
+        APP_CONFIG.TELEGRAM_USERNAME = 'agraj0669';
+        APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT = 70;
+
         
         let ALL_QUESTIONNAIRE_DATA = [];
         let visitorAnswers = {}; 
         let questionsAnsweredCount = 0;
-        let revealSound; 
+        let revealSound, gameSpawnSound, gameWinSound; // Audio elements for all sounds
 
+        // --- Helper Functions (Keep as is) ---
         function $(selector) { return document.querySelector(selector); }
         function $$(selector) { return document.querySelectorAll(selector); }
 
@@ -479,7 +553,8 @@
             }
         }
 
-        // --- Questionnaire Logic (About Me Page) ---
+        // --- Questionnaire Logic (About Me Page) --- (Keep as is from previous correct version)
+        // ... (The long questionnaire logic from before, unchanged)
         async function renderQuestionnaire() {
             const container = $('#questionnaire-render-area');
             const calculateButton = $('#calculate-match-button');
@@ -539,6 +614,9 @@
 
             personalityMatchSection.style.display = 'none'; 
             personalityMatchSection.classList.remove('visible');
+             // Reset opacity and transform for re-animation
+            personalityMatchSection.style.opacity = '0';
+            personalityMatchSection.style.transform = 'translateY(20px)';
             contactTelegramBtn.style.display = 'none';
             calculateButton.style.display = 'none'; 
             calculateButton.disabled = true;
@@ -570,7 +648,6 @@
                     optionsInBlock.forEach(opt => {
                         opt.disabled = true;
                         opt.classList.remove('selected-visitor', 'selected-visitor-wrong', 'agraj-correct-answer'); 
-                        // Anime.js fade out non-selected, non-correct answers
                         if (opt !== this && opt.dataset.optionText !== questionData.agrajAnswerText && typeof anime === 'function') {
                             anime({ targets: opt, opacity: 0.4, scale: 0.95, duration: 400, easing: 'easeOutQuad' });
                         }
@@ -579,8 +656,8 @@
                     let animParams = { targets: this, duration: 400, easing: 'easeOutBack' };
                     if (selectedOptionText === questionData.agrajAnswerText) {
                         this.classList.add('selected-visitor');
-                        animParams.scale = [1, 1.05, 1]; // Slight pulse
-                        animParams.backgroundColor = '#825FBD'; // Target color from CSS
+                        animParams.scale = [1, 1.05, 1]; 
+                        animParams.backgroundColor = '#825FBD'; 
                     } else {
                         this.classList.add('selected-visitor-wrong');
                         animParams.backgroundColor = tailwind.theme.extend.colors['selected-wrong-bg'] || 'rgba(120,120,120,0.45)';
@@ -593,15 +670,14 @@
                             }
                         }
                     }
-                    if (typeof anime === 'function') anime(animParams); // Animate the clicked button
+                    if (typeof anime === 'function') anime(animParams); 
                     
                     const feedbackArea = questionBlock.querySelector('.feedback-area');
                     feedbackArea.innerHTML = selectedOptionData.feedback; 
                     feedbackArea.classList.add('visible');
-                     if (typeof anime === 'function') { // Animate feedback appearance
+                     if (typeof anime === 'function') { 
                         anime({ targets: feedbackArea, opacity: [0, 1], translateY: [10,0], duration: 500, delay: 200, easing: 'easeOutExpo' });
                     }
-
 
                     const calculateButton = $('#calculate-match-button');
                     if (ALL_QUESTIONNAIRE_DATA.length > 0 && questionsAnsweredCount === ALL_QUESTIONNAIRE_DATA.length) {
@@ -622,14 +698,10 @@
         }
 
         function calculateAndShowMatch() {
-            console.log("calculateAndShowMatch: Called.");
             const calcButton = $('#calculate-match-button'); 
             if(calcButton) calcButton.disabled = true; 
 
-            if (ALL_QUESTIONNAIRE_DATA.length === 0 || questionsAnsweredCount < ALL_QUESTIONNAIRE_DATA.length) {
-                 console.warn("Match calculation aborted: Data missing or not all questions answered.");
-                 return;
-            }
+            if (ALL_QUESTIONNAIRE_DATA.length === 0 || questionsAnsweredCount < ALL_QUESTIONNAIRE_DATA.length) return;
 
             let matches = 0;
             ALL_QUESTIONNAIRE_DATA.forEach(qData => {
@@ -644,20 +716,15 @@
             const percentage = totalQuestions > 0 ? Math.round((matches / totalQuestions) * 100) : 0;
             console.log(`Final Match: ${matches}/${totalQuestions} = ${percentage}%`);
 
-
             const percentageEl = $('#match-percentage-value');
             const personalityMatchSection = $('#personality-match-section');
             const contactTelegramBtn = $('#contact-telegram-btn');
             
-            if (!percentageEl || !personalityMatchSection || !contactTelegramBtn) {
-                console.error("Result display elements not found!");
-                return;
-            }
+            if (!percentageEl || !personalityMatchSection || !contactTelegramBtn) return;
 
-            percentageEl.textContent = percentage; // Set final value directly
-            percentageEl.style.opacity = '0'; // Prepare for animation
+            percentageEl.textContent = percentage; 
+            percentageEl.style.opacity = '0'; 
             percentageEl.style.transform = 'scale(0.5)';
-
 
             if (revealSound && typeof revealSound.play === 'function') {
                 revealSound.currentTime = 0; 
@@ -666,21 +733,25 @@
             
             personalityMatchSection.style.display = 'block'; 
             
-            setTimeout(() => { // Allow display:block to apply
+            setTimeout(() => { 
                 if (typeof anime === 'function') {
                     anime.timeline({ easing: 'easeOutExpo' })
                     .add({
                         targets: personalityMatchSection,
                         opacity: [0, 1],
                         translateY: [30, 0],
-                        duration: 700
+                        duration: 700,
+                        begin: () => personalityMatchSection.classList.add('visible')
                     })
                     .add({
                         targets: percentageEl,
                         opacity: [0,1],
-                        scale: [0.5, 1.1, 1], // Add a little bounce
+                        scale: [0.5, 1.1, 1], 
                         duration: 800,
-                    }, '-=400') // Start this animation partly through the section reveal
+                        update: function(anim) { // Ensure text updates if innerHTML animation was intended
+                            percentageEl.textContent = Math.round(anim.animations[0].currentValue);
+                        }
+                    }, '-=400') 
                     .add({
                         targets: [$('#personality-match-section h2'), $('#personality-match-section p'), $('#personality-match-section #mbti-type-value')],
                         opacity: [0,1],
@@ -691,30 +762,215 @@
                     .finished.then(() => {
                         personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) {
-                            contactTelegramBtn.style.display = 'inline-block'; // make it part of layout before animating
+                            contactTelegramBtn.style.display = 'inline-block'; 
                             anime({targets: contactTelegramBtn, opacity: [0,1], scale: [0.8,1], duration: 500, easing: 'easeOutExpo'});
                         } else {
                             contactTelegramBtn.style.display = 'none';
                         }
                     });
                 } else { 
-                    // Fallback: Simple show without complex Anime.js timeline
                     percentageEl.style.opacity = '1';
                     percentageEl.style.transform = 'scale(1)';
                     personalityMatchSection.style.opacity = '1';
                     personalityMatchSection.style.transform = 'translateY(0)';
-                    personalityMatchSection.classList.add('visible'); // For CSS consistency
+                    personalityMatchSection.classList.add('visible');
                     personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) {
                         contactTelegramBtn.style.display = 'inline-block';
-                        contactTelegramBtn.href = `https://t.me/${APP_CONFIG.TELEGRAM_USERNAME}`;
                     } else {
                         contactTelegramBtn.style.display = 'none';
                     }
                 }
             }, 50);
         }
-        // --- End Questionnaire Logic ---
+
+
+        // --- Secret Game Logic (Updated) ---
+        let matterEngine, matterRender, matterRunner;
+        let gameShapes = [];
+        let gameSpawnSoundEl, gameWinSoundEl;
+        const MAX_SHAPES_TO_SPAWN = 10;
+        const SHAPES_TO_WIN = 3;
+        let shapesSpawned = 0;
+        let gameHasBeenWon = false;
+        let targetZoneBody; // To store the target zone body
+
+        function playSound(soundElement) {
+            if (soundElement && typeof soundElement.play === 'function') {
+                soundElement.currentTime = 0;
+                soundElement.play().catch(e => console.warn("Sound play failed:", e.message));
+            }
+        }
+
+        function resetSecretGame() {
+            console.log("Resetting game...");
+            gameHasBeenWon = false;
+            shapesSpawned = 0;
+            if (matterEngine) Matter.Composite.clear(matterEngine.world, false); // Clear dynamic bodies
+            gameShapes = [];
+            
+            // Re-add static bodies (ground, walls, target zone)
+            const canvas = $('#matter-canvas');
+            const canvasWidth = parseFloat(canvas.width);
+            const canvasHeight = parseFloat(canvas.height);
+
+            const ground = Matter.Bodies.rectangle(canvasWidth / 2, canvasHeight - 10, canvasWidth + 20, 60, { isStatic: true, render: { fillStyle: '#6a4a9a' } }); // Thicker ground
+            const leftWall = Matter.Bodies.rectangle(-30, canvasHeight / 2, 60, canvasHeight, { isStatic: true, render: { fillStyle: '#6a4a9a' } });
+            const rightWall = Matter.Bodies.rectangle(canvasWidth + 30, canvasHeight / 2, 60, canvasHeight, { isStatic: true, render: { fillStyle: '#6a4a9a' } });
+            
+            const targetZoneHeight = 50;
+            const targetZoneY = canvasHeight - 30 - (targetZoneHeight / 2) - 10; // Adjusted to be above ground
+            targetZoneBody = Matter.Bodies.rectangle(canvasWidth / 2, targetZoneY, canvasWidth * 0.5, targetZoneHeight, {
+                isStatic: true, isSensor: true, label: 'targetZone',
+                render: { fillStyle: 'rgba(174, 139, 213, 0.35)', strokeStyle: 'rgba(203, 184, 232, 0.6)', lineWidth: 2 }
+            });
+
+            Matter.Composite.add(matterEngine.world, [ground, leftWall, rightWall, targetZoneBody]);
+            updateGameInfoDisplay();
+            if ($('#game-win-message')) $('#game-win-message').textContent = "Drag shapes into the purple zone!";
+        }
+
+
+        function updateGameInfoDisplay() {
+            if ($('#game-shapes-dropped')) $('#game-shapes-dropped').textContent = shapesSpawned;
+            if ($('#game-max-shapes')) $('#game-max-shapes').textContent = MAX_SHAPES_TO_SPAWN;
+            
+            let shapesInTargetCount = 0;
+            if (targetZoneBody) { // Ensure targetZoneBody is defined
+                gameShapes.forEach(shape => {
+                    if (Matter.Bounds.overlaps(shape.bounds, targetZoneBody.bounds) && 
+                        shape.position.y > targetZoneBody.bounds.min.y && 
+                        shape.position.y < targetZoneBody.bounds.max.y &&
+                        Math.abs(shape.velocity.x) < 0.1 && Math.abs(shape.velocity.y) < 0.1) { // Check if settled
+                        shapesInTargetCount++;
+                    }
+                });
+            }
+            if ($('#game-shapes-in-target')) $('#game-shapes-in-target').textContent = shapesInTargetCount;
+            if ($('#game-shapes-to-win')) $('#game-shapes-to-win').textContent = SHAPES_TO_WIN;
+
+            if (!gameHasBeenWon && shapesInTargetCount >= SHAPES_TO_WIN) {
+                gameHasBeenWon = true;
+                if ($('#game-win-message')) $('#game-win-message').textContent = "YOU WIN! ✨";
+                playSound(gameWinSoundEl);
+                if (typeof anime === 'function') {
+                    anime({ targets: '#game-win-message', scale: [1, 1.2, 1], color: ['#AE8BD5', '#FFFFFF', '#AE8BD5'], duration: 1000, easing: 'easeInOutQuad' });
+                }
+            } else if (!gameHasBeenWon && shapesSpawned >= MAX_SHAPES_TO_SPAWN && shapesInTargetCount < SHAPES_TO_WIN) {
+                 if ($('#game-win-message')) $('#game-win-message').textContent = "Out of shapes! Try again?";
+            }
+        }
+
+
+        function setupSecretGame() {
+            const trigger = $('#secret-game-trigger'); 
+            const modal = $('#secret-game-modal'); 
+            const canvas = $('#matter-canvas'); 
+            const closeButton = $('#close-game-button');
+            const resetButton = $('#reset-game-button');
+            
+            gameSpawnSoundEl = $('#gameSpawnSound');
+            gameWinSoundEl = $('#gameWinSound');
+
+            if (!trigger || !modal || !canvas || !closeButton || !resetButton || typeof Matter === 'undefined') { 
+                if(trigger) trigger.style.display = 'none'; 
+                console.warn("Secret game elements not found or Matter.js missing.");
+                return; 
+            }
+
+            const Engine = Matter.Engine, Render = Matter.Render, Runner = Matter.Runner, 
+                  Bodies = Matter.Bodies, Composite = Matter.Composite, Mouse = Matter.Mouse, 
+                  MouseConstraint = Matter.MouseConstraint, Events = Matter.Events;
+
+            trigger.addEventListener('click', () => {
+                modal.style.display = 'flex';
+                if (typeof anime === 'function') {
+                    anime({ targets: modal, opacity: [0,1], scale: [0.9, 1], duration: 400, easing: 'easeOutExpo' });
+                }
+
+                if (matterRender) Matter.Render.stop(matterRender); 
+                if (matterRunner) Runner.stop(matterRunner);
+                if (matterEngine) Matter.Engine.clear(matterEngine); 
+                if (canvas.firstChild) canvas.removeChild(canvas.firstChild); // Clear old canvas if any
+
+                matterEngine = Engine.create({ gravity: { y: 0.7 } }); // Slightly stronger gravity
+                
+                let canvasWidth = Math.min(window.innerWidth * 0.85, 700); 
+                let canvasHeight = Math.min(window.innerHeight * 0.75, 450);
+                canvas.width = canvasWidth; // Set canvas element size
+                canvas.height = canvasHeight;
+
+                matterRender = Render.create({ 
+                    element: modal, // Render inside the modal
+                    canvas: canvas, 
+                    engine: matterEngine, 
+                    options: { 
+                        width: canvasWidth, height: canvasHeight, 
+                        wireframes: false, background: 'transparent' 
+                    } 
+                });
+                
+                resetSecretGame(); // Initial setup of static bodies and game state
+
+                const mouse = Mouse.create(matterRender.canvas); 
+                const mouseConstraint = MouseConstraint.create(matterEngine, { 
+                    mouse: mouse, 
+                    constraint: { stiffness: 0.1, render: { visible: false } } 
+                });
+                Composite.add(matterEngine.world, mouseConstraint); 
+                matterRender.mouse = mouse;
+
+                // Add bodies on click (limited)
+                Events.on(mouseConstraint, 'mousedown', (event) => {
+                    if (gameHasBeenWon || shapesSpawned >= MAX_SHAPES_TO_SPAWN) return;
+
+                    const mousePosition = event.mouse.position;
+                    let body;
+                    const size = Math.random() * 20 + 15; // Random size between 15 and 35
+                    const color = ['#CBB8E8', '#AE8BD5', '#FFFFFF', '#9272CE'][Math.floor(Math.random() * 4)];
+
+                    if (shapesSpawned % 2 === 0) { // Alternate shapes
+                        body = Bodies.rectangle(mousePosition.x, mousePosition.y, size, size, { 
+                            render: { fillStyle: color },
+                            frictionAir: 0.03, // A bit of air friction
+                            restitution: 0.4
+                        });
+                    } else {
+                        body = Bodies.circle(mousePosition.x, mousePosition.y, size / 1.8, { 
+                            render: { fillStyle: color },
+                            frictionAir: 0.02,
+                            restitution: 0.6
+                        });
+                    }
+                    Composite.add(matterEngine.world, body);
+                    gameShapes.push(body);
+                    shapesSpawned++;
+                    playSound(gameSpawnSoundEl);
+                    updateGameInfoDisplay();
+                });
+
+                Events.on(matterEngine, 'afterUpdate', updateGameInfoDisplay); // Continuously update info
+
+                Render.run(matterRender); 
+                matterRunner = Runner.create(); 
+                Runner.run(matterRunner, matterEngine);
+            });
+
+            closeButton.addEventListener('click', () => { 
+                if (typeof anime === 'function') {
+                    anime({
+                        targets: modal, opacity: [1,0], scale: [1, 0.9], duration: 300, easing: 'easeInExpo',
+                        complete: () => modal.style.display = 'none'
+                    });
+                } else {
+                    modal.style.display = 'none'; 
+                }
+                if (matterRender) Matter.Render.stop(matterRender); 
+                if (matterRunner) Runner.stop(matterRunner);
+                if (matterEngine) Matter.Engine.clear(matterEngine); 
+            });
+            resetButton.addEventListener('click', resetSecretGame);
+        }
 
 
         // --- Other JS functions (Routing, Utils, etc.) --- (Keep as is)
@@ -896,17 +1152,14 @@
             } else if (mainSectionTarget === 'writings-content' && articleDetailHash) { 
                  if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash);
             } else if (mainSectionTarget === 'about-content' && currentMainSection === 'about-content') {
-                 // If already on about page (e.g. from refresh), ensure questionnaire is re-rendered to reset state
-                 if(typeof renderQuestionnaire === 'function') renderQuestionnaire();
+                 if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); 
             }
             
-            // Update page title based on current main section
             if (mainSectionTarget === 'writings-content') {
-                // This function will handle if it's an article or the main writings grid
                 if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash); 
             } else if (mainSectionTarget === 'about-content') {
                 document.title = APP_CONFIG.DEFAULT_TITLES.about;
-            } else { // Home or default
+            } else { 
                 document.title = APP_CONFIG.DEFAULT_TITLES.home; 
             }
         }
@@ -947,33 +1200,12 @@
             if(!el) return false; const rect = el.getBoundingClientRect();
             return (rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth));
         }
-        let matterEngine = null, matterRender = null; 
-        function setupSecretGame() { 
-            const trigger = $('#secret-game-trigger'); const modal = $('#secret-game-modal'); const canvas = $('#matter-canvas'); const closeButton = $('#close-game-button');
-            if (!trigger || !modal || !canvas || !closeButton || typeof Matter === 'undefined') { if(trigger) trigger.style.display = 'none'; return; }
-            const Engine = Matter.Engine, Render = Matter.Render, Runner = Matter.Runner, Bodies = Matter.Bodies, Composite = Matter.Composite, Mouse = Matter.Mouse, MouseConstraint = Matter.MouseConstraint;
-            trigger.addEventListener('click', () => {
-                modal.style.display = 'flex';
-                if (matterRender) Matter.Render.stop(matterRender); if (matterEngine) Matter.Engine.clear(matterEngine); if (canvas.firstChild) canvas.removeChild(canvas.firstChild);
-                matterEngine = Engine.create({ gravity: { y: 0.6 } }); const world = matterEngine.world;
-                let canvasWidth = Math.min(window.innerWidth * 0.8, 600); let canvasHeight = Math.min(window.innerHeight * 0.7, 400);
-                matterRender = Render.create({ canvas: canvas, engine: matterEngine, options: { width: canvasWidth, height: canvasHeight, wireframes: false, background: 'transparent' } });
-                const ground = Bodies.rectangle(canvasWidth / 2, canvasHeight - 10, canvasWidth, 20, { isStatic: true, render: { fillStyle: '#9272CE' } });
-                const leftWall = Bodies.rectangle(10, canvasHeight/2, 20, canvasHeight, {isStatic: true, render: {fillStyle: '#9272CE'}});
-                const rightWall = Bodies.rectangle(canvasWidth-10, canvasHeight/2, 20, canvasHeight, {isStatic: true, render: {fillStyle: '#9272CE'}});
-                Composite.add(world, [ground, leftWall, rightWall]);
-                for (let i = 0; i < 15; i++) { const x = Math.random() * (canvasWidth - 60) + 30; const y = Math.random() * (canvasHeight / 2); const sides = Math.floor(Math.random() * 3) + 3; const radius = Math.random() * 20 + 10; const color = ['#CBB8E8', '#AE8BD5', '#FFFFFF'][Math.floor(Math.random() * 3)]; let body; if (sides === 3 && Math.random() > 0.5) { body = Bodies.circle(x, y, radius, { render: { fillStyle: color } }); } else { body = Bodies.polygon(x, y, sides, radius, { render: { fillStyle: color } }); } Composite.add(world, body); }
-                const mouse = Mouse.create(matterRender.canvas); const mouseConstraint = MouseConstraint.create(matterEngine, { mouse: mouse, constraint: { stiffness: 0.2, render: { visible: false } } });
-                Composite.add(world, mouseConstraint); matterRender.mouse = mouse;
-                Render.run(matterRender); const runner = Runner.create(); Runner.run(runner, matterEngine);
-            });
-            closeButton.addEventListener('click', () => { modal.style.display = 'none'; if (matterRender) Matter.Render.stop(matterRender); if (matterEngine) Matter.Engine.clear(matterEngine); });
-        }
-        // --- End Other JS functions ---
-
+        
         // --- DOMContentLoaded ---
         document.addEventListener('DOMContentLoaded', async () => {
             revealSound = $('#revealSound'); 
+            gameSpawnSoundEl = $('#gameSpawnSound'); // Initialize game sound elements
+            gameWinSoundEl = $('#gameWinSound');
 
             resizeHyperspeedCanvas(); initStars(); animateHyperspeed();
             window.addEventListener('resize', resizeHyperspeedCanvas);
@@ -995,7 +1227,7 @@
 
             const currentYearEl = $('#currentYear');
             if(currentYearEl) currentYearEl.textContent = new Date().getFullYear();
-            setupSecretGame();
+            setupSecretGame(); // This initializes the secret game logic
         });
     </script>
 </body>
