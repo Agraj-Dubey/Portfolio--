@@ -30,8 +30,9 @@
                         'brand-purple': '#9272CE', 'brand-hover': '#AE8BD5',
                         'brand-light-purple': '#CBB8E8', 'brand-dark': '#050505',
                         'brand-light': '#FFFFFF', 'brand-gray': '#D1D1D1', 'brand-text': '#A8A8A8',
-                        'correct-answer-bg': 'rgba(146, 114, 206, 0.25)', // For correct answer highlight if visitor chose wrong
-                        'selected-wrong-bg': 'rgba(209, 209, 209, 0.15)', // For selected but wrong answer
+                        'correct-answer-bg': 'rgba(146, 114, 206, 0.35)', // For Agraj's correct answer highlight if visitor chose wrong
+                        'selected-wrong-bg': 'rgba(100, 100, 100, 0.3)', // Darker Greyish for selected but wrong answer
+                        'disabled-option-bg': 'rgba(30, 20, 50, 0.7)', // For disabled options
                     },
                     fontFamily: { /* ... same ... */ },
                 }
@@ -157,8 +158,8 @@
         .glitch-button { position: relative; display: inline-block; cursor: pointer; padding: 0.75rem 1.5rem; text-decoration: none; overflow: hidden; transition: transform 0.1s ease-out; -webkit-user-select: none; -ms-user-select: none; user-select: none; }
         .glitch-button .btn-text { position: relative; z-index: 1; }
         .glitch-button::before, .glitch-button::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: inherit; color: inherit; padding: inherit; overflow: hidden; transition: transform 0.3s cubic-bezier(0.75, 0, 0.25, 1), opacity 0.3s ease; opacity: 0; }
-        .glitch-button:hover::before { transform: translate(-3px, -2px) skewX(-5deg); text-shadow: 2px 0px #FF00FF; opacity: 0.8; animation: glitchEffectBefore 0.2s infinite alternate; }
-        .glitch-button:hover::after { transform: translate(3px, 2px) skewX(5deg); text-shadow: -2px 0px #00FFFF; opacity: 0.8; animation: glitchEffectAfter 0.2s infinite alternate-reverse; }
+        .glitch-button:not(:disabled):hover::before { transform: translate(-3px, -2px) skewX(-5deg); text-shadow: 2px 0px #FF00FF; opacity: 0.8; animation: glitchEffectBefore 0.2s infinite alternate; }
+        .glitch-button:not(:disabled):hover::after { transform: translate(3px, 2px) skewX(5deg); text-shadow: -2px 0px #00FFFF; opacity: 0.8; animation: glitchEffectAfter 0.2s infinite alternate-reverse; }
         .glitch-button:active { transform: scale(0.97); }
         @keyframes glitchEffectBefore { 0% { clip-path: inset(10% 0 70% 0); } 50% { clip-path: inset(40% 0 20% 0); } 100% { clip-path: inset(75% 0 5% 0); } }
         @keyframes glitchEffectAfter { 0% { clip-path: inset(60% 0 25% 0); } 50% { clip-path: inset(15% 0 55% 0); } 100% { clip-path: inset(50% 0 10% 0); } }
@@ -178,86 +179,123 @@
         .progress-bar { height: 3px; background: linear-gradient(90deg, #9272CE, #AE8BD5); width: 0%; }
 
         /* --- About Section Styles --- */
-        #about-content .questionnaire-container-wrapper { max-width: 750px; margin-left: auto; margin-right: auto; }
-        .question-block { background-color: rgba(25, 15, 40, 0.75); backdrop-filter: blur(6px); border: 1px solid rgba(146, 114, 206, 0.25); border-radius: 0.75rem; padding: 1.75rem; margin-bottom: 2.5rem; box-shadow: 0 5px 20px rgba(0,0,0,0.25); }
-        .question-block h3 { color: #CBB8E8; font-size: 1.35rem; font-weight: 600; margin-bottom: 1.25rem; font-family: 'Outfit', sans-serif; }
-        .answer-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
-        .answer-option {
-            background-color: rgba(15, 10, 25, 0.85); 
-            color: #D1D1D1; 
-            padding: 0.85rem 1.1rem; 
-            border-radius: 0.5rem; 
-            border: 1px solid rgba(146, 114, 206, 0.35);
-            cursor: pointer;
-            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
-            text-align: left;
-            font-size: 1rem;
+        #about-content .questionnaire-container-wrapper { max-width: 800px; /* Increased width */ margin-left: auto; margin-right: auto; }
+        .question-block { 
+            background-color: rgba(25, 15, 40, 0.8); /* Slightly more opaque */
+            backdrop-filter: blur(7px); /* Increased blur */
+            border: 1px solid rgba(146, 114, 206, 0.3); /* Slightly more visible border */
+            border-radius: 0.85rem; /* Slightly more rounded */
+            padding: 2rem 2.25rem; /* Increased padding */
+            margin-bottom: 3rem; /* Increased spacing */
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3); /* Softer shadow */
+            min-height: 200px; /* Ensure some minimum height */
+            display: flex;
+            flex-direction: column;
         }
-        .answer-option:hover:not(.selected):not(.agraj-correct-answer) { /* Prevent hover if already styled as selected/correct */
+        .question-block h3 { color: #CBB8E8; font-size: 1.45rem; font-weight: 600; margin-bottom: 1.5rem; font-family: 'Outfit', sans-serif; }
+        .answer-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem; /* Added margin for feedback area */ flex-grow: 1; }
+        .answer-option {
+            background-color: rgba(15, 10, 25, 0.9); 
+            color: #D1D1D1; 
+            padding: 0.9rem 1.2rem; 
+            border-radius: 0.6rem; 
+            border: 1px solid rgba(146, 114, 206, 0.4);
+            cursor: pointer;
+            transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+            text-align: left;
+            font-size: 1.05rem;
+        }
+        .answer-option:not([disabled]):hover {
             background-color: rgba(146, 114, 206, 0.2); 
             border-color: #9272CE; 
-            transform: translateY(-2px) scale(1.02);
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 3px 10px rgba(146, 114, 206, 0.2);
         }
-        .answer-option.selected-visitor { /* Visitor's chosen answer - if it matches Agraj */
-            background-color: #9272CE !important; 
+        .answer-option.selected-visitor { /* Visitor chose Agraj's answer */
+            background-color: #825FBD !important; /* Distinctive strong purple */
+            color: #FFFFFF !important; 
+            border-color: #CBB8E8 !important; 
+            font-weight: 600;
+            box-shadow: 0 0 15px rgba(146, 114, 206, 0.6);
+            transform: scale(1.02);
+        }
+        .answer-option.selected-visitor-wrong { /* Visitor chose, but not Agraj's answer */
+            background-color: var(--selected-wrong-bg, rgba(100, 100, 100, 0.4)) !important; 
+            color: #E0E0E0 !important; 
+            border-color: var(--text-tertiary, #A8A8A8) !important;
+            font-weight: 500; 
+            box-shadow: 0 0 8px rgba(100, 100, 100, 0.2);
+        }
+        .answer-option.agraj-correct-answer { /* Agraj's actual answer, if visitor chose differently */
+            background-color: var(--correct-answer-bg, rgba(146, 114, 206, 0.45)) !important; 
             color: #FFFFFF !important; 
             border-color: #AE8BD5 !important; 
-            font-weight: 600;
-            box-shadow: 0 0 12px rgba(146, 114, 206, 0.5);
+            font-weight: 600; /* Make it stand out */
+            box-shadow: 0 0 12px rgba(174, 139, 213, 0.5);
+            /* Add a subtle pulse or glow? */
+            animation: pulseCorrect 1.5s infinite alternate; 
         }
-        .answer-option.selected-visitor-wrong { /* Visitor's chosen answer - if it DOES NOT match Agraj */
-            background-color: var(--selected-wrong-bg, rgba(209, 209, 209, 0.2)) !important; /* Whitish/Greyish */
-            color: #FFFFFF !important; 
-            border-color: var(--text-secondary, #D1D1D1) !important;
-            font-weight: 500; /* Slightly less bold than correct */
-            box-shadow: 0 0 8px rgba(209, 209, 209, 0.3);
+        @keyframes pulseCorrect { 0% { box-shadow: 0 0 12px rgba(174, 139, 213, 0.5); } 100% { box-shadow: 0 0 18px 3px rgba(174, 139, 213, 0.7); } } 
+
+        .answer-option[disabled] {
+            background-color: var(--disabled-option-bg, rgba(40, 30, 60, 0.7)) !important;
+            color: #8a8a8a !important;
+            cursor: not-allowed;
+            border-color: rgba(146, 114, 206, 0.2) !important;
+            opacity: 0.7;
         }
-        .answer-option.agraj-correct-answer { /* Agraj's actual answer if visitor chose differently */
-            background-color: var(--correct-answer-bg, rgba(146, 114, 206, 0.35)) !important; /* Purplish, but distinct from selected-visitor */
-            color: #FFFFFF !important; 
-            border-color: #CBB8E8 !important; /* Lighter purple border */
-            font-weight: 600;
-            box-shadow: 0 0 10px rgba(146, 114, 206, 0.4);
+        .answer-option[disabled]:not(.selected-visitor):not(.selected-visitor-wrong):not(.agraj-correct-answer) {
+             /* Ensure non-selected disabled options are less prominent */
+            opacity: 0.5;
         }
 
-        .feedback-area { margin-top: 1.5rem; padding: 1.25rem; background-color: rgba(9, 6, 19, 0.85); border-radius: 0.5rem; border-left: 4px solid #9272CE; color: #CBB8E8; font-size: 0.95rem; line-height: 1.6; display: none; animation: fadeInFeedback 0.5s ease-out; }
+
+        .feedback-area { margin-top: auto; /* Pushes feedback to bottom if options don't fill space */ padding: 1.25rem; background-color: rgba(9, 6, 19, 0.9); border-radius: 0.5rem; border-left: 4px solid #9272CE; color: #CBB8E8; font-size: 0.95rem; line-height: 1.6; display: none; animation: fadeInFeedback 0.5s ease-out; }
         .feedback-area.visible { display: block; }
         @keyframes fadeInFeedback { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .feedback-area strong { color: #FFFFFF; font-weight: 600; }
         
-        #personality-match-section { margin-top: 3rem; padding: 2rem; background-color: rgba(25, 15, 40, 0.8); backdrop-filter: blur(5px); border-radius: 0.75rem; border: 1px solid rgba(146, 114, 206, 0.3); text-align: center; box-shadow: 0 6px 25px rgba(0,0,0,0.3); }
-        #personality-match-section h2 { color: #AE8BD5; font-size: 1.75rem; font-family: 'Outfit', sans-serif; margin-bottom: 1.5rem; }
-        #personality-match-section p { font-size: 1.1rem; color: #D1D1D1; margin-bottom: 0.75rem; }
-        #personality-match-section #match-percentage-value { font-weight: 700; font-size: 2rem; color: #9272CE; }
-        #personality-match-section #mbti-type-value { font-weight: 600; color: #CBB8E8; }
+        #personality-match-section { 
+            margin-top: 3.5rem; /* More space above */
+            padding: 2.5rem;  /* More padding */
+            background-color: rgba(30, 20, 55, 0.85); /* Darker, richer purple base */
+            backdrop-filter: blur(8px); 
+            border-radius: 0.85rem; 
+            border: 1px solid rgba(174, 139, 213, 0.4); /* Lighter accent border */
+            text-align: center; 
+            box-shadow: 0 8px 30px rgba(0,0,0,0.35); 
+            opacity: 0; /* For fade in animation */
+            transform: translateY(20px); /* For fade in animation */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        #personality-match-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #personality-match-section h2 { color: #AE8BD5; font-size: 2rem; font-family: 'Outfit', sans-serif; margin-bottom: 1.75rem; }
+        #personality-match-section p { font-size: 1.15rem; color: #D1D1D1; margin-bottom: 1rem; }
+        #personality-match-section #match-percentage-value { font-weight: 700; font-size: 2.8rem; /* Larger percentage */ color: #CBB8E8; /* Light accent for contrast */ display: inline-block; margin: 0.5rem 0; }
+        #personality-match-section #mbti-type-value { font-weight: 600; color: #AE8BD5; }
+        #contact-telegram-btn {
+            margin-top: 1.5rem;
+            display: none; /* Hidden by default */
+            background-color: #28A8EA; /* Telegram blue */
+            color: white;
+        }
+        #contact-telegram-btn:hover {
+            background-color: #229 θεωρηθείτε; /* Darker Telegram blue */
+        }
         
-        /* Ensure #calculate-match-button uses glitch styles */
-        #calculate-match-button {
-            /* Basic styles are already glitch-button, add specific margin if needed */
-            margin-top: 2rem; /* Increased margin */
-            padding: 0.8rem 1.8rem; /* Copied from old button for consistency */
-            background-color: #9272CE; /* Base color for glitch */
-            color: #FFFFFF; /* Base text color for glitch */
-            border: none; /* Glitch button handles its own look */
-            border-radius: 0.5rem; /* Consistent rounding */
-            font-weight: 500;
-            font-size: 1.05rem;
-        }
-         #calculate-match-button:disabled {
-            background: #5a506b; /* A muted purple/gray for disabled glitch */
-            color: #a8a8a8;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
+        #calculate-match-button { margin-top: 2.5rem; padding: 0.9rem 2rem; background-color: #9272CE; color: #FFFFFF; border: none; border-radius: 0.5rem; font-weight: 500; font-size: 1.1rem; }
+         #calculate-match-button:disabled { background: #5a506b; color: #a8a8a8; cursor: not-allowed; opacity: 0.7; }
         #calculate-match-button:disabled::before,
-        #calculate-match-button:disabled::after {
-            display: none; /* Hide glitch effects when disabled */
-        }
+        #calculate-match-button:disabled::after { display: none; }
 
 
     </style>
 </head>
 <body>
+    <audio id="revealSound" src="reveal_sound.mp3" preload="auto"></audio> <!-- Add your sound file here -->
     <canvas id="hyperspeed-canvas"></canvas>
     <div class="progress-container"> <div class="progress-bar" id="progressBar"></div> </div> <div class="bg-overlay"></div>
     <header class="main-header"> <div class="container mx-auto px-6 py-4"> <div class="flex justify-between items-center"> <a href="#home" class="nav-logo text-2xl lg:text-3xl font-bold text-text-primary">a-g-r-a-j</a> <button id="nav-toggle" class="nav-toggle-btn md:hidden" aria-label="Toggle Menu" aria-expanded="false"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg> </button> <nav class="desktop-nav hidden md:flex space-x-8 text-text-primary items-center"> <a href="#about" data-navlink="about">About Me</a> <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer">Contact Me</a> <a href="#writings" data-navlink="writings">Writings</a> <a href="#home" data-navlink="home" class="active">Home</a> </nav> </div> <nav id="mobile-menu" class="mobile-menu md:hidden"> <a href="#about" data-navlink="about">About Me</a> <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer">Contact Me</a> <a href="#writings" data-navlink="writings">Writings</a> <a href="#home" data-navlink="home" class="active">Home</a> </nav> </div> </header>
@@ -275,14 +313,16 @@
                 </div>
                 <div id="questionnaire-container-wrapper" class="questionnaire-container-wrapper">
                     <div id="questionnaire-render-area">
-                        <!-- Questionnaire will be rendered here by JavaScript -->
                         <p class="text-center text-text-secondary">Loading questions...</p>
                     </div>
-                    <div id="personality-match-section" style="display: none;">
+                    <div id="personality-match-section" class="mt-12"> <!-- Added class for easier selection -->
                         <h2>Personality Snapshot</h2>
                         <p>Your alignment with my perspectives: <span id="match-percentage-value">0</span>%</p>
                         <p>My MBTI Type: <span id="mbti-type-value">INFJ</span></p>
                         <p class="text-sm text-text-tertiary mt-4">Note: This is a simplified alignment based on these specific questions.</p>
+                        <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" id="contact-telegram-btn" class="glitch-button mt-6" data-text="Contact on Telegram!">
+                            <span class="btn-text">Contact on Telegram!</span>
+                        </a>
                     </div>
                     <div class="text-center">
                          <button id="calculate-match-button" class="glitch-button" data-text="See How We Match!" style="display: none;"><span class="btn-text">See How We Match!</span></button>
@@ -304,7 +344,9 @@
                 about: "About Me - Agraj Dubey"
             },
             POSTS_JSON_PATH: 'posts.json',
-            QUESTIONS_JSON_PATH: 'questions.json'
+            QUESTIONS_JSON_PATH: 'questions.json',
+            TELEGRAM_USERNAME: 'agraj0669', // Your Telegram username
+            MATCH_THRESHOLD_FOR_CONTACT: 70 // Percentage
         };
         APP_CONFIG.ROTATING_TEXT_HOME = {
              'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
@@ -315,6 +357,7 @@
         let ALL_QUESTIONNAIRE_DATA = [];
         let visitorAnswers = {}; 
         let questionsAnsweredCount = 0;
+        let revealSound; // For the audio element
 
 
         function $(selector) { return document.querySelector(selector); }
@@ -433,8 +476,12 @@
         async function renderQuestionnaire() {
             const container = $('#questionnaire-render-area');
             const calculateButton = $('#calculate-match-button');
-            if (!container || !calculateButton) {
-                console.error("Questionnaire container or button not found. Aborting render.");
+            const personalityMatchSection = $('#personality-match-section');
+            const contactTelegramBtn = $('#contact-telegram-btn');
+
+            if (!container || !calculateButton || !personalityMatchSection || !contactTelegramBtn) {
+                console.error("One or more questionnaire UI elements not found. Aborting render.");
+                if(container) container.innerHTML = '<p class="text-text-secondary text-center">Core UI elements missing. Cannot load questionnaire.</p>';
                 return;
             }
             container.innerHTML = '<p class="text-center text-text-secondary">Loading questions...</p>'; 
@@ -444,7 +491,7 @@
                 const response = await fetch(APP_CONFIG.QUESTIONS_JSON_PATH);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status} for ${APP_CONFIG.QUESTIONS_JSON_PATH}`);
                 ALL_QUESTIONNAIRE_DATA = await response.json();
-                console.log("renderQuestionnaire: Questions loaded from JSON:", ALL_QUESTIONNAIRE_DATA.length, "questions");
+                console.log("renderQuestionnaire: Questions loaded:", ALL_QUESTIONNAIRE_DATA.length, "questions");
             } catch (error) {
                 console.error("renderQuestionnaire: Error loading questionnaire:", error);
                 container.innerHTML = '<p class="text-text-secondary text-center">Error: Could not load questions. Please ensure \'questions.json\' is present and valid.</p>';
@@ -452,7 +499,7 @@
             }
             
             if (ALL_QUESTIONNAIRE_DATA.length === 0) {
-                console.log("renderQuestionnaire: No questions data found after fetch.");
+                console.log("renderQuestionnaire: No questions data found.");
                 container.innerHTML = '<p class="text-text-secondary text-center">No questions available at the moment.</p>';
                 return;
             }
@@ -465,7 +512,6 @@
                         <div class="answer-options">
                 `;
                 q.options.forEach((opt) => {
-                    // Ensure opt.text is properly escaped if it might contain quotes or special characters
                     const escapedOptionText = String(opt.text).replace(/"/g, '"');
                     html += `<button class="answer-option" data-option-text="${escapedOptionText}">${opt.text}</button>`;
                 });
@@ -477,15 +523,17 @@
             });
             container.innerHTML = html;
             
-            // Reset state for a fresh questionnaire
             visitorAnswers = {}; 
             questionsAnsweredCount = 0; 
-            console.log("renderQuestionnaire: State reset. visitorAnswers:", visitorAnswers, "questionsAnsweredCount:", questionsAnsweredCount);
+            console.log("renderQuestionnaire: State reset.");
 
-            $('#personality-match-section').style.display = 'none'; 
+            personalityMatchSection.classList.remove('visible');
+            personalityMatchSection.style.opacity = '0'; // Ensure it's hidden for animation
+            personalityMatchSection.style.transform = 'translateY(20px)';
+            contactTelegramBtn.style.display = 'none';
             calculateButton.style.display = 'none'; 
             calculateButton.disabled = true;
-            console.log("renderQuestionnaire: UI reset. Match section and button hidden.");
+            console.log("renderQuestionnaire: UI reset for results and buttons.");
 
             setupQuestionnaireInteractions();
         }
@@ -497,38 +545,41 @@
 
             answerOptionButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    console.log("Answer option clicked:", this.dataset.optionText);
                     const questionBlock = this.closest('.question-block');
+                    if (questionBlock.classList.contains('answered')) { // Check if question already answered
+                        console.log("Question already answered, click ignored.");
+                        return;
+                    }
+
                     const questionId = questionBlock.dataset.questionId;
                     const selectedOptionText = this.dataset.optionText;
                     
-                    console.log(`setupQuestionnaireInteractions: Clicked questionId: ${questionId}, selectedOptionText: "${selectedOptionText}"`);
+                    console.log(`Interaction: QID: ${questionId}, Selected: "${selectedOptionText}"`);
 
                     const questionData = ALL_QUESTIONNAIRE_DATA.find(q => q.id === questionId);
-                    if (!questionData) {
-                        console.error("setupQuestionnaireInteractions: No question data found for ID:", questionId);
-                        return;
-                    }
-
+                    if (!questionData) return;
                     const selectedOptionData = questionData.options.find(opt => opt.text === selectedOptionText);
-                    if (!selectedOptionData) {
-                        console.error("setupQuestionnaireInteractions: No selected option data found for text:", selectedOptionText, "in question:", questionId);
-                        return;
-                    }
+                    if (!selectedOptionData) return;
 
-                    // Check if this question was already answered. If not, increment count.
-                    // This ensures the count reflects *unique* questions answered.
-                    if (!visitorAnswers.hasOwnProperty(questionId)) {
-                        questionsAnsweredCount++;
-                        console.log(`setupQuestionnaireInteractions: New question answered. questionsAnsweredCount is now: ${questionsAnsweredCount}`);
-                    }
-                    visitorAnswers[questionId] = selectedOptionText;
-                    console.log("setupQuestionnaireInteractions: visitorAnswers updated:", visitorAnswers);
+                    // This question is now considered answered
+                    questionBlock.classList.add('answered'); 
                     
+                    // Increment count for unique questions answered
+                    // This check can be simplified now that we mark the block as 'answered'
+                    // but to be safe, we can keep the original logic for visitorAnswers
+                    if (!visitorAnswers.hasOwnProperty(questionId)) {
+                         questionsAnsweredCount++;
+                    }
+                    visitorAnswers[questionId] = selectedOptionText; // Store the actual text of the selected option
+                    console.log("Visitor Answers:", visitorAnswers, "Count:", questionsAnsweredCount);
+                    
+                    // Disable all options in this block
                     questionBlock.querySelectorAll('.answer-option').forEach(opt => {
-                        opt.classList.remove('selected-visitor', 'selected-visitor-wrong', 'agraj-correct-answer');
+                        opt.disabled = true;
+                        opt.classList.remove('selected-visitor', 'selected-visitor-wrong', 'agraj-correct-answer'); // Clear previous styles
                     });
 
+                    // Apply styles based on correctness
                     if (selectedOptionText === questionData.agrajAnswerText) {
                         this.classList.add('selected-visitor');
                     } else {
@@ -543,15 +594,13 @@
                     feedbackArea.innerHTML = selectedOptionData.feedback; 
                     feedbackArea.classList.add('visible');
 
-                    // --- Crucial Button Logic ---
                     const calculateButton = $('#calculate-match-button');
-                    console.log(`setupQuestionnaireInteractions: Checking button visibility. questionsAnsweredCount: ${questionsAnsweredCount}, ALL_QUESTIONNAIRE_DATA.length: ${ALL_QUESTIONNAIRE_DATA.length}`);
+                    console.log(`Button Check: Answered: ${questionsAnsweredCount}, Total: ${ALL_QUESTIONNAIRE_DATA.length}`);
                     if (questionsAnsweredCount === ALL_QUESTIONNAIRE_DATA.length && ALL_QUESTIONNAIRE_DATA.length > 0) {
-                        console.log("setupQuestionnaireInteractions: All questions answered! Showing calculate button.");
-                        calculateButton.style.display = 'inline-block'; // Changed to inline-block for glitch button
+                        console.log("All questions answered! Showing calculate button.");
+                        calculateButton.style.display = 'inline-block';
                         calculateButton.disabled = false;
                     } else {
-                        console.log("setupQuestionnaireInteractions: Not all questions answered yet. Hiding calculate button.");
                         calculateButton.style.display = 'none';
                         calculateButton.disabled = true;
                     }
@@ -561,28 +610,27 @@
             const calculateButton = $('#calculate-match-button');
             if (calculateButton) {
                 calculateButton.addEventListener('click', calculateAndShowMatch);
-            } else {
-                console.error("setupQuestionnaireInteractions: Calculate button not found in the DOM for event listener attachment.");
             }
         }
 
         function calculateAndShowMatch() {
-            console.log("calculateAndShowMatch: Called");
+            console.log("calculateAndShowMatch: Called.");
             if (ALL_QUESTIONNAIRE_DATA.length === 0) {
-                console.log("calculateAndShowMatch: No questionnaire data. Aborting.");
+                console.warn("calculateAndShowMatch: No questionnaire data to calculate match.");
                 return;
             }
-            // We rely on the button being enabled only when all questions are answered.
-            // So, questionsAnsweredCount should equal ALL_QUESTIONNAIRE_DATA.length here.
             if (questionsAnsweredCount < ALL_QUESTIONNAIRE_DATA.length) {
-                console.warn("calculateAndShowMatch: Attempted to calculate match before all questions were answered. This shouldn't happen if button logic is correct.");
-                alert("Please ensure all questions are answered to see your match!");
+                console.warn("calculateAndShowMatch: Not all questions answered. This should be prevented by button state.");
+                alert("Please answer all questions to see your match!");
                 return;
             }
 
             let matches = 0;
-            ALL_QUESTIONNAIRE_DATA.forEach(q => {
-                if (visitorAnswers[q.id] && visitorAnswers[q.id] === q.agrajAnswerText) {
+            ALL_QUESTIONNAIRE_DATA.forEach(qData => {
+                // Critical: Ensure comparison is with the correct stored visitor answer text
+                const visitorSelectedText = visitorAnswers[qData.id];
+                console.log(`Comparing Q: ${qData.id} - Agraj: "${qData.agrajAnswerText}", Visitor: "${visitorSelectedText}"`);
+                if (visitorSelectedText && visitorSelectedText === qData.agrajAnswerText) {
                     matches++;
                 }
             });
@@ -592,11 +640,32 @@
             const percentage = totalQuestions > 0 ? Math.round((matches / totalQuestions) * 100) : 0;
             console.log("calculateAndShowMatch: Match percentage:", percentage);
 
+            // Play sound
+            if (revealSound && typeof revealSound.play === 'function') {
+                revealSound.currentTime = 0; // Rewind if played before
+                revealSound.play().catch(e => console.warn("Audio play failed:", e));
+            }
+
             $('#match-percentage-value').textContent = percentage;
-            $('#personality-match-section').style.display = 'block';
-            console.log("calculateAndShowMatch: Match section displayed.");
+            const personalityMatchSection = $('#personality-match-section');
+            const contactTelegramBtn = $('#contact-telegram-btn');
+
+            // Show results section with animation
+            personalityMatchSection.style.display = 'block'; // Make it part of layout for animation
+            setTimeout(() => { // Timeout to allow display:block to take effect before transition
+                personalityMatchSection.classList.add('visible');
+            }, 50); 
+
+
+            if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) {
+                contactTelegramBtn.style.display = 'inline-block'; // Or 'block'
+                contactTelegramBtn.href = `https://t.me/${APP_CONFIG.TELEGRAM_USERNAME}`;
+                console.log("High match! Showing Telegram contact button.");
+            } else {
+                contactTelegramBtn.style.display = 'none';
+            }
             
-            $('#personality-match-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
             
             const calcButton = $('#calculate-match-button');
             if(calcButton) {
@@ -750,7 +819,7 @@
                     animateCircularProfileImage(); 
                     for (const elId in APP_CONFIG.ROTATING_TEXT_HOME) {
                         const rotEl = document.getElementById(elId);
-                        if(rotEl && typeof setupRotatingText === 'function') { // Ensure element exists and function is defined
+                        if(rotEl && typeof setupRotatingText === 'function') { 
                              setupRotatingText(elId, APP_CONFIG.ROTATING_TEXT_HOME[elId]);
                         }
                     }
@@ -860,6 +929,8 @@
 
         // --- DOMContentLoaded ---
         document.addEventListener('DOMContentLoaded', async () => {
+            revealSound = $('#revealSound'); // Get the audio element
+
             resizeHyperspeedCanvas(); initStars(); animateHyperspeed();
             window.addEventListener('resize', resizeHyperspeedCanvas);
 
