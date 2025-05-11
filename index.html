@@ -862,6 +862,10 @@
         }
 
 
+// Inside your <script> tag, the setupSecretGame function
+
+// ... (keep Matter.js aliases: Engine, Render, Runner, Bodies, Composite, Mouse, MouseConstraint, Events) ...
+
         function setupSecretGame() {
             const trigger = $('#secret-game-trigger'); 
             const modal = $('#secret-game-modal'); 
@@ -882,26 +886,35 @@
                   Bodies = Matter.Bodies, Composite = Matter.Composite, Mouse = Matter.Mouse, 
                   MouseConstraint = Matter.MouseConstraint, Events = Matter.Events;
 
+            let mouseConstraint; // Define it here to ensure it's in scope
+
             trigger.addEventListener('click', () => {
+                console.log("Secret game triggered. Setting up...");
                 modal.style.display = 'flex';
                 if (typeof anime === 'function') {
                     anime({ targets: modal, opacity: [0,1], scale: [0.9, 1], duration: 400, easing: 'easeOutExpo' });
                 }
 
-                if (matterRender) Matter.Render.stop(matterRender); 
+                // Ensure any previous instances are fully cleared
+                if (matterRender) {
+                    Render.stop(matterRender);
+                    if (matterRender.canvas) matterRender.canvas.remove(); // Remove old canvas
+                    matterRender = null;
+                }
                 if (matterRunner) Runner.stop(matterRunner);
-                if (matterEngine) Matter.Engine.clear(matterEngine); 
-                if (canvas.firstChild) canvas.removeChild(canvas.firstChild); // Clear old canvas if any
+                if (matterEngine) Engine.clear(matterEngine); 
 
-                matterEngine = Engine.create({ gravity: { y: 0.7 } }); // Slightly stronger gravity
+                matterEngine = Engine.create({ gravity: { y: 0.7 } }); 
                 
                 let canvasWidth = Math.min(window.innerWidth * 0.85, 700); 
                 let canvasHeight = Math.min(window.innerHeight * 0.75, 450);
-                canvas.width = canvasWidth; // Set canvas element size
+                // Important: Create a new canvas element each time or ensure the old one is correctly reused.
+                // For simplicity, let's assume the #matter-canvas element is reused.
+                canvas.width = canvasWidth; 
                 canvas.height = canvasHeight;
 
                 matterRender = Render.create({ 
-                    element: modal, // Render inside the modal
+                    element: modal, 
                     canvas: canvas, 
                     engine: matterEngine, 
                     options: { 
@@ -909,68 +922,250 @@
                         wireframes: false, background: 'transparent' 
                     } 
                 });
+                console.log("Matter.js Render created.");
                 
                 resetSecretGame(); // Initial setup of static bodies and game state
 
-                const mouse = Mouse.create(matterRender.canvas); 
-                const mouseConstraint = MouseConstraint.create(matterEngine, { 
-                    mouse: mouse, 
-                    constraint: { stiffness: 0.1, render: { visible: false } } 
+                // --- Mouse Constraint Setup ---
+                const gameMouse = Mouse.create(matterRender.canvas); // Create mouse for this renderer instance
+                mouseConstraint = MouseConstraint.create(matterEngine, { 
+                    mouse: gameMouse, 
+                    constraint: { 
+                        stiffness: 0.2, // Stiffness of the constraint
+                        render: { visible: false } // Don't render the constraint line
+                    } 
                 });
-                Composite.add(matterEngine.world, mouseConstraint); 
-                matterRender.mouse = mouse;
+                Composite.add(matterEngine.world, mouseConstraint); // Add constraint to the world
+                matterRender.mouse = gameMouse; // Keep the renderer's mouse updated
+
+                console.log("MouseConstraint added to world. Draggability should be active.");
+
 
                 // Add bodies on click (limited)
-                Events.on(mouseConstraint, 'mousedown', (event) => {
+                // Remove previous mousedown listener if any, to avoid duplicates
+                let mousedownHandler = (event) => {
                     if (gameHasBeenWon || shapesSpawned >= MAX_SHAPES_TO_SPAWN) return;
 
+                    // Check if the click is on an existing body (handled by MouseConstraint)
+                    // or if it's on the canvas background to spawn a new one.
+                    // The MouseConstraint usually handles 'startdrag' on bodies.
+                    // We only want to spawn if the click is NOT starting a drag on an existing body.
+                    // However, a simple click on canvas is fine for spawning.
+                    // The check for 'event.source.body' can be tricky with mousedown.
+                    // A simpler approach for spawning is to just spawn, and MouseConstraint handles dragging.
+
                     const mousePosition = event.mouse.position;
-                    let body;
-                    const size = Math.random() * 20 + 15; // Random size between 15 and 35
-                    const color = ['#CBB8E8', '#AE8BD5', '#FFFFFF', '#9272CE'][Math.floor(Math.random() * 4)];
+                    // Ensure spawning within canvas bounds (optional, but good practice)
+                    if (mousePosition.x > 0 && mousePosition.x < canvasWidth && mousePosition.y > 0 && mousePosition.y < canvasHeight) {
+                        let body;
+                        const size = Math.random() * 20 + 15; 
+                        const color = ['#CBB8E8', '#AE8BD5', '#FFFFFF', '#9272CE'][Math.floor(Math.random() * 4)];
 
-                    if (shapesSpawned % 2 === 0) { // Alternate shapes
-                        body = Bodies.rectangle(mousePosition.x, mousePosition.y, size, size, { 
-                            render: { fillStyle: color },
-                            frictionAir: 0.03, // A bit of air friction
-                            restitution: 0.4
-                        });
-                    } else {
-                        body = Bodies.circle(mousePosition.x, mousePosition.y, size / 1.8, { 
-                            render: { fillStyle: color },
-                            frictionAir: 0.02,
-                            restitution: 0.6
-                        });
+                        if (shapesSpawned % 2 === 0) { 
+                            body = Bodies.rectangle(mousePosition.x, mousePosition.y, size, size, { 
+                                render: { fillStyle: color },
+                                frictionAir: 0.03, 
+                                restitution: 0.4
+                            });
+                        } else {
+                            body = Bodies.circle(mousePosition.x, mousePosition.y, size / 1.8, { 
+                                render: { fillStyle: color },
+                                frictionAir: 0.02,
+                                restitution: 0.6
+                            });
+                        }
+                        Composite.add(matterEngine.world, body);
+                        gameShapes.push(body);
+                        shapesSpawned++;
+                        playSound(gameSpawnSoundEl);
+                        updateGameInfoDisplay();
+                        console.log("Shape spawned at:", mousePosition);
                     }
-                    Composite.add(matterEngine.world, body);
-                    gameShapes.push(body);
-                    shapesSpawned++;
-                    playSound(gameSpawnSoundEl);
-                    updateGameInfoDisplay();
-                });
+                };
+                // Detach any old listener before adding a new one
+                if (matterRender && matterRender.canvas && mouseConstraint) {
+                     // Matter.js typically handles drag initiation.
+                     // We spawn on 'mousedown' directly on the canvas IF NOT dragging.
+                     // The MouseConstraint will pick up subsequent interactions.
+                     // For spawning, we usually listen to canvas mousedown, not mouseConstraint mousedown.
+                     // Let's try using canvas click for spawning:
+                     
+                     // Remove previous listener if it exists to prevent multiple spawns
+                     if (canvas._mousedownListener) {
+                        canvas.removeEventListener('mousedown', canvas._mousedownListener);
+                     }
+                     canvas._mousedownListener = (nativeEvent) => {
+                        if (gameHasBeenWon || shapesSpawned >= MAX_SHAPES_TO_SPAWN) return;
 
-                Events.on(matterEngine, 'afterUpdate', updateGameInfoDisplay); // Continuously update info
+                        // Convert canvas click coordinates to world coordinates
+                        const bounds = canvas.getBoundingClientRect();
+                        const clickX = nativeEvent.clientX - bounds.left;
+                        const clickY = nativeEvent.clientY - bounds.top;
+                        
+                        // Check if the click is on an existing body (handled by MouseConstraint's internal logic)
+                        // We want to spawn only if the click is on empty space.
+                        // A simple way: if the mouse constraint isn't currently dragging anything.
+                        if (mouseConstraint && mouseConstraint.body) {
+                            // console.log("MouseConstraint is active on a body, not spawning.");
+                            return; 
+                        }
+
+
+                        let body;
+                        const size = Math.random() * 20 + 15; 
+                        const color = ['#CBB8E8', '#AE8BD5', '#FFFFFF', '#9272CE'][Math.floor(Math.random() * 4)];
+
+                        if (shapesSpawned % 2 === 0) { 
+                            body = Bodies.rectangle(clickX, clickY, size, size, { 
+                                render: { fillStyle: color }, frictionAir: 0.03, restitution: 0.4
+                            });
+                        } else {
+                            body = Bodies.circle(clickX, clickY, size / 1.8, { 
+                                render: { fillStyle: color }, frictionAir: 0.02, restitution: 0.6
+                            });
+                        }
+                        Composite.add(matterEngine.world, body);
+                        gameShapes.push(body);
+                        shapesSpawned++;
+                        playSound(gameSpawnSoundEl);
+                        updateGameInfoDisplay();
+                        console.log("Shape spawned via canvas click at:", clickX, clickY);
+                     };
+                     canvas.addEventListener('mousedown', canvas._mousedownListener);
+                }
+
+
+                // Detach old afterUpdate listener before adding a new one
+                if (matterEngine._afterUpdateListener) {
+                    Events.off(matterEngine, 'afterUpdate', matterEngine._afterUpdateListener);
+                }
+                matterEngine._afterUpdateListener = () => updateGameInfoDisplay(canvasWidth, canvasHeight); // Pass canvas dimensions
+                Events.on(matterEngine, 'afterUpdate', matterEngine._afterUpdateListener); 
 
                 Render.run(matterRender); 
                 matterRunner = Runner.create(); 
                 Runner.run(matterRunner, matterEngine);
+                console.log("Matter.js Engine and Renderer running.");
             });
 
             closeButton.addEventListener('click', () => { 
-                if (typeof anime === 'function') {
-                    anime({
-                        targets: modal, opacity: [1,0], scale: [1, 0.9], duration: 300, easing: 'easeInExpo',
-                        complete: () => modal.style.display = 'none'
-                    });
-                } else {
-                    modal.style.display = 'none'; 
+                // ... (existing close logic, ensure matterRender.canvas.removeEventListener is called if mousedown listener was on canvas)
+                if (canvas && canvas._mousedownListener) {
+                    canvas.removeEventListener('mousedown', canvas._mousedownListener);
+                    canvas._mousedownListener = null;
                 }
-                if (matterRender) Matter.Render.stop(matterRender); 
-                if (matterRunner) Runner.stop(matterRunner);
-                if (matterEngine) Matter.Engine.clear(matterEngine); 
+                // ...
             });
-            resetButton.addEventListener('click', resetSecretGame);
+            resetButton.addEventListener('click', () => {
+                // For reset, we need to ensure the mousedown listener for spawning isn't duplicated
+                // The resetSecretGame function already clears and re-adds bodies.
+                // The main thing is that the mouseConstraint should still be valid.
+                // It might be simpler to re-run the core setup parts of the 'trigger' click listener.
+                // For now, resetSecretGame should handle the bodies and state.
+                resetSecretGame(canvas.width, canvas.height); // Pass current canvas dimensions
+            });
         }
+
+        // Modify resetSecretGame and updateGameInfoDisplay to accept canvasWidth, canvasHeight if needed
+        function resetSecretGame(canvasWidth, canvasHeight) {
+            console.log("Resetting game...");
+            gameHasBeenWon = false;
+            shapesSpawned = 0;
+            if (matterEngine) {
+                // Remove all non-static bodies
+                const allBodies = Composite.allBodies(matterEngine.world);
+                allBodies.forEach(body => {
+                    if (!body.isStatic) {
+                        Composite.remove(matterEngine.world, body);
+                    }
+                });
+            }
+            gameShapes = []; // Clear the array of dynamic shapes
+            
+            // If static bodies were removed, re-add them. Otherwise, they should persist.
+            // For robustness, let's ensure they are present or re-added.
+            if (matterEngine && matterEngine.world) {
+                 // Clear all bodies and re-add static ones for a clean slate
+                Composite.clear(matterEngine.world, false); // Keep static = false, then re-add. Or true, then only add dynamic.
+                                                        // Let's clear all and re-add known statics.
+                Engine.clear(matterEngine); // Clears the engine, including the world.
+                                          // This means we need to re-add mouseConstraint too if we do this.
+                                          // Perhaps better: Composite.clear(world, true) to keep statics.
+                                          // But if targetZone isn't static for some reason or gets lost:
+
+                // Re-create static bodies for safety if they might have been cleared.
+                // It's often better to clear only dynamic bodies and leave statics if their properties don't change.
+                // However, to ensure targetZoneBody is correctly defined for this scope:
+                const ground = Matter.Bodies.rectangle(canvasWidth / 2, canvasHeight - 10, canvasWidth + 20, 60, { isStatic: true, render: { fillStyle: '#6a4a9a' } });
+                const leftWall = Matter.Bodies.rectangle(-30, canvasHeight / 2, 60, canvasHeight, { isStatic: true, render: { fillStyle: '#6a4a9a' } });
+                const rightWall = Matter.Bodies.rectangle(canvasWidth + 30, canvasHeight / 2, 60, canvasHeight, { isStatic: true, render: { fillStyle: '#6a4a9a' } });
+                
+                const targetZoneHeight = 50;
+                const targetZoneYPos = canvasHeight - 30 - (targetZoneHeight / 2) - 10;
+                targetZoneBody = Matter.Bodies.rectangle(canvasWidth / 2, targetZoneYPos, canvasWidth * 0.5, targetZoneHeight, {
+                    isStatic: true, isSensor: true, label: 'targetZone',
+                    render: { fillStyle: 'rgba(174, 139, 213, 0.35)', strokeStyle: 'rgba(203, 184, 232, 0.6)', lineWidth: 2 }
+                });
+                Matter.Composite.add(matterEngine.world, [ground, leftWall, rightWall, targetZoneBody]);
+            }
+
+            updateGameInfoDisplay(canvasWidth, canvasHeight);
+            if ($('#game-win-message')) $('#game-win-message').textContent = "Drag shapes into the purple zone!";
+            console.log("Game reset complete.");
+        }
+
+
+        function updateGameInfoDisplay(canvasWidth, canvasHeight) { // Accept canvas dimensions
+            if (!matterEngine || !matterEngine.world) return; // Guard clause
+
+            if ($('#game-shapes-dropped')) $('#game-shapes-dropped').textContent = shapesSpawned;
+            if ($('#game-max-shapes')) $('#game-max-shapes').textContent = MAX_SHAPES_TO_SPAWN;
+            
+            let shapesInTargetCount = 0;
+            if (targetZoneBody) { 
+                gameShapes.forEach(shape => {
+                    // Remove shapes that fall off-screen (below canvas) to prevent memory leaks/performance issues
+                    if (shape.position.y > canvasHeight + 100) { // Check if shape is well below the canvas
+                        Composite.remove(matterEngine.world, shape);
+                        const index = gameShapes.indexOf(shape);
+                        if (index > -1) gameShapes.splice(index, 1);
+                        return; // Skip further checks for this removed shape
+                    }
+
+                    if (Matter.Bounds.overlaps(shape.bounds, targetZoneBody.bounds) && 
+                        shape.position.y > targetZoneBody.bounds.min.y && 
+                        shape.position.y < targetZoneBody.bounds.max.y &&
+                        Math.abs(shape.velocity.x) < 0.1 && Math.abs(shape.velocity.y) < 0.1) { 
+                        shapesInTargetCount++;
+                    }
+                });
+            }
+            if ($('#game-shapes-in-target')) $('#game-shapes-in-target').textContent = shapesInTargetCount;
+            if ($('#game-shapes-to-win')) $('#game-shapes-to-win').textContent = SHAPES_TO_WIN;
+
+            const gameWinMessageEl = $('#game-win-message');
+            if (gameWinMessageEl) {
+                if (!gameHasBeenWon && shapesInTargetCount >= SHAPES_TO_WIN) {
+                    gameHasBeenWon = true;
+                    gameWinMessageEl.textContent = "YOU WIN! ✨";
+                    playSound(gameWinSoundEl);
+                    if (typeof anime === 'function') {
+                        anime({ targets: gameWinMessageEl, scale: [1, 1.2, 1], color: ['#AE8BD5', '#FFFFFF', '#AE8BD5'], duration: 1000, easing: 'easeInOutQuad' });
+                    }
+                    // --- Website Falling Apart Placeholder ---
+                    // For now, let's just log it. Implementing the full effect is complex.
+                    console.log("WIN CONDITION MET! Triggering 'website falling apart' (placeholder).");
+                    // triggerWebsiteCollapseAnimation(); // This would be the new function
+                } else if (!gameHasBeenWon && shapesSpawned >= MAX_SHAPES_TO_SPAWN && shapesInTargetCount < SHAPES_TO_WIN) {
+                    gameWinMessageEl.textContent = "Out of shapes! Try again?";
+                } else if (!gameHasBeenWon) {
+                    // Keep the default or current instruction message if not won and not out of shapes
+                    // gameWinMessageEl.textContent = "Drag shapes into the purple zone!"; // Or just let it be
+                }
+            }
+        }
+
+        // --- END Secret Game Logic ---
 
 
         // --- Other JS functions (Routing, Utils, etc.) --- (Keep as is)
