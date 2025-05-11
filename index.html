@@ -434,23 +434,25 @@
             const container = $('#questionnaire-render-area');
             const calculateButton = $('#calculate-match-button');
             if (!container || !calculateButton) {
-                console.error("Questionnaire container or button not found.");
+                console.error("Questionnaire container or button not found. Aborting render.");
                 return;
             }
-            container.innerHTML = '<p class="text-center text-text-secondary">Loading questions...</p>'; // Loading message
+            container.innerHTML = '<p class="text-center text-text-secondary">Loading questions...</p>'; 
+            console.log("renderQuestionnaire: Called");
 
             try {
                 const response = await fetch(APP_CONFIG.QUESTIONS_JSON_PATH);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status} for ${APP_CONFIG.QUESTIONS_JSON_PATH}`);
                 ALL_QUESTIONNAIRE_DATA = await response.json();
-                console.log("Questions loaded:", ALL_QUESTIONNAIRE_DATA.length);
+                console.log("renderQuestionnaire: Questions loaded from JSON:", ALL_QUESTIONNAIRE_DATA.length, "questions");
             } catch (error) {
-                console.error("Error loading questionnaire:", error);
+                console.error("renderQuestionnaire: Error loading questionnaire:", error);
                 container.innerHTML = '<p class="text-text-secondary text-center">Error: Could not load questions. Please ensure \'questions.json\' is present and valid.</p>';
                 return;
             }
             
             if (ALL_QUESTIONNAIRE_DATA.length === 0) {
+                console.log("renderQuestionnaire: No questions data found after fetch.");
                 container.innerHTML = '<p class="text-text-secondary text-center">No questions available at the moment.</p>';
                 return;
             }
@@ -463,7 +465,9 @@
                         <div class="answer-options">
                 `;
                 q.options.forEach((opt) => {
-                    html += `<button class="answer-option" data-option-text="${opt.text}">${opt.text}</button>`;
+                    // Ensure opt.text is properly escaped if it might contain quotes or special characters
+                    const escapedOptionText = String(opt.text).replace(/"/g, '"');
+                    html += `<button class="answer-option" data-option-text="${escapedOptionText}">${opt.text}</button>`;
                 });
                 html += `
                         </div>
@@ -472,43 +476,63 @@
                 `;
             });
             container.innerHTML = html;
+            
+            // Reset state for a fresh questionnaire
             visitorAnswers = {}; 
-            questionsAnsweredCount = 0;
+            questionsAnsweredCount = 0; 
+            console.log("renderQuestionnaire: State reset. visitorAnswers:", visitorAnswers, "questionsAnsweredCount:", questionsAnsweredCount);
+
             $('#personality-match-section').style.display = 'none'; 
             calculateButton.style.display = 'none'; 
             calculateButton.disabled = true;
+            console.log("renderQuestionnaire: UI reset. Match section and button hidden.");
+
             setupQuestionnaireInteractions();
         }
 
         function setupQuestionnaireInteractions() {
-            $$('#questionnaire-render-area .answer-option').forEach(button => {
+            console.log("setupQuestionnaireInteractions: Called");
+            const answerOptionButtons = $$('#questionnaire-render-area .answer-option');
+            console.log("setupQuestionnaireInteractions: Found", answerOptionButtons.length, "answer option buttons.");
+
+            answerOptionButtons.forEach(button => {
                 button.addEventListener('click', function() {
+                    console.log("Answer option clicked:", this.dataset.optionText);
                     const questionBlock = this.closest('.question-block');
                     const questionId = questionBlock.dataset.questionId;
                     const selectedOptionText = this.dataset.optionText;
                     
+                    console.log(`setupQuestionnaireInteractions: Clicked questionId: ${questionId}, selectedOptionText: "${selectedOptionText}"`);
+
                     const questionData = ALL_QUESTIONNAIRE_DATA.find(q => q.id === questionId);
-                    if (!questionData) return;
+                    if (!questionData) {
+                        console.error("setupQuestionnaireInteractions: No question data found for ID:", questionId);
+                        return;
+                    }
 
                     const selectedOptionData = questionData.options.find(opt => opt.text === selectedOptionText);
-                    if (!selectedOptionData) return;
+                    if (!selectedOptionData) {
+                        console.error("setupQuestionnaireInteractions: No selected option data found for text:", selectedOptionText, "in question:", questionId);
+                        return;
+                    }
 
-                    if (!visitorAnswers[questionId]) { // Only increment if it's the first time answering THIS question
+                    // Check if this question was already answered. If not, increment count.
+                    // This ensures the count reflects *unique* questions answered.
+                    if (!visitorAnswers.hasOwnProperty(questionId)) {
                         questionsAnsweredCount++;
+                        console.log(`setupQuestionnaireInteractions: New question answered. questionsAnsweredCount is now: ${questionsAnsweredCount}`);
                     }
                     visitorAnswers[questionId] = selectedOptionText;
+                    console.log("setupQuestionnaireInteractions: visitorAnswers updated:", visitorAnswers);
                     
-                    // Reset styles for all options in this question block first
                     questionBlock.querySelectorAll('.answer-option').forEach(opt => {
                         opt.classList.remove('selected-visitor', 'selected-visitor-wrong', 'agraj-correct-answer');
                     });
 
-                    // Apply styles
                     if (selectedOptionText === questionData.agrajAnswerText) {
-                        this.classList.add('selected-visitor'); // Visitor chose correctly (Agraj's answer)
+                        this.classList.add('selected-visitor');
                     } else {
-                        this.classList.add('selected-visitor-wrong'); // Visitor chose differently
-                        // Highlight Agraj's actual answer
+                        this.classList.add('selected-visitor-wrong');
                         const agrajAnswerButton = Array.from(questionBlock.querySelectorAll('.answer-option')).find(optBtn => optBtn.dataset.optionText === questionData.agrajAnswerText);
                         if (agrajAnswerButton) {
                             agrajAnswerButton.classList.add('agraj-correct-answer');
@@ -519,11 +543,15 @@
                     feedbackArea.innerHTML = selectedOptionData.feedback; 
                     feedbackArea.classList.add('visible');
 
+                    // --- Crucial Button Logic ---
                     const calculateButton = $('#calculate-match-button');
-                    if (questionsAnsweredCount === ALL_QUESTIONNAIRE_DATA.length) {
-                        calculateButton.style.display = 'inline-block';
+                    console.log(`setupQuestionnaireInteractions: Checking button visibility. questionsAnsweredCount: ${questionsAnsweredCount}, ALL_QUESTIONNAIRE_DATA.length: ${ALL_QUESTIONNAIRE_DATA.length}`);
+                    if (questionsAnsweredCount === ALL_QUESTIONNAIRE_DATA.length && ALL_QUESTIONNAIRE_DATA.length > 0) {
+                        console.log("setupQuestionnaireInteractions: All questions answered! Showing calculate button.");
+                        calculateButton.style.display = 'inline-block'; // Changed to inline-block for glitch button
                         calculateButton.disabled = false;
                     } else {
+                        console.log("setupQuestionnaireInteractions: Not all questions answered yet. Hiding calculate button.");
                         calculateButton.style.display = 'none';
                         calculateButton.disabled = true;
                     }
@@ -533,18 +561,24 @@
             const calculateButton = $('#calculate-match-button');
             if (calculateButton) {
                 calculateButton.addEventListener('click', calculateAndShowMatch);
+            } else {
+                console.error("setupQuestionnaireInteractions: Calculate button not found in the DOM for event listener attachment.");
             }
         }
 
         function calculateAndShowMatch() {
-            if (ALL_QUESTIONNAIRE_DATA.length === 0) return;
-            if (questionsAnsweredCount < ALL_QUESTIONNAIRE_DATA.length) {
-                 // This should ideally not happen if button logic is correct, but as a safeguard:
-                console.warn("Attempted to calculate match before all questions were answered.");
-                alert("Please answer all questions to see your match!");
+            console.log("calculateAndShowMatch: Called");
+            if (ALL_QUESTIONNAIRE_DATA.length === 0) {
+                console.log("calculateAndShowMatch: No questionnaire data. Aborting.");
                 return;
             }
-
+            // We rely on the button being enabled only when all questions are answered.
+            // So, questionsAnsweredCount should equal ALL_QUESTIONNAIRE_DATA.length here.
+            if (questionsAnsweredCount < ALL_QUESTIONNAIRE_DATA.length) {
+                console.warn("calculateAndShowMatch: Attempted to calculate match before all questions were answered. This shouldn't happen if button logic is correct.");
+                alert("Please ensure all questions are answered to see your match!");
+                return;
+            }
 
             let matches = 0;
             ALL_QUESTIONNAIRE_DATA.forEach(q => {
@@ -552,16 +586,23 @@
                     matches++;
                 }
             });
+            console.log("calculateAndShowMatch: Total matches:", matches);
             
             const totalQuestions = ALL_QUESTIONNAIRE_DATA.length;
             const percentage = totalQuestions > 0 ? Math.round((matches / totalQuestions) * 100) : 0;
+            console.log("calculateAndShowMatch: Match percentage:", percentage);
 
             $('#match-percentage-value').textContent = percentage;
             $('#personality-match-section').style.display = 'block';
+            console.log("calculateAndShowMatch: Match section displayed.");
+            
             $('#personality-match-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
             
             const calcButton = $('#calculate-match-button');
-            if(calcButton) calcButton.disabled = true;
+            if(calcButton) {
+                calcButton.disabled = true;
+                console.log("calculateAndShowMatch: Calculate button disabled.");
+            }
         }
         // --- End Questionnaire Logic ---
 
