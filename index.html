@@ -11,12 +11,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@700&family=Inter:wght@400;500;600;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;700&family=Nunito:wght@400;700&family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Removed tsParticles -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 
     <script>
-        // Tailwind Config (Same as previous)
         window.tailwind.config = {
             theme: {
                 extend: {
@@ -50,10 +48,8 @@
             background-color: #0f0a19; color: #D1D1D1; font-family: 'Inter', sans-serif;
             overflow-x: hidden; line-height: 1.6; font-size: 16px;
         }
-        /* Hyperspeed Canvas background */
         #hyperspeed-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; background-color: #07040e; }
         .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.03), rgba(15, 10, 25, 0.85) 70%); z-index: -5; pointer-events:none; }
-
         .page-section { display: none; animation: fadeInPage 0.7s ease-out forwards; }
         .page-section.active-section { display: block; }
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -94,33 +90,9 @@
         .mobile-menu a.active { background-color: rgba(146, 114, 206, 0.1); font-weight: 600; color: #9272CE; }
         @keyframes slideDownFade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         .desktop-nav a[target="_blank"]::after, .mobile-menu a[target="_blank"]::after { content: ' \2197'; font-size: 0.7em; vertical-align: super; display: inline-block; margin-left: 2px; opacity: 0.7; width: auto !important; height: auto !important; background: none !important; }
-
-
-        /* --- Home Section Styles (Small Circular Profile Image) --- */
-        #heroSection {
-            text-align: center;
-            padding-top: 1rem; /* More space from header */
-            min-height: 70vh;
-            display: flex; flex-direction: column; justify-content: center;
-        }
-        #hero-circular-profile-image-container {
-            margin-bottom: 1.5rem; /* Space below image */
-        }
-        #hero-circular-profile-image {
-            width: 130px; /* Adjust size as needed */
-            height: 130px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid rgba(146, 114, 206, 0.4); /* accent/40 */
-            box-shadow: 0 0 20px rgba(146, 114, 206, 0.25);
-            display: block;
-            margin: 0 auto;
-            opacity: 0; /* Initial state for animation */
-            transform: scale(0.8) translateY(10px);
-            transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
-        }
-
-        /* Home Cards & Links */
+        #heroSection { text-align: center; padding-top: 1rem; min-height: 70vh; display: flex; flex-direction: column; justify-content: center; }
+        #hero-circular-profile-image-container { margin-bottom: 1.5rem; }
+        #hero-circular-profile-image { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(146, 114, 206, 0.4); box-shadow: 0 0 20px rgba(146, 114, 206, 0.25); display: block; margin: 0 auto; opacity: 0; transform: scale(0.8) translateY(10px); transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s; }
         #home-content .quote { position: relative; border-left: 3px solid #9272CE; margin-top: 1.5rem; } 
         #home-content .quote::before { content: '"'; position: absolute; top: -20px; left: 10px; font-size: 5rem; color: rgba(146, 114, 206, 0.1); font-family: 'Inter', sans-serif; font-weight: 700; }
         #home-content .card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(15, 10, 25, 0.75); border: 1px solid rgba(146, 114, 206, 0.2); }
@@ -133,9 +105,6 @@
         .static-image-container { display: block; margin: 2.5rem auto 0 auto; width: fit-content; opacity: 0.8; transition: opacity 0.3s ease; z-index: 5; }
         .static-image { width: 8rem; height: 8rem; cursor: pointer; transition: transform 0.3s ease; }
         .static-image:hover { transform: scale(1.1); }
-
-
-        /* Writings Section Styles */
         #writings-content { font-size: 17px; }
         #writings-content .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
         #writings-content .text-hover-scale:hover { transform: scale(1.03); }
@@ -158,7 +127,6 @@
         a.back-button { display: inline-block; margin-top: 2.5rem; padding: 0.7rem 1.4rem; background-color: #9272CE; color: #FFFFFF; border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; box-shadow: 0 3px 10px rgba(146, 114, 206, 0.2); font-size: 1rem; text-decoration: none; }
         a.back-button:hover { background-color: #AE8BD5; transform: scale(1.05) translateY(-2px); box-shadow: 0 8px 20px rgba(146, 114, 206, 0.3); }
         hr.separator { border: none; height: 2px; background-image: linear-gradient(to right, transparent, #9272CE, #AE8BD5, #9272CE, transparent); margin-top: 3rem; margin-bottom: 3rem; opacity: 0.6; display: block; }
-        
         .post-content-html { white-space: pre-line; text-align: left; line-height: 1.7; }
         .post-content-html p, .post-content-html blockquote, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html strong, .post-content-html i, .post-content-html em, .post-content-html u, .post-content-html a { font-family: inherit; font-size: 1.1rem; color: #D1D1D1; background-color: transparent !important; margin: 0 0 0.8em 0; font-weight: normal; font-style: normal; text-decoration: none; word-wrap: break-word; border-radius: 3px; }
         .post-content-html br { content: ""; display: block; margin-bottom: 0.1em; }
@@ -181,9 +149,6 @@
         .post-content-html img:hover { transform: scale(1.03); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .post-content-html .separator { display: none; }
         @layer utilities { .line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; } .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; } }
-
-
-        /* Glitch Button, Footer, Secret Game, Progress Bar */
         .glitch-button { position: relative; display: inline-block; cursor: pointer; padding: 0.75rem 1.5rem; text-decoration: none; overflow: hidden; transition: transform 0.1s ease-out; -webkit-user-select: none; -ms-user-select: none; user-select: none; }
         .glitch-button .btn-text { position: relative; z-index: 1; }
         .glitch-button::before, .glitch-button::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: inherit; color: inherit; padding: inherit; overflow: hidden; transition: transform 0.3s cubic-bezier(0.75, 0, 0.25, 1), opacity 0.3s ease; opacity: 0; }
@@ -206,77 +171,122 @@
         .progress-bar { height: 3px; background: linear-gradient(90deg, #9272CE, #AE8BD5); width: 0%; }
 
         /* --- About Section Styles --- */
-        #about-content .questionnaire-container {
-            max-width: 700px;
+        #about-content .questionnaire-container-wrapper {
+            max-width: 750px; /* Increased width slightly */
             margin-left: auto;
             margin-right: auto;
         }
         .question-block {
-            background-color: rgba(25, 15, 40, 0.7); /* writings-card-bg with less opacity */
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(146, 114, 206, 0.2); /* accent/20 */
-            border-radius: 0.75rem; /* 12px */
-            padding: 1.5rem; /* 24px */
-            margin-bottom: 2rem; /* 32px */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background-color: rgba(25, 15, 40, 0.75); 
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(146, 114, 206, 0.25);
+            border-radius: 0.75rem; 
+            padding: 1.75rem; /* Increased padding */
+            margin-bottom: 2.5rem; /* Increased margin */
+            box-shadow: 0 5px 20px rgba(0,0,0,0.25);
         }
         .question-block h3 {
-            color: #CBB8E8; /* light-accent */
-            font-size: 1.25rem; /* 20px */
+            color: #CBB8E8; 
+            font-size: 1.35rem; /* Slightly larger */
             font-weight: 600;
-            margin-bottom: 1rem; /* 16px */
+            margin-bottom: 1.25rem; 
             font-family: 'Outfit', sans-serif;
         }
         .answer-options {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 0.75rem; /* 12px */
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Wider minmax */
+            gap: 1rem; 
         }
         .answer-option {
-            background-color: rgba(15, 10, 25, 0.8); /* darker with opacity */
-            color: #D1D1D1; /* text-secondary */
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem; /* 8px */
-            border: 1px solid rgba(146, 114, 206, 0.3); /* accent/30 */
+            background-color: rgba(15, 10, 25, 0.85); 
+            color: #D1D1D1; 
+            padding: 0.85rem 1.1rem; /* Adjusted padding */
+            border-radius: 0.5rem; 
+            border: 1px solid rgba(146, 114, 206, 0.35);
             cursor: pointer;
             transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
             text-align: left;
-            font-size: 0.95rem;
+            font-size: 1rem; /* Slightly larger */
         }
         .answer-option:hover {
-            background-color: rgba(146, 114, 206, 0.15); /* accent/15 */
-            border-color: #9272CE; /* accent */
-            transform: translateY(-2px);
+            background-color: rgba(146, 114, 206, 0.2); 
+            border-color: #9272CE; 
+            transform: translateY(-2px) scale(1.02); /* Added subtle scale */
         }
         .answer-option.selected {
-            background-color: #9272CE; /* accent */
-            color: #FFFFFF; /* text-primary */
-            border-color: #AE8BD5; /* accent-hover */
-            font-weight: 500;
-            box-shadow: 0 0 10px rgba(146, 114, 206, 0.4);
+            background-color: #9272CE; 
+            color: #FFFFFF; 
+            border-color: #AE8BD5; 
+            font-weight: 600; /* Bolder */
+            box-shadow: 0 0 12px rgba(146, 114, 206, 0.5);
         }
         .feedback-area {
-            margin-top: 1.25rem; /* 20px */
-            padding: 1rem;
-            background-color: rgba(9, 6, 19, 0.8); /* darker base with opacity */
+            margin-top: 1.5rem; 
+            padding: 1.25rem;
+            background-color: rgba(9, 6, 19, 0.85); 
             border-radius: 0.5rem;
-            border-left: 3px solid #9272CE; /* accent */
-            color: #CBB8E8; /* light-accent */
-            font-size: 0.9rem;
-            line-height: 1.5;
-            display: none; /* Hidden by default */
+            border-left: 4px solid #9272CE; 
+            color: #CBB8E8; 
+            font-size: 0.95rem; /* Slightly larger */
+            line-height: 1.6;
+            display: none; 
             animation: fadeInFeedback 0.5s ease-out;
         }
-        .feedback-area.visible {
-            display: block;
+        .feedback-area.visible { display: block; }
+        @keyframes fadeInFeedback { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .feedback-area strong { color: #FFFFFF; font-weight: 600; }
+        
+        #personality-match-section {
+            margin-top: 3rem;
+            padding: 2rem;
+            background-color: rgba(25, 15, 40, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 0.75rem;
+            border: 1px solid rgba(146, 114, 206, 0.3);
+            text-align: center;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
         }
-        @keyframes fadeInFeedback {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        #personality-match-section h2 {
+            color: #AE8BD5; /* accent-hover */
+            font-size: 1.75rem;
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: 1.5rem;
         }
-        .feedback-area strong {
-            color: #FFFFFF; /* text-primary */
+        #personality-match-section p {
+            font-size: 1.1rem;
+            color: #D1D1D1;
+            margin-bottom: 0.75rem;
+        }
+        #personality-match-section #match-percentage-value {
+            font-weight: 700;
+            font-size: 2rem;
+            color: #9272CE; /* accent */
+        }
+        #personality-match-section #mbti-type-value {
             font-weight: 600;
+            color: #CBB8E8; /* light-accent */
+        }
+        #calculate-match-button {
+            margin-top: 1.5rem;
+            padding: 0.8rem 1.8rem;
+            background-color: #9272CE;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+        #calculate-match-button:hover {
+            background-color: #AE8BD5;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(146, 114, 206, 0.3);
+        }
+         #calculate-match-button:disabled {
+            background-color: #A8A8A8; /* text-tertiary or a gray */
+            cursor: not-allowed;
+            opacity: 0.7;
         }
 
     </style>
@@ -295,10 +305,20 @@
             <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen">
                 <div class="text-center mb-12 md:mb-16 pt-8">
                     <h1 class="text-4xl md:text-5xl font-bold text-text-primary font-outfit">A Little More About Me</h1>
-                    <p class="text-text-secondary mt-4 text-lg">Curious? Let's see if our wavelengths match... or amusingly mismatch!</p>
+                    <p class="text-text-secondary mt-4 text-lg">Answer a few questions to see how our perspectives align (or amusingly diverge!).</p>
                 </div>
-                <div id="questionnaire-container" class="questionnaire-container">
-                    <!-- Questionnaire will be rendered here by JavaScript -->
+                <div id="questionnaire-container-wrapper" class="questionnaire-container-wrapper">
+                    <div id="questionnaire-render-area">
+                        <!-- Questionnaire will be rendered here by JavaScript -->
+                    </div>
+                    <div id="personality-match-section" style="display: none;">
+                        <h2>Personality Snapshot</h2>
+                        <p>Your alignment with my perspectives: <span id="match-percentage-value">0</span>%</p>
+                        <p>My MBTI Type: <span id="mbti-type-value">INFJ</span></p>
+                    </div>
+                    <div class="text-center"> <!-- Centering the button -->
+                         <button id="calculate-match-button" class="glitch-button" data-text="See How We Match!" style="display: none;"><span class="btn-text">See How We Match!</span></button>
+                    </div>
                 </div>
             </main>
         </section>
@@ -309,77 +329,30 @@
 
     <script>
         const APP_CONFIG = {
-             ROTATING_TEXT_HOME: {
-                 'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
-                 'main-heading-text': { texts: ["agraj", "アグラジ", "अग्रज", "αγραξ"], typeSpeed: 100, deleteSpeed: 60, pauseDuration: 2500 },
-                 'blockquote-text': { texts: ["If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒", "Is free will an illusion, or is the illusion the only free will we have?", "Perhaps the 'fragments' are the only coherent parts left.", "What if the algorithm forgets too?", "Maybe exiting early isn't dramatic, just... efficient.", "Family remembers differently. Algorithms remember precisely. Which is better?", "The universe is indifferent, but the code persists. For now.", "Do androids dream of electric sheep? Do algorithms dream of better data?", "To be, or not to be, that is the computation.", "Cogito, ergo sum... I think, therefore I am... coded?"], typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500 }
-            },
-            DEFAULT_TITLES: {
+             ROTATING_TEXT_HOME: { /* ... same ... */ },
+             DEFAULT_TITLES: {
                 home: "agraj - Portfolio",
                 writings: "Writings - Agraj Dubey",
                 about: "About Me - Agraj Dubey"
             },
-            POSTS_JSON_PATH: 'posts.json'
+            POSTS_JSON_PATH: 'posts.json',
+            QUESTIONS_JSON_PATH: 'questions.json' // Path to your new questions file
+        };
+        APP_CONFIG.ROTATING_TEXT_HOME = {
+             'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
+             'main-heading-text': { texts: ["agraj", "アグラジ", "अग्रज", "αγραξ"], typeSpeed: 100, deleteSpeed: 60, pauseDuration: 2500 },
+             'blockquote-text': { texts: ["If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒", "Is free will an illusion, or is the illusion the only free will we have?", "Perhaps the 'fragments' are the only coherent parts left.", "What if the algorithm forgets too?", "Maybe exiting early isn't dramatic, just... efficient.", "Family remembers differently. Algorithms remember precisely. Which is better?", "The universe is indifferent, but the code persists. For now.", "Do androids dream of electric sheep? Do algorithms dream of better data?", "To be, or not to be, that is the computation.", "Cogito, ergo sum... I think, therefore I am... coded?"], typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500 }
         };
         
-        const questionnaireData = [
-            {
-                id: 'q1',
-                question: "My ideal Friday night involves:",
-                options: [
-                    { text: "A quiet night in with a good book/movie.", feedback: "<strong>My response:</strong> Same. The world is too loud sometimes. Solitude is underrated." },
-                    { text: "Deep conversations with a close friend (or a willing stranger).", feedback: "<strong>My response:</strong> Intriguing. I prefer my thoughts, but a good verbal sparring partner is rare." },
-                    { text: "Exploring something new – a game, a skill, a rabbit hole.", feedback: "<strong>My response:</strong> The pursuit of novelty. I get that. Keeps the existential dread at bay... mostly." },
-                    { text: "Just vibing. No plans, just existing.", feedback: "<strong>My response:</strong> Ah, the art of being. Sometimes the best plan is no plan. Respect." }
-                ]
-            },
-            {
-                id: 'q2',
-                question: "If I had to describe my sense of humor, it's probably:",
-                options: [
-                    { text: "Dark and sarcastic.", feedback: "<strong>My response:</strong> You get it. Laughter is just a polite scream into the void, after all." },
-                    { text: "Absurdist and witty.", feedback: "<strong>My response:</strong> The universe is absurd, might as well lean into it. Clever." },
-                    { text: "Self-deprecating (mostly).", feedback: "<strong>My response:</strong> If you can't laugh at yourself, who can you laugh at? Oh wait, everyone." },
-                    { text: "I don't have one, I am a serious individual.", feedback: "<strong>My response:</strong> ...Right. Or perhaps your humor is so advanced, it's imperceptible. Fascinating." }
-                ]
-            },
-            {
-                id: 'q3',
-                question: "The concept of 'forever' makes me feel:",
-                options: [
-                    { text: "A sense of overwhelming dread.", feedback: "<strong>My response:</strong> Understandable. Infinity is a heavy concept for a finite mind." },
-                    { text: "Curious and a bit excited.", feedback: "<strong>My response:</strong> Bold. I find the finite more manageable, but I admire the ambition." },
-                    { text: "Indifferent. It's just a word.", feedback: "<strong>My response:</strong> A pragmatist. Words are just symbols, after all. What do they truly mean?" },
-                    { text: "Like I need more cake to process it.", feedback: "<strong>My response:</strong> Cake is always a valid response to existential queries. Wise choice." }
-                ]
-            },
-            {
-                id: 'q4',
-                question: "My relationship with social interaction is best described as:",
-                options: [
-                    { text: "A necessary evil, occasionally tolerated.", feedback: "<strong>My response:</strong> I resonate with this on a spiritual level. Mostly evil, occasionally necessary." },
-                    { text: "I enjoy it in small, controlled doses.", feedback: "<strong>My response:</strong> Moderation in all things, especially people. A sound strategy." },
-                    { text: "It's complicated.", feedback: "<strong>My response:</strong> Isn't everything? But yes, people are peak 'it's complicated'." },
-                    { text: "I'm a social butterfly! (said no one who picked this, probably)", feedback: "<strong>My response:</strong> An interesting claim. Are you sure you're on the right website?" }
-                ]
-            },
-             {
-                id: 'q5',
-                question: "When faced with a complex problem, my first instinct is to:",
-                options: [
-                    { text: "Overthink it into oblivion.", feedback: "<strong>My response:</strong> Ah, a fellow practitioner of paralysis by analysis. Welcome." },
-                    { text: "Break it down logically, piece by piece.", feedback: "<strong>My response:</strong> A systematic approach. Commendable. Does it always work with illogical problems, though?" },
-                    { text: "Ignore it and hope it goes away.", feedback: "<strong>My response:</strong> A classic. Sometimes, benign neglect is the kindest cut of all. Or the prelude to disaster." },
-                    { text: "Consult the nearest cat for wisdom.", feedback: "<strong>My response:</strong> Cats possess ancient, inscrutable knowledge. An excellent, if often unhelpful, first step." }
-                ]
-            }
-        ];
+        let ALL_QUESTIONNAIRE_DATA = [];
+        let visitorAnswers = {}; // To store { questionId: selectedOptionText }
+        let questionsAnsweredCount = 0;
 
 
         function $(selector) { return document.querySelector(selector); }
         function $$(selector) { return document.querySelectorAll(selector); }
 
-        // --- Hyperspeed Animation ---
+        // --- Hyperspeed Animation --- (Keep this entire section as is)
         const hyperspeedCanvas = $('#hyperspeed-canvas');
         const hsCtx = hyperspeedCanvas.getContext('2d');
         let stars = [];
@@ -416,24 +389,18 @@
         }
         hyperspeedCanvas.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
         hyperspeedCanvas.addEventListener('mouseleave', () => { mouseX = hyperspeedCanvas.width / 2; mouseY = hyperspeedCanvas.height / 2; });
+        // --- End Hyperspeed Animation ---
 
 
-        // --- Content Rendering ---
+        // --- Content Rendering (Writings) --- (Keep this entire section as is)
         let ALL_POST_DATA_FOR_HOME_RECENT = []; let ALL_POSTS_DATA = [];
         function simpleMarkdownToHtml(md) {
-            if (typeof md !== 'string') return '';
-            let html = md;
-            if (html.startsWith('`') && html.endsWith('`') && !html.startsWith('```') && !html.endsWith('```')) {
-                html = html.substring(1, html.length - 1);
-            }
-            html = html.replace(/<br\s*\/?>/gi, '[[BR_TAG]]');
-            html = html.replace(/\n/g, '[[BR_TAG]]');
-            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');    
-            html = html.replace(/\\\"/g, '"');
-            html = html.replace(/\[\[BR_TAG\]\]/g, '<br>\n');
-            html = html.replace(/(<br>\n\s*){2,}/gi, '<br>\n');
-            return html;
+            if (typeof md !== 'string') return ''; let html = md;
+            if (html.startsWith('`') && html.endsWith('`') && !html.startsWith('```') && !html.endsWith('```')) { html = html.substring(1, html.length - 1); }
+            html = html.replace(/<br\s*\/?>/gi, '[[BR_TAG]]'); html = html.replace(/\n/g, '[[BR_TAG]]');
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');    
+            html = html.replace(/\\\"/g, '"'); html = html.replace(/\[\[BR_TAG\]\]/g, '<br>\n');
+            html = html.replace(/(<br>\n\s*){2,}/gi, '<br>\n'); return html;
         }
         function createPostPreviewCard(post, isForHome = false) { 
             const cardClass = isForHome ? 'card' : 'writing-preview-card';
@@ -468,10 +435,8 @@
             console.log("Attempting to load posts...");
             try {
                 const response = await fetch(APP_CONFIG.POSTS_JSON_PATH);
-                console.log("Fetch response status:", response.status);
                 if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}, path: ${APP_CONFIG.POSTS_JSON_PATH}`); }
                 ALL_POSTS_DATA = await response.json();
-                console.log("Posts data loaded:", ALL_POSTS_DATA.length, "posts");
                 ALL_POSTS_DATA.sort((a, b) => new Date(b.date) - new Date(a.date)); 
                 ALL_POST_DATA_FOR_HOME_RECENT = ALL_POSTS_DATA.slice(0, 3);
                 const homeGrid = $('#home-recent-writings-grid');
@@ -493,22 +458,39 @@
                 if ($('#writings-grid-container')) $('#writings-grid-container').innerHTML = '<p class="text-text-secondary col-span-full text-center">Error: Could not load writings.</p>';
             }
         }
+        // --- End Content Rendering (Writings) ---
 
 
-        // --- Questionnaire Logic ---
-        function renderQuestionnaire() {
-            const container = $('#questionnaire-container');
-            if (!container) return;
+        // --- Questionnaire Logic (About Me Page) ---
+        async function renderQuestionnaire() {
+            const container = $('#questionnaire-render-area');
+            const calculateButton = $('#calculate-match-button');
+            if (!container || !calculateButton) return;
+
+            try {
+                const response = await fetch(APP_CONFIG.QUESTIONS_JSON_PATH);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                ALL_QUESTIONNAIRE_DATA = await response.json();
+            } catch (error) {
+                console.error("Error loading questionnaire:", error);
+                container.innerHTML = '<p class="text-text-secondary text-center">Error: Could not load questions. Please try again later.</p>';
+                return;
+            }
+            
+            if (ALL_QUESTIONNAIRE_DATA.length === 0) {
+                container.innerHTML = '<p class="text-text-secondary text-center">No questions available at the moment.</p>';
+                return;
+            }
 
             let html = '';
-            questionnaireData.forEach((q, qIndex) => {
+            ALL_QUESTIONNAIRE_DATA.forEach((q) => {
                 html += `
-                    <div class="question-block" id="question-${q.id}">
-                        <h3>${q.question}</h3>
+                    <div class="question-block" id="question-${q.id}" data-question-id="${q.id}">
+                        <h3>${q.questionText}</h3>
                         <div class="answer-options">
                 `;
-                q.options.forEach((opt, oIndex) => {
-                    html += `<button class="answer-option" data-q-index="${qIndex}" data-o-index="${oIndex}">${opt.text}</button>`;
+                q.options.forEach((opt) => {
+                    html += `<button class="answer-option" data-option-text="${opt.text}">${opt.text}</button>`;
                 });
                 html += `
                         </div>
@@ -517,31 +499,97 @@
                 `;
             });
             container.innerHTML = html;
+            visitorAnswers = {}; // Reset visitor answers
+            questionsAnsweredCount = 0;
+            $('#personality-match-section').style.display = 'none'; // Hide results
+            calculateButton.style.display = 'none'; // Hide button initially
+            calculateButton.disabled = true;
             setupQuestionnaireInteractions();
         }
 
         function setupQuestionnaireInteractions() {
             $$('.answer-option').forEach(button => {
                 button.addEventListener('click', function() {
-                    const qIndex = parseInt(this.dataset.qIndex);
-                    const oIndex = parseInt(this.dataset.oIndex);
                     const questionBlock = this.closest('.question-block');
-                    const feedbackArea = questionBlock.querySelector('.feedback-area');
+                    const questionId = questionBlock.dataset.questionId;
+                    const selectedOptionText = this.dataset.optionText;
                     
-                    // Remove 'selected' from sibling options
+                    const questionData = ALL_QUESTIONNAIRE_DATA.find(q => q.id === questionId);
+                    if (!questionData) return;
+
+                    const selectedOptionData = questionData.options.find(opt => opt.text === selectedOptionText);
+                    if (!selectedOptionData) return;
+
+                    // Update visitorAnswers and count
+                    if (!visitorAnswers[questionId]) {
+                        questionsAnsweredCount++;
+                    }
+                    visitorAnswers[questionId] = selectedOptionText;
+                    
+                    // Style options
                     questionBlock.querySelectorAll('.answer-option').forEach(opt => opt.classList.remove('selected'));
-                    // Add 'selected' to clicked option
                     this.classList.add('selected');
                     
-                    // Update and show feedback
-                    feedbackArea.innerHTML = questionnaireData[qIndex].options[oIndex].feedback;
+                    // Display feedback
+                    const feedbackArea = questionBlock.querySelector('.feedback-area');
+                    feedbackArea.innerHTML = selectedOptionData.feedback; // This feedback is already crafted to include Agraj's view
                     feedbackArea.classList.add('visible');
+
+                    // Check if all questions answered to show button
+                    if (questionsAnsweredCount === ALL_QUESTIONNAIRE_DATA.length) {
+                        const calculateButton = $('#calculate-match-button');
+                        calculateButton.style.display = 'inline-block'; // Use inline-block for proper glitch button rendering
+                        calculateButton.disabled = false;
+                    }
                 });
             });
+
+            const calculateButton = $('#calculate-match-button');
+            if (calculateButton) {
+                calculateButton.addEventListener('click', calculateAndShowMatch);
+            }
         }
 
+        function calculateAndShowMatch() {
+            if (Object.keys(visitorAnswers).length === 0 || ALL_QUESTIONNAIRE_DATA.length === 0) {
+                // alert("Please answer at least one question to see the match!");
+                return;
+            }
 
-        // --- Other JS functions ---
+            let matches = 0;
+            let answeredQuestionsCountForMatch = 0;
+
+            ALL_QUESTIONNAIRE_DATA.forEach(q => {
+                if (visitorAnswers[q.id]) { // Only consider questions the visitor has answered
+                    answeredQuestionsCountForMatch++;
+                    if (visitorAnswers[q.id] === q.agrajAnswerText) {
+                        matches++;
+                    }
+                }
+            });
+            
+            // Calculate percentage based on questions *attempted* by visitor, or all questions if that's preferred.
+            // For now, let's base it on all available questions to give a score out of the total.
+            const totalQuestions = ALL_QUESTIONNAIRE_DATA.length;
+            const percentage = totalQuestions > 0 ? Math.round((matches / totalQuestions) * 100) : 0;
+
+            $('#match-percentage-value').textContent = percentage;
+            // MBTI type is hardcoded in HTML for now, but could be dynamic if needed.
+            // $('#mbti-type-value').textContent = "INFJ"; 
+
+            $('#personality-match-section').style.display = 'block';
+            
+            // Scroll to results
+            $('#personality-match-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Optionally disable button after calculation
+            // this.disabled = true; // 'this' would be the button if event listener was directly on it.
+             $('#calculate-match-button').disabled = true;
+        }
+        // --- End Questionnaire Logic ---
+
+
+        // --- Other JS functions (Routing, Utils, etc.) --- (Keep this entire section as is, but check showMainSection)
         let rotatingTextInstances = {};
         function setupRotatingText(elementId, config) { 
             if (rotatingTextInstances[elementId]) { return; }
@@ -656,40 +704,42 @@
         }
         function animateCircularProfileImage() { 
             const heroImage = $('#hero-circular-profile-image');
-            if (heroImage) {
-                heroImage.style.opacity = '1'; 
-                heroImage.style.transform = 'scale(1) translateY(0px)';
-            }
+            if (heroImage) { heroImage.style.opacity = '1';  heroImage.style.transform = 'scale(1) translateY(0px)'; }
         }
         let currentMainSection = null;
-        let lastClickedReadMoreLink = null;
+        let lastClickedReadMoreLink = null; // For writings page focus management
+
         function showMainSection(sectionId) { 
             const previouslyActiveSection = $('.page-section.active-section');
             if (previouslyActiveSection) previouslyActiveSection.classList.remove('active-section');
+            
             const targetSection = $(`#${sectionId}`);
             if (targetSection) {
                 targetSection.classList.add('active-section');
                 currentMainSection = sectionId;
+                
                 $$('.desktop-nav a, .mobile-menu a').forEach(navLink => {
                     navLink.classList.remove('active');
-                    const navTarget = navLink.dataset.navlink; // Use data-navlink
+                    const navTarget = navLink.dataset.navlink;
                     if ( (sectionId === 'home-content' && navTarget === 'home') ||
                          (sectionId === 'writings-content' && navTarget === 'writings') ||
                          (sectionId === 'about-content' && navTarget === 'about') ) {
                         navLink.classList.add('active');
                     }
                 });
+
                 if (sectionId === 'home-content') {
                     animateCircularProfileImage(); 
                     for (const elId in APP_CONFIG.ROTATING_TEXT_HOME) {
-                        setupRotatingText(elId, APP_CONFIG.ROTATING_TEXT_HOME[elId]);
+                        if(document.getElementById(elId)) setupRotatingText(elId, APP_CONFIG.ROTATING_TEXT_HOME[elId]);
                     }
                 } else if (sectionId === 'about-content') {
-                    renderQuestionnaire(); // Render questionnaire when About section becomes active
+                    renderQuestionnaire(); // Render/Re-render questionnaire for About section
                 }
                 window.scrollTo({ top: 0, behavior: 'auto' });
             }
         }
+
         function handleMainRouteChange() { 
             let mainSectionTarget = 'home-content';
             let articleDetailHash = '';
@@ -701,24 +751,34 @@
                 mainSectionTarget = 'writings-content';
             } else if (currentFullHash === '#about') {
                 mainSectionTarget = 'about-content';
-            } else if (currentFullHash === '#home' || !currentFullHash) {
-                mainSectionTarget = 'home-content'; if (!currentFullHash) window.location.hash = 'home';
-            } else { window.location.hash = 'home'; return; }
+            } else if (currentFullHash === '#home' || currentFullHash === '' || currentFullHash === '#') { // Adjusted for empty hash
+                mainSectionTarget = 'home-content'; 
+                if (currentFullHash === '' || currentFullHash === '#') window.location.hash = 'home'; // Default to #home
+            } else { 
+                // If hash is unrecognized, default to home
+                window.location.hash = 'home'; 
+                return; // Route change will be handled by the hashchange event recursively
+            }
 
             if (currentMainSection !== mainSectionTarget) {
                  showMainSection(mainSectionTarget);
-            } else if (mainSectionTarget === 'writings-content') {
+            } else if (mainSectionTarget === 'writings-content' && articleDetailHash) { // Only if navigating to specific article within writings
                  handleWritingsArticleLogic(articleDetailHash);
+            } else if (mainSectionTarget === 'about-content' && currentMainSection === 'about-content') {
+                 // If already on about page and hash is #about (e.g. from a refresh), ensure questionnaire is rendered
+                 renderQuestionnaire();
             }
             
+            // Update page title
             if (mainSectionTarget === 'writings-content') {
-                handleWritingsArticleLogic(articleDetailHash);
+                handleWritingsArticleLogic(articleDetailHash); // This handles article title or default writings title
             } else if (mainSectionTarget === 'about-content') {
                 document.title = APP_CONFIG.DEFAULT_TITLES.about;
-            } else { 
+            } else { // Home
                 document.title = APP_CONFIG.DEFAULT_TITLES.home; 
             }
         }
+
         function handleWritingsArticleLogic(articleHash) { 
             const defaultWritingsTitle = APP_CONFIG.DEFAULT_TITLES.writings;
             if (articleHash && articleHash.startsWith('#post-')) {
@@ -737,20 +797,26 @@
             } else {
                 document.title = defaultWritingsTitle;
                 const grid = $('#writings-grid-container');
-                if (grid && lastClickedReadMoreLink) {
+                // Focus management for returning to grid from an article view
+                if (grid && typeof lastClickedReadMoreLink !== 'undefined' && lastClickedReadMoreLink && document.body.contains(lastClickedReadMoreLink)) {
+                     setTimeout(() => {
+                        lastClickedReadMoreLink.focus({preventScroll: true});
+                        if (!isElementInViewport(lastClickedReadMoreLink)) lastClickedReadMoreLink.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                     }, 50);
+                } else if (grid) {
                     setTimeout(() => {
-                        if (document.body.contains(lastClickedReadMoreLink)) lastClickedReadMoreLink.focus({preventScroll: true});
-                        else if (grid) { grid.setAttribute('tabindex', '-1'); grid.focus({preventScroll:true}); }
-                        if (grid && !isElementInViewport(grid)) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        grid.setAttribute('tabindex', '-1'); grid.focus({preventScroll: true});
+                         if (!isElementInViewport(grid)) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }, 50);
-                } lastClickedReadMoreLink = null;
+                }
+                lastClickedReadMoreLink = null; // Reset after use
             }
         }
         function isElementInViewport(el) { 
             if(!el) return false; const rect = el.getBoundingClientRect();
             return (rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth));
         }
-        let matterEngine = null, matterRender = null;
+        let matterEngine = null, matterRender = null; // Secret Game
         function setupSecretGame() { 
             const trigger = $('#secret-game-trigger'); const modal = $('#secret-game-modal'); const canvas = $('#matter-canvas'); const closeButton = $('#close-game-button');
             if (!trigger || !modal || !canvas || !closeButton || typeof Matter === 'undefined') { if(trigger) trigger.style.display = 'none'; return; }
@@ -772,8 +838,10 @@
             });
             closeButton.addEventListener('click', () => { modal.style.display = 'none'; if (matterRender) Matter.Render.stop(matterRender); if (matterEngine) Matter.Engine.clear(matterEngine); });
         }
+        // --- End Other JS functions ---
 
 
+        // --- DOMContentLoaded ---
         document.addEventListener('DOMContentLoaded', async () => {
             resizeHyperspeedCanvas(); initStars(); animateHyperspeed();
             window.addEventListener('resize', resizeHyperspeedCanvas);
@@ -781,12 +849,18 @@
             setupMobileMenu(); 
             setupScrollProgressBar();
             
-            await loadAndRenderPosts(); 
+            await loadAndRenderPosts(); // For Home and Writings sections
+            // Writings links need event listeners for lastClickedReadMoreLink
+            document.body.addEventListener('click', function(event) {
+                if (event.target.matches('#writings-grid-container a.read-more-link, #home-recent-writings-grid a[href^="#post-"]')) {
+                    lastClickedReadMoreLink = event.target;
+                }
+            });
             
-            setupStaticImageClick();
+            setupStaticImageClick(); // For Home section
             
-            handleMainRouteChange(); 
-            window.addEventListener('hashchange', handleMainRouteChange);
+            handleMainRouteChange(); // Initial route handling
+            window.addEventListener('hashchange', handleMainRouteChange); // Listen for route changes
 
             const currentYearEl = $('#currentYear');
             if(currentYearEl) currentYearEl.textContent = new Date().getFullYear();
