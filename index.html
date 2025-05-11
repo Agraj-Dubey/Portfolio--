@@ -788,219 +788,118 @@
                 }
             }, 50);
         }
-
-        // --- Secret Game Logic (Updated for Draggability and Simplicity) ---
+// --- Secret Game Logic (SUPER SIMPLIFIED FOR DEBUGGING) ---
         let matterEngine, matterRender, matterRunner, mouseConstraint;
-        let gameShapes = [];
-        const MAX_SHAPES_TO_SPAWN = 10;
-        const SHAPES_TO_WIN = 3;
-        let shapesSpawned = 0;
-        let gameHasBeenWon = false;
-        let targetZoneBody;
-        let gameCanvasClickListener; // To manage the click listener
+        let gameSpawnSoundEl; // Keep for basic sound if it works
 
-        function initializeGameElements() { // Helper to get sound elements
-            gameSpawnSoundEl = $('#gameSpawnSound');
-            gameWinSoundEl = $('#gameWinSound');
-        }
-        
-        function resetSecretGame(canvasWidth, canvasHeight) {
-            console.log("Resetting game. Canvas WxH:", canvasWidth, canvasHeight);
-            gameHasBeenWon = false;
-            shapesSpawned = 0;
-            
-            if (matterEngine && matterEngine.world) {
-                // Clear all dynamic bodies
-                const allBodies = Composite.allBodies(matterEngine.world);
-                for (let i = allBodies.length - 1; i >= 0; i--) {
-                    if (!allBodies[i].isStatic) {
-                        Composite.remove(matterEngine.world, allBodies[i]);
-                    }
-                }
-                gameShapes = [];
-
-                // Ensure static bodies are present or re-added
-                // For simplicity in reset, we'll remove and re-add them to ensure state.
-                const staticBodies = matterEngine.world.bodies.filter(body => body.isStatic);
-                staticBodies.forEach(body => Composite.remove(matterEngine.world, body));
-
-                const ground = Bodies.rectangle(canvasWidth / 2, canvasHeight + 20, canvasWidth + 40, 60, { isStatic: true, render: { fillStyle: '#5c3d85' } });
-                const leftWall = Bodies.rectangle(-20, canvasHeight / 2, 40, canvasHeight, { isStatic: true, render: { fillStyle: '#5c3d85' } });
-                const rightWall = Bodies.rectangle(canvasWidth + 20, canvasHeight / 2, 40, canvasHeight, { isStatic: true, render: { fillStyle: '#5c3d85' } });
-                
-                const targetZoneHeight = 50;
-                const targetZoneYPos = canvasHeight - 30 - (targetZoneHeight / 2) - 5; // slightly higher
-                targetZoneBody = Bodies.rectangle(canvasWidth / 2, targetZoneYPos, canvasWidth * 0.5, targetZoneHeight, {
-                    isStatic: true, isSensor: true, label: 'targetZone',
-                    render: { fillStyle: 'rgba(174, 139, 213, 0.4)', strokeStyle: 'rgba(203, 184, 232, 0.7)', lineWidth: 2 }
-                });
-                Composite.add(matterEngine.world, [ground, leftWall, rightWall, targetZoneBody]);
-            }
-
-            updateGameInfoDisplay(canvasWidth, canvasHeight);
-            const winMsgEl = $('#game-win-message');
-            if (winMsgEl) winMsgEl.textContent = "Drag shapes into the purple zone!";
-            console.log("Game reset complete.");
-        }
-
-        function updateGameInfoDisplay(canvasWidth, canvasHeight) {
-            if (!matterEngine || !matterEngine.world) return;
-
-            if ($('#game-shapes-dropped')) $('#game-shapes-dropped').textContent = shapesSpawned;
-            if ($('#game-max-shapes')) $('#game-max-shapes').textContent = MAX_SHAPES_TO_SPAWN;
-            
-            let shapesInTargetCount = 0;
-            if (targetZoneBody) { 
-                gameShapes = gameShapes.filter(shape => { // Clean up shapes array
-                    if (shape.position.y > canvasHeight + 150) { // Increased threshold for removal
-                        Composite.remove(matterEngine.world, shape);
-                        return false; // Remove from gameShapes array
-                    }
-                    return true;
-                });
-
-                gameShapes.forEach(shape => {
-                    if (Matter.Bounds.overlaps(shape.bounds, targetZoneBody.bounds) && 
-                        shape.position.y > targetZoneBody.bounds.min.y && 
-                        shape.position.y < targetZoneBody.bounds.max.y &&
-                        Math.abs(shape.velocity.x) < 0.15 && Math.abs(shape.velocity.y) < 0.15) { 
-                        shapesInTargetCount++;
-                    }
-                });
-            }
-            if ($('#game-shapes-in-target')) $('#game-shapes-in-target').textContent = shapesInTargetCount;
-            if ($('#game-shapes-to-win')) $('#game-shapes-to-win').textContent = SHAPES_TO_WIN;
-
-            const gameWinMessageEl = $('#game-win-message');
-            if (gameWinMessageEl) {
-                if (!gameHasBeenWon && shapesInTargetCount >= SHAPES_TO_WIN) {
-                    gameHasBeenWon = true;
-                    gameWinMessageEl.textContent = "YOU WIN! ✨";
-                    playSound(gameWinSoundEl);
-                    if (typeof anime === 'function') {
-                        anime({ targets: gameWinMessageEl, scale: [1, 1.3, 1], color: ['#AE8BD5', '#FFFFFF', '#AE8BD5'], duration: 1200, easing: 'easeOutElastic(1, .6)' });
-                    }
-                } else if (!gameHasBeenWon && shapesSpawned >= MAX_SHAPES_TO_SPAWN && shapesInTargetCount < SHAPES_TO_WIN) {
-                    gameWinMessageEl.textContent = "Out of shapes! Reset to try again.";
-                } else if (!gameHasBeenWon) {
-                    // gameWinMessageEl.textContent = "Drag shapes into the purple zone!"; // Keep instruction if nothing else
-                }
-            }
-        }
-
-        function handleGameCanvasClick(nativeEvent, canvas, canvasWidth, canvasHeight) {
-            if (gameHasBeenWon || shapesSpawned >= MAX_SHAPES_TO_SPAWN) return;
-
-            const bounds = canvas.getBoundingClientRect();
-            const clickX = nativeEvent.clientX - bounds.left;
-            const clickY = nativeEvent.clientY - bounds.top;
-
-            // Only spawn if the click is not on an existing draggable body
-            // (MouseConstraint handles drag initiation, so this click is likely for spawning)
-            if (mouseConstraint && mouseConstraint.body) { // If mouseConstraint is currently holding a body
-                return; 
-            }
-
-            // Ensure spawn is within reasonable bounds of the canvas
-            if (clickX < 10 || clickX > canvasWidth - 10 || clickY < 10 || clickY > canvasHeight - 60) { // Avoid edges and bottom
-                return;
-            }
+        // (Keep your playSound function if you have it)
+        // function playSound(soundElement) { ... }
 
 
-            let body;
-            const size = Math.random() * 18 + 12; // Slightly smaller, more consistent shapes
-            const color = ['#CBB8E8', '#AE8BD5', '#FFFFFF', '#9272CE'][Math.floor(Math.random() * 4)];
-
-            if (shapesSpawned % 2 === 0) { 
-                body = Bodies.rectangle(clickX, clickY, size, size, { 
-                    render: { fillStyle: color }, frictionAir: 0.02, restitution: 0.5, density: 0.0015
-                });
-            } else {
-                body = Bodies.circle(clickX, clickY, size / 1.8, { 
-                    render: { fillStyle: color }, frictionAir: 0.015, restitution: 0.6, density: 0.0015
-                });
-            }
-            Composite.add(matterEngine.world, body);
-            gameShapes.push(body);
-            shapesSpawned++;
-            playSound(gameSpawnSoundEl);
-            updateGameInfoDisplay(canvasWidth, canvasHeight);
-        }
-        
         function setupSecretGame() {
             const trigger = $('#secret-game-trigger'); 
             const modal = $('#secret-game-modal'); 
             const canvas = $('#matter-canvas'); 
             const closeButton = $('#close-game-button');
-            const resetButton = $('#reset-game-button');
+            const resetButton = $('#reset-game-button'); // Keep button, but functionality will be simple reset
             
+            gameSpawnSoundEl = $('#gameSpawnSound'); // Assuming you have this audio element
+
             if (!trigger || !modal || !canvas || !closeButton || !resetButton || typeof Matter === 'undefined') { 
-                if(trigger) trigger.style.display = 'none'; return; 
+                if(trigger) trigger.style.display = 'none'; 
+                console.error("SECRET GAME: Core elements or Matter.js missing. Aborting setup.");
+                return; 
             }
 
             const Engine = Matter.Engine, Render = Matter.Render, Runner = Matter.Runner, 
                   Bodies = Matter.Bodies, Composite = Matter.Composite, Mouse = Matter.Mouse, 
-                  MouseConstraint = Matter.MouseConstraint, Events = Matter.Events;
+                  MouseConstraint = Matter.MouseConstraint;
 
-            trigger.addEventListener('click', () => {
-                modal.style.display = 'flex';
-                if (typeof anime === 'function') anime({ targets: modal, opacity: [0,1], scale: [0.9, 1], duration: 400, easing: 'easeOutExpo' });
+            // Function to initialize or re-initialize the game world
+            function initializeWorld() {
+                console.log("SECRET GAME: Initializing world...");
 
-                if (matterRender) { Render.stop(matterRender); if(matterRender.canvas) matterRender.canvas.remove(); matterRender = null; }
+                // Clear previous instances if they exist
+                if (matterRender) { Render.stop(matterRender); if(matterRender.canvas && matterRender.canvas.parentNode) { /* canvas is part of modal, no need to remove*/ } }
                 if (matterRunner) Runner.stop(matterRunner);
                 if (matterEngine) Engine.clear(matterEngine); 
 
-                matterEngine = Engine.create({ gravity: { y: 0.6 }}); // Standard gravity
+                matterEngine = Engine.create({ gravity: { y: 0.6 }});
                 
                 let canvasWidth = Math.min(window.innerWidth * 0.80, 650); 
                 let canvasHeight = Math.min(window.innerHeight * 0.70, 420);
                 
-                // Renderer setup
+                // Configure the renderer
                 matterRender = Render.create({ 
-                    element: modal, // Render within the modal
-                    canvas: canvas, // Use the existing canvas element
+                    element: modal, // Render inside the modal
+                    canvas: canvas, 
                     engine: matterEngine, 
                     options: { 
                         width: canvasWidth, height: canvasHeight, 
-                        wireframes: false, background: 'transparent' 
+                        wireframes: false, background: 'rgba(20, 15, 35, 0.6)' // Explicit background for canvas
                     } 
                 });
-                canvas.width = canvasWidth; // Explicitly set canvas DOM element size
+                canvas.width = canvasWidth; 
                 canvas.height = canvasHeight;
 
-                resetSecretGame(canvasWidth, canvasHeight); 
+                // Add ground and walls
+                const ground = Bodies.rectangle(canvasWidth / 2, canvasHeight - 30, canvasWidth, 60, { isStatic: true, render: { fillStyle: '#5c3d85' } });
+                const leftWall = Bodies.rectangle(0, canvasHeight / 2, 30, canvasHeight, { isStatic: true, render: { fillStyle: '#5c3d85' } });
+                const rightWall = Bodies.rectangle(canvasWidth, canvasHeight / 2, 30, canvasHeight, { isStatic: true, render: { fillStyle: '#5c3d85' } });
+                Composite.add(matterEngine.world, [ground, leftWall, rightWall]);
 
+                // Add mouse control
                 const gameMouse = Mouse.create(matterRender.canvas);
-                mouseConstraint = MouseConstraint.create(matterEngine, { 
-                    mouse: gameMouse, 
-                    constraint: { stiffness: 0.15, render: { visible: false } } 
+                mouseConstraint = MouseConstraint.create(matterEngine, {
+                    mouse: gameMouse,
+                    constraint: { stiffness: 0.2, render: { visible: false } }
                 });
-                Composite.add(matterEngine.world, mouseConstraint); 
-                matterRender.mouse = gameMouse; 
+                Composite.add(matterEngine.world, mouseConstraint);
+                matterRender.mouse = gameMouse; // Keep the renderer's mouse synchronized.
 
-                // Remove old listener before adding a new one
-                if (gameCanvasClickListener) {
-                    canvas.removeEventListener('mousedown', gameCanvasClickListener);
+                // Simple click to spawn a shape
+                if (canvas._simpleGameClickListener) { // Remove previous listener if any
+                    canvas.removeEventListener('mousedown', canvas._simpleGameClickListener);
                 }
-                gameCanvasClickListener = (event) => handleGameCanvasClick(event, canvas, canvasWidth, canvasHeight);
-                canvas.addEventListener('mousedown', gameCanvasClickListener);
+                canvas._simpleGameClickListener = function(event) {
+                    const bounds = canvas.getBoundingClientRect();
+                    const clickX = event.clientX - bounds.left;
+                    const clickY = event.clientY - bounds.top;
 
-                // Remove old afterUpdate listener if it exists
-                if (matterEngine._afterUpdateListener) {
-                    Events.off(matterEngine, 'afterUpdate', matterEngine._afterUpdateListener);
-                }
-                matterEngine._afterUpdateListener = () => updateGameInfoDisplay(canvasWidth, canvasHeight);
-                Events.on(matterEngine, 'afterUpdate', matterEngine._afterUpdateListener); 
+                    // Prevent spawning if mouse is already dragging something
+                    if (mouseConstraint.body) return; 
 
-                Render.run(matterRender); 
-                matterRunner = Runner.create(); 
+                    const shape = Bodies.rectangle(clickX, clickY, 30, 30, { render: { fillStyle: '#CBB8E8' } });
+                    Composite.add(matterEngine.world, shape);
+                    console.log("SECRET GAME: Spawned shape at", clickX, clickY);
+                    playSound(gameSpawnSoundEl);
+                };
+                canvas.addEventListener('mousedown', canvas._simpleGameClickListener);
+
+                Render.run(matterRender);
+                matterRunner = Runner.create();
                 Runner.run(matterRunner, matterEngine);
+                console.log("SECRET GAME: Engine and renderer started.");
+
+                // Simplified UI update
+                if ($('#game-info')) $('#game-info').style.display = 'none'; // Hide complex UI for now
+                if ($('#game-win-message')) $('#game-win-message').textContent = "Click to add shapes. Drag them!";
+
+            }
+
+            trigger.addEventListener('click', () => {
+                modal.style.display = 'flex';
+                // Anime.js for modal entrance (optional, keep if it was working)
+                if (typeof anime === 'function') {
+                     anime({ targets: modal, opacity: [0,1], scale: [0.9, 1], duration: 400, easing: 'easeOutExpo' });
+                }
+                initializeWorld();
             });
 
             closeButton.addEventListener('click', () => { 
-                if (canvas && gameCanvasClickListener) { // Clean up listener
-                    canvas.removeEventListener('mousedown', gameCanvasClickListener);
-                    gameCanvasClickListener = null;
+                if (canvas && canvas._simpleGameClickListener) { // Clean up listener
+                    canvas.removeEventListener('mousedown', canvas._simpleGameClickListener);
+                    canvas._simpleGameClickListener = null;
                 }
                 if (typeof anime === 'function') {
                     anime({
@@ -1008,13 +907,18 @@
                         complete: () => modal.style.display = 'none'
                     });
                 } else { modal.style.display = 'none'; }
-                if (matterRender) Matter.Render.stop(matterRender); 
+                if (matterRender) Render.stop(matterRender); 
                 if (matterRunner) Runner.stop(matterRunner);
-                if (matterEngine) Matter.Engine.clear(matterEngine); 
+                if (matterEngine) Engine.clear(matterEngine); 
+                console.log("SECRET GAME: Closed and cleaned up.");
             });
-            resetButton.addEventListener('click', () => resetSecretGame(parseFloat(canvas.width), parseFloat(canvas.height)));
+
+            resetButton.addEventListener('click', () => {
+                console.log("SECRET GAME: Reset button clicked.");
+                initializeWorld(); // Re-initialize the entire world for a clean reset
+            });
         }
-        // --- END Secret Game Logic ---
+        // --- END Simplified Secret Game Logic ---
 
 
         // --- Other JS functions (Routing, Utils, etc. - Keep as is) ---
