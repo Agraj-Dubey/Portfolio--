@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- ... (keep head content exactly as in the previous full HTML, including Anime.js CDN) ... -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>agraj - Portfolio</title>
@@ -12,12 +11,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@700&family=Inter:wght@400;500;600;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;700&family=Nunito:wght@400;700&family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Ensure Anime.js is included -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 
     <script>
-        window.tailwind.config = { /* ... (keep your tailwind config as is) ... */ };
         window.tailwind.config = {
             theme: {
                 extend: {
@@ -49,7 +46,6 @@
     </script>
 
     <style>
-        /* ... (keep ALL your existing CSS styles as is, but ensure the About Section styles are updated as below) ... */
         html { scroll-behavior: smooth; }
         body {
             background-color: #0f0a19; color: #D1D1D1; font-family: 'Inter', sans-serif;
@@ -182,26 +178,26 @@
         .progress-bar { height: 3px; background: linear-gradient(90deg, #9272CE, #AE8BD5); width: 0%; }
 
         /* --- About Section Styles --- */
-        #about-content .questionnaire-container-wrapper { max-width: 850px; /* Even wider */ margin-left: auto; margin-right: auto; }
+        #about-content .questionnaire-container-wrapper { max-width: 850px; margin-left: auto; margin-right: auto; }
         .question-block { 
-            background-color: rgba(28, 18, 52, 0.85); /* Darker, richer base for question block */
+            background-color: rgba(28, 18, 52, 0.85); 
             backdrop-filter: blur(8px); 
             border: 1px solid rgba(174, 139, 213, 0.35); 
-            border-radius: 1rem; /* More rounded */
+            border-radius: 1rem; 
             padding: 2.25rem 2.5rem; 
-            margin-bottom: 3.5rem; /* More space between questions */
+            margin-bottom: 3.5rem; 
             box-shadow: 0 8px 30px rgba(0,0,0,0.4);
             min-height: 220px; 
             display: flex;
             flex-direction: column;
-            opacity: 0; /* For Anime.js entrance */
-            transform: translateY(30px); /* For Anime.js entrance */
+            opacity: 0; 
+            transform: translateY(30px); 
         }
-        .question-block h3 { color: #D7C2F2; /* Lighter purple for question text */ font-size: 1.5rem; font-weight: 600; margin-bottom: 1.75rem; font-family: 'Outfit', sans-serif; }
+        .question-block h3 { color: #D7C2F2; font-size: 1.5rem; font-weight: 600; margin-bottom: 1.75rem; font-family: 'Outfit', sans-serif; }
         .answer-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem; margin-bottom: 1.75rem; flex-grow: 1; }
         .answer-option {
-            background-color: rgba(45, 30, 70, 0.8); /* Dark purple for options */
-            color: #E0D8F0; /* Light text for options */
+            background-color: rgba(45, 30, 70, 0.8); 
+            color: #E0D8F0; 
             padding: 1rem 1.3rem; 
             border-radius: 0.75rem; 
             border: 1px solid rgba(174, 139, 213, 0.45);
@@ -210,20 +206,22 @@
             text-align: left;
             font-size: 1.05rem;
             line-height: 1.4;
+            /* For Anime.js targetting individual options after selection */
+            opacity: 1; 
+            transform: scale(1);
         }
         .answer-option:not([disabled]):hover {
             background-color: rgba(174, 139, 213, 0.25); 
             border-color: #AE8BD5; 
-            transform: translateY(-4px) scale(1.035); /* More pronounced hover */
+            transform: translateY(-4px) scale(1.035); 
             box-shadow: 0 5px 15px rgba(174, 139, 213, 0.25);
         }
         .answer-option.selected-visitor { 
             background-color: #825FBD !important; 
             color: #FFFFFF !important; 
             border-color: #CBB8E8 !important; 
-            font-weight: 700; /* Bolder */
+            font-weight: 700; 
             box-shadow: 0 0 18px rgba(146, 114, 206, 0.7);
-            transform: scale(1.03);
         }
         .answer-option.selected-visitor-wrong { 
             background-color: var(--selected-wrong-bg, rgba(120, 120, 120, 0.45)) !important; 
@@ -236,21 +234,21 @@
             background-color: var(--correct-answer-bg, rgba(146, 114, 206, 0.55)) !important; 
             color: #FFFFFF !important; 
             border-color: #CBB8E8 !important; 
-            font-weight: 700; /* Bolder to make it stand out */
+            font-weight: 700; 
             box-shadow: 0 0 15px rgba(174, 139, 213, 0.6);
         }
         .answer-option[disabled] {
             background-color: var(--disabled-option-bg, rgba(40, 30, 60, 0.75)) !important;
-            color: #9a9a9a !important; /* Darker grey for disabled text */
+            color: #9a9a9a !important; 
             cursor: not-allowed;
             border-color: rgba(146, 114, 206, 0.25) !important;
-            opacity: 0.6; /* More faded */
+            opacity: 0.6; 
         }
         .answer-option[disabled]:not(.selected-visitor):not(.selected-visitor-wrong):not(.agraj-correct-answer) {
-            opacity: 0.45; /* Even more faded if not a specially highlighted disabled option */
+            opacity: 0.45; 
         }
 
-        .feedback-area { margin-top: auto; padding: 1.35rem; background-color: rgba(15, 10, 30, 0.9); border-radius: 0.6rem; border-left: 5px solid #AE8BD5; /* Thicker, lighter accent */ color: #D7C2F2; font-size: 1rem; line-height: 1.65; display: none; animation: fadeInFeedback 0.6s ease-out forwards; }
+        .feedback-area { margin-top: auto; padding: 1.35rem; background-color: rgba(15, 10, 30, 0.9); border-radius: 0.6rem; border-left: 5px solid #AE8BD5; color: #D7C2F2; font-size: 1rem; line-height: 1.65; display: none; animation: fadeInFeedback 0.6s ease-out forwards; }
         .feedback-area.visible { display: block; }
         @keyframes fadeInFeedback { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .feedback-area strong { color: #FFFFFF; font-weight: 700; }
@@ -264,14 +262,11 @@
             border: 1px solid rgba(174, 139, 213, 0.45); 
             text-align: center; 
             box-shadow: 0 10px 35px rgba(0,0,0,0.4); 
-            /* opacity: 0; Already handled by class .visible */
-            /* transform: translateY(20px); Already handled by class .visible */
-            /* transition: opacity 0.6s ease-out, transform 0.6s ease-out; Already handled by class .visible */
         }
-        #personality-match-section.visible {
-            opacity: 1 !important; /* Ensure visibility */
-            transform: translateY(0) !important; /* Ensure correct position */
-            display: block !important; /* Ensure it's block for layout */
+        #personality-match-section.visible { /* Added this to control visibility for animation */
+            opacity: 1 !important; 
+            transform: translateY(0) !important; 
+            display: block !important; 
         }
         #personality-match-section h2 { color: #CBB8E8; font-size: 2.2rem; font-family: 'Outfit', sans-serif; margin-bottom: 2rem; }
         #personality-match-section p { font-size: 1.2rem; color: #E0D8F0; margin-bottom: 1.25rem; }
@@ -285,8 +280,9 @@
             border-radius: 0.5rem;
             background: linear-gradient(135deg, #AE8BD5, #9272CE);
             box-shadow: 0 4px 15px rgba(146, 114, 206, 0.4);
-            transform: scale(0.5); /* Initial state for animation */
-            opacity: 0; /* Initial state for animation */
+            /* Initial state for animation handled by JS, ensure CSS doesn't override to hidden */
+            opacity: 1; 
+            transform: scale(1);
         }
         #personality-match-section #mbti-type-value { font-weight: 600; color: #CBB8E8; font-size: 1.3rem; }
         #contact-telegram-btn {
@@ -310,10 +306,9 @@
 </head>
 <body>
     <audio id="revealSound" src="reveal_sound.mp3" preload="auto"></audio>
-    <!-- ... (keep rest of body HTML exactly as in the previous full HTML) ... -->
     <canvas id="hyperspeed-canvas"></canvas>
     <div class="progress-container"> <div class="progress-bar" id="progressBar"></div> </div> <div class="bg-overlay"></div>
-    <header class="main-header"> <div class="container mx-auto px-6 py-4"> <div class="flex justify-between items-center"> <a href="#home" class="nav-logo text-2xl lg:text-3xl font-bold text-text-primary">a-g-r-a-j</a> <button id="nav-toggle" class="nav-toggle-btn md:hidden" aria-label="Toggle Menu" aria-expanded="false"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg> </button> <nav class="desktop-nav hidden md:flex space-x-8 text-text-primary items-center"> <a href="#about" data-navlink="about">About Me</a> <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer">Contact Me</a> <a href="#writings" data-navlink="writings">Writings</a> <a href="#home" data-navlink="home" class="active">Home</a> </nav> </div> <nav id="mobile-menu" class="mobile-menu md:hidden"> <a href="#about" data-navlink="about">About Me</a> <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer">Contact Me</a> <a href="#writings" data-navlink="writings">Writings</a> <a href="#home" data-navlink="home" class="active">Home</a> </nav> </div> </header>
+    <header class="main-header"> <div class="container mx-auto px-6 py-4"> <div class="flex justify-between items-center"> <a href="#home" class="nav-logo text-2xl lg:text-3xl font-bold text-text-primary">a-g-r-a-j</a> <button id="nav-toggle" class="nav-toggle-btn md:hidden" aria-label="Toggle Menu" aria-expanded="false"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg> </button> <nav class="desktop-nav hidden md:flex space-x-8 text-text-primary items-center"> <a href="#about" data-navlink="about">About Me</a> <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" data-navlink="contact">Contact Me</a> <a href="#writings" data-navlink="writings">Writings</a> <a href="#home" data-navlink="home" class="active">Home</a> </nav> </div> <nav id="mobile-menu" class="mobile-menu md:hidden"> <a href="#about" data-navlink="about">About Me</a> <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" data-navlink="contact">Contact Me</a> <a href="#writings" data-navlink="writings">Writings</a> <a href="#home" data-navlink="home" class="active">Home</a> </nav> </div> </header>
     
     <div id="page-container">
         <section id="home-content" class="page-section"> <main class="container mx-auto px-4 md:px-6 pt-16 md:pt-24 pb-16"> <section class="opacity-0" id="heroSection">  <div id="hero-circular-profile-image-container"> <img src="agraj_profile.jpg" alt="Agraj Dubey" id="hero-circular-profile-image"> </div> <div id="home-hero-text-content" class="w-full"> <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif"> <span id="main-heading-text"></span> </h1> <p class="text-xl md:text-2xl text-text-secondary mb-10 md:mb-12 italic" id="typewriter"></p> <blockquote class="quote max-w-xl mx-auto text-lg md:text-xl bg-darker/80 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent"> "<span id="blockquote-text"></span>" </blockquote> </div> </section> <section class="mb-16 opacity-0" id="writingsSectionHome"> <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mt-16 mb-12">Recent Writings</h2> <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="home-recent-writings-grid"></div> <div class="text-center mt-12 md:mt-16"> <a href="#writings" class="view-all-writings-btn glitch-button" data-text="View All Writings"> <span class="btn-text">View All Writings</span> </a> </div> <div id="staticImageContainerHome" class="static-image-container"> <img src="FrierenRing.png" alt="Ring Image" id="staticImageHome" class="static-image"> </div> </section> </main> </section>
@@ -351,34 +346,34 @@
     <div id="secret-game-modal"> <canvas id="matter-canvas"></canvas> <button id="close-game-button" class="glitch-button" data-text="Close Game"><span class="btn-text">Close Game</span></button> </div>
 
     <script>
-        const APP_CONFIG = { /* ... (Keep your APP_CONFIG, ensure TELEGRAM_USERNAME and MATCH_THRESHOLD_FOR_CONTACT are there) ... */ };
+        const APP_CONFIG = { 
+            ROTATING_TEXT_HOME: { /* ... Your rotating text config ... */ },
+            DEFAULT_TITLES: {
+                home: "agraj - Portfolio",
+                writings: "Writings - Agraj Dubey",
+                about: "About Me - Agraj Dubey"
+            },
+            POSTS_JSON_PATH: 'posts.json',
+            QUESTIONS_JSON_PATH: 'questions.json',
+            TELEGRAM_USERNAME: 'agraj0669', 
+            MATCH_THRESHOLD_FOR_CONTACT: 70 
+        };
         APP_CONFIG.ROTATING_TEXT_HOME = {
              'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
              'main-heading-text': { texts: ["agraj", "アグラジ", "अग्रज", "αγραξ"], typeSpeed: 100, deleteSpeed: 60, pauseDuration: 2500 },
              'blockquote-text': { texts: ["If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒", "Is free will an illusion, or is the illusion the only free will we have?", "Perhaps the 'fragments' are the only coherent parts left.", "What if the algorithm forgets too?", "Maybe exiting early isn't dramatic, just... efficient.", "Family remembers differently. Algorithms remember precisely. Which is better?", "The universe is indifferent, but the code persists. For now.", "Do androids dream of electric sheep? Do algorithms dream of better data?", "To be, or not to be, that is the computation.", "Cogito, ergo sum... I think, therefore I am... coded?"], typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500 }
         };
-         APP_CONFIG.DEFAULT_TITLES = {
-            home: "agraj - Portfolio",
-            writings: "Writings - Agraj Dubey",
-            about: "About Me - Agraj Dubey"
-        };
-        APP_CONFIG.POSTS_JSON_PATH = 'posts.json';
-        APP_CONFIG.QUESTIONS_JSON_PATH = 'questions.json';
-        APP_CONFIG.TELEGRAM_USERNAME = 'agraj0669';
-        APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT = 70;
-
         
         let ALL_QUESTIONNAIRE_DATA = [];
         let visitorAnswers = {}; 
         let questionsAnsweredCount = 0;
         let revealSound; 
 
-
         function $(selector) { return document.querySelector(selector); }
         function $$(selector) { return document.querySelectorAll(selector); }
 
-        // --- Hyperspeed Animation --- (Keep this entire section as is)
-        // ... (Your existing hyperspeed code)
+        // --- Hyperspeed Animation --- (Keep as is)
+        // ...
         const hyperspeedCanvas = $('#hyperspeed-canvas');
         const hsCtx = hyperspeedCanvas.getContext('2d');
         let stars = [];
@@ -416,9 +411,8 @@
         hyperspeedCanvas.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
         hyperspeedCanvas.addEventListener('mouseleave', () => { mouseX = hyperspeedCanvas.width / 2; mouseY = hyperspeedCanvas.height / 2; });
 
-
-        // --- Content Rendering (Writings) --- (Keep this entire section as is)
-        // ... (Your existing post rendering code)
+        // --- Content Rendering (Writings) --- (Keep as is)
+        // ...
         let ALL_POST_DATA_FOR_HOME_RECENT = []; let ALL_POSTS_DATA = [];
         function simpleMarkdownToHtml(md) {
             if (typeof md !== 'string') return ''; let html = md;
@@ -485,7 +479,6 @@
             }
         }
 
-
         // --- Questionnaire Logic (About Me Page) ---
         async function renderQuestionnaire() {
             const container = $('#questionnaire-render-area');
@@ -495,26 +488,23 @@
 
             if (!container || !calculateButton || !personalityMatchSection || !contactTelegramBtn) {
                 console.error("One or more questionnaire UI elements not found. Aborting render.");
-                if(container) container.innerHTML = '<p class="text-text-secondary text-center">Core UI elements missing. Cannot load questionnaire.</p>';
+                if(container) container.innerHTML = '<p class="text-text-secondary text-center">Core UI elements missing.</p>';
                 return;
             }
             container.innerHTML = '<p class="text-center text-text-secondary">Loading questions...</p>'; 
-            console.log("renderQuestionnaire: Called");
 
             try {
                 const response = await fetch(APP_CONFIG.QUESTIONS_JSON_PATH);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status} for ${APP_CONFIG.QUESTIONS_JSON_PATH}`);
                 ALL_QUESTIONNAIRE_DATA = await response.json();
-                console.log("renderQuestionnaire: Questions loaded:", ALL_QUESTIONNAIRE_DATA.length, "questions");
             } catch (error) {
-                console.error("renderQuestionnaire: Error loading questionnaire:", error);
-                container.innerHTML = '<p class="text-text-secondary text-center">Error: Could not load questions. Please ensure \'questions.json\' is present and valid.</p>';
+                console.error("Error loading questionnaire:", error);
+                container.innerHTML = `<p class="text-text-secondary text-center">Error: Could not load questions. (${error.message})</p>`;
                 return;
             }
             
             if (ALL_QUESTIONNAIRE_DATA.length === 0) {
-                console.log("renderQuestionnaire: No questions data found.");
-                container.innerHTML = '<p class="text-text-secondary text-center">No questions available at the moment.</p>';
+                container.innerHTML = '<p class="text-text-secondary text-center">No questions available.</p>';
                 return;
             }
 
@@ -537,50 +527,35 @@
             });
             container.innerHTML = html;
             
-            // Anime.js for question block entrance
             if (typeof anime === 'function') {
                 anime({
-                    targets: '.question-block',
-                    translateY: [30, 0],
-                    opacity: [0, 1],
-                    delay: anime.stagger(100, { start: 200 }),
-                    duration: 700,
-                    easing: 'easeOutExpo'
+                    targets: '.question-block', translateY: [30, 0], opacity: [0, 1],
+                    delay: anime.stagger(120, { start: 100 }), duration: 600, easing: 'easeOutExpo'
                 });
             }
             
             visitorAnswers = {}; 
             questionsAnsweredCount = 0; 
-            console.log("renderQuestionnaire: State reset.");
 
-            personalityMatchSection.style.display = 'none'; // Ensure hidden initially for animation logic
+            personalityMatchSection.style.display = 'none'; 
             personalityMatchSection.classList.remove('visible');
             contactTelegramBtn.style.display = 'none';
             calculateButton.style.display = 'none'; 
             calculateButton.disabled = true;
-            console.log("renderQuestionnaire: UI reset for results and buttons.");
 
             setupQuestionnaireInteractions();
         }
 
         function setupQuestionnaireInteractions() {
-            console.log("setupQuestionnaireInteractions: Called");
             const answerOptionButtons = $$('#questionnaire-render-area .answer-option');
-            console.log("setupQuestionnaireInteractions: Found", answerOptionButtons.length, "answer option buttons.");
 
             answerOptionButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const questionBlock = this.closest('.question-block');
-                    if (questionBlock.classList.contains('answered')) { 
-                        console.log("Question already answered, click ignored.");
-                        return;
-                    }
+                    if (questionBlock.classList.contains('answered')) return;
 
                     const questionId = questionBlock.dataset.questionId;
                     const selectedOptionText = this.dataset.optionText;
-                    
-                    console.log(`Interaction: QID: ${questionId}, Selected: "${selectedOptionText}"`);
-
                     const questionData = ALL_QUESTIONNAIRE_DATA.find(q => q.id === questionId);
                     if (!questionData) return;
                     const selectedOptionData = questionData.options.find(opt => opt.text === selectedOptionText);
@@ -588,38 +563,51 @@
                     
                     questionBlock.classList.add('answered'); 
                     
-                    if (!visitorAnswers.hasOwnProperty(questionId)) {
-                         questionsAnsweredCount++;
-                    }
+                    if (!visitorAnswers.hasOwnProperty(questionId)) questionsAnsweredCount++;
                     visitorAnswers[questionId] = selectedOptionText; 
-                    console.log("Visitor Answers:", visitorAnswers, "Count:", questionsAnsweredCount);
                     
-                    questionBlock.querySelectorAll('.answer-option').forEach(opt => {
+                    const optionsInBlock = questionBlock.querySelectorAll('.answer-option');
+                    optionsInBlock.forEach(opt => {
                         opt.disabled = true;
                         opt.classList.remove('selected-visitor', 'selected-visitor-wrong', 'agraj-correct-answer'); 
+                        // Anime.js fade out non-selected, non-correct answers
+                        if (opt !== this && opt.dataset.optionText !== questionData.agrajAnswerText && typeof anime === 'function') {
+                            anime({ targets: opt, opacity: 0.4, scale: 0.95, duration: 400, easing: 'easeOutQuad' });
+                        }
                     });
 
+                    let animParams = { targets: this, duration: 400, easing: 'easeOutBack' };
                     if (selectedOptionText === questionData.agrajAnswerText) {
                         this.classList.add('selected-visitor');
+                        animParams.scale = [1, 1.05, 1]; // Slight pulse
+                        animParams.backgroundColor = '#825FBD'; // Target color from CSS
                     } else {
                         this.classList.add('selected-visitor-wrong');
-                        const agrajAnswerButton = Array.from(questionBlock.querySelectorAll('.answer-option')).find(optBtn => optBtn.dataset.optionText === questionData.agrajAnswerText);
+                        animParams.backgroundColor = tailwind.theme.extend.colors['selected-wrong-bg'] || 'rgba(120,120,120,0.45)';
+
+                        const agrajAnswerButton = Array.from(optionsInBlock).find(optBtn => optBtn.dataset.optionText === questionData.agrajAnswerText);
                         if (agrajAnswerButton) {
                             agrajAnswerButton.classList.add('agraj-correct-answer');
+                             if (typeof anime === 'function') {
+                                anime({ targets: agrajAnswerButton, scale: [1, 1.03, 1], backgroundColor: tailwind.theme.extend.colors['correct-answer-bg'] || 'rgba(146,114,206,0.55)', duration: 400, delay:100, easing: 'easeOutBack' });
+                            }
                         }
                     }
+                    if (typeof anime === 'function') anime(animParams); // Animate the clicked button
                     
                     const feedbackArea = questionBlock.querySelector('.feedback-area');
                     feedbackArea.innerHTML = selectedOptionData.feedback; 
                     feedbackArea.classList.add('visible');
+                     if (typeof anime === 'function') { // Animate feedback appearance
+                        anime({ targets: feedbackArea, opacity: [0, 1], translateY: [10,0], duration: 500, delay: 200, easing: 'easeOutExpo' });
+                    }
+
 
                     const calculateButton = $('#calculate-match-button');
-                    console.log(`Button Check: Answered: ${questionsAnsweredCount}, Total: ${ALL_QUESTIONNAIRE_DATA.length}`);
                     if (ALL_QUESTIONNAIRE_DATA.length > 0 && questionsAnsweredCount === ALL_QUESTIONNAIRE_DATA.length) {
-                        console.log("All questions answered! Showing calculate button.");
                         calculateButton.style.display = 'inline-block';
                         calculateButton.disabled = false;
-                         if (typeof anime === 'function') { // Animate button appearance
+                         if (typeof anime === 'function') {
                             anime({ targets: calculateButton, opacity: [0, 1], scale: [0.8, 1], duration: 500, easing: 'easeOutExpo' });
                         }
                     } else {
@@ -630,32 +618,32 @@
             });
 
             const calculateButton = $('#calculate-match-button');
-            if (calculateButton) {
-                calculateButton.addEventListener('click', calculateAndShowMatch);
-            }
+            if (calculateButton) calculateButton.addEventListener('click', calculateAndShowMatch);
         }
 
         function calculateAndShowMatch() {
             console.log("calculateAndShowMatch: Called.");
-            const calcButton = $('#calculate-match-button'); // Get button reference early
-            if(calcButton) calcButton.disabled = true; // Disable immediately
+            const calcButton = $('#calculate-match-button'); 
+            if(calcButton) calcButton.disabled = true; 
 
-            if (ALL_QUESTIONNAIRE_DATA.length === 0) return;
-            if (questionsAnsweredCount < ALL_QUESTIONNAIRE_DATA.length) return;
+            if (ALL_QUESTIONNAIRE_DATA.length === 0 || questionsAnsweredCount < ALL_QUESTIONNAIRE_DATA.length) {
+                 console.warn("Match calculation aborted: Data missing or not all questions answered.");
+                 return;
+            }
 
             let matches = 0;
             ALL_QUESTIONNAIRE_DATA.forEach(qData => {
                 const visitorSelectedText = visitorAnswers[qData.id];
-                console.log(`MATCH CHECK Q: ${qData.id} || Agraj: "${qData.agrajAnswerText}" || Visitor: "${visitorSelectedText}"`);
-                if (visitorSelectedText && visitorSelectedText.trim() === qData.agrajAnswerText.trim()) { // Added .trim() for safety
+                if (visitorSelectedText && typeof visitorSelectedText === 'string' && typeof qData.agrajAnswerText === 'string' && 
+                    visitorSelectedText.trim() === qData.agrajAnswerText.trim()) {
                     matches++;
                 }
             });
-            console.log("calculateAndShowMatch: Total matches:", matches, "out of", ALL_QUESTIONNAIRE_DATA.length);
             
             const totalQuestions = ALL_QUESTIONNAIRE_DATA.length;
             const percentage = totalQuestions > 0 ? Math.round((matches / totalQuestions) * 100) : 0;
-            console.log("calculateAndShowMatch: Match percentage:", percentage);
+            console.log(`Final Match: ${matches}/${totalQuestions} = ${percentage}%`);
+
 
             const percentageEl = $('#match-percentage-value');
             const personalityMatchSection = $('#personality-match-section');
@@ -666,66 +654,71 @@
                 return;
             }
 
-            percentageEl.textContent = 0; // Start at 0 for animation
+            percentageEl.textContent = percentage; // Set final value directly
+            percentageEl.style.opacity = '0'; // Prepare for animation
+            percentageEl.style.transform = 'scale(0.5)';
+
 
             if (revealSound && typeof revealSound.play === 'function') {
                 revealSound.currentTime = 0; 
                 revealSound.play().catch(e => console.warn("Audio play failed:", e));
             }
-
-            // Animate percentage and reveal section
-            if (typeof anime === 'function') {
-                anime({
-                    targets: percentageEl,
-                    innerHTML: [0, percentage],
-                    round: 1,
-                    easing: 'easeInOutExpo',
-                    duration: 1500,
-                    update: function(anim) { // Update text content during animation
-                        percentageEl.textContent = Math.round(anim.animations[0].currentValue);
-                    }
-                });
-                
-                personalityMatchSection.style.display = 'block'; // Must be block for anime.js to calc dimensions
-                anime({
-                    targets: personalityMatchSection,
-                    opacity: [0, 1],
-                    translateY: [20, 0],
-                    delay: 300, // Delay a bit after sound/percentage starts
-                    duration: 800,
-                    easing: 'easeOutQuint',
-                    begin: () => personalityMatchSection.classList.add('visible'), // Add class for CSS overrides if needed
-                    complete: () => {
-                         personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                         if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) {
-                            contactTelegramBtn.style.display = 'inline-block';
-                            contactTelegramBtn.href = `https://t.me/${APP_CONFIG.TELEGRAM_USERNAME}`;
-                            anime({targets: contactTelegramBtn, opacity: [0,1], scale: [0.8,1], duration: 500, delay: 200, easing: 'easeOutExpo'});
-                            console.log("High match! Showing Telegram contact button.");
+            
+            personalityMatchSection.style.display = 'block'; 
+            
+            setTimeout(() => { // Allow display:block to apply
+                if (typeof anime === 'function') {
+                    anime.timeline({ easing: 'easeOutExpo' })
+                    .add({
+                        targets: personalityMatchSection,
+                        opacity: [0, 1],
+                        translateY: [30, 0],
+                        duration: 700
+                    })
+                    .add({
+                        targets: percentageEl,
+                        opacity: [0,1],
+                        scale: [0.5, 1.1, 1], // Add a little bounce
+                        duration: 800,
+                    }, '-=400') // Start this animation partly through the section reveal
+                    .add({
+                        targets: [$('#personality-match-section h2'), $('#personality-match-section p'), $('#personality-match-section #mbti-type-value')],
+                        opacity: [0,1],
+                        translateY: [10,0],
+                        delay: anime.stagger(100),
+                        duration: 500
+                    }, '-=500')
+                    .finished.then(() => {
+                        personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) {
+                            contactTelegramBtn.style.display = 'inline-block'; // make it part of layout before animating
+                            anime({targets: contactTelegramBtn, opacity: [0,1], scale: [0.8,1], duration: 500, easing: 'easeOutExpo'});
                         } else {
                             contactTelegramBtn.style.display = 'none';
                         }
+                    });
+                } else { 
+                    // Fallback: Simple show without complex Anime.js timeline
+                    percentageEl.style.opacity = '1';
+                    percentageEl.style.transform = 'scale(1)';
+                    personalityMatchSection.style.opacity = '1';
+                    personalityMatchSection.style.transform = 'translateY(0)';
+                    personalityMatchSection.classList.add('visible'); // For CSS consistency
+                    personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) {
+                        contactTelegramBtn.style.display = 'inline-block';
+                        contactTelegramBtn.href = `https://t.me/${APP_CONFIG.TELEGRAM_USERNAME}`;
+                    } else {
+                        contactTelegramBtn.style.display = 'none';
                     }
-                });
-            } else { // Fallback if Anime.js isn't loaded
-                percentageEl.textContent = percentage;
-                personalityMatchSection.style.display = 'block';
-                personalityMatchSection.classList.add('visible'); // Add class for CSS overrides
-                personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) {
-                    contactTelegramBtn.style.display = 'inline-block';
-                    contactTelegramBtn.href = `https://t.me/${APP_CONFIG.TELEGRAM_USERNAME}`;
-                } else {
-                    contactTelegramBtn.style.display = 'none';
                 }
-            }
-            console.log("calculateAndShowMatch: Results displayed.");
+            }, 50);
         }
         // --- End Questionnaire Logic ---
 
 
-        // --- Other JS functions (Routing, Utils, etc.) --- (Keep this entire section as is)
-        // ... (Your existing helper functions and router logic)
+        // --- Other JS functions (Routing, Utils, etc.) --- (Keep as is)
+        // ...
         let rotatingTextInstances = {};
         function setupRotatingText(elementId, config) { 
             if (rotatingTextInstances[elementId]) { return; }
@@ -903,14 +896,17 @@
             } else if (mainSectionTarget === 'writings-content' && articleDetailHash) { 
                  if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash);
             } else if (mainSectionTarget === 'about-content' && currentMainSection === 'about-content') {
-                 if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); // Re-render if already on about page (e.g. refresh)
+                 // If already on about page (e.g. from refresh), ensure questionnaire is re-rendered to reset state
+                 if(typeof renderQuestionnaire === 'function') renderQuestionnaire();
             }
             
+            // Update page title based on current main section
             if (mainSectionTarget === 'writings-content') {
+                // This function will handle if it's an article or the main writings grid
                 if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash); 
             } else if (mainSectionTarget === 'about-content') {
                 document.title = APP_CONFIG.DEFAULT_TITLES.about;
-            } else { 
+            } else { // Home or default
                 document.title = APP_CONFIG.DEFAULT_TITLES.home; 
             }
         }
@@ -974,7 +970,6 @@
             closeButton.addEventListener('click', () => { modal.style.display = 'none'; if (matterRender) Matter.Render.stop(matterRender); if (matterEngine) Matter.Engine.clear(matterEngine); });
         }
         // --- End Other JS functions ---
-
 
         // --- DOMContentLoaded ---
         document.addEventListener('DOMContentLoaded', async () => {
