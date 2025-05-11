@@ -1,0 +1,161 @@
+[
+  {
+    "id": "q_smarter",
+    "category": "Intelligence & Beliefs",
+    "questionText": "Are you smarter than most people?",
+    "agrajAnswerText": "Yes",
+    "agrajInsight": "High self-confidence in intellect",
+    "options": [
+      {
+        "text": "Yes",
+        "feedback": "You selected 'Yes'. Confidence is key! My own answer is also 'Yes', as I believe in recognizing one's intellectual strengths."
+      },
+      {
+        "text": "No",
+        "feedback": "You chose 'No'. Humility is a virtue. I lean the other way on this one, answering 'Yes', valuing self-assuredness in intellect."
+      },
+      {
+        "text": "Unsure",
+        "feedback": "You're 'Unsure'. It's a tricky question! I tend to be more decisive here, answering 'Yes'."
+      }
+    ]
+  },
+  {
+    "id": "q_god",
+    "category": "Intelligence & Beliefs",
+    "questionText": "Do you believe in God?",
+    "agrajAnswerText": "No",
+    "agrajInsight": "Atheist/agnostic leanings",
+    "options": [
+      {
+        "text": "Yes, strongly",
+        "feedback": "Your faith is strong. My path has led me to answer 'No', aligning more with atheist/agnostic views."
+      },
+      {
+        "text": "No, I do not",
+        "feedback": "We're on the same page here. I also answered 'No', reflecting my atheist/agnostic leanings."
+      },
+      {
+        "text": "I'm spiritual, but not religious",
+        "feedback": "A common and respected viewpoint. For the direct question, my answer remains 'No'."
+      },
+      {
+        "text": "It's complicated / Unsure",
+        "feedback": "It's a profound question with no easy answers for many. I've settled on 'No' for myself."
+      }
+    ]
+  },
+  {
+    "id": "q_karma",
+    "category": "Intelligence & Beliefs",
+    "questionText": "Do you believe in karma?",
+    "agrajAnswerText": "Yes",
+    "agrajInsight": "Belief in moral consequences",
+    "options": [
+        {
+            "text": "Yes, definitely",
+            "feedback": "You believe in karma. So do I! I think there's a certain balance to actions and consequences."
+        },
+        {
+            "text": "No, not really",
+            "feedback": "You're skeptical about karma. While I respect that, I answered 'Yes', as I lean towards the idea of moral causality."
+        },
+        {
+            "text": "Maybe, I'm not sure",
+            "feedback": "Uncertain about karma? It's a concept that sparks debate. I, for one, answered 'Yes'."
+        }
+    ]
+  },
+  {
+    "id": "q_perfectionist",
+    "category": "Personality & Behavior",
+    "questionText": "Are you a perfectionist?",
+    "agrajAnswerText": "Yes",
+    "agrajInsight": "Classic INTJ/INFJ perfectionism",
+    "options": [
+      {
+        "text": "Yes, very much so",
+        "feedback": "A fellow perfectionist! I answered 'Yes' too. It's a double-edged sword, isn't it? (Insight: Classic INTJ/INFJ trait)"
+      },
+      {
+        "text": "No, I'm more laid-back",
+        "feedback": "Laid-back, eh? Sometimes I wish I were! I'm definitely in the 'Yes, I'm a perfectionist' camp."
+      },
+      {
+        "text": "In some things, but not others",
+        "feedback": "Selective perfectionism. Makes sense. I tend to apply that trait more broadly, hence my 'Yes'."
+      }
+    ]
+  },
+  {
+    "id": "q_intelligence_sexy",
+    "category": "Personality & Behavior",
+    "questionText": "Do you find intelligence sexier than looks?",
+    "agrajAnswerText": "Yes",
+    "agrajInsight": "Sapiosexual leanings",
+    "options": [
+        {
+            "text": "Yes, absolutely",
+            "feedback": "Intellect over aesthetics? My kind of person! I answered 'Yes' emphatically. (Insight: Sapiosexual leanings)"
+        },
+        {
+            "text": "No, looks are more important",
+            "feedback": "You prioritize looks. Fair enough. My preference is 'Yes' for intelligence being sexier."
+        },
+        {
+            "text": "Both are equally important",
+            "feedback": "A balanced view. For me, intelligence definitely tips the scale, so I chose 'Yes'."
+        },
+        {
+            "text": "Neither is particularly 'sexy' to me",
+            "feedback": "An interesting take! I find intelligence quite compelling, so I went with 'Yes'."
+        }
+    ]
+  },
+  {
+    "id": "q_foul_language",
+    "category": "Lifestyle & Routine",
+    "questionText": "Do you use foul language?",
+    "agrajAnswerText": "Yes",
+    "agrajInsight": "Casual, blunt communicator",
+    "options": [
+        {
+            "text": "Yes, frequently",
+            "feedback": "You're not afraid to spice up your vocabulary! I also said 'Yes'. Sometimes a well-placed curse is just... *chef's kiss*."
+        },
+        {
+            "text": "Rarely, if ever",
+            "feedback": "You keep it clean. Respect. I'm a bit more on the 'Yes, I use it' side for casual communication."
+        },
+        {
+            "text": "Only in extreme situations",
+            "feedback": "Reserved for emphasis, I see. I'm a bit more liberal with it, hence my 'Yes'."
+        }
+    ]
+  },
+  {
+    "id": "q_bollywood_romance",
+    "category": "Relationships & Dating",
+    "questionText": "Are you looking for a Bollywood-type romance?",
+    "agrajAnswerText": "No, that’s unrealistic",
+    "agrajInsight": "Realist in love",
+    "options": [
+      {
+        "text": "Yes, one can dream!",
+        "feedback": "A romantic at heart! While I appreciate the sentiment, my answer is 'No, that’s unrealistic'. I tend to be more of a realist in love."
+      },
+      {
+        "text": "No, that’s unrealistic",
+        "feedback": "My thoughts exactly! Glad we agree. I'm definitely more grounded in my expectations for romance."
+      },
+      {
+        "text": "No, that’s old-fashioned",
+        "feedback": "Interesting take. For me, it's less about being old-fashioned and more about practicality, hence 'No, that's unrealistic'."
+      },
+      {
+        "text": "Maybe a little bit?",
+        "feedback": "A touch of drama, perhaps? I still find the full Bollywood experience a bit much for real life, so I said 'No, that's unrealistic'."
+      }
+    ]
+  }
+]
