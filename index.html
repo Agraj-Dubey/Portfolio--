@@ -1,4 +1,4 @@
-
+--- START OF FILE index(1).html ---
 
 <!DOCTYPE html>
 <html lang="en">
@@ -351,7 +351,6 @@
         <div class="container mx-auto px-6 py-4"> 
             <div class="flex justify-between items-center"> 
                 <a href="#home" class="nav-logo text-2xl lg:text-3xl font-bold text-text-primary">a-g-r-a-j</a> 
-                <!-- NAVBAR FIX: Updated button with two icon paths -->
                 <button id="nav-toggle" class="nav-toggle-btn md:hidden" aria-label="Toggle Menu" aria-expanded="false"> 
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" class="burger-icon"/>
@@ -360,15 +359,17 @@
                 </button> 
                 <nav class="desktop-nav hidden md:flex space-x-8 text-text-primary items-center"> 
                     <a href="#about" data-navlink="about">About Me</a> 
-                    <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" data-navlink="contact">Contact Me</a> 
                     <a href="#writings" data-navlink="writings">Writings</a> 
+                    <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer" data-navlink="reddit">Reddit</a>
+                    <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" data-navlink="contact">Contact Me</a> 
                     <a href="#home" data-navlink="home" class="active">Home</a> 
                 </nav> 
             </div> 
             <nav id="mobile-menu" class="mobile-menu md:hidden"> 
                 <a href="#about" data-navlink="about">About Me</a> 
-                <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" data-navlink="contact">Contact Me</a> 
                 <a href="#writings" data-navlink="writings">Writings</a> 
+                <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer" data-navlink="reddit">Reddit</a>
+                <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" data-navlink="contact">Contact Me</a> 
                 <a href="#home" data-navlink="home" class="active">Home</a> 
             </nav> 
         </div> 
@@ -1100,21 +1101,39 @@
                 mainSectionTarget = 'home-content'; 
                 if (currentFullHash === '' || currentFullHash === '#') window.location.hash = 'home';
             } else { 
-                console.warn("Unknown hash, redirecting to #home:", currentFullHash);
-                window.location.hash = 'home'; return; 
+                // If hash is for an external link, don't change section, just let browser handle it.
+                // Check if the hash matches any known external navlink
+                const isExternalNav = Array.from($$('.desktop-nav a[target="_blank"], .mobile-menu a[target="_blank"]'))
+                                        .some(link => link.href === currentFullHash || `#${link.dataset.navlink}` === currentFullHash);
+                if (isExternalNav) {
+                    // It's an external link, do nothing here, let the browser navigate or the click handler do its job.
+                    // Reset to home if it's not a valid internal section, to prevent broken state.
+                    // However, this logic block is for routing internal sections.
+                    // The actual navigation to external links is handled by the browser's default <a> tag behavior.
+                    // This route change handler primarily cares about internal page state.
+                    // So, if it's not a known internal section, we default to home.
+                } else {
+                    console.warn("Unknown hash, redirecting to #home:", currentFullHash);
+                    window.location.hash = 'home'; return; 
+                }
             }
-            if (currentMainSection !== mainSectionTarget) {
+            
+            // Only change section if it's different or if it's a specific internal navigation action
+            if (currentMainSection !== mainSectionTarget && (mainSectionTarget === 'home-content' || mainSectionTarget === 'writings-content' || mainSectionTarget === 'about-content')) {
                  showMainSection(mainSectionTarget);
             } else if (mainSectionTarget === 'writings-content' && articleDetailHash) { 
                  if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash);
             } else if (mainSectionTarget === 'about-content' && currentMainSection === 'about-content') {
-                 if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); 
+                 // If already on about, re-render if needed or do nothing.
+                 // renderQuestionnaire(); // Could be called if content needs refresh, but might be too aggressive.
             }
+            
+            // Update title based on the new main section
             if (mainSectionTarget === 'writings-content') {
                 if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash); 
             } else if (mainSectionTarget === 'about-content') {
                 document.title = APP_CONFIG.DEFAULT_TITLES.about;
-            } else { 
+            } else if (mainSectionTarget === 'home-content') { 
                 document.title = APP_CONFIG.DEFAULT_TITLES.home; 
             }
         }
