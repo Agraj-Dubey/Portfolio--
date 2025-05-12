@@ -1,4 +1,4 @@
-
+--- START OF FILE index(1).html ---
 
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +56,18 @@
             overflow-x: hidden; line-height: 1.6; font-size: 16px;
         }
         #hyperspeed-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; background-color: #07040e; }
-        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.03), rgba(15, 10, 25, 0.85) 70%); z-index: -5; pointer-events:none; }
+        .bg-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.03), rgba(15, 10, 25, 0.85) 70%); 
+            z-index: -5; pointer-events:none; 
+            /* NEW: Subtle background pulse. Monitor performance; remove if too heavy. */
+            animation: slowBgPulse 90s linear infinite;
+        }
+        /* NEW: Keyframes for background overlay pulse */
+        @keyframes slowBgPulse {
+            0%, 100% { background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.03), rgba(15, 10, 25, 0.85) 70%); }
+            50% { background: radial-gradient(circle at 50% 35%, rgba(146, 114, 206, 0.04), rgba(15, 10, 25, 0.88) 70%); }
+        }
         
         /* Page Section Transitions */
         .page-section { display: none; animation: fadeInPage 0.7s ease-out forwards; }
@@ -90,8 +101,12 @@
 
         /* Header and Navigation */
         .main-header { position: sticky; top: 0; left: 0; width: 100%; background-color: rgba(9, 6, 19, 0.85); backdrop-filter: blur(10px); z-index: 50; border-bottom: 1px solid rgba(146, 114, 206, 0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .main-header .nav-logo { font-family: 'Baloo Bhai 2', cursive; transition: color 0.3s ease; }
-        .main-header .nav-logo:hover { color: #9272CE; }
+        .main-header .nav-logo { font-family: 'Baloo Bhai 2', cursive; transition: color 0.3s ease, text-shadow 0.3s ease; } /* MODIFIED: Added text-shadow transition */
+        .main-header .nav-logo:hover { 
+            color: #9272CE; 
+            /* NEW: Logo hover text-shadow */
+            text-shadow: 0 0 6px rgba(146, 114, 206, 0.6); 
+        }
         .desktop-nav a { position: relative; display: inline-block; transition: color 0.3s ease; }
         .desktop-nav a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1.5px; background-color: #9272CE; transition: width 0.3s ease; }
         .desktop-nav a:hover::after { width: 100%; }
@@ -100,7 +115,6 @@
         .nav-toggle-btn { background: none; border: none; padding: 0.5rem; cursor: pointer; z-index: 60; }
         .nav-toggle-btn svg { stroke: #ffffff; transition: stroke 0.3s ease; }
         .nav-toggle-btn:hover svg { stroke: #9272CE; }
-        /* NAVBAR FIX: Mobile menu icon display logic */
         .nav-toggle-btn .burger-icon.hidden { display: none; }
         .nav-toggle-btn .close-icon.hidden { display: none; }
         .mobile-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: rgba(9, 6, 19, 0.95); backdrop-filter: blur(8px); padding: 1rem 0; box-shadow: 0 10px 20px rgba(0,0,0,0.4); z-index: 55; animation: slideDownFade 0.4s ease-out forwards; }
@@ -128,13 +142,11 @@
         .static-image { 
             width: 8rem; height: 8rem; cursor: pointer; 
             transition: transform 0.3s ease; 
-            /* HOME PAGE IMPROVEMENT: Subtle pulse animation for Frieren Ring */
             animation: subtleRingPulse 3s infinite ease-in-out;
         }
-        /* HOME PAGE IMPROVEMENT: Keyframes for ring pulse */
         @keyframes subtleRingPulse {
             0%, 100% {
-                filter: drop-shadow(0 0 3px rgba(203, 184, 232, 0.3)); /* Uses light-accent color */
+                filter: drop-shadow(0 0 3px rgba(203, 184, 232, 0.3)); 
                 transform: scale(1);
             }
             50% {
@@ -144,7 +156,6 @@
         }
         .static-image:hover { 
             transform: scale(1.1); 
-            /* HOME PAGE IMPROVEMENT: Pause pulse on hover to let explicit hover take over */
             animation-play-state: paused; 
         }
 
@@ -156,7 +167,12 @@
         .writing-preview-card:hover { transform: translateY(-10px) scale(1.03); background-color: var(--card-hover-bg, rgba(45, 35, 60, 0.97)); animation: cardGlowWritings 1.8s ease-in-out infinite alternate; }
         @keyframes cardGlowWritings { 0% { box-shadow: 0 0 10px 2px rgba(146, 114, 206, 0.25), 0 6px 18px rgba(0,0,0, 0.35); border-color: rgba(174, 139, 213, 0.35); } 50% { box-shadow: 0 0 22px 5px rgba(146, 114, 206, 0.4), 0 10px 28px rgba(0, 0, 0, 0.3); border-color: rgba(174, 139, 213, 0.65); } 100% { box-shadow: 0 0 10px 2px rgba(146, 114, 206, 0.25), 0 6px 18px rgba(0,0,0, 0.35); border-color: rgba(174, 139, 213, 0.35); } }
         .writing-preview-card h3 { color: #FFFFFF; font-size: 1.55rem; font-weight: 600; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif; }
-        .writing-preview-card .post-meta-info { font-size: 0.9rem; color: #CBB8E8; margin-bottom: 1.25rem; font-family: 'Lato', sans-serif; opacity: 0.9; }
+        .writing-preview-card .post-meta-info { font-size: 0.9rem; color: #CBB8E8; margin-bottom: 1.25rem; font-family: 'Lato', sans-serif; opacity: 0.9; transition: color 0.3s ease, opacity 0.3s ease; } /* MODIFIED: Added transition */
+        /* NEW: Writings card meta info hover */
+        .writing-preview-card:hover .post-meta-info {
+            color: #CBB8E8; /* light-accent */
+            opacity: 1;
+        }
         .writing-preview-card .excerpt { color: #D1D1D1; font-size: 1.05rem; line-height: 1.65; flex-grow: 1; margin-bottom: 1.5rem; }
         .writing-preview-card a.read-more-link { display: inline-block; background: none; border: none; padding: 0; color: #9272CE; font-weight: 500; text-decoration: none; align-self: flex-start; cursor: pointer; transition: color 0.3s ease; font-size: 1.05rem; margin-top: auto; }
         .writing-preview-card a.read-more-link:hover { color: #AE8BD5; text-decoration: underline; }
@@ -212,7 +228,12 @@
         #home-content .view-all-writings-btn:hover { background-color: #AE8BD5; }
         
         /* Footer, Progress Bar */
-        .main-footer { background-color: rgba(9, 6, 19, 0.7); border-top: 1px solid rgba(146, 114, 206, 0.1); padding: 2rem 0; margin-top: 4rem; text-align: center; }
+        .main-footer { 
+            background-color: rgba(9, 6, 19, 0.7); 
+            /* MODIFIED: Footer border */
+            border-top: 1px solid rgba(146, 114, 206, 0.2); 
+            padding: 2rem 0; margin-top: 4rem; text-align: center; 
+        }
         .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 100; }
         .progress-bar { height: 3px; background: linear-gradient(90deg, #9272CE, #AE8BD5); width: 0%; }
 
@@ -336,6 +357,23 @@
          #calculate-match-button:disabled { background: #5a506b; color: #a8a8a8; cursor: not-allowed; opacity: 0.7; }
         #calculate-match-button:disabled::before,
         #calculate-match-button:disabled::after { display: none; }
+
+        /* NEW: Loading dots for questionnaire */
+        .loading-dots-container { display: flex; justify-content: center; align-items: center; padding: 2rem 0; min-height: 60px; /* Ensure space for dots */ }
+        .loading-dot {
+            width: 10px; height: 10px; margin: 0 5px;
+            background-color: #9272CE; /* Accent color */
+            border-radius: 50%;
+            animation: pulseDot 1.4s infinite ease-in-out both;
+        }
+        .loading-dot:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dot:nth-child(2) { animation-delay: -0.16s; }
+        .loading-dot:nth-child(3) { animation-delay: 0s; } /* Ensure the third dot also animates */
+        @keyframes pulseDot {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+            40% { transform: scale(1.0); opacity: 1; }
+        }
+
     </style>
 </head>
 <body>
@@ -428,7 +466,7 @@
                 </div>
                 <div id="questionnaire-container-wrapper" class="questionnaire-container-wrapper">
                     <div id="questionnaire-render-area">
-                        <p class="text-center text-text-secondary">Loading questions...</p>
+                        <!-- Content will be rendered here by JS -->
                     </div>
                     <div id="personality-match-section" class="mt-12" style="display: none; opacity: 0; transform: translateY(20px);">
                         <h2>Personality Snapshot</h2>
@@ -492,7 +530,7 @@
         function $(selector) { return document.querySelector(selector); }
         function $$(selector) { return document.querySelectorAll(selector); }
 
-        // --- Hyperspeed Canvas Animation --- (Keep as is)
+        // --- Hyperspeed Canvas Animation ---
         const hyperspeedCanvas = $('#hyperspeed-canvas');
         const hsCtx = hyperspeedCanvas.getContext('2d');
         let stars = [];
@@ -531,7 +569,7 @@
         hyperspeedCanvas.addEventListener('mouseleave', () => { mouseX = hyperspeedCanvas.width / 2; mouseY = hyperspeedCanvas.height / 2; });
 
 
-        // --- Content Rendering (Writings) --- (Keep as is)
+        // --- Content Rendering (Writings) --- 
         let ALL_POST_DATA_FOR_HOME_RECENT = []; let ALL_POSTS_DATA = [];
         function simpleMarkdownToHtml(md) {
             if (typeof md !== 'string') return ''; let html = md;
@@ -598,7 +636,7 @@
             }
         }
 
-        // --- Questionnaire Logic (About Me Page) --- (Keep as is from previous correct version)
+        // --- Questionnaire Logic (About Me Page) ---
         async function renderQuestionnaire() {
             const container = $('#questionnaire-render-area');
             const calculateButton = $('#calculate-match-button');
@@ -610,7 +648,14 @@
                 if(container) container.innerHTML = '<p class="text-text-secondary text-center">Core UI elements missing for questionnaire.</p>';
                 return;
             }
-            container.innerHTML = '<p class="text-center text-text-secondary">Loading questions...</p>'; 
+            // MODIFIED: Use loading dots HTML
+            container.innerHTML = ` 
+                <div class="loading-dots-container">
+                    <div class="loading-dot"></div>
+                    <div class="loading-dot"></div>
+                    <div class="loading-dot"></div>
+                </div>
+            `;
 
             try {
                 const response = await fetch(APP_CONFIG.QUESTIONS_JSON_PATH);
@@ -644,7 +689,7 @@
                     </div>
                 `;
             });
-            container.innerHTML = html;
+            container.innerHTML = html; // Replace loading dots with questions
             
             if (typeof anime === 'function') {
                 anime({
@@ -792,7 +837,7 @@
             }, 50);
         }
 
-        // --- Secret Game Logic (Updated) --- (Keep as is)
+        // --- Secret Game Logic (Updated) ---
         let matterEngine, matterRender, matterRunner;
         let gameShapes = [];
         const MAX_SHAPES_TO_SPAWN = 10; const SHAPES_TO_WIN = 3;
@@ -992,14 +1037,12 @@
             const navToggle = $('#nav-toggle'); 
             const mobileMenu = $('#mobile-menu');
             if (navToggle && mobileMenu) {
-                // NAVBAR FIX: Get icon elements
                 const burgerIcon = navToggle.querySelector('.burger-icon');
                 const closeIcon = navToggle.querySelector('.close-icon');
 
                 navToggle.addEventListener('click', () => { 
                     const isOpen = mobileMenu.classList.toggle('is-open'); 
                     navToggle.setAttribute('aria-expanded', String(isOpen)); 
-                    // NAVBAR FIX: Toggle icon visibility
                     if (burgerIcon && closeIcon) {
                         burgerIcon.classList.toggle('hidden', isOpen);
                         closeIcon.classList.toggle('hidden', !isOpen);
@@ -1009,7 +1052,6 @@
                     link.addEventListener('click', () => { 
                         mobileMenu.classList.remove('is-open'); 
                         navToggle.setAttribute('aria-expanded', 'false'); 
-                        // NAVBAR FIX: Reset icon when menu closes by link click
                         if (burgerIcon && closeIcon) {
                             burgerIcon.classList.remove('hidden');
                             closeIcon.classList.add('hidden');
@@ -1091,6 +1133,7 @@
             let mainSectionTarget = 'home-content';
             let articleDetailHash = '';
             const currentFullHash = window.location.hash;
+
             if (currentFullHash.startsWith('#post-')) {
                 mainSectionTarget = 'writings-content'; articleDetailHash = currentFullHash;
             } else if (currentFullHash === '#writings') {
@@ -1100,35 +1143,30 @@
             } else if (currentFullHash === '#home' || currentFullHash === '' || currentFullHash === '#') {
                 mainSectionTarget = 'home-content'; 
                 if (currentFullHash === '' || currentFullHash === '#') window.location.hash = 'home';
-            } else { 
-                // If hash is for an external link, don't change section, just let browser handle it.
-                // Check if the hash matches any known external navlink
-                const isExternalNav = Array.from($$('.desktop-nav a[target="_blank"], .mobile-menu a[target="_blank"]'))
-                                        .some(link => link.href === currentFullHash || `#${link.dataset.navlink}` === currentFullHash);
-                if (isExternalNav) {
-                    // It's an external link, do nothing here, let the browser navigate or the click handler do its job.
-                    // Reset to home if it's not a valid internal section, to prevent broken state.
-                    // However, this logic block is for routing internal sections.
-                    // The actual navigation to external links is handled by the browser's default <a> tag behavior.
-                    // This route change handler primarily cares about internal page state.
-                    // So, if it's not a known internal section, we default to home.
+            } else {
+                const isKnownExternalNav = Array.from($$('.desktop-nav a[target="_blank"], .mobile-menu a[target="_blank"]'))
+                                          .some(link => link.getAttribute('href') === currentFullHash || `#${link.dataset.navlink}` === currentFullHash);
+                if (!isKnownExternalNav) { // If it's not a known external link, and not an internal section
+                    console.warn("Unknown hash, potentially defaulting or no action for:", currentFullHash);
+                     // Defaulting to home if not a recognized internal section after specific checks
+                    if (currentMainSection !== 'home-content') mainSectionTarget = 'home-content';
+                    else mainSectionTarget = currentMainSection; // Stay on current if already home
+                    // window.location.hash = 'home'; // This might be too aggressive if user types an unknown hash
                 } else {
-                    console.warn("Unknown hash, redirecting to #home:", currentFullHash);
-                    window.location.hash = 'home'; return; 
+                    // It's an external link, browser handles it. No section change needed here.
+                    // Set mainSectionTarget to current to avoid unintended section switch
+                    mainSectionTarget = currentMainSection || 'home-content';
                 }
             }
             
-            // Only change section if it's different or if it's a specific internal navigation action
-            if (currentMainSection !== mainSectionTarget && (mainSectionTarget === 'home-content' || mainSectionTarget === 'writings-content' || mainSectionTarget === 'about-content')) {
+            if (currentMainSection !== mainSectionTarget && ['home-content', 'writings-content', 'about-content'].includes(mainSectionTarget)) {
                  showMainSection(mainSectionTarget);
             } else if (mainSectionTarget === 'writings-content' && articleDetailHash) { 
                  if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash);
-            } else if (mainSectionTarget === 'about-content' && currentMainSection === 'about-content') {
-                 // If already on about, re-render if needed or do nothing.
-                 // renderQuestionnaire(); // Could be called if content needs refresh, but might be too aggressive.
             }
+            // Note: No explicit 'else if (mainSectionTarget === 'about-content' && currentMainSection === 'about-content')'
+            // because renderQuestionnaire is called within showMainSection if 'about-content' is newly shown.
             
-            // Update title based on the new main section
             if (mainSectionTarget === 'writings-content') {
                 if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash); 
             } else if (mainSectionTarget === 'about-content') {
