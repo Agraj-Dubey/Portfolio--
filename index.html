@@ -56,7 +56,7 @@
             overflow-x: hidden; line-height: 1.6; font-size: 16px;
         }
         #p5-background-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
-        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.02), rgba(15, 10, 25, 0.9) 75%); z-index: -5; pointer-events:none; } /* Adjusted overlay for new bg */
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.03), rgba(15, 10, 25, 0.85) 70%); z-index: -5; pointer-events:none; }
         
         /* Page Section Transitions */
         .page-section { display: none; animation: fadeInPage 0.7s ease-out forwards; }
@@ -151,7 +151,7 @@
 
         #animated-images-container {
             position: relative;
-            min-height: 700px; /* Increased height */
+            min-height: 700px; 
             margin-top: 1rem; 
         }
         .animated-post-image-bubble {
@@ -161,7 +161,7 @@
             box-shadow: 0 5px 20px rgba(146, 114, 206, 0.25), 0 0 8px rgba(0,0,0,0.3);
             border: 2px solid rgba(174, 139, 213, 0.3); 
             transition: border-color 0.3s ease;
-            opacity: 0; 
+            opacity: 0; /* Initial state for JS animation */
         }
         .animated-post-image-bubble:hover {
             border-color: rgba(174, 139, 213, 0.7); 
@@ -527,62 +527,56 @@
         function $(selector) { return document.querySelector(selector); }
         function $$(selector) { return document.querySelectorAll(selector); }
 
-        // --- p5.js Generative Background: Aurora Noise Waves ---
-        const ACE_COLORS_P5_AURORA = [
-            { r: 0, g: 0, b: 0, a: 40 },       // Black (alpha for blending)
-            { r: 163, g: 163, b: 163, a: 30 }, // Grey
-            { r: 255, g: 255, b: 255, a: 25 }, // White
-            { r: 128, g: 0, b: 128, a: 35 }    // Purple
-        ];
-        const NUM_AURORA_WAVES = 5;
-        let auroraWaves = [];
+        // --- p5.js Generative Background (Reverted to Abstract Blobs) ---
+        let p5Blobs = [];
+        const NUM_P5_BLOBS = 5; 
 
         function p5Sketch(p) {
-            class AuroraWave {
-                constructor(yOffset) {
-                    this.yOffset = yOffset; // Initial vertical offset for noise
-                    this.speed = p.random(0.2, 0.7); // Speed of vertical drift
-                    this.noiseScale = p.random(0.002, 0.005); // How "detailed" the wave is
-                    this.amplitude = p.random(p.height / 6, p.height / 3); // Max thickness of the wave
-                    this.color = p.random(ACE_COLORS_P5_AURORA);
-                    this.timeOffset = p.random(1000); // For individual wave evolution
+            class Blob {
+                constructor() {
+                    this.x = p.random(p.width);
+                    this.y = p.random(p.height);
+                    this.r = p.random(p.width / 3.5, p.width / 1.3); 
+                    this.xSpeed = p.random(-0.35, 0.35); 
+                    this.ySpeed = p.random(-0.35, 0.35); 
+                    this.numPoints = p.int(p.random(6, 12));
+                    this.noiseSeedX = p.random(1000);
+                    this.noiseSeedY = p.random(1000);
+                    this.noiseSeedR = p.random(1000); 
+                    this.hue = p.random(230, 310); 
+                    this.hueShiftSpeed = p.random(-0.12, 0.12); 
+                    this.opacity = p.random(4, 10); 
                 }
 
                 update() {
-                    this.yOffset += this.speed;
-                    if (this.yOffset > p.height + this.amplitude * 2) { // Reset if moved off screen
-                        this.yOffset = -this.amplitude * 2;
-                        this.color = p.random(ACE_COLORS_P5_AURORA); // Optionally change color on reset
-                        this.speed = p.random(0.2, 0.7);
-                    } else if (this.yOffset < -this.amplitude * 2) {
-                        this.yOffset = p.height + this.amplitude * 2;
-                         this.color = p.random(ACE_COLORS_P5_AURORA);
-                         this.speed = p.random(0.2, 0.7);
-                    }
+                    this.x += this.xSpeed + (p.noise(this.noiseSeedX + p.frameCount * 0.0005) - 0.5) * 0.5; 
+                    this.y += this.ySpeed + (p.noise(this.noiseSeedY + p.frameCount * 0.0005) - 0.5) * 0.5; 
+                    this.r = p.map(p.noise(this.noiseSeedR + p.frameCount * 0.0012), 0, 1, p.width / 4.5, p.width / 1.1); 
+
+                    if (this.x < -this.r * 1.5) this.x = p.width + this.r * 1.5;
+                    if (this.x > p.width + this.r * 1.5) this.x = -this.r * 1.5;
+                    if (this.y < -this.r * 1.5) this.y = p.height + this.r * 1.5;
+                    if (this.y > p.height + this.r * 1.5) this.y = -this.r * 1.5;
+                    
+                    this.hue = (this.hue + this.hueShiftSpeed + 360) % 360;
                 }
 
                 display() {
-                    p.noStroke();
-                    for (let y = 0; y < p.height; y += 5) { // Draw in thin horizontal strips
-                        // Noise determines the alpha (intensity) of the wave at this y position
-                        let noiseVal = p.noise(
-                            (y + this.yOffset) * this.noiseScale,
-                            p.frameCount * 0.001 + this.timeOffset // Time evolution
-                        );
-                        
-                        // Map noise to an alpha value, making it stronger towards the center of the wave's "amplitude"
-                        let distFromCenter = p.abs(y - (this.yOffset + p.height / 2 - this.amplitude / 2)); // Rough center of wave effect
-                        let waveIntensity = p.map(noiseVal, 0, 1, 0, 1);
-                        // Make it fade at edges of its conceptual amplitude
-                        if (distFromCenter > this.amplitude * 1.5) waveIntensity *= 0.5;
-
-
-                        let alpha = waveIntensity * this.color.a * p.map(p.sin(p.map(y, 0, p.height, 0, p.PI)),0,1,0.5,1.5); // Modulate alpha
-                        alpha = p.constrain(alpha, 0, 80); // Constrain max alpha per strip
-
-                        p.fill(this.color.r, this.color.g, this.color.b, alpha);
-                        p.rect(0, y, p.width, 5);
+                    p.fill(this.hue, 60, 70, this.opacity); 
+                    p.beginShape();
+                    let angleStep = p.TWO_PI / this.numPoints;
+                    for (let i = 0; i <= this.numPoints; i++) { 
+                        let angle = i * angleStep;
+                        let radiusOffset = p.map(p.noise(this.noiseSeedX + i * 0.2 + p.frameCount * 0.002, this.noiseSeedY + i * 0.2), 0, 1, -this.r * 0.4, this.r * 0.4);
+                        let currentR = this.r + radiusOffset;
+                        let vx = this.x + currentR * p.cos(angle);
+                        let vy = this.y + currentR * p.sin(angle);
+                        p.curveVertex(vx, vy);
+                         if (i === 0 || i === 1 || i === this.numPoints-1 || i === this.numPoints) { 
+                            p.curveVertex(vx, vy);
+                        }
                     }
+                    p.endShape();
                 }
             }
 
@@ -591,32 +585,26 @@
                 if (!p5CanvasContainer) { console.error("p5 canvas container not found!"); return; }
                 const p5Renderer = p.createCanvas(p.windowWidth, p.windowHeight);
                 p5Renderer.parent(p5CanvasContainer); 
-                p.colorMode(p.RGB, 255, 255, 255, 100);
-                
-                for (let i = 0; i < NUM_AURORA_WAVES; i++) {
-                    auroraWaves.push(new AuroraWave(p.random(p.height)));
-                }
+                p.colorMode(p.HSB, 360, 100, 100, 100);
+                p.noStroke();
+                for (let i = 0; i < NUM_P5_BLOBS; i++) { p5Blobs.push(new Blob()); }
             };
 
             p.draw = function() {
-                p.background(10, 5, 20, 100); // Very dark base color (almost black-purple)
-                
-                auroraWaves.forEach(wave => {
-                    wave.update();
-                    wave.display();
-                });
+                p.clear(); 
+                for (let blob of p5Blobs) {
+                    blob.update();
+                    blob.display();
+                }
             };
 
             p.windowResized = function() {
                 p.resizeCanvas(p.windowWidth, p.windowHeight);
-                auroraWaves = []; // Re-initialize waves on resize
-                for (let i = 0; i < NUM_AURORA_WAVES; i++) {
-                    auroraWaves.push(new AuroraWave(p.random(p.height)));
-                }
+                p5Blobs = [];
+                for (let i = 0; i < NUM_P5_BLOBS; i++) { p5Blobs.push(new Blob()); }
             };
         }
         // --- End p5.js Generative Background ---
-
 
         // --- Content Rendering (Writings) ---
         let ALL_POST_DATA_FOR_HOME_RECENT = []; let ALL_POSTS_DATA = [];
@@ -668,7 +656,7 @@
             const container = $('#animated-images-container');
             const sectionContainer = $('#home-animated-post-images');
 
-            if (!container || !sectionContainer) return;
+            if (!container || !sectionContainer) { console.warn("Animated images container not ready."); return; }
             if (ALL_POSTS_DATA.length === 0) { setTimeout(setupHomePageRightColumnImages, 200); return; }
 
             const postsWithImages = ALL_POSTS_DATA.filter(post => post.image).slice(0, 4);
@@ -679,90 +667,98 @@
             
             container.innerHTML = ''; 
 
-            // Increased bubble sizes
-            const bubbleConfigs = [
-                { sizeVW: 12, minSize: 120, maxSize: 190, zIndex: 1 }, // Approx 20% larger
-                { sizeVW: 10, minSize: 110, maxSize: 160, zIndex: 3 },
-                { sizeVW: 13, minSize: 130, maxSize: 200, zIndex: 2 },
-                { sizeVW: 11, minSize: 115, maxSize: 170, zIndex: 1 }
+            const bubbleConfigs = [ // Increased sizes
+                { sizeVW: 14, minSize: 130, maxSize: 220, zIndex: 1 }, 
+                { sizeVW: 12, minSize: 120, maxSize: 190, zIndex: 3 },
+                { sizeVW: 15, minSize: 140, maxSize: 230, zIndex: 2 },
+                { sizeVW: 13, minSize: 125, maxSize: 200, zIndex: 1 }
             ];
             
-            const containerWidth = container.offsetWidth;
-            const containerHeight = container.offsetHeight;
+            // Defer dimension calculation slightly
+            requestAnimationFrame(() => {
+                const containerWidth = container.offsetWidth;
+                const containerHeight = container.offsetHeight;
 
+                if (containerWidth === 0 || containerHeight === 0) {
+                    console.warn("Animated images container has no dimensions yet. Retrying or using defaults.");
+                    // Fallback or retry logic can be added here if necessary
+                }
 
-            postsWithImages.forEach((post, index) => {
-                if (index >= bubbleConfigs.length) return; 
-                const config = bubbleConfigs[index];
-                const escapedTitle = post.title.replace(/"/g, '"');
-                
-                let bubbleSize = Math.max(config.minSize, Math.min(config.maxSize, window.innerWidth * (config.sizeVW / 100)));
-                bubbleSize = Math.min(bubbleSize, containerWidth * 0.9, containerHeight * 0.45); // Adjusted max relative to container
+                postsWithImages.forEach((post, index) => {
+                    if (index >= bubbleConfigs.length) return; 
+                    const config = bubbleConfigs[index];
+                    const escapedTitle = post.title.replace(/"/g, '"');
+                    
+                    let bubbleSize = Math.max(config.minSize, Math.min(config.maxSize, window.innerWidth * (config.sizeVW / 100)));
+                    bubbleSize = Math.min(bubbleSize, (containerWidth > 0 ? containerWidth * 0.9 : config.maxSize), (containerHeight > 0 ? containerHeight * 0.45 : config.maxSize));
 
-                const bubbleLink = document.createElement('a');
-                bubbleLink.href = `#${post.id}`;
-                bubbleLink.classList.add('animated-post-image-bubble');
-                bubbleLink.setAttribute('aria-label', `Read more about ${escapedTitle}`);
-                bubbleLink.title = escapedTitle;
-                
-                bubbleLink.style.width = `${bubbleSize}px`;
-                bubbleLink.style.height = `${bubbleSize}px`;
-                bubbleLink.style.zIndex = config.zIndex;
-                bubbleLink.style.opacity = 0;
+                    const bubbleLink = document.createElement('a');
+                    bubbleLink.href = `#${post.id}`;
+                    bubbleLink.classList.add('animated-post-image-bubble');
+                    bubbleLink.setAttribute('aria-label', `Read more about ${escapedTitle}`);
+                    bubbleLink.title = escapedTitle;
+                    
+                    bubbleLink.style.width = `${bubbleSize}px`;
+                    bubbleLink.style.height = `${bubbleSize}px`;
+                    bubbleLink.style.zIndex = config.zIndex;
+                    bubbleLink.style.opacity = 0; 
 
-                const img = document.createElement('img');
-                img.src = post.image;
-                img.alt = `Preview for ${escapedTitle}`;
-                
-                bubbleLink.appendChild(img);
-                container.appendChild(bubbleLink);
-            });
-
-            const imageBubbles = $$('#animated-images-container .animated-post-image-bubble');
-            if (typeof anime === 'function' && imageBubbles.length > 0) {
-                imageBubbles.forEach((bubble) => {
-                    function fizzleAnimation() {
-                        const bubbleSize = parseFloat(bubble.style.width);
-                        const maxTop = Math.max(0, containerHeight - bubbleSize - 10); // Small padding
-                        const maxLeft = Math.max(0, containerWidth - bubbleSize - 10);
-
-                        const newTop = anime.random(0, maxTop);
-                        const newLeft = anime.random(0, maxLeft);
-                        
-                        bubble.style.top = `${newTop}px`;
-                        bubble.style.left = `${newLeft}px`;
-                        // Reset translateX/Y for drift to be relative to new position
-                        bubble.style.transform = 'translateX(0px) translateY(0px)';
-
-
-                        anime.timeline({
-                            targets: bubble,
-                            easing: 'easeOutExpo', 
-                            complete: fizzleAnimation 
-                        })
-                        .add({ 
-                            opacity: [0, 0.9], // Slightly less than full opacity for softer look
-                            scale: [0.3, 1],
-                            duration: anime.random(500, 800),
-                        })
-                        .add({ 
-                            translateX: () => anime.random(-15, 15) + 'px',
-                            translateY: () => anime.random(-15, 15) + 'px',
-                            scale: () => anime.random(0.95, 1.05), // Subtle pulse
-                            duration: anime.random(2500, 4500), 
-                            easing: 'easeInOutSine'
-                        }, '-=200') // Overlap drift with fade-in slightly
-                        .add({ 
-                            opacity: [0.9, 0],
-                            scale: [bubble.style.transform.includes('scale') ? parseFloat(bubble.style.transform.split('scale(')[1]) : 1, 0.2],
-                            duration: anime.random(400, 700),
-                            easing: 'easeInExpo', // Faster fade out
-                            delay: anime.random(0, 300) 
-                        });
-                    }
-                    setTimeout(fizzleAnimation, anime.random(0, 2000)); // Stagger initial starts
+                    const img = document.createElement('img');
+                    img.src = post.image;
+                    img.alt = `Preview for ${escapedTitle}`;
+                    
+                    bubbleLink.appendChild(img);
+                    container.appendChild(bubbleLink);
                 });
-            }
+
+                const imageBubbles = $$('#animated-images-container .animated-post-image-bubble');
+                if (typeof anime === 'function' && imageBubbles.length > 0) {
+                    imageBubbles.forEach((bubble) => {
+                        function fizzleAnimation() {
+                            const bubbleSize = parseFloat(bubble.style.width);
+                            // Ensure container dimensions are positive before calculating maxTop/maxLeft
+                            const currentContainerHeight = container.offsetHeight > 0 ? container.offsetHeight : 600; // Fallback height
+                            const currentContainerWidth = container.offsetWidth > 0 ? container.offsetWidth : 300; // Fallback width
+
+                            const maxTop = Math.max(0, currentContainerHeight - bubbleSize - 10); 
+                            const maxLeft = Math.max(0, currentContainerWidth - bubbleSize - 10);
+
+                            const newTop = anime.random(0, maxTop);
+                            const newLeft = anime.random(0, maxLeft);
+                            
+                            bubble.style.top = `${newTop}px`;
+                            bubble.style.left = `${newLeft}px`;
+                            bubble.style.transform = 'translateX(0px) translateY(0px)';
+
+                            anime.timeline({
+                                targets: bubble,
+                                easing: 'easeOutExpo', 
+                                complete: fizzleAnimation 
+                            })
+                            .add({ 
+                                opacity: [0, 0.9], 
+                                scale: [0.3, 1],
+                                duration: anime.random(500, 800),
+                            })
+                            .add({ 
+                                translateX: () => anime.random(-15, 15) + 'px',
+                                translateY: () => anime.random(-15, 15) + 'px',
+                                scale: () => anime.random(0.95, 1.05), 
+                                duration: anime.random(2500, 4500), 
+                                easing: 'easeInOutSine'
+                            }, '-=200') 
+                            .add({ 
+                                opacity: [bubble.style.opacity, 0], // Use current opacity for smoother transition from drift
+                                scale: [parseFloat(getComputedStyle(bubble).transform.split(',')[0].split('(')[1]) || 1, 0.2], // Get current scale
+                                duration: anime.random(400, 700),
+                                easing: 'easeInExpo', 
+                                delay: anime.random(0, 300) 
+                            });
+                        }
+                        setTimeout(fizzleAnimation, anime.random(0, 2000)); 
+                    });
+                }
+            }); // End of requestAnimationFrame
         }
 
 
