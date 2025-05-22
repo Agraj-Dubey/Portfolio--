@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +13,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+
 
     <script>
         // Tailwind CSS configuration
@@ -55,19 +55,9 @@
             background-color: #0f0a19; color: #D1D1D1; font-family: 'Inter', sans-serif;
             overflow-x: hidden; line-height: 1.6; font-size: 16px;
         }
-        #hyperspeed-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; background-color: #07040e; }
-        .bg-overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.03), rgba(15, 10, 25, 0.85) 70%); 
-            z-index: -5; pointer-events:none; 
-            /* NEW: Subtle background pulse. Monitor performance; remove if too heavy. */
-            animation: slowBgPulse 90s linear infinite;
-        }
-        /* NEW: Keyframes for background overlay pulse */
-        @keyframes slowBgPulse {
-            0%, 100% { background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.03), rgba(15, 10, 25, 0.85) 70%); }
-            50% { background: radial-gradient(circle at 50% 35%, rgba(146, 114, 206, 0.04), rgba(15, 10, 25, 0.88) 70%); }
-        }
+        /* MODIFIED: Removed hyperspeed-canvas, added p5-background-canvas */
+        #p5-background-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.03), rgba(15, 10, 25, 0.85) 70%); z-index: -5; pointer-events:none; }
         
         /* Page Section Transitions */
         .page-section { display: none; animation: fadeInPage 0.7s ease-out forwards; }
@@ -101,12 +91,8 @@
 
         /* Header and Navigation */
         .main-header { position: sticky; top: 0; left: 0; width: 100%; background-color: rgba(9, 6, 19, 0.85); backdrop-filter: blur(10px); z-index: 50; border-bottom: 1px solid rgba(146, 114, 206, 0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .main-header .nav-logo { font-family: 'Baloo Bhai 2', cursive; transition: color 0.3s ease, text-shadow 0.3s ease; } /* MODIFIED: Added text-shadow transition */
-        .main-header .nav-logo:hover { 
-            color: #9272CE; 
-            /* NEW: Logo hover text-shadow */
-            text-shadow: 0 0 6px rgba(146, 114, 206, 0.6); 
-        }
+        .main-header .nav-logo { font-family: 'Baloo Bhai 2', cursive; transition: color 0.3s ease; }
+        .main-header .nav-logo:hover { color: #9272CE; }
         .desktop-nav a { position: relative; display: inline-block; transition: color 0.3s ease; }
         .desktop-nav a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1.5px; background-color: #9272CE; transition: width 0.3s ease; }
         .desktop-nav a:hover::after { width: 100%; }
@@ -126,7 +112,7 @@
         .desktop-nav a[target="_blank"]::after, .mobile-menu a[target="_blank"]::after { content: ' \2197'; font-size: 0.7em; vertical-align: super; display: inline-block; margin-left: 2px; opacity: 0.7; width: auto !important; height: auto !important; background: none !important; }
         
         /* Home Section Specific Styles */
-        #heroSection { text-align: center; padding-top: 1rem; min-height: 70vh; display: flex; flex-direction: column; justify-content: center; }
+        #heroSection { text-align: center; padding-top: 1rem; /* min-height: 70vh; */ /* Adjusted by column layout */ display: flex; flex-direction: column; justify-content: center; }
         #hero-circular-profile-image-container { margin-bottom: 1.5rem; }
         #hero-circular-profile-image { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(146, 114, 206, 0.4); box-shadow: 0 0 20px rgba(146, 114, 206, 0.25); display: block; margin: 0 auto; opacity: 0; transform: scale(0.8) translateY(10px); transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s; }
         #home-content .quote { position: relative; border-left: 3px solid #9272CE; margin-top: 1.5rem; } 
@@ -135,9 +121,9 @@
         #home-content .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(146, 114, 206, 0.1), transparent); transform: translateX(-100%); transition: transform 0.8s ease; pointer-events: none; }
         #home-content .card:hover { box-shadow: 0 15px 30px rgba(9, 6, 19, 0.6), 0 0 20px rgba(146, 114, 206, 0.35); border-color: rgba(146, 114, 206, 0.45); }
         #home-content .card:hover::before { transform: translateX(100%); }
-        #home-content .hover-link { position: relative; display: inline-block; }
-        #home-content .hover-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background-color: #9272CE; transition: width 0.3s ease; }
-        #home-content .hover-link:hover::after { width: 100%; }
+        /* #home-content .hover-link { position: relative; display: inline-block; } */ /* Glitch button handles its own hover */
+        /* #home-content .hover-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background-color: #9272CE; transition: width 0.3s ease; } */
+        /* #home-content .hover-link:hover::after { width: 100%; } */
         .static-image-container { display: block; margin: 2.5rem auto 0 auto; width: fit-content; opacity: 0.8; transition: opacity 0.3s ease; z-index: 5; }
         .static-image { 
             width: 8rem; height: 8rem; cursor: pointer; 
@@ -145,19 +131,16 @@
             animation: subtleRingPulse 3s infinite ease-in-out;
         }
         @keyframes subtleRingPulse {
-            0%, 100% {
-                filter: drop-shadow(0 0 3px rgba(203, 184, 232, 0.3)); 
-                transform: scale(1);
-            }
-            50% {
-                filter: drop-shadow(0 0 8px rgba(203, 184, 232, 0.5));
-                transform: scale(1.03);
-            }
+            0%, 100% { filter: drop-shadow(0 0 3px rgba(203, 184, 232, 0.3)); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 8px rgba(203, 184, 232, 0.5)); transform: scale(1.03); }
         }
-        .static-image:hover { 
-            transform: scale(1.1); 
-            animation-play-state: paused; 
+        .static-image:hover { transform: scale(1.1); animation-play-state: paused; }
+
+        /* Home Page Right Column Animated Images */
+        #home-animated-post-images .animated-post-image-link img {
+             max-height: 200px; /* Limit height of preview images */
         }
+
 
         /* Writings Section Specific Styles */
         #writings-content { font-size: 17px; }
@@ -167,15 +150,10 @@
         .writing-preview-card:hover { transform: translateY(-10px) scale(1.03); background-color: var(--card-hover-bg, rgba(45, 35, 60, 0.97)); animation: cardGlowWritings 1.8s ease-in-out infinite alternate; }
         @keyframes cardGlowWritings { 0% { box-shadow: 0 0 10px 2px rgba(146, 114, 206, 0.25), 0 6px 18px rgba(0,0,0, 0.35); border-color: rgba(174, 139, 213, 0.35); } 50% { box-shadow: 0 0 22px 5px rgba(146, 114, 206, 0.4), 0 10px 28px rgba(0, 0, 0, 0.3); border-color: rgba(174, 139, 213, 0.65); } 100% { box-shadow: 0 0 10px 2px rgba(146, 114, 206, 0.25), 0 6px 18px rgba(0,0,0, 0.35); border-color: rgba(174, 139, 213, 0.35); } }
         .writing-preview-card h3 { color: #FFFFFF; font-size: 1.55rem; font-weight: 600; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif; }
-        .writing-preview-card .post-meta-info { font-size: 0.9rem; color: #CBB8E8; margin-bottom: 1.25rem; font-family: 'Lato', sans-serif; opacity: 0.9; transition: color 0.3s ease, opacity 0.3s ease; } /* MODIFIED: Added transition */
-        /* NEW: Writings card meta info hover */
-        .writing-preview-card:hover .post-meta-info {
-            color: #CBB8E8; /* light-accent */
-            opacity: 1;
-        }
+        .writing-preview-card .post-meta-info { font-size: 0.9rem; color: #CBB8E8; margin-bottom: 1.25rem; font-family: 'Lato', sans-serif; opacity: 0.9; }
         .writing-preview-card .excerpt { color: #D1D1D1; font-size: 1.05rem; line-height: 1.65; flex-grow: 1; margin-bottom: 1.5rem; }
         .writing-preview-card a.read-more-link { display: inline-block; background: none; border: none; padding: 0; color: #9272CE; font-weight: 500; text-decoration: none; align-self: flex-start; cursor: pointer; transition: color 0.3s ease; font-size: 1.05rem; margin-top: auto; }
-        .writing-preview-card a.read-more-link:hover { color: #AE8BD5; text-decoration: underline; }
+        .writing-preview-card a.read-more-link:hover { color: #AE8BD5; /* text-decoration: underline; (glitch button handles this) */ }
         
         /* Full Article View Styles */
         #full-articles-container { display: block; margin-top: 2rem; }
@@ -228,12 +206,7 @@
         #home-content .view-all-writings-btn:hover { background-color: #AE8BD5; }
         
         /* Footer, Progress Bar */
-        .main-footer { 
-            background-color: rgba(9, 6, 19, 0.7); 
-            /* MODIFIED: Footer border */
-            border-top: 1px solid rgba(146, 114, 206, 0.2); 
-            padding: 2rem 0; margin-top: 4rem; text-align: center; 
-        }
+        .main-footer { background-color: rgba(9, 6, 19, 0.7); border-top: 1px solid rgba(146, 114, 206, 0.1); padding: 2rem 0; margin-top: 4rem; text-align: center; }
         .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 100; }
         .progress-bar { height: 3px; background: linear-gradient(90deg, #9272CE, #AE8BD5); width: 0%; }
 
@@ -357,23 +330,6 @@
          #calculate-match-button:disabled { background: #5a506b; color: #a8a8a8; cursor: not-allowed; opacity: 0.7; }
         #calculate-match-button:disabled::before,
         #calculate-match-button:disabled::after { display: none; }
-
-        /* NEW: Loading dots for questionnaire */
-        .loading-dots-container { display: flex; justify-content: center; align-items: center; padding: 2rem 0; min-height: 60px; /* Ensure space for dots */ }
-        .loading-dot {
-            width: 10px; height: 10px; margin: 0 5px;
-            background-color: #9272CE; /* Accent color */
-            border-radius: 50%;
-            animation: pulseDot 1.4s infinite ease-in-out both;
-        }
-        .loading-dot:nth-child(1) { animation-delay: -0.32s; }
-        .loading-dot:nth-child(2) { animation-delay: -0.16s; }
-        .loading-dot:nth-child(3) { animation-delay: 0s; } /* Ensure the third dot also animates */
-        @keyframes pulseDot {
-            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
-            40% { transform: scale(1.0); opacity: 1; }
-        }
-
     </style>
 </head>
 <body>
@@ -381,7 +337,7 @@
     <audio id="gameWinSound" src="win_sound.mp3" preload="auto"></audio>
     <audio id="revealSound" src="reveal_sound.mp3" preload="auto"></audio>
 
-    <canvas id="hyperspeed-canvas"></canvas>
+    <canvas id="p5-background-canvas"></canvas> <!-- MODIFIED: p5 canvas -->
     <div class="progress-container"> <div class="progress-bar" id="progressBar"></div> </div> 
     <div class="bg-overlay"></div>
 
@@ -415,43 +371,48 @@
     
     <div id="page-container">
         <section id="home-content" class="page-section"> 
-            <main class="container mx-auto px-4 md:px-6 pt-12 md:pt-16 pb-16"> <!-- Adjusted main padding -->
-                <section class="opacity-0 flex flex-col md:flex-row items-start gap-x-8" id="heroSection"> <!-- Flex layout -->
+             <!-- MODIFIED: Added two-column layout for home page -->
+            <main class="container mx-auto px-4 md:px-6 pt-16 md:pt-24 pb-16">
+                <div class="flex flex-col md:flex-row gap-x-8 lg:gap-x-12">
                     <!-- Left Column -->
-                    <div class="w-full md:w-3/5 lg:w-7/12 xl:w-1/2 md:pr-4 text-center md:text-left">
-                        <div id="hero-circular-profile-image-container" class="mb-6 inline-block md:block"> 
-                            <img id="hero-circular-profile-image" src="agraj_profile.jpg" alt="Agraj Dubey - Profile Picture"> <!-- Added image -->
-                        </div>
-                        <div id="home-hero-text-content" class="w-full"> 
-                            <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif"> 
-                                <span id="main-heading-text"></span> 
-                            </h1> 
-                            <p class="text-xl md:text-2xl text-text-secondary mb-10 md:mb-12 italic" id="typewriter"></p> 
-                            <blockquote class="quote max-w-xl mx-auto md:mx-0 text-lg md:text-xl bg-darker/80 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent"> 
-                                "<span id="blockquote-text"></span>" 
-                            </blockquote> 
-                        </div>
-                    <section class="mb-16 opacity-0" id="writingsSectionHome"> 
-                        <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mt-16 mb-12">Recent Writings</h2> 
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="home-recent-writings-grid"></div> 
-                        <div class="text-center mt-12 md:mt-16"> 
-                            <a href="#writings" class="view-all-writings-btn glitch-button" data-text="View All Writings"> 
-                                <span class="btn-text">View All Writings</span> 
-                            </a> 
-                        </div> 
-                        <div id="staticImageContainerHome" class="static-image-container"> 
-                            <img src="FrierenRing.png" alt="Frieren's Ring image (interactive)" id="staticImageHome" class="static-image"> 
-                        </div> 
-                    </section> 
+                    <div class="md:w-2/3 lg:w-[60%]">
+                        <section class="opacity-0" id="heroSection">  
+                            <div id="hero-circular-profile-image-container"> 
+                                <img src="agraj_profile.jpg" alt="Agraj Dubey profile picture" id="hero-circular-profile-image"> 
+                            </div> 
+                            <div id="home-hero-text-content" class="w-full"> 
+                                <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif"> 
+                                    <span id="main-heading-text"></span> 
+                                </h1> 
+                                <p class="text-xl md:text-2xl text-text-secondary mb-10 md:mb-12 italic" id="typewriter"></p> 
+                                <blockquote class="quote max-w-xl mx-auto text-lg md:text-xl bg-darker/80 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent"> 
+                                    "<span id="blockquote-text"></span>" 
+                                </blockquote> 
+                            </div> 
+                        </section> 
+                        <section class="mb-16 opacity-0" id="writingsSectionHome"> 
+                            <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mt-16 mb-12">Recent Writings</h2> 
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="home-recent-writings-grid"></div> 
+                            <div class="text-center mt-12 md:mt-16"> 
+                                <a href="#writings" class="view-all-writings-btn glitch-button" data-text="View All Writings"> 
+                                    <span class="btn-text">View All Writings</span> 
+                                </a> 
+                            </div> 
+                            <div id="staticImageContainerHome" class="static-image-container"> 
+                                <img src="FrierenRing.png" alt="Frieren's Ring image (interactive)" id="staticImageHome" class="static-image"> 
+                            </div> 
+                        </section> 
                     </div>
-
                     <!-- Right Column -->
-                    <div class="w-full md:w-2/5 lg:w-5/12 xl:w-1/2 md:pl-4 mt-12 md:mt-0">
-                        <div id="floating-images-container" class="relative h-full min-h-[300px] md:min-h-[500px] md:sticky md:top-24">
-                            <!-- Floating images will be injected here by JavaScript -->
-                        </div>
+                    <div class="md:w-1/3 lg:w-[40%]">
+                        <section id="home-animated-post-images" class="sticky top-24 hidden md:block mt-8 md:mt-0 pl-4">
+                            <h2 class="text-2xl lg:text-3xl font-bold text-text-primary mb-6 lg:mb-8 font-outfit text-center md:text-left">Visual Echoes</h2>
+                            <div id="animated-images-container" class="space-y-6 lg:space-y-8">
+                                <!-- JS will populate this -->
+                            </div>
+                        </section>
                     </div>
-                </section> 
+                </div>
             </main> 
         </section>
         
@@ -476,7 +437,7 @@
                 </div>
                 <div id="questionnaire-container-wrapper" class="questionnaire-container-wrapper">
                     <div id="questionnaire-render-area">
-                        <!-- Content will be rendered here by JS -->
+                        <p class="text-center text-text-secondary">Loading questions...</p>
                     </div>
                     <div id="personality-match-section" class="mt-12" style="display: none; opacity: 0; transform: translateY(20px);">
                         <h2>Personality Snapshot</h2>
@@ -516,12 +477,12 @@
 
     <script>
         const APP_CONFIG = {
-             ROTATING_TEXT_HOME: { /* ... same as before ... */ 
+             ROTATING_TEXT_HOME: { 
                  'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
                  'main-heading-text': { texts: ["agraj", "アグラジ", "अग्रज", "αγραξ"], typeSpeed: 100, deleteSpeed: 60, pauseDuration: 2500 },
                  'blockquote-text': { texts: ["If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒", "Is free will an illusion, or is the illusion the only free will we have?", "Perhaps the 'fragments' are the only coherent parts left.", "What if the algorithm forgets too?", "Maybe exiting early isn't dramatic, just... efficient.", "Family remembers differently. Algorithms remember precisely. Which is better?", "The universe is indifferent, but the code persists. For now.", "Do androids dream of electric sheep? Do algorithms dream of better data?", "To be, or not to be, that is the computation.", "Cogito, ergo sum... I think, therefore I am... coded?"], typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500 }
             },
-            DEFAULT_TITLES: { /* ... same as before ... */ 
+            DEFAULT_TITLES: { 
                 home: "agraj - Portfolio",
                 writings: "Writings - Agraj Dubey",
                 about: "About Me - Agraj Dubey"
@@ -540,46 +501,88 @@
         function $(selector) { return document.querySelector(selector); }
         function $$(selector) { return document.querySelectorAll(selector); }
 
-        // --- Hyperspeed Canvas Animation ---
-        const hyperspeedCanvas = $('#hyperspeed-canvas');
-        const hsCtx = hyperspeedCanvas.getContext('2d');
-        let stars = [];
-        const numStars = 400; 
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-        let baseSpeed = 0.008; 
-        const aceFlagColors = ['#000000', '#A3A3A3', '#FFFFFF', '#800080']; 
-        function resizeHyperspeedCanvas() { hyperspeedCanvas.width = window.innerWidth; hyperspeedCanvas.height = window.innerHeight; mouseX = hyperspeedCanvas.width / 2; mouseY = hyperspeedCanvas.height / 2;}
-        function initStars() { 
-            stars = [];
-            for (let i = 0; i < numStars; i++) {
-                const randomAceColor = aceFlagColors[Math.floor(Math.random() * aceFlagColors.length)];
-                stars.push({ x: Math.random() * 2 - 1, y: Math.random() * 2 - 1, z: Math.random() * 1.8 + 0.2, color: randomAceColor, opacity: Math.random() * 0.4 + 0.2 });
-            }
-        }
-        function animateHyperspeed() { 
-            hsCtx.clearRect(0, 0, hyperspeedCanvas.width, hyperspeedCanvas.height);
-            const centerX = hyperspeedCanvas.width / 2; const centerY = hyperspeedCanvas.height / 2;
-            stars.forEach(star => {
-                const screenX = centerX + (star.x / star.z) * centerX; const screenY = centerY + (star.y / star.z) * centerY;
-                let currentSpeedFactor = 1;
-                const dxMouse = screenX - mouseX; const dyMouse = screenY - mouseY; const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
-                if (distMouse < 100) { currentSpeedFactor = 1 + (5 * (1 - distMouse / 100)); }
-                star.z -= baseSpeed * currentSpeedFactor;
-                if (star.z <= 0.005) { star.x = Math.random() * 2 - 1; star.y = Math.random() * 2 - 1; star.z = Math.random() * 1.8 + 0.2; star.color = aceFlagColors[Math.floor(Math.random() * aceFlagColors.length)]; star.opacity = Math.random() * 0.4 + 0.2; }
-                const size = Math.max(0.3, (1 / star.z) * 2.5); const dynamicOpacity = Math.min(1, (star.opacity + (1 / star.z) * 0.3));
-                if (screenX > -size && screenX < hyperspeedCanvas.width + size && screenY > -size && screenY < hyperspeedCanvas.height + size) {
-                    hsCtx.fillStyle = star.color.startsWith('#') ? `${star.color}${Math.round(dynamicOpacity * 255).toString(16).padStart(2, '0')}` : `rgba(${star.color.slice(5,-1)}, ${dynamicOpacity})`;
-                    if (star.color === '#000000' && dynamicOpacity > 0.1) { hsCtx.fillStyle = `rgba(50,50,50, ${dynamicOpacity * 0.5})`; }
-                    hsCtx.beginPath(); hsCtx.arc(screenX, screenY, size, 0, Math.PI * 2); hsCtx.fill();
+        // --- p5.js Generative Background ---
+        let p5Blobs = [];
+        const NUM_P5_BLOBS = 5;
+
+        function p5Sketch(p) {
+            class Blob {
+                constructor() {
+                    this.x = p.random(p.width);
+                    this.y = p.random(p.height);
+                    this.r = p.random(150, 400); // Radius
+                    this.xSpeed = p.random(-0.3, 0.3);
+                    this.ySpeed = p.random(-0.3, 0.3);
+                    this.numPoints = p.int(p.random(5, 10));
+                    this.noiseSeedX = p.random(1000);
+                    this.noiseSeedY = p.random(1000);
+                    this.noiseSeedR = p.random(1000);
+                    this.hue = p.random(220, 300); // Purples, blues, some pinks
+                    this.hueShiftSpeed = p.random(-0.1, 0.1);
+                    this.opacity = p.random(5, 15); // Low opacity for blending
                 }
-            }); requestAnimationFrame(animateHyperspeed);
+
+                update() {
+                    this.x += this.xSpeed + (p.noise(this.noiseSeedX + p.frameCount * 0.001) - 0.5) * 0.5;
+                    this.y += this.ySpeed + (p.noise(this.noiseSeedY + p.frameCount * 0.001) - 0.5) * 0.5;
+                    this.r = p.map(p.noise(this.noiseSeedR + p.frameCount * 0.002), 0, 1, 100, p.max(p.width, p.height) / 2.5);
+
+                    if (this.x < -this.r) this.x = p.width + this.r;
+                    if (this.x > p.width + this.r) this.x = -this.r;
+                    if (this.y < -this.r) this.y = p.height + this.r;
+                    if (this.y > p.height + this.r) this.y = -this.r;
+                    
+                    this.hue = (this.hue + this.hueShiftSpeed + 360) % 360;
+                }
+
+                display() {
+                    p.fill(this.hue, 70, 80, this.opacity);
+                    p.beginShape();
+                    let angleStep = p.TWO_PI / this.numPoints;
+                    for (let i = 0; i < this.numPoints; i++) {
+                        let angle = i * angleStep;
+                        let radiusOffset = p.map(p.noise(this.noiseSeedX + i * 0.1, this.noiseSeedY + p.frameCount * 0.005), 0, 1, -this.r * 0.3, this.r * 0.3);
+                        let currentR = this.r + radiusOffset;
+                        let vx = this.x + currentR * p.cos(angle);
+                        let vy = this.y + currentR * p.sin(angle);
+                        p.curveVertex(vx, vy);
+                        if (i === 0 || i === this.numPoints -1) { // Repeat first and last for curve
+                            p.curveVertex(vx, vy);
+                        }
+                    }
+                    p.endShape(p.CLOSE);
+                }
+            }
+
+            p.setup = function() {
+                const p5Canvas = p.createCanvas(p.windowWidth, p.windowHeight);
+                p5Canvas.parent('p5-background-canvas'); // Attach to the div
+                p.colorMode(p.HSB, 360, 100, 100, 100);
+                p.noStroke();
+                for (let i = 0; i < NUM_P5_BLOBS; i++) {
+                    p5Blobs.push(new Blob());
+                }
+                // p.blendMode(p.ADD); // Optional: experiment with blend modes
+            };
+
+            p.draw = function() {
+                p.background(260, 80, 8, 100); // Dark purple, almost opaque base
+                // p.clear(); // Use clear if you don't want trails
+
+                for (let blob of p5Blobs) {
+                    blob.update();
+                    blob.display();
+                }
+            };
+
+            p.windowResized = function() {
+                p.resizeCanvas(p.windowWidth, p.windowHeight);
+            };
         }
-        hyperspeedCanvas.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
-        hyperspeedCanvas.addEventListener('mouseleave', () => { mouseX = hyperspeedCanvas.width / 2; mouseY = hyperspeedCanvas.height / 2; });
+        // --- End p5.js Generative Background ---
 
 
-        // --- Content Rendering (Writings) --- 
+        // --- Content Rendering (Writings) ---
         let ALL_POST_DATA_FOR_HOME_RECENT = []; let ALL_POSTS_DATA = [];
         function simpleMarkdownToHtml(md) {
             if (typeof md !== 'string') return ''; let html = md;
@@ -592,19 +595,22 @@
         function createPostPreviewCard(post, isForHome = false) { 
             const cardClass = isForHome ? 'card' : 'writing-preview-card';
             const delay = isForHome && ALL_POST_DATA_FOR_HOME_RECENT.length > 0 ? (ALL_POST_DATA_FOR_HOME_RECENT.indexOf(post) * 150) : 0;
-            // Consistent "Read More" button style using glitch-button for both contexts
-            const readMoreButtonClass = 'glitch-button'; 
-            const readMoreText = 'Read More →';
+            
+            // MODIFIED: "Read More" link to always be glitch-button
+            const anchorClass = `glitch-button ${isForHome ? 'text-accent hover:text-accent-hover font-medium inline-flex items-center' : 'read-more-link'}`;
+            const readMoreTextContent = `Read More ${!isForHome ? '→' : ''}`;
+            const arrowSvg = isForHome ? ' <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>' : '';
+            const dataText = readMoreTextContent.trim(); // For data-text attribute
 
             return `
                 <div class="${cardClass} rounded-lg p-7 shadow-lg relative overflow-hidden" ${isForHome ? `data-delay="${delay}"` : ''}>
                     <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group ${!isForHome ? 'text-hover-scale font-outfit' : ''}">
-                        <span class="${isForHome ? 'hover:text-accent transition-all duration-300' : ''} inline-block">${post.title}</span>
+                        <span class="${isForHome ? 'hover:text-accent' : ''} transition-all duration-300 inline-block">${post.title}</span>
                     </h3>
                     ${!isForHome ? `<div class="post-meta-info">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>` : ''}
                     <div class="mb-5"><p class="text-text-secondary line-clamp-${isForHome ? 3 : 4} ${!isForHome ? 'excerpt' : ''}">${post.excerpt}</p></div>
-                    <a href="#${post.id}" class="${readMoreButtonClass} ${isForHome ? 'mt-2' : 'read-more-link'}" data-text="${readMoreText}">
-                        <span class="btn-text">${readMoreText}</span>
+                    <a href="#${post.id}" class="${anchorClass}" data-text="${dataText}">
+                        <span class="btn-text">${readMoreTextContent}${arrowSvg}</span>
                     </a>
                 </div>
             `;
@@ -621,6 +627,64 @@
                 </article>
             `;
         }
+
+        // --- Home Page Right Column Animated Images ---
+        async function setupHomePageRightColumnImages() {
+            const container = $('#animated-images-container');
+            const sectionContainer = $('#home-animated-post-images');
+
+            if (!container || !sectionContainer) {
+                console.warn("Home page animated images container or section not found.");
+                return;
+            }
+
+            // Wait for ALL_POSTS_DATA to be populated
+            if (ALL_POSTS_DATA.length === 0) {
+                // Retry after a short delay if posts aren't loaded yet
+                setTimeout(setupHomePageRightColumnImages, 200);
+                return;
+            }
+
+            const postsWithImages = ALL_POSTS_DATA.filter(post => post.image).slice(0, 4);
+
+            if (postsWithImages.length === 0) {
+                container.innerHTML = '<p class="text-text-tertiary text-sm text-center md:text-left">No recent visual entries.</p>';
+                // sectionContainer.classList.add('hidden'); // Keep section title visible, show message
+                return;
+            }
+            // sectionContainer.classList.remove('hidden'); // Ensure section is visible if it was hidden
+
+            let imagesHtml = '';
+            postsWithImages.forEach(post => {
+                const escapedTitle = post.title.replace(/"/g, '"');
+                imagesHtml += `
+                    <a href="#${post.id}" class="block animated-post-image-link overflow-hidden rounded-lg shadow-xl border-2 border-accent/20 hover:border-accent/60 transition-all duration-300 aspect-video" 
+                       aria-label="Read more about ${escapedTitle}" title="${escapedTitle}">
+                        <img src="${post.image}" alt="Preview for ${escapedTitle}" 
+                             class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-400 ease-in-out">
+                    </a>
+                `;
+            });
+            container.innerHTML = imagesHtml;
+
+            const imageLinks = $$('#animated-images-container .animated-post-image-link');
+            if (typeof anime === 'function' && imageLinks.length > 0) {
+                anime({
+                    targets: imageLinks,
+                    translateY: () => anime.random(-8, 8),
+                    translateX: () => anime.random(-5, 5),
+                    rotate: () => anime.random(-1, 1),
+                    scale: [1, 1.015, 1],
+                    direction: 'alternate',
+                    loop: true,
+                    easing: 'easeInOutSine',
+                    duration: () => anime.random(3500, 6000),
+                    delay: anime.stagger(300, {start: 200})
+                });
+            }
+        }
+
+
         async function loadAndRenderPosts() { 
             console.log("Attempting to load posts from:", APP_CONFIG.POSTS_JSON_PATH);
             try {
@@ -628,7 +692,8 @@
                 if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}, path: ${APP_CONFIG.POSTS_JSON_PATH}`); }
                 ALL_POSTS_DATA = await response.json();
                 ALL_POSTS_DATA.sort((a, b) => new Date(b.date) - new Date(a.date)); 
-                ALL_POST_DATA_FOR_HOME_RECENT = ALL_POSTS_DATA.slice(0, 3);
+                ALL_POST_DATA_FOR_HOME_RECENT = ALL_POSTS_DATA.slice(0, 3); // Number of cards on home page
+                
                 const homeGrid = $('#home-recent-writings-grid');
                 if (homeGrid) {
                     if (ALL_POST_DATA_FOR_HOME_RECENT.length > 0) { homeGrid.innerHTML = ALL_POST_DATA_FOR_HOME_RECENT.map(post => createPostPreviewCard(post, true)).join(''); } 
@@ -642,6 +707,12 @@
                 }
                 const fullArticlesTarget = $('#full-articles-dynamic-content');
                  if (fullArticlesTarget) {  fullArticlesTarget.innerHTML = ALL_POSTS_DATA.map(post => createFullArticleHtml(post)).join(''); }
+
+                // Call to populate right column images on home page
+                if (typeof setupHomePageRightColumnImages === 'function') {
+                    setupHomePageRightColumnImages();
+                }
+
             } catch (error) {
                 console.error("ERROR in loadAndRenderPosts:", error);
                 if ($('#home-recent-writings-grid')) $('#home-recent-writings-grid').innerHTML = '<p class="text-text-secondary col-span-full text-center">Error: Could not load recent writings.</p>';
@@ -649,7 +720,7 @@
             }
         }
 
-        // --- Questionnaire Logic (About Me Page) ---
+        // --- Questionnaire Logic (About Me Page) --- (Keep as is from previous correct version)
         async function renderQuestionnaire() {
             const container = $('#questionnaire-render-area');
             const calculateButton = $('#calculate-match-button');
@@ -661,14 +732,7 @@
                 if(container) container.innerHTML = '<p class="text-text-secondary text-center">Core UI elements missing for questionnaire.</p>';
                 return;
             }
-            // MODIFIED: Use loading dots HTML
-            container.innerHTML = ` 
-                <div class="loading-dots-container">
-                    <div class="loading-dot"></div>
-                    <div class="loading-dot"></div>
-                    <div class="loading-dot"></div>
-                </div>
-            `;
+            container.innerHTML = '<p class="text-center text-text-secondary">Loading questions...</p>'; 
 
             try {
                 const response = await fetch(APP_CONFIG.QUESTIONS_JSON_PATH);
@@ -702,7 +766,7 @@
                     </div>
                 `;
             });
-            container.innerHTML = html; // Replace loading dots with questions
+            container.innerHTML = html;
             
             if (typeof anime === 'function') {
                 anime({
@@ -850,7 +914,7 @@
             }, 50);
         }
 
-        // --- Secret Game Logic (Updated) ---
+        // --- Secret Game Logic (Updated) --- (Keep as is)
         let matterEngine, matterRender, matterRunner;
         let gameShapes = [];
         const MAX_SHAPES_TO_SPAWN = 10; const SHAPES_TO_WIN = 3;
@@ -1103,88 +1167,19 @@
              $$('#home-content .card').forEach(card => { 
                  const delay = parseInt(card.getAttribute('data-delay')) || 0; card.style.opacity = '0'; card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)'; card.dataset.initialTransform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${delay}ms`; observer.observe(card);
              });
+             // Animate right column images on home page
+             const homeAnimatedImagesSection = $('#home-animated-post-images');
+             if(homeAnimatedImagesSection) {
+                homeAnimatedImagesSection.style.opacity = '0'; 
+                homeAnimatedImagesSection.style.transform = 'translateX(30px)'; 
+                homeAnimatedImagesSection.dataset.initialTransform = 'translateX(0px)';
+                homeAnimatedImagesSection.style.transition = 'opacity 0.8s ease-out 0.4s, transform 0.8s ease-out 0.4s'; 
+                observer.observe(homeAnimatedImagesSection);
+             }
         }
         function animateCircularProfileImage() { 
             const heroImage = $('#hero-circular-profile-image');
             if (heroImage) { heroImage.style.opacity = '1';  heroImage.style.transform = 'scale(1) translateY(0px)'; }
-        }
-
-        let floatingImageElements = []; // To store elements for animation
-
-        function renderFloatingPostImages() {
-            const container = $('#floating-images-container');
-            if (!container) return;
-            container.innerHTML = ''; // Clear existing images
-            floatingImageElements = []; // Reset the array
-
-            if (!ALL_POSTS_DATA || ALL_POSTS_DATA.length === 0) return;
-
-            const postsWithImages = ALL_POSTS_DATA.filter(post => post.image && post.image.trim() !== '');
-            const recentPostsWithImages = postsWithImages.slice(0, 4); // Get up to 4 recent posts with images
-
-            recentPostsWithImages.forEach((post, index) => {
-                const link = document.createElement('a');
-                link.href = `#${post.id}`;
-                link.classList.add('block', 'mb-4', 'shadow-lg', 'rounded-lg', 'overflow-hidden', 'transform', 'transition-all', 'duration-300', 'hover:scale-105', 'floating-post-image-link');
-                // Assign unique IDs for potential individual animation control or targeting
-                link.id = `floating-image-link-${index}`;
-
-
-                const img = document.createElement('img');
-                img.src = post.image;
-                img.alt = post.title;
-                img.classList.add('w-full', 'h-auto', 'object-cover');
-                // Set a max height for consistency, or aspect ratio control if needed
-                // img.style.maxHeight = '200px'; // Example max height
-
-                link.appendChild(img);
-                container.appendChild(link);
-                floatingImageElements.push(link); // Store the link element for animation
-            });
-
-            if (typeof animateFloatingImages === 'function') {
-                animateFloatingImages(floatingImageElements);
-            }
-        }
-
-        function animateFloatingImages(imageElements) {
-            if (!imageElements || imageElements.length === 0 || typeof anime !== 'function') {
-                return;
-            }
-
-            imageElements.forEach((el, index) => {
-                // Remove any existing_ Anime.js animations on this element
-                anime.remove(el); 
-
-                // Apply new animation
-                anime({
-                    targets: el,
-                    translateY: [
-                        { value: -8, duration: 2000 + index * 150 },
-                        { value: 8, duration: 2000 + index * 150 },
-                        { value: 0, duration: 1500 + index * 100 } // Slightly longer pause or return to 0
-                    ],
-                    translateX: [ // Subtle horizontal movement
-                        { value: -4, duration: 2200 + index * 100 },
-                        { value: 4, duration: 2200 + index * 100 },
-                        { value: 0, duration: 1800 + index * 120 }
-                    ],
-                    rotate: [ // Subtle rotation
-                        { value: -1, duration: 2500 + index * 100 },
-                        { value: 1, duration: 2500 + index * 100 },
-                        { value: 0, duration: 2000 + index * 100 }
-                    ],
-                    scale: [ // Subtle scaling for a "breathing" effect
-                        { value: 1.015, duration: 2800 + index * 100, easing: 'easeInOutQuad' },
-                        { value: 1, duration: 2800 + index * 100, easing: 'easeInOutQuad'  }
-                    ],
-                    loop: true,
-                    direction: 'alternate',
-                    easing: 'easeInOutSine',
-                    // delay: anime.stagger(200, {start: index * 50}), // Stagger the start of each element's animation cycle
-                    // Individual delays are effectively achieved by varying durations with index
-                });
-            });
         }
         
         let currentMainSection = null;
@@ -1213,23 +1208,6 @@
                              setupRotatingText(elId, APP_CONFIG.ROTATING_TEXT_HOME[elId]);
                         }
                     }
-                    if (typeof renderFloatingPostImages === 'function') {
-                        // Ensure posts are loaded before trying to render images
-                        if (ALL_POSTS_DATA && ALL_POSTS_DATA.length > 0) {
-                            renderFloatingPostImages();
-                        } else {
-                            // If posts aren't loaded yet (e.g., direct navigation to #home),
-                            // wait for them. loadAndRenderPosts is async.
-                            // A more robust way might involve a flag or a promise from loadAndRenderPosts.
-                            // For now, we rely on DOMContentLoaded calling loadAndRenderPosts first.
-                            // A simple timeout could be a fallback, but not ideal.
-                            setTimeout(() => {
-                                if (ALL_POSTS_DATA && ALL_POSTS_DATA.length > 0) {
-                                     renderFloatingPostImages();
-                                }
-                            }, 500); // Small delay to allow posts.json to load
-                        }
-                    }
                 } else if (sectionId === 'about-content') {
                     if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); 
                 }
@@ -1241,7 +1219,6 @@
             let mainSectionTarget = 'home-content';
             let articleDetailHash = '';
             const currentFullHash = window.location.hash;
-
             if (currentFullHash.startsWith('#post-')) {
                 mainSectionTarget = 'writings-content'; articleDetailHash = currentFullHash;
             } else if (currentFullHash === '#writings') {
@@ -1251,29 +1228,20 @@
             } else if (currentFullHash === '#home' || currentFullHash === '' || currentFullHash === '#') {
                 mainSectionTarget = 'home-content'; 
                 if (currentFullHash === '' || currentFullHash === '#') window.location.hash = 'home';
-            } else {
-                const isKnownExternalNav = Array.from($$('.desktop-nav a[target="_blank"], .mobile-menu a[target="_blank"]'))
-                                          .some(link => link.getAttribute('href') === currentFullHash || `#${link.dataset.navlink}` === currentFullHash);
-                if (!isKnownExternalNav) { // If it's not a known external link, and not an internal section
-                    console.warn("Unknown hash, potentially defaulting or no action for:", currentFullHash);
-                     // Defaulting to home if not a recognized internal section after specific checks
-                    if (currentMainSection !== 'home-content') mainSectionTarget = 'home-content';
-                    else mainSectionTarget = currentMainSection; // Stay on current if already home
-                    // window.location.hash = 'home'; // This might be too aggressive if user types an unknown hash
-                } else {
-                    // It's an external link, browser handles it. No section change needed here.
-                    // Set mainSectionTarget to current to avoid unintended section switch
-                    mainSectionTarget = currentMainSection || 'home-content';
+            } else { 
+                const isExternalNav = Array.from($$('.desktop-nav a[target="_blank"], .mobile-menu a[target="_blank"]'))
+                                        .some(link => link.href.endsWith(currentFullHash) || `#${link.dataset.navlink}` === currentFullHash);
+                if (!isExternalNav) {
+                     console.warn("Unknown hash, redirecting to #home:", currentFullHash);
+                     window.location.hash = 'home'; return; 
                 }
             }
             
-            if (currentMainSection !== mainSectionTarget && ['home-content', 'writings-content', 'about-content'].includes(mainSectionTarget)) {
+            if (currentMainSection !== mainSectionTarget && (mainSectionTarget === 'home-content' || mainSectionTarget === 'writings-content' || mainSectionTarget === 'about-content')) {
                  showMainSection(mainSectionTarget);
             } else if (mainSectionTarget === 'writings-content' && articleDetailHash) { 
                  if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash);
             }
-            // Note: No explicit 'else if (mainSectionTarget === 'about-content' && currentMainSection === 'about-content')'
-            // because renderQuestionnaire is called within showMainSection if 'about-content' is newly shown.
             
             if (mainSectionTarget === 'writings-content') {
                 if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash); 
@@ -1325,19 +1293,27 @@
             revealSound = $('#revealSound'); 
             gameSpawnSoundEl = $('#gameSpawnSound');
             gameWinSoundEl = $('#gameWinSound');
-            resizeHyperspeedCanvas(); initStars(); animateHyperspeed();
-            window.addEventListener('resize', resizeHyperspeedCanvas);
+
+            if (typeof p5 !== 'undefined') {
+                new p5(p5Sketch); // Initialize p5 sketch
+            } else {
+                console.error("p5.js is not loaded!");
+            }
+
             setupMobileMenu(); 
             setupScrollProgressBar();
             await loadAndRenderPosts(); 
+            
             document.body.addEventListener('click', function(event) {
-                if (event.target.matches('#writings-grid-container a.read-more-link, #home-recent-writings-grid a[href^="#post-"]')) {
-                    lastClickedReadMoreLink = event.target;
+                if (event.target.closest('a.glitch-button[href^="#post-"]')) { // More specific for glitch buttons linking to posts
+                    lastClickedReadMoreLink = event.target.closest('a.glitch-button[href^="#post-"]');
                 }
             });
+
             setupStaticImageClick(); 
             handleMainRouteChange(); 
             window.addEventListener('hashchange', handleMainRouteChange); 
+            
             const currentYearEl = $('#currentYear');
             if(currentYearEl) currentYearEl.textContent = new Date().getFullYear();
             setupSecretGame();
