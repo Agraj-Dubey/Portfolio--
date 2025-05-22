@@ -415,29 +415,42 @@
     
     <div id="page-container">
         <section id="home-content" class="page-section"> 
-            <main class="container mx-auto px-4 md:px-6 pt-16 md:pt-24 pb-16"> 
-                <section class="opacity-0" id="heroSection">  
-                    <div id="home-hero-text-content" class="w-full"> 
-                        <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif"> 
-                            <span id="main-heading-text"></span> 
-                        </h1> 
-                        <p class="text-xl md:text-2xl text-text-secondary mb-10 md:mb-12 italic" id="typewriter"></p> 
-                        <blockquote class="quote max-w-xl mx-auto text-lg md:text-xl bg-darker/80 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent"> 
-                            "<span id="blockquote-text"></span>" 
-                        </blockquote> 
-                    </div> 
-                </section> 
-                <section class="mb-16 opacity-0" id="writingsSectionHome"> 
-                    <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mt-16 mb-12">Recent Writings</h2> 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="home-recent-writings-grid"></div> 
-                    <div class="text-center mt-12 md:mt-16"> 
-                        <a href="#writings" class="view-all-writings-btn glitch-button" data-text="View All Writings"> 
-                            <span class="btn-text">View All Writings</span> 
-                        </a> 
-                    </div> 
-                    <div id="staticImageContainerHome" class="static-image-container"> 
-                        <img src="FrierenRing.png" alt="Frieren's Ring image (interactive)" id="staticImageHome" class="static-image"> 
-                    </div> 
+            <main class="container mx-auto px-4 md:px-6 pt-12 md:pt-16 pb-16"> <!-- Adjusted main padding -->
+                <section class="opacity-0 flex flex-col md:flex-row items-start gap-x-8" id="heroSection"> <!-- Flex layout -->
+                    <!-- Left Column -->
+                    <div class="w-full md:w-3/5 lg:w-7/12 xl:w-1/2 md:pr-4 text-center md:text-left">
+                        <div id="hero-circular-profile-image-container" class="mb-6 inline-block md:block"> 
+                            <img id="hero-circular-profile-image" src="agraj_profile.jpg" alt="Agraj Dubey - Profile Picture"> <!-- Added image -->
+                        </div>
+                        <div id="home-hero-text-content" class="w-full"> 
+                            <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif"> 
+                                <span id="main-heading-text"></span> 
+                            </h1> 
+                            <p class="text-xl md:text-2xl text-text-secondary mb-10 md:mb-12 italic" id="typewriter"></p> 
+                            <blockquote class="quote max-w-xl mx-auto md:mx-0 text-lg md:text-xl bg-darker/80 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent"> 
+                                "<span id="blockquote-text"></span>" 
+                            </blockquote> 
+                        </div>
+                    <section class="mb-16 opacity-0" id="writingsSectionHome"> 
+                        <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mt-16 mb-12">Recent Writings</h2> 
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="home-recent-writings-grid"></div> 
+                        <div class="text-center mt-12 md:mt-16"> 
+                            <a href="#writings" class="view-all-writings-btn glitch-button" data-text="View All Writings"> 
+                                <span class="btn-text">View All Writings</span> 
+                            </a> 
+                        </div> 
+                        <div id="staticImageContainerHome" class="static-image-container"> 
+                            <img src="FrierenRing.png" alt="Frieren's Ring image (interactive)" id="staticImageHome" class="static-image"> 
+                        </div> 
+                    </section> 
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="w-full md:w-2/5 lg:w-5/12 xl:w-1/2 md:pl-4 mt-12 md:mt-0">
+                        <div id="floating-images-container" class="relative h-full min-h-[300px] md:min-h-[500px] md:sticky md:top-24">
+                            <!-- Floating images will be injected here by JavaScript -->
+                        </div>
+                    </div>
                 </section> 
             </main> 
         </section>
@@ -579,16 +592,19 @@
         function createPostPreviewCard(post, isForHome = false) { 
             const cardClass = isForHome ? 'card' : 'writing-preview-card';
             const delay = isForHome && ALL_POST_DATA_FOR_HOME_RECENT.length > 0 ? (ALL_POST_DATA_FOR_HOME_RECENT.indexOf(post) * 150) : 0;
+            // Consistent "Read More" button style using glitch-button for both contexts
+            const readMoreButtonClass = 'glitch-button'; 
+            const readMoreText = 'Read More →';
+
             return `
                 <div class="${cardClass} rounded-lg p-7 shadow-lg relative overflow-hidden" ${isForHome ? `data-delay="${delay}"` : ''}>
                     <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group ${!isForHome ? 'text-hover-scale font-outfit' : ''}">
-                        <span class="${isForHome ? 'hover:text-accent' : ''} transition-all duration-300 inline-block">${post.title}</span>
+                        <span class="${isForHome ? 'hover:text-accent transition-all duration-300' : ''} inline-block">${post.title}</span>
                     </h3>
                     ${!isForHome ? `<div class="post-meta-info">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>` : ''}
                     <div class="mb-5"><p class="text-text-secondary line-clamp-${isForHome ? 3 : 4} ${!isForHome ? 'excerpt' : ''}">${post.excerpt}</p></div>
-                    <a href="#${post.id}" class="${isForHome ? 'text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link' : 'read-more-link glitch-button'}" data-text="Read More →">
-                        <span class="${!isForHome ? 'btn-text' : ''}">Read More ${!isForHome ? '→' : ''}</span>
-                        ${isForHome ? '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>' : ''}
+                    <a href="#${post.id}" class="${readMoreButtonClass} ${isForHome ? 'mt-2' : 'read-more-link'}" data-text="${readMoreText}">
+                        <span class="btn-text">${readMoreText}</span>
                     </a>
                 </div>
             `;
@@ -1092,6 +1108,84 @@
             const heroImage = $('#hero-circular-profile-image');
             if (heroImage) { heroImage.style.opacity = '1';  heroImage.style.transform = 'scale(1) translateY(0px)'; }
         }
+
+        let floatingImageElements = []; // To store elements for animation
+
+        function renderFloatingPostImages() {
+            const container = $('#floating-images-container');
+            if (!container) return;
+            container.innerHTML = ''; // Clear existing images
+            floatingImageElements = []; // Reset the array
+
+            if (!ALL_POSTS_DATA || ALL_POSTS_DATA.length === 0) return;
+
+            const postsWithImages = ALL_POSTS_DATA.filter(post => post.image && post.image.trim() !== '');
+            const recentPostsWithImages = postsWithImages.slice(0, 4); // Get up to 4 recent posts with images
+
+            recentPostsWithImages.forEach((post, index) => {
+                const link = document.createElement('a');
+                link.href = `#${post.id}`;
+                link.classList.add('block', 'mb-4', 'shadow-lg', 'rounded-lg', 'overflow-hidden', 'transform', 'transition-all', 'duration-300', 'hover:scale-105', 'floating-post-image-link');
+                // Assign unique IDs for potential individual animation control or targeting
+                link.id = `floating-image-link-${index}`;
+
+
+                const img = document.createElement('img');
+                img.src = post.image;
+                img.alt = post.title;
+                img.classList.add('w-full', 'h-auto', 'object-cover');
+                // Set a max height for consistency, or aspect ratio control if needed
+                // img.style.maxHeight = '200px'; // Example max height
+
+                link.appendChild(img);
+                container.appendChild(link);
+                floatingImageElements.push(link); // Store the link element for animation
+            });
+
+            if (typeof animateFloatingImages === 'function') {
+                animateFloatingImages(floatingImageElements);
+            }
+        }
+
+        function animateFloatingImages(imageElements) {
+            if (!imageElements || imageElements.length === 0 || typeof anime !== 'function') {
+                return;
+            }
+
+            imageElements.forEach((el, index) => {
+                // Remove any existing_ Anime.js animations on this element
+                anime.remove(el); 
+
+                // Apply new animation
+                anime({
+                    targets: el,
+                    translateY: [
+                        { value: -8, duration: 2000 + index * 150 },
+                        { value: 8, duration: 2000 + index * 150 },
+                        { value: 0, duration: 1500 + index * 100 } // Slightly longer pause or return to 0
+                    ],
+                    translateX: [ // Subtle horizontal movement
+                        { value: -4, duration: 2200 + index * 100 },
+                        { value: 4, duration: 2200 + index * 100 },
+                        { value: 0, duration: 1800 + index * 120 }
+                    ],
+                    rotate: [ // Subtle rotation
+                        { value: -1, duration: 2500 + index * 100 },
+                        { value: 1, duration: 2500 + index * 100 },
+                        { value: 0, duration: 2000 + index * 100 }
+                    ],
+                    scale: [ // Subtle scaling for a "breathing" effect
+                        { value: 1.015, duration: 2800 + index * 100, easing: 'easeInOutQuad' },
+                        { value: 1, duration: 2800 + index * 100, easing: 'easeInOutQuad'  }
+                    ],
+                    loop: true,
+                    direction: 'alternate',
+                    easing: 'easeInOutSine',
+                    // delay: anime.stagger(200, {start: index * 50}), // Stagger the start of each element's animation cycle
+                    // Individual delays are effectively achieved by varying durations with index
+                });
+            });
+        }
         
         let currentMainSection = null;
         let lastClickedReadMoreLink = null; 
@@ -1117,6 +1211,23 @@
                     for (const elId in APP_CONFIG.ROTATING_TEXT_HOME) {
                         if (document.getElementById(elId) && typeof setupRotatingText === 'function') { 
                              setupRotatingText(elId, APP_CONFIG.ROTATING_TEXT_HOME[elId]);
+                        }
+                    }
+                    if (typeof renderFloatingPostImages === 'function') {
+                        // Ensure posts are loaded before trying to render images
+                        if (ALL_POSTS_DATA && ALL_POSTS_DATA.length > 0) {
+                            renderFloatingPostImages();
+                        } else {
+                            // If posts aren't loaded yet (e.g., direct navigation to #home),
+                            // wait for them. loadAndRenderPosts is async.
+                            // A more robust way might involve a flag or a promise from loadAndRenderPosts.
+                            // For now, we rely on DOMContentLoaded calling loadAndRenderPosts first.
+                            // A simple timeout could be a fallback, but not ideal.
+                            setTimeout(() => {
+                                if (ALL_POSTS_DATA && ALL_POSTS_DATA.length > 0) {
+                                     renderFloatingPostImages();
+                                }
+                            }, 500); // Small delay to allow posts.json to load
                         }
                     }
                 } else if (sectionId === 'about-content') {
