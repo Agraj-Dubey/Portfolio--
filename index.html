@@ -118,7 +118,7 @@
         #home-content .card { 
             background: rgba(15, 10, 25, 0.75); 
             border: 1px solid rgba(146, 114, 206, 0.2);
-            transition-property: box-shadow, border-color, transform; /* Added transform for mousemove */
+            transition-property: box-shadow, border-color, transform;
             transition-duration: 0.4s;
             transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -132,7 +132,6 @@
         #home-content .card:hover { 
             box-shadow: 0 15px 30px rgba(9, 6, 19, 0.6), 0 0 20px rgba(146, 114, 206, 0.35); 
             border-color: rgba(146, 114, 206, 0.45); 
-             /* transform handled by JS for mousemove effect */
         }
         #home-content .card:hover::before { 
             transform: translateX(100%); 
@@ -152,7 +151,7 @@
 
         #animated-images-container {
             position: relative;
-            min-height: 500px; 
+            min-height: 600px; /* Increased height for more vertical spread */
             margin-top: 1rem; 
         }
         .animated-post-image-bubble {
@@ -161,8 +160,8 @@
             overflow: hidden;
             box-shadow: 0 5px 20px rgba(146, 114, 206, 0.25), 0 0 8px rgba(0,0,0,0.3);
             border: 2px solid rgba(174, 139, 213, 0.3); 
-            /* CSS transition primarily for non-anime.js hover effects if any */
             transition: border-color 0.3s ease;
+            opacity: 0; /* Start hidden for fade-in animation */
         }
         .animated-post-image-bubble:hover {
             border-color: rgba(174, 139, 213, 0.7); 
@@ -530,14 +529,13 @@
 
         // --- p5.js Generative Background ---
         let p5Blobs = [];
-        const NUM_P5_BLOBS = 7; // Slightly increased
+        const NUM_P5_BLOBS = 7; 
         const ACE_COLORS_P5 = [
-            { r: 0, g: 0, b: 0 },       // Black
-            { r: 163, g: 163, b: 163 }, // Grey
-            { r: 255, g: 255, b: 255 }, // White
-            { r: 128, g: 0, b: 128 }    // Purple
+            { r: 0, g: 0, b: 0 },       
+            { r: 163, g: 163, b: 163 }, 
+            { r: 255, g: 255, b: 255 }, 
+            { r: 128, g: 0, b: 128 }    
         ];
-
 
         function p5Sketch(p) {
             class Blob {
@@ -551,10 +549,8 @@
                     this.noiseSeedX = p.random(1000);
                     this.noiseSeedY = p.random(1000);
                     this.noiseSeedR = p.random(1000); 
-                    
-                    // Assign a color from the asexual pride flag palette
                     this.color = p.random(ACE_COLORS_P5);
-                    this.opacity = p.random(8, 20); // Slightly higher opacity for distinct colors
+                    this.opacity = p.random(8, 20); 
                 }
 
                 update() {
@@ -589,22 +585,16 @@
 
             p.setup = function() {
                 const p5CanvasContainer = $('#p5-background-canvas');
-                if (!p5CanvasContainer) {
-                    console.error("p5 canvas container not found!");
-                    return;
-                }
+                if (!p5CanvasContainer) { console.error("p5 canvas container not found!"); return; }
                 const p5Renderer = p.createCanvas(p.windowWidth, p.windowHeight);
                 p5Renderer.parent(p5CanvasContainer); 
-                p.colorMode(p.RGB, 255, 255, 255, 100); // Switch to RGB for direct color use
+                p.colorMode(p.RGB, 255, 255, 255, 100); 
                 p.noStroke();
-                for (let i = 0; i < NUM_P5_BLOBS; i++) {
-                    p5Blobs.push(new Blob());
-                }
+                for (let i = 0; i < NUM_P5_BLOBS; i++) { p5Blobs.push(new Blob()); }
             };
 
             p.draw = function() {
-                p.background(15, 10, 25, 100); // Dark base (RGB: similar to #0f0a19)
-                // p.clear(); // Use clear if no base background is desired
+                p.background(15, 10, 25, 100); 
                 for (let blob of p5Blobs) {
                     blob.update();
                     blob.display();
@@ -614,9 +604,7 @@
             p.windowResized = function() {
                 p.resizeCanvas(p.windowWidth, p.windowHeight);
                 p5Blobs = [];
-                for (let i = 0; i < NUM_P5_BLOBS; i++) {
-                    p5Blobs.push(new Blob());
-                }
+                for (let i = 0; i < NUM_P5_BLOBS; i++) { p5Blobs.push(new Blob()); }
             };
         }
         // --- End p5.js Generative Background ---
@@ -667,7 +655,7 @@
             `;
         }
 
-        // --- Home Page Right Column Animated Image Bubbles ---
+        // --- Home Page Right Column Animated Image Bubbles (Fizzling Effect) ---
         async function setupHomePageRightColumnImages() {
             const container = $('#animated-images-container');
             const sectionContainer = $('#home-animated-post-images');
@@ -683,18 +671,27 @@
             
             container.innerHTML = ''; 
 
+            // Adjusted configs for more vertical spread
             const bubbleConfigs = [
-                { initialTop: 5,  initialLeft: 10, sizeVW: 10,  minSize: 100, maxSize: 160, zIndex: 1 },
-                { initialTop: 20, initialLeft: 55, sizeVW: 8, minSize: 90,  maxSize: 140, zIndex: 3 },
-                { initialTop: 45, initialLeft: 20, sizeVW: 11, minSize: 110, maxSize: 180, zIndex: 2 },
-                { initialTop: 60, initialLeft: 50, sizeVW: 9, minSize: 100, maxSize: 150, zIndex: 1 }
+                { initialTopMin: 5, initialTopMax: 15,  initialLeftMin: 5, initialLeftMax: 25,  sizeVW: 10, minSize: 100, maxSize: 150, zIndex: 1 },
+                { initialTopMin: 15, initialTopMax: 30, initialLeftMin: 50, initialLeftMax: 70, sizeVW: 8,  minSize: 90,  maxSize: 130, zIndex: 3 },
+                { initialTopMin: 40, initialTopMax: 55, initialLeftMin: 10, initialLeftMax: 30, sizeVW: 11, minSize: 110, maxSize: 170, zIndex: 2 },
+                { initialTopMin: 60, initialTopMax: 75, initialLeftMin: 45, initialLeftMax: 65, sizeVW: 9,  minSize: 95,  maxSize: 140, zIndex: 1 }
             ];
+            
+            const containerWidth = container.offsetWidth;
+            const containerHeight = container.offsetHeight;
+
 
             postsWithImages.forEach((post, index) => {
                 if (index >= bubbleConfigs.length) return; 
                 const config = bubbleConfigs[index];
                 const escapedTitle = post.title.replace(/"/g, '"');
-                const bubbleSize = Math.max(config.minSize, Math.min(config.maxSize, window.innerWidth * (config.sizeVW / 100)));
+                
+                let bubbleSize = Math.max(config.minSize, Math.min(config.maxSize, window.innerWidth * (config.sizeVW / 100)));
+                 // Ensure bubble size is not larger than container
+                bubbleSize = Math.min(bubbleSize, containerWidth * 0.8, containerHeight * 0.4);
+
 
                 const bubbleLink = document.createElement('a');
                 bubbleLink.href = `#${post.id}`;
@@ -704,9 +701,9 @@
                 
                 bubbleLink.style.width = `${bubbleSize}px`;
                 bubbleLink.style.height = `${bubbleSize}px`;
-                bubbleLink.style.top = `${config.initialTop + anime.random(-5,5)}%`; // Initial random offset
-                bubbleLink.style.left = `${config.initialLeft + anime.random(-5,5)}%`;
+                // Initial position will be set by animation start
                 bubbleLink.style.zIndex = config.zIndex;
+                bubbleLink.style.opacity = 0; // Start hidden
 
                 const img = document.createElement('img');
                 img.src = post.image;
@@ -718,24 +715,47 @@
 
             const imageBubbles = $$('#animated-images-container .animated-post-image-bubble');
             if (typeof anime === 'function' && imageBubbles.length > 0) {
-                imageBubbles.forEach(bubble => {
-                    function animateBubble() {
-                        const currentBubbleConfig = bubbleConfigs[Array.from(imageBubbles).indexOf(bubble)] || bubbleConfigs[0];
-                        anime({
+                imageBubbles.forEach((bubble, i) => {
+                    const config = bubbleConfigs[i % bubbleConfigs.length]; // Cycle through configs
+
+                    function fizzleAnimation() {
+                        const bubbleSize = parseFloat(bubble.style.width);
+                        // Calculate max top/left based on container and bubble size
+                        const maxTop = Math.max(0, containerHeight - bubbleSize - 20); // -20 for padding
+                        const maxLeft = Math.max(0, containerWidth - bubbleSize - 20);
+
+                        const newTop = anime.random(0, maxTop);
+                        const newLeft = anime.random(0, maxLeft);
+                        
+                        // Set initial position before fade-in for the new cycle
+                        bubble.style.top = `${newTop}px`;
+                        bubble.style.left = `${newLeft}px`;
+
+                        anime.timeline({
                             targets: bubble,
-                            left: () => `${currentBubbleConfig.initialLeft + anime.random(-20, 20)}%`, // Wider random movement range
-                            top: () => `${currentBubbleConfig.initialTop + anime.random(-20, 20)}%`,
-                            scale: [
-                                { value: () => anime.random(0.9, 1.1), duration: () => anime.random(2000,3500) },
-                                { value: 1, duration: () => anime.random(2000,3500) }
-                            ],
-                            rotate: () => anime.random(-10, 10),
-                            duration: () => anime.random(4000, 7000), // More varied duration
-                            easing: 'spring(1, 60, 10, 0)', // Adjusted spring
-                            complete: animateBubble // Loop by calling itself on complete
+                            easing: 'easeOutExpo', // Softer easing for fizzle
+                            complete: fizzleAnimation // Loop
+                        })
+                        .add({ // Fade in and scale up
+                            opacity: [0, 1],
+                            scale: [0.5, 1],
+                            duration: anime.random(400, 700),
+                        })
+                        .add({ // Slight drift while visible
+                            translateX: () => anime.random(-10, 10) + 'px',
+                            translateY: () => anime.random(-10, 10) + 'px',
+                            duration: anime.random(2000, 4000), // How long it stays visible and drifts
+                            easing: 'easeInOutSine'
+                        })
+                        .add({ // Fade out and scale down
+                            opacity: [1, 0],
+                            scale: [1, 0.3],
+                            duration: anime.random(300, 600),
+                            delay: anime.random(0, 500) // Stagger disappearance slightly
                         });
                     }
-                    animateBubble(); // Start the animation for each bubble
+                    // Stagger the start of each bubble's fizzling animation
+                    setTimeout(fizzleAnimation, anime.random(0, 1500)); 
                 });
             }
         }
@@ -776,7 +796,7 @@
             }
         }
 
-        // --- Questionnaire Logic --- (Largely Unchanged)
+        // --- Questionnaire Logic --- (Unchanged)
         async function renderQuestionnaire() {
             const container = $('#questionnaire-render-area');
             const calculateButton = $('#calculate-match-button');
@@ -970,7 +990,7 @@
             }, 50);
         }
 
-        // --- Secret Game Logic --- (Largely Unchanged)
+        // --- Secret Game Logic --- (Unchanged)
         let matterEngine, matterRender, matterRunner;
         let gameShapes = [];
         const MAX_SHAPES_TO_SPAWN = 10; const SHAPES_TO_WIN = 3;
@@ -1237,13 +1257,9 @@
                             
                             if (entry.target.classList.contains('card') && entry.target.closest('#home-recent-writings-grid')) {
                                 const delay = parseInt(entry.target.getAttribute('data-initial-anim-delay')) || 0;
-                                const initialAnimDuration = 800; // Duration of JS opacity/transform animation
+                                const initialAnimDuration = 800; 
                                 setTimeout(() => {
-                                    // Reset only the JS-set transition for opacity and transform.
-                                    // This allows CSS defined transitions (like for box-shadow, border-color) to take over smoothly.
-                                    entry.target.style.transitionProperty = 'box-shadow, border-color'; 
-                                    // Keep transform transition if needed for mousemove, or remove if not
-                                    // entry.target.style.transition = 'box-shadow 0.4s ..., border-color 0.4s ...';
+                                    entry.target.style.transitionProperty = 'box-shadow, border-color, transform'; 
                                 }, initialAnimDuration + delay + 50); 
                             }
                             obs.unobserve(entry.target); 
