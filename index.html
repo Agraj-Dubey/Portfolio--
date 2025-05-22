@@ -56,7 +56,7 @@
             overflow-x: hidden; line-height: 1.6; font-size: 16px;
         }
         #p5-background-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
-        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.03), rgba(15, 10, 25, 0.85) 70%); z-index: -5; pointer-events:none; }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.02), rgba(15, 10, 25, 0.9) 75%); z-index: -5; pointer-events:none; } /* Adjusted overlay for new bg */
         
         /* Page Section Transitions */
         .page-section { display: none; animation: fadeInPage 0.7s ease-out forwards; }
@@ -151,7 +151,7 @@
 
         #animated-images-container {
             position: relative;
-            min-height: 600px; /* Increased height for more vertical spread */
+            min-height: 700px; /* Increased height */
             margin-top: 1rem; 
         }
         .animated-post-image-bubble {
@@ -161,7 +161,7 @@
             box-shadow: 0 5px 20px rgba(146, 114, 206, 0.25), 0 0 8px rgba(0,0,0,0.3);
             border: 2px solid rgba(174, 139, 213, 0.3); 
             transition: border-color 0.3s ease;
-            opacity: 0; /* Start hidden for fade-in animation */
+            opacity: 0; 
         }
         .animated-post-image-bubble:hover {
             border-color: rgba(174, 139, 213, 0.7); 
@@ -527,59 +527,62 @@
         function $(selector) { return document.querySelector(selector); }
         function $$(selector) { return document.querySelectorAll(selector); }
 
-        // --- p5.js Generative Background ---
-        let p5Blobs = [];
-        const NUM_P5_BLOBS = 7; 
-        const ACE_COLORS_P5 = [
-            { r: 0, g: 0, b: 0 },       
-            { r: 163, g: 163, b: 163 }, 
-            { r: 255, g: 255, b: 255 }, 
-            { r: 128, g: 0, b: 128 }    
+        // --- p5.js Generative Background: Aurora Noise Waves ---
+        const ACE_COLORS_P5_AURORA = [
+            { r: 0, g: 0, b: 0, a: 40 },       // Black (alpha for blending)
+            { r: 163, g: 163, b: 163, a: 30 }, // Grey
+            { r: 255, g: 255, b: 255, a: 25 }, // White
+            { r: 128, g: 0, b: 128, a: 35 }    // Purple
         ];
+        const NUM_AURORA_WAVES = 5;
+        let auroraWaves = [];
 
         function p5Sketch(p) {
-            class Blob {
-                constructor() {
-                    this.x = p.random(p.width);
-                    this.y = p.random(p.height);
-                    this.r = p.random(p.width / 3.5, p.width / 1.3); 
-                    this.xSpeed = p.random(-0.35, 0.35); 
-                    this.ySpeed = p.random(-0.35, 0.35); 
-                    this.numPoints = p.int(p.random(6, 12));
-                    this.noiseSeedX = p.random(1000);
-                    this.noiseSeedY = p.random(1000);
-                    this.noiseSeedR = p.random(1000); 
-                    this.color = p.random(ACE_COLORS_P5);
-                    this.opacity = p.random(8, 20); 
+            class AuroraWave {
+                constructor(yOffset) {
+                    this.yOffset = yOffset; // Initial vertical offset for noise
+                    this.speed = p.random(0.2, 0.7); // Speed of vertical drift
+                    this.noiseScale = p.random(0.002, 0.005); // How "detailed" the wave is
+                    this.amplitude = p.random(p.height / 6, p.height / 3); // Max thickness of the wave
+                    this.color = p.random(ACE_COLORS_P5_AURORA);
+                    this.timeOffset = p.random(1000); // For individual wave evolution
                 }
 
                 update() {
-                    this.x += this.xSpeed + (p.noise(this.noiseSeedX + p.frameCount * 0.0005) - 0.5) * 0.5; 
-                    this.y += this.ySpeed + (p.noise(this.noiseSeedY + p.frameCount * 0.0005) - 0.5) * 0.5; 
-                    this.r = p.map(p.noise(this.noiseSeedR + p.frameCount * 0.0012), 0, 1, p.width / 4.5, p.width / 1.1); 
-
-                    if (this.x < -this.r * 1.5) this.x = p.width + this.r * 1.5;
-                    if (this.x > p.width + this.r * 1.5) this.x = -this.r * 1.5;
-                    if (this.y < -this.r * 1.5) this.y = p.height + this.r * 1.5;
-                    if (this.y > p.height + this.r * 1.5) this.y = -this.r * 1.5;
+                    this.yOffset += this.speed;
+                    if (this.yOffset > p.height + this.amplitude * 2) { // Reset if moved off screen
+                        this.yOffset = -this.amplitude * 2;
+                        this.color = p.random(ACE_COLORS_P5_AURORA); // Optionally change color on reset
+                        this.speed = p.random(0.2, 0.7);
+                    } else if (this.yOffset < -this.amplitude * 2) {
+                        this.yOffset = p.height + this.amplitude * 2;
+                         this.color = p.random(ACE_COLORS_P5_AURORA);
+                         this.speed = p.random(0.2, 0.7);
+                    }
                 }
 
                 display() {
-                    p.fill(this.color.r, this.color.g, this.color.b, this.opacity); 
-                    p.beginShape();
-                    let angleStep = p.TWO_PI / this.numPoints;
-                    for (let i = 0; i <= this.numPoints; i++) { 
-                        let angle = i * angleStep;
-                        let radiusOffset = p.map(p.noise(this.noiseSeedX + i * 0.2 + p.frameCount * 0.002, this.noiseSeedY + i * 0.2), 0, 1, -this.r * 0.4, this.r * 0.4);
-                        let currentR = this.r + radiusOffset;
-                        let vx = this.x + currentR * p.cos(angle);
-                        let vy = this.y + currentR * p.sin(angle);
-                        p.curveVertex(vx, vy);
-                         if (i === 0 || i === 1 || i === this.numPoints-1 || i === this.numPoints) { 
-                            p.curveVertex(vx, vy);
-                        }
+                    p.noStroke();
+                    for (let y = 0; y < p.height; y += 5) { // Draw in thin horizontal strips
+                        // Noise determines the alpha (intensity) of the wave at this y position
+                        let noiseVal = p.noise(
+                            (y + this.yOffset) * this.noiseScale,
+                            p.frameCount * 0.001 + this.timeOffset // Time evolution
+                        );
+                        
+                        // Map noise to an alpha value, making it stronger towards the center of the wave's "amplitude"
+                        let distFromCenter = p.abs(y - (this.yOffset + p.height / 2 - this.amplitude / 2)); // Rough center of wave effect
+                        let waveIntensity = p.map(noiseVal, 0, 1, 0, 1);
+                        // Make it fade at edges of its conceptual amplitude
+                        if (distFromCenter > this.amplitude * 1.5) waveIntensity *= 0.5;
+
+
+                        let alpha = waveIntensity * this.color.a * p.map(p.sin(p.map(y, 0, p.height, 0, p.PI)),0,1,0.5,1.5); // Modulate alpha
+                        alpha = p.constrain(alpha, 0, 80); // Constrain max alpha per strip
+
+                        p.fill(this.color.r, this.color.g, this.color.b, alpha);
+                        p.rect(0, y, p.width, 5);
                     }
-                    p.endShape();
                 }
             }
 
@@ -588,23 +591,28 @@
                 if (!p5CanvasContainer) { console.error("p5 canvas container not found!"); return; }
                 const p5Renderer = p.createCanvas(p.windowWidth, p.windowHeight);
                 p5Renderer.parent(p5CanvasContainer); 
-                p.colorMode(p.RGB, 255, 255, 255, 100); 
-                p.noStroke();
-                for (let i = 0; i < NUM_P5_BLOBS; i++) { p5Blobs.push(new Blob()); }
+                p.colorMode(p.RGB, 255, 255, 255, 100);
+                
+                for (let i = 0; i < NUM_AURORA_WAVES; i++) {
+                    auroraWaves.push(new AuroraWave(p.random(p.height)));
+                }
             };
 
             p.draw = function() {
-                p.background(15, 10, 25, 100); 
-                for (let blob of p5Blobs) {
-                    blob.update();
-                    blob.display();
-                }
+                p.background(10, 5, 20, 100); // Very dark base color (almost black-purple)
+                
+                auroraWaves.forEach(wave => {
+                    wave.update();
+                    wave.display();
+                });
             };
 
             p.windowResized = function() {
                 p.resizeCanvas(p.windowWidth, p.windowHeight);
-                p5Blobs = [];
-                for (let i = 0; i < NUM_P5_BLOBS; i++) { p5Blobs.push(new Blob()); }
+                auroraWaves = []; // Re-initialize waves on resize
+                for (let i = 0; i < NUM_AURORA_WAVES; i++) {
+                    auroraWaves.push(new AuroraWave(p.random(p.height)));
+                }
             };
         }
         // --- End p5.js Generative Background ---
@@ -671,12 +679,12 @@
             
             container.innerHTML = ''; 
 
-            // Adjusted configs for more vertical spread
+            // Increased bubble sizes
             const bubbleConfigs = [
-                { initialTopMin: 5, initialTopMax: 15,  initialLeftMin: 5, initialLeftMax: 25,  sizeVW: 10, minSize: 100, maxSize: 150, zIndex: 1 },
-                { initialTopMin: 15, initialTopMax: 30, initialLeftMin: 50, initialLeftMax: 70, sizeVW: 8,  minSize: 90,  maxSize: 130, zIndex: 3 },
-                { initialTopMin: 40, initialTopMax: 55, initialLeftMin: 10, initialLeftMax: 30, sizeVW: 11, minSize: 110, maxSize: 170, zIndex: 2 },
-                { initialTopMin: 60, initialTopMax: 75, initialLeftMin: 45, initialLeftMax: 65, sizeVW: 9,  minSize: 95,  maxSize: 140, zIndex: 1 }
+                { sizeVW: 12, minSize: 120, maxSize: 190, zIndex: 1 }, // Approx 20% larger
+                { sizeVW: 10, minSize: 110, maxSize: 160, zIndex: 3 },
+                { sizeVW: 13, minSize: 130, maxSize: 200, zIndex: 2 },
+                { sizeVW: 11, minSize: 115, maxSize: 170, zIndex: 1 }
             ];
             
             const containerWidth = container.offsetWidth;
@@ -689,9 +697,7 @@
                 const escapedTitle = post.title.replace(/"/g, '"');
                 
                 let bubbleSize = Math.max(config.minSize, Math.min(config.maxSize, window.innerWidth * (config.sizeVW / 100)));
-                 // Ensure bubble size is not larger than container
-                bubbleSize = Math.min(bubbleSize, containerWidth * 0.8, containerHeight * 0.4);
-
+                bubbleSize = Math.min(bubbleSize, containerWidth * 0.9, containerHeight * 0.45); // Adjusted max relative to container
 
                 const bubbleLink = document.createElement('a');
                 bubbleLink.href = `#${post.id}`;
@@ -701,9 +707,8 @@
                 
                 bubbleLink.style.width = `${bubbleSize}px`;
                 bubbleLink.style.height = `${bubbleSize}px`;
-                // Initial position will be set by animation start
                 bubbleLink.style.zIndex = config.zIndex;
-                bubbleLink.style.opacity = 0; // Start hidden
+                bubbleLink.style.opacity = 0;
 
                 const img = document.createElement('img');
                 img.src = post.image;
@@ -715,47 +720,47 @@
 
             const imageBubbles = $$('#animated-images-container .animated-post-image-bubble');
             if (typeof anime === 'function' && imageBubbles.length > 0) {
-                imageBubbles.forEach((bubble, i) => {
-                    const config = bubbleConfigs[i % bubbleConfigs.length]; // Cycle through configs
-
+                imageBubbles.forEach((bubble) => {
                     function fizzleAnimation() {
                         const bubbleSize = parseFloat(bubble.style.width);
-                        // Calculate max top/left based on container and bubble size
-                        const maxTop = Math.max(0, containerHeight - bubbleSize - 20); // -20 for padding
-                        const maxLeft = Math.max(0, containerWidth - bubbleSize - 20);
+                        const maxTop = Math.max(0, containerHeight - bubbleSize - 10); // Small padding
+                        const maxLeft = Math.max(0, containerWidth - bubbleSize - 10);
 
                         const newTop = anime.random(0, maxTop);
                         const newLeft = anime.random(0, maxLeft);
                         
-                        // Set initial position before fade-in for the new cycle
                         bubble.style.top = `${newTop}px`;
                         bubble.style.left = `${newLeft}px`;
+                        // Reset translateX/Y for drift to be relative to new position
+                        bubble.style.transform = 'translateX(0px) translateY(0px)';
+
 
                         anime.timeline({
                             targets: bubble,
-                            easing: 'easeOutExpo', // Softer easing for fizzle
-                            complete: fizzleAnimation // Loop
+                            easing: 'easeOutExpo', 
+                            complete: fizzleAnimation 
                         })
-                        .add({ // Fade in and scale up
-                            opacity: [0, 1],
-                            scale: [0.5, 1],
-                            duration: anime.random(400, 700),
+                        .add({ 
+                            opacity: [0, 0.9], // Slightly less than full opacity for softer look
+                            scale: [0.3, 1],
+                            duration: anime.random(500, 800),
                         })
-                        .add({ // Slight drift while visible
-                            translateX: () => anime.random(-10, 10) + 'px',
-                            translateY: () => anime.random(-10, 10) + 'px',
-                            duration: anime.random(2000, 4000), // How long it stays visible and drifts
+                        .add({ 
+                            translateX: () => anime.random(-15, 15) + 'px',
+                            translateY: () => anime.random(-15, 15) + 'px',
+                            scale: () => anime.random(0.95, 1.05), // Subtle pulse
+                            duration: anime.random(2500, 4500), 
                             easing: 'easeInOutSine'
-                        })
-                        .add({ // Fade out and scale down
-                            opacity: [1, 0],
-                            scale: [1, 0.3],
-                            duration: anime.random(300, 600),
-                            delay: anime.random(0, 500) // Stagger disappearance slightly
+                        }, '-=200') // Overlap drift with fade-in slightly
+                        .add({ 
+                            opacity: [0.9, 0],
+                            scale: [bubble.style.transform.includes('scale') ? parseFloat(bubble.style.transform.split('scale(')[1]) : 1, 0.2],
+                            duration: anime.random(400, 700),
+                            easing: 'easeInExpo', // Faster fade out
+                            delay: anime.random(0, 300) 
                         });
                     }
-                    // Stagger the start of each bubble's fizzling animation
-                    setTimeout(fizzleAnimation, anime.random(0, 1500)); 
+                    setTimeout(fizzleAnimation, anime.random(0, 2000)); // Stagger initial starts
                 });
             }
         }
