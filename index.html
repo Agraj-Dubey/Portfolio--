@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Welcome to Agraj's personal portfolio. Explore projects, writings, and learn more about Agraj.">
     <title>agraj - Portfolio</title>
     <link rel="icon" type="image/png" href="frieren.png">
 
@@ -375,6 +376,21 @@
         }
 
     </style>
+    <script type="application/ld+json" id="structured-data-person">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Agraj Dubey",
+      "url": "/",
+      "image": "agraj_profile.jpg",
+      "jobTitle": "Portfolio Developer",
+      "description": "Welcome to Agraj's personal portfolio. Explore projects, writings, and learn more about Agraj.",
+      "sameAs": [
+        "https://www.reddit.com/user/Federal_Anywhere_559/",
+        "https://t.me/agraj0669"
+      ]
+    }
+    </script>
 </head>
 <body>
     <audio id="gameSpawnSound" src="spawn_sound.mp3" preload="auto"></audio>
@@ -417,6 +433,9 @@
         <section id="home-content" class="page-section"> 
             <main class="container mx-auto px-4 md:px-6 pt-16 md:pt-24 pb-16"> 
                 <section class="opacity-0" id="heroSection">  
+                    <div id="hero-circular-profile-image-container" class="mb-6"> <!-- Adjusted mb from 1.5rem to mb-6 for typical Tailwind spacing -->
+                        <img id="hero-circular-profile-image" src="agraj_profile.jpg" alt="Agraj Dubey - Profile Picture">
+                    </div>
                     <div id="home-hero-text-content" class="w-full"> 
                         <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif"> 
                             <span id="main-heading-text"></span> 
@@ -513,6 +532,11 @@
                 writings: "Writings - Agraj Dubey",
                 about: "About Me - Agraj Dubey"
             },
+            DEFAULT_DESCRIPTIONS: {
+                home: "Welcome to Agraj's personal portfolio. Explore projects, writings, and learn more about Agraj.",
+                writings: "Explore a collection of writings and articles by Agraj Dubey on various topics.",
+                about: "Learn more about Agraj Dubey, his skills, experiences, and perspectives through this interactive section."
+            },
             POSTS_JSON_PATH: 'posts.json',
             QUESTIONS_JSON_PATH: 'questions.json',
             TELEGRAM_USERNAME: 'agraj0669',
@@ -526,6 +550,55 @@
 
         function $(selector) { return document.querySelector(selector); }
         function $$(selector) { return document.querySelectorAll(selector); }
+
+        function removeStructuredData(id) {
+            const scriptTag = document.getElementById(id);
+            if (scriptTag) {
+                scriptTag.remove();
+            }
+        }
+
+        function updateArticleStructuredData(post) {
+            removeStructuredData('structured-data-article'); // Remove existing one first
+            if (!post) return;
+
+            const articleSchema = {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "headline": post.title,
+                "author": {
+                    "@type": "Person",
+                    "name": "Agraj Dubey" 
+                },
+                "datePublished": post.date, // Assuming YYYY-MM-DD format
+                "description": post.excerpt,
+                "mainEntityOfPage": `${window.location.origin}${window.location.pathname}#${post.id}`, // Absolute URL
+                "image": post.image ? `${window.location.origin}${window.location.pathname}${post.image}` : undefined // Absolute URL for image
+            };
+            // Remove image property if not defined to keep JSON clean
+            if (!articleSchema.image) {
+                delete articleSchema.image;
+            }
+
+            const scriptTag = document.createElement('script');
+            scriptTag.type = 'application/ld+json';
+            scriptTag.id = 'structured-data-article';
+            scriptTag.textContent = JSON.stringify(articleSchema, null, 2);
+            document.head.appendChild(scriptTag);
+        }
+
+        function updateMetaDescription(description) {
+            let metaDescTag = document.querySelector('meta[name="description"]');
+            if (metaDescTag) {
+                metaDescTag.setAttribute('content', description);
+            } else {
+                // Fallback if the tag somehow doesn't exist (it should, as we added it)
+                metaDescTag = document.createElement('meta');
+                metaDescTag.name = "description";
+                metaDescTag.content = description;
+                document.head.appendChild(metaDescTag);
+            }
+        }
 
         // --- Hyperspeed Canvas Animation ---
         const hyperspeedCanvas = $('#hyperspeed-canvas');
@@ -1127,6 +1200,8 @@
         }
 
         function handleMainRouteChange() { 
+            removeStructuredData('structured-data-article'); // Clear article data on any main route change
+
             let mainSectionTarget = 'home-content';
             let articleDetailHash = '';
             const currentFullHash = window.location.hash;
@@ -1165,16 +1240,21 @@
             // because renderQuestionnaire is called within showMainSection if 'about-content' is newly shown.
             
             if (mainSectionTarget === 'writings-content') {
-                if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash); 
+                if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash);
+                // Description for writings list is handled in handleWritingsArticleLogic
             } else if (mainSectionTarget === 'about-content') {
                 document.title = APP_CONFIG.DEFAULT_TITLES.about;
+                updateMetaDescription(APP_CONFIG.DEFAULT_DESCRIPTIONS.about);
             } else if (mainSectionTarget === 'home-content') { 
-                document.title = APP_CONFIG.DEFAULT_TITLES.home; 
+                document.title = APP_CONFIG.DEFAULT_TITLES.home;
+                updateMetaDescription(APP_CONFIG.DEFAULT_DESCRIPTIONS.home);
             }
         }
 
         function handleWritingsArticleLogic(articleHash) { 
             const defaultWritingsTitle = APP_CONFIG.DEFAULT_TITLES.writings;
+            const defaultWritingsDesc = APP_CONFIG.DEFAULT_DESCRIPTIONS.writings;
+
             if (articleHash && articleHash.startsWith('#post-')) {
                 const targetId = articleHash.substring(1);
                 const targetArticle = $(`#${targetId}`);
@@ -1182,14 +1262,34 @@
                     const titleElement = targetArticle.querySelector('h2');
                     const articleTitle = titleElement ? titleElement.textContent.trim() : "Article";
                     document.title = `${articleTitle} - Writings - Agraj Dubey`;
+                    // Try to get excerpt for meta description
+                    const postData = ALL_POSTS_DATA.find(p => `post-${p.id}` === targetId || p.id === targetId);
+                    if (postData) {
+                        if (postData.excerpt) {
+                            updateMetaDescription(`${postData.excerpt.substring(0, 155)}...`);
+                        } else {
+                            updateMetaDescription(`Read "${articleTitle}" by Agraj Dubey.`);
+                        }
+                        updateArticleStructuredData(postData); // Add Article schema
+                    } else {
+                         updateMetaDescription(`Read "${articleTitle}" by Agraj Dubey.`);
+                         removeStructuredData('structured-data-article'); // Should not happen if targetArticle exists
+                    }
                     setTimeout(() => {
                         if (!isElementInViewport(targetArticle)) targetArticle.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         const heading = targetArticle.querySelector('h2');
                         if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); }
                     }, 100);
-                } else { document.title = defaultWritingsTitle; console.warn(`Article with ID ${targetId} not found.`); }
+                } else { 
+                    document.title = defaultWritingsTitle; 
+                    updateMetaDescription(defaultWritingsDesc);
+                    removeStructuredData('structured-data-article'); // Clear article data
+                    console.warn(`Article with ID ${targetId} not found.`); 
+                }
             } else {
                 document.title = defaultWritingsTitle;
+                updateMetaDescription(defaultWritingsDesc);
+                removeStructuredData('structured-data-article'); // Clear article data when on writings grid
                 const grid = $('#writings-grid-container');
                 if (grid && lastClickedReadMoreLink && document.body.contains(lastClickedReadMoreLink)) {
                      setTimeout(() => {
