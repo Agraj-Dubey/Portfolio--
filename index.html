@@ -121,6 +121,8 @@
             transition-property: box-shadow, border-color, transform;
             transition-duration: 0.4s;
             transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative; /* Added for ::before */
+            overflow: hidden;   /* Added for ::before */
         }
         #home-content .card::before { 
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
@@ -128,6 +130,7 @@
             transform: translateX(-100%); 
             transition: transform 0.8s ease; 
             pointer-events: none; 
+            z-index: 0; /* Consistency */
         }
         #home-content .card:hover { 
             box-shadow: 0 15px 30px rgba(9, 6, 19, 0.6), 0 0 20px rgba(146, 114, 206, 0.35); 
@@ -178,9 +181,44 @@
         #writings-content { font-size: 17px; }
         #writings-content .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
         #writings-content .text-hover-scale:hover { transform: scale(1.03); }
-        .writing-preview-card { background-color: var(--card-bg, rgba(25, 15, 40, 0.9)); backdrop-filter: blur(7px); border-radius: 0.75rem; padding: 2rem; border: 1px solid rgba(146, 114, 206, 0.25); display: flex; flex-direction: column; transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease; box-shadow: 0 6px 18px rgba(0,0,0, 0.35), 0 0 8px 1px rgba(146, 114, 206, 0.2); }
-        .writing-preview-card:hover { transform: translateY(-10px) scale(1.03); background-color: var(--card-hover-bg, rgba(45, 35, 60, 0.97)); animation: cardGlowWritings 1.8s ease-in-out infinite alternate; }
-        @keyframes cardGlowWritings { 0% { box-shadow: 0 0 10px 2px rgba(146, 114, 206, 0.25), 0 6px 18px rgba(0,0,0, 0.35); border-color: rgba(174, 139, 213, 0.35); } 50% { box-shadow: 0 0 22px 5px rgba(146, 114, 206, 0.4), 0 10px 28px rgba(0, 0, 0, 0.3); border-color: rgba(174, 139, 213, 0.65); } 100% { box-shadow: 0 0 10px 2px rgba(146, 114, 206, 0.25), 0 6px 18px rgba(0,0,0, 0.35); border-color: rgba(174, 139, 213, 0.35); } }
+        
+        .writing-preview-card { 
+            background-color: var(--card-bg, rgba(25, 15, 40, 0.9)); 
+            backdrop-filter: blur(7px); 
+            border-radius: 0.75rem; 
+            padding: 2rem; 
+            border: 1px solid rgba(146, 114, 206, 0.25); 
+            display: flex; flex-direction: column; 
+            transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease; 
+            box-shadow: 0 6px 18px rgba(0,0,0, 0.35), 0 0 8px 1px rgba(146, 114, 206, 0.2);
+            position: relative; /* ADDED for ::before */
+            overflow: hidden;   /* ADDED for ::before */
+        }
+        .writing-preview-card::before { /* ADDED */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(146, 114, 206, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.8s ease;
+            pointer-events: none;
+            z-index: 0; 
+        }
+        .writing-preview-card:hover { 
+            transform: translateY(-10px) scale(1.03); /* Kept existing transform */
+            background-color: var(--card-hover-bg, rgba(45, 35, 60, 0.97)); /* Kept existing background change */
+            /* animation: cardGlowWritings 1.8s ease-in-out infinite alternate; */ /* REMOVED animation */
+            box-shadow: 0 15px 30px rgba(9, 6, 19, 0.6), 0 0 20px rgba(146, 114, 206, 0.35); /* Matched home */
+            border-color: rgba(146, 114, 206, 0.45); /* Matched home */
+        }
+        .writing-preview-card:hover::before { /* ADDED */
+            transform: translateX(100%);
+        }
+        /* @keyframes cardGlowWritings REMOVED */
+
         .writing-preview-card h3 { color: #FFFFFF; font-size: 1.55rem; font-weight: 600; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif; }
         .writing-preview-card .post-meta-info { font-size: 0.9rem; color: #CBB8E8; margin-bottom: 1.25rem; font-family: 'Lato', sans-serif; opacity: 0.9; }
         .writing-preview-card .excerpt { color: #D1D1D1; font-size: 1.05rem; line-height: 1.65; flex-grow: 1; margin-bottom: 1.5rem; }
@@ -506,7 +544,17 @@
              ROTATING_TEXT_HOME: { 
                  'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
                  'main-heading-text': { texts: ["agraj", "アグラジ", "अग्रज", "αγραξ"], typeSpeed: 100, deleteSpeed: 60, pauseDuration: 2500 },
-                 'blockquote-text': { texts: ["If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒", "Is free will an illusion, or is the illusion the only free will we have?", "Perhaps the 'fragments' are the only coherent parts left.", "What if the algorithm forgets too?", "Maybe exiting early isn't dramatic, just... efficient.", "Family remembers differently. Algorithms remember precisely. Which is better?", "The universe is indifferent, but the code persists. For now.", "Do androids dream of electric sheep? Do algorithms dream of better data?", "To be, or not to be, that is the computation.", "Cogito, ergo sum... I think, therefore I am... coded?"], typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500 }
+                 'blockquote-text': { 
+                     texts: [
+                        "The stream ran bright, water paving away, tap dancing with sunlight.",
+                        "Was I born different? What did I do different that made me the way I am?",
+                        "Time flies by; for me it does so in gloom. Worries of the future, regrets of the past.",
+                        "If a book doesn't change you, even in the slightest, it isn't worth reading.",
+                        "All went away for nothing, and all I am now is who I was never supposed to be.",
+                        "What remains now is foreign—stranger even to myself."
+                     ], 
+                     typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500 
+                 }
             },
             DEFAULT_TITLES: { 
                 home: "agraj - Portfolio",
