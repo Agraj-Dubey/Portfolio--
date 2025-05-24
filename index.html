@@ -121,8 +121,8 @@
             transition-property: box-shadow, border-color, transform;
             transition-duration: 0.4s;
             transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative; /* Added for ::before */
-            overflow: hidden;   /* Added for ::before */
+            position: relative; 
+            overflow: hidden;   
         }
         #home-content .card::before { 
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
@@ -130,7 +130,7 @@
             transform: translateX(-100%); 
             transition: transform 0.8s ease; 
             pointer-events: none; 
-            z-index: 0; /* Consistency */
+            z-index: 0; 
         }
         #home-content .card:hover { 
             box-shadow: 0 15px 30px rgba(9, 6, 19, 0.6), 0 0 20px rgba(146, 114, 206, 0.35); 
@@ -189,12 +189,15 @@
             padding: 2rem; 
             border: 1px solid rgba(146, 114, 206, 0.25); 
             display: flex; flex-direction: column; 
-            transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease; 
             box-shadow: 0 6px 18px rgba(0,0,0, 0.35), 0 0 8px 1px rgba(146, 114, 206, 0.2);
-            position: relative; /* ADDED for ::before */
-            overflow: hidden;   /* ADDED for ::before */
+            position: relative; 
+            overflow: hidden;   
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), /* Matched transform transition */
+                        box-shadow 0.4s ease-out,
+                        border-color 0.4s ease-out,
+                        background-color 0.3s ease;
         }
-        .writing-preview-card::before { /* ADDED */
+        .writing-preview-card::before { 
             content: '';
             position: absolute;
             top: 0;
@@ -208,16 +211,14 @@
             z-index: 0; 
         }
         .writing-preview-card:hover { 
-            transform: translateY(-10px) scale(1.03); /* Kept existing transform */
-            background-color: var(--card-hover-bg, rgba(45, 35, 60, 0.97)); /* Kept existing background change */
-            /* animation: cardGlowWritings 1.8s ease-in-out infinite alternate; */ /* REMOVED animation */
-            box-shadow: 0 15px 30px rgba(9, 6, 19, 0.6), 0 0 20px rgba(146, 114, 206, 0.35); /* Matched home */
-            border-color: rgba(146, 114, 206, 0.45); /* Matched home */
+            /* transform: translateY(-10px) scale(1.03); */ /* REMOVED for JS control */
+            background-color: var(--card-hover-bg, rgba(45, 35, 60, 0.97)); 
+            box-shadow: 0 15px 30px rgba(9, 6, 19, 0.6), 0 0 20px rgba(146, 114, 206, 0.35); 
+            border-color: rgba(146, 114, 206, 0.45); 
         }
-        .writing-preview-card:hover::before { /* ADDED */
+        .writing-preview-card:hover::before { 
             transform: translateX(100%);
         }
-        /* @keyframes cardGlowWritings REMOVED */
 
         .writing-preview-card h3 { color: #FFFFFF; font-size: 1.55rem; font-weight: 600; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif; }
         .writing-preview-card .post-meta-info { font-size: 0.9rem; color: #CBB8E8; margin-bottom: 1.25rem; font-family: 'Lato', sans-serif; opacity: 0.9; }
@@ -551,7 +552,13 @@
                         "Time flies by; for me it does so in gloom. Worries of the future, regrets of the past.",
                         "If a book doesn't change you, even in the slightest, it isn't worth reading.",
                         "All went away for nothing, and all I am now is who I was never supposed to be.",
-                        "What remains now is foreign—stranger even to myself."
+                        "What remains now is foreign—stranger even to myself.",
+                        "Kingdoms never meant to last anyways.",
+                        "To sink sweetly, for the freedom below.",
+                        "Like a hawk that couldn’t be caged anymore.",
+                        "Society, globally, is broken.",
+                        "Isolation breeds introspection.",
+                        "Now I smile at what made me frown."
                      ], 
                      typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500 
                  }
@@ -829,6 +836,7 @@
                 if (writingsGrid) {
                      if (ALL_POSTS_DATA.length > 0) { writingsGrid.innerHTML = ALL_POSTS_DATA.map(post => createPostPreviewCard(post, false)).join(''); } 
                      else { writingsGrid.innerHTML = '<p class="text-text-secondary col-span-full text-center">No writings available.</p>'; }
+                     setupWritingsCardHoverEffects(); // ADDED: Call hover effect setup for writings cards
                 }
                 const fullArticlesTarget = $('#full-articles-dynamic-content');
                  if (fullArticlesTarget) {  fullArticlesTarget.innerHTML = ALL_POSTS_DATA.map(post => createFullArticleHtml(post)).join(''); }
@@ -1293,6 +1301,33 @@
                 card.querySelectorAll('a').forEach(link => { link.addEventListener('click', (e) => e.stopPropagation()); });
             });
         }
+
+        // ADDED: Function to setup hover effects for writings preview cards
+        function setupWritingsCardHoverEffects() {
+            $$('#writings-content .writing-preview-card').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 20; // Adjust divisor for sensitivity
+                    const rotateY = (centerX - x) / 20; // Adjust divisor for sensitivity
+                    card.style.transition = 'transform 0.1s ease-out'; // Quick transition while moving
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    // Smooth transition back to original state, matching CSS transition for consistency
+                    card.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; 
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+                });
+                // Prevent card hover from affecting links inside
+                card.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', (e) => e.stopPropagation());
+                });
+            });
+        }
+
 
         function setupHomeScrollAnimations() { 
              const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -30px 0px' };
