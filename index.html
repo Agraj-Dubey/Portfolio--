@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>agraj - Portfolio</title>
-    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="icon" type="image/png" href="frieren.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +16,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
 
     <script>
-        // Tailwind config from your previous correct version
         window.tailwind.config = {
             theme: {
                 extend: {
@@ -57,46 +56,12 @@
         .site-navbar { width: 38.2vw; min-width: 300px; max-width: 550px; background-color: var(--nav-bg); border-right: 1px solid #CCCCCC; position: fixed; top: 0; left: 0; height: 100vh; padding: 2.5rem calc(2.5rem / 1.618); display: flex; flex-direction: column; justify-content: space-between; overflow-y: auto; z-index: 100; }
         .navbar-top-content { text-align: center; }
         #navbar-agraj-image { width: 70%; max-width: 220px; height: auto; margin: 0 auto 1rem; display: block; }
-        
-        .site-navbar #typewriter { /* This is the tagline */
-            min-height: 2.5em; /* Kept relatively small for a tagline */
-            font-size: 0.95rem;   
-            color: var(--nav-text-subtle);
-            margin-bottom: 1rem; 
-            padding: 0.3rem; /* Minimal padding for tagline */
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            text-align: center; /* Center align tagline */
-            width: 95%; 
-            margin-left: auto;
-            margin-right: auto;
-            box-sizing: border-box;
-            /* No explicit background for tagline, let it sit on navbar bg */
-        }
+        .site-navbar #typewriter { min-height: 2.5em; font-size: 0.95rem; color: var(--nav-text-subtle); margin-bottom: 1rem; padding: 0.3rem; display: flex; align-items: center; justify-content: center; text-align: center; width: 95%; margin-left: auto; margin-right: auto; box-sizing: border-box; }
         .site-navbar #main-heading-text { min-height: 1.2em; display: inline-block; }
         .site-navbar #blockquote-text { min-height: 3em; display: inline-block; font-size: 0.9rem; width: 100%; box-sizing: border-box; }
         .site-navbar .typed-cursor { background-color: var(--highlight-purple); }
-        
-        .site-navbar .quote { /* This is for the longer quotes */
-            position: relative; border-left: 3px solid var(--highlight-purple);
-            margin-top: 0; margin-bottom: 2.5rem; 
-            background-color: var(--nav-quote-bg); 
-            padding: 1.5rem 1.5rem; /* Increased padding */
-            border-radius: 0.5rem; /* Slightly larger radius */
-            font-size: 1rem; /* Increased font size */
-            color: var(--nav-text-subtle);
-            min-height: 8em; /* Significantly increased height */
-            width: 98%; /* Increased width */
-            max-width: 450px; /* Max width for very wide navbars */
-            margin-left: auto; margin-right: auto;
-            display: flex; align-items: center; justify-content: flex-start;
-            text-align: left; 
-            box-sizing: border-box;
-            overflow-y: auto; /* Allow scroll if quote is very long */
-        }
+        .site-navbar .quote { position: relative; border-left: 3px solid var(--highlight-purple); margin-top: 0; margin-bottom: 2.5rem; background-color: var(--nav-quote-bg); padding: 1.5rem 1.5rem; border-radius: 0.5rem; font-size: 1rem; color: var(--nav-text-subtle); min-height: 8em; width: 98%; max-width: 450px; margin-left: auto; margin-right: auto; display: flex; align-items: center; justify-content: flex-start; text-align: left; box-sizing: border-box; overflow-y: auto; }
         .site-navbar .quote::before { content: '"'; position: absolute; top: 0.2em; left: 0.3em; font-size: 3.5em; color: color-mix(in srgb, var(--nav-text-subtle) 15%, transparent); font-family: 'Inter', sans-serif; font-weight: 700; line-height: 1; }
-        
         .navbar-links a { display: block; padding: 0.85rem calc(0.85rem * 1.618); margin-bottom: 0.5rem; text-decoration: none; color: var(--nav-text); font-weight: 500; border-radius: 0.375rem; transition: background-color 0.2s ease, color 0.2s ease; font-size: 1.1rem; }
         .navbar-links a:hover { background-color: var(--nav-link-hover-bg); color: var(--highlight-purple); }
         .navbar-links a.active { background-color: var(--highlight-purple); color: white !important; font-weight: 700; }
@@ -104,11 +69,9 @@
         .navbar-bottom { text-align: center; margin-top:1rem; }
         #navbar-logo-image { width: 60px; height: auto; margin: 1.5rem auto 0; cursor: pointer; display: block; opacity: 0.8; transition: opacity 0.2s ease; }
         #navbar-logo-image:hover { opacity: 1; }
-        
         .site-content { margin-left: 38.2vw; width: calc(100% - 38.2vw); padding: 2rem; background-color: var(--page-bg); overflow-x: hidden; position: relative; }
         @media (max-width: calc(300px / 0.382)) { .site-content { margin-left: 300px; width: calc(100% - 300px); } }
         @media (min-width: calc(550px / 0.382)) { .site-content { margin-left: 550px; width: calc(100% - 550px); } }
-        
         .page-section { display: none; animation: fadeInPage 0.7s ease-out forwards; }
         .page-section.active-section { display: block; }
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -121,64 +84,72 @@
         .animated-post-image-bubble:hover { border-color: color-mix(in srgb, var(--highlight-purple-hover) 70%, transparent); }
         .animated-post-image-bubble img { width: 100%; height: 100%; object-fit: cover; display: block; }
         #writings-content, #about-content { font-size: 17px; }
-        
-        #writings-grid-container .writing-preview-card,
-        #full-articles-container article { max-width: 100%; box-sizing: border-box; }
+        #writings-grid-container .writing-preview-card, #full-articles-container article { max-width: 100%; box-sizing: border-box; }
         .writing-preview-card { background-color: var(--writings-card-bg-color); backdrop-filter: blur(7px); border-radius: 0.75rem; padding: 2rem; border: 1px solid var(--card-border-color); display: flex; flex-direction: column; box-shadow: 0 6px 18px rgba(0,0,0, 0.35), 0 0 8px 1px color-mix(in srgb, var(--highlight-purple) 20%, transparent); position: relative; overflow: hidden; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease; }
         .writing-preview-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--highlight-purple) 10%, transparent), transparent); transform: translateX(-100%); transition: transform 0.8s ease; pointer-events: none; z-index: 0; }
         .writing-preview-card:hover { background-color: var(--writings-card-hover-bg-color); box-shadow: 0 15px 30px rgba(0,0,0, 0.5), 0 0 20px color-mix(in srgb, var(--highlight-purple) 35%, transparent); border-color: var(--card-hover-border-color); }
         .writing-preview-card:hover::before { transform: translateX(100%); }
-        .writing-preview-card h3 { color: #FFFFFF; font-size: 1.55rem; overflow-wrap: break-word; } /* Added overflow-wrap */
+        .writing-preview-card h3 { color: #FFFFFF; font-size: 1.55rem; overflow-wrap: break-word; }
         .writing-preview-card .post-meta-info { color: var(--highlight-purple-lighter); }
-        .writing-preview-card .excerpt { color: #D1D1D1; overflow-wrap: break-word; /* Ensure excerpt text also wraps */ } 
-        .writing-preview-card .line-clamp-4 { /* Tailwind utility should handle this, but let's be explicit */
-            overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4;
-        }
+        .writing-preview-card .excerpt { color: #D1D1D1; overflow-wrap: break-word; } 
+        .writing-preview-card .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
         .writing-preview-card a.read-more-link { color: var(--highlight-purple); } .writing-preview-card a.read-more-link:hover { color: var(--highlight-purple-hover); }
-        
         #full-articles-container article { background-color: var(--article-bg-color); border: 1px solid var(--card-border-color); border-top: 5px solid var(--highlight-purple); }
         #full-articles-container article:target { display: block !important; opacity: 1 !important; animation: fadeInArticle 0.6s ease-out forwards; }
         #full-articles-container .post-meta-info { color: var(--highlight-purple-lighter); }
         a.back-button { background-color: var(--highlight-purple); color: #FFFFFF; } a.back-button:hover { background-color: var(--highlight-purple-hover); }
         hr.separator { background-image: linear-gradient(to right, transparent, var(--highlight-purple), var(--highlight-purple-hover), var(--highlight-purple), transparent); }
-        
-        .post-content-html { 
-            white-space: pre-line; text-align: left; line-height: 1.7; 
-            overflow-wrap: break-word; /* Primary fix for long text leakage */
-            word-break: break-word; /* Fallback for older browsers / stricter breaking */
-        }
-        .post-content-html p, .post-content-html span, .post-content-html div, 
-        .post-content-html b, .post-content-html strong, .post-content-html i, 
-        .post-content-html em, .post-content-html u { 
-            color: #D1D1D1; 
-            overflow-wrap: break-word; /* Ensure children also respect word breaking */
-            word-break: break-word;
-        }
+        .post-content-html { white-space: pre-line; text-align: left; line-height: 1.7; overflow-wrap: break-word; word-break: break-word; }
+        .post-content-html p, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html strong, .post-content-html i, .post-content-html em, .post-content-html u { color: #D1D1D1; overflow-wrap: break-word; word-break: break-word; }
         .post-content-html a { color: var(--highlight-purple); } .post-content-html a:hover { color: var(--highlight-purple-hover); }
         .post-content-html blockquote { border-left: 4px solid var(--highlight-purple); color: #A8A8A8; background-color: rgba(146, 114, 206, 0.05); overflow-wrap: break-word; word-break: break-word; }
-        
-        /* Glitch button, progress bar, secret game modal styles (mostly unchanged) */
-        .glitch-button { /* ... */ } .progress-container { /* ... */ } .progress-bar { /* ... */ } #secret-game-modal { /* ... */ } #matter-canvas { /* ... */ } .game-controls button { /* ... */ } #game-info { /* ... */ }
-        
-        /* About section styles (mostly unchanged) */
-        #about-content .questionnaire-container-wrapper { /* ... */ } .question-block { /* ... */ } .question-block h3 { /* ... */ } .answer-options { /* ... */ } .answer-option { /* ... */ } .feedback-area { /* ... */ } #personality-match-section { /* ... */ } #personality-match-section h2 { /* ... */ } #personality-match-section p { /* ... */ }
-        
+        .glitch-button { position: relative; display: inline-block; cursor: pointer; padding: 0.75rem 1.5rem; text-decoration: none; overflow: hidden; transition: transform 0.1s ease-out; -webkit-user-select: none; -ms-user-select: none; user-select: none; } .glitch-button .btn-text { position: relative; z-index: 1; } .glitch-button::before, .glitch-button::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: inherit; color: inherit; padding: inherit; overflow: hidden; transition: transform 0.3s cubic-bezier(0.75, 0, 0.25, 1), opacity 0.3s ease; opacity: 0; } .glitch-button:not(:disabled):hover::before { transform: translate(-3px, -2px) skewX(-5deg); text-shadow: 2px 0px #FF00FF; opacity: 0.8; animation: glitchEffectBefore 0.2s infinite alternate; } .glitch-button:not(:disabled):hover::after { transform: translate(3px, 2px) skewX(5deg); text-shadow: -2px 0px #00FFFF; opacity: 0.8; animation: glitchEffectAfter 0.2s infinite alternate-reverse; } .glitch-button:active { transform: scale(0.97); } @keyframes glitchEffectBefore { 0% { clip-path: inset(10% 0 70% 0); } 50% { clip-path: inset(40% 0 20% 0); } 100% { clip-path: inset(75% 0 5% 0); } } @keyframes glitchEffectAfter { 0% { clip-path: inset(60% 0 25% 0); } 50% { clip-path: inset(15% 0 55% 0); } 100% { clip-path: inset(50% 0 10% 0); } }
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 200; }
+        .progress-bar { height: 3px; background: linear-gradient(90deg, var(--highlight-purple), var(--highlight-purple-hover)); width: 0%; }
+        #secret-game-modal { background-color: rgba(0,0,0,0.97); position: fixed; top: 0; left: 0; width: 100%; height: 100%; backdrop-filter: blur(8px); z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center; animation: fadeInGameModal 0.5s ease-out forwards; }
+        @keyframes fadeInGameModal { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        #matter-canvas { background-color: rgba(20, 15, 35, 0.4); border: 2px solid color-mix(in srgb, var(--highlight-purple) 40%, transparent); border-radius: 8px; box-shadow: 0 0 20px color-mix(in srgb, var(--highlight-purple) 20%, transparent); }
+        .game-controls { margin-top: 20px; display: flex; gap: 15px; } .game-controls button { padding: 10px 20px; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 500; transition: background-color 0.3s, transform 0.2s; font-family: 'Outfit', sans-serif; } #close-game-button { background-color: #7c5bab; } #close-game-button:hover { background-color: #6a4a9a; transform: scale(1.05); } #reset-game-button { background-color: #5887a7; } #reset-game-button:hover { background-color: #4a7593; transform: scale(1.05); }
+        #game-info { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); padding: 8px 15px; background-color: rgba(0,0,0,0.4); border-radius: 5px; color: var(--highlight-purple-lighter); font-size: 0.9rem; text-align: center; min-width: 250px; }
+        #game-info p { margin: 2px 0; } #game-win-message { font-weight: bold; color: var(--highlight-purple-hover); } .game-instructions { color: var(--text-on-black-secondary); font-size: 0.85rem; margin-top: 5px; }
+        #about-content .questionnaire-container-wrapper { max-width: 850px; margin-left: auto; margin-right: auto; }
+        .question-block { background-color: rgba(28, 18, 52, 0.85); backdrop-filter: blur(8px); border: 1px solid rgba(174, 139, 213, 0.35); border-radius: 1rem; padding: 2.25rem 2.5rem; margin-bottom: 3.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.4); min-height: 220px; display: flex; flex-direction: column; opacity: 0; transform: translateY(30px); }
+        .question-block h3 { color: #D7C2F2; font-size: 1.5rem; } .answer-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem; margin-bottom: 1.75rem; flex-grow: 1; }
+        .answer-option { background-color: rgba(45, 30, 70, 0.8); color: #E0D8F0; padding: 1rem 1.3rem; border-radius: 0.75rem; border: 1px solid rgba(174, 139, 213, 0.45); cursor: pointer; transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.2s ease-out, box-shadow 0.25s ease; text-align: left; font-size: 1.05rem; line-height: 1.4; opacity: 1; transform: scale(1); }
+        .answer-option:not([disabled]):hover { background-color: rgba(174, 139, 213, 0.25); border-color: #AE8BD5; transform: translateY(-4px) scale(1.035); box-shadow: 0 5px 15px rgba(174, 139, 213, 0.25); }
+        .answer-option.selected-visitor { background-color: #825FBD !important; color: #FFFFFF !important; border-color: #CBB8E8 !important; font-weight: 700; box-shadow: 0 0 18px rgba(146, 114, 206, 0.7); }
+        .answer-option.selected-visitor-wrong { background-color: var(--selected-wrong-bg, rgba(120, 120, 120, 0.45)) !important; color: #D8D8D8 !important; border-color: var(--text-on-black-tertiary, #888888) !important; font-weight: 500; box-shadow: 0 0 8px rgba(120, 120, 120, 0.25); }
+        .answer-option.agraj-correct-answer { background-color: var(--correct-answer-bg, rgba(146, 114, 206, 0.55)) !important; color: #FFFFFF !important; border-color: #CBB8E8 !important; font-weight: 700; box-shadow: 0 0 15px rgba(174, 139, 213, 0.6); }
+        .answer-option[disabled] { background-color: var(--disabled-option-bg, rgba(40, 30, 60, 0.75)) !important; color: #9a9a9a !important; cursor: not-allowed; border-color: rgba(146, 114, 206, 0.25) !important; opacity: 0.6; }
+        .answer-option[disabled]:not(.selected-visitor):not(.selected-visitor-wrong):not(.agraj-correct-answer) { opacity: 0.45; }
+        .feedback-area { margin-top: auto; padding: 1.35rem; background-color: rgba(15, 10, 30, 0.9); border-radius: 0.6rem; border-left: 5px solid #AE8BD5; color: #D7C2F2; font-size: 1rem; line-height: 1.65; display: none; animation: fadeInFeedback 0.6s ease-out forwards; }
+        .feedback-area.visible { display: block; } @keyframes fadeInFeedback { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .feedback-area strong { color: #FFFFFF; font-weight: 700; }
+        #personality-match-section { margin-top: 4rem; padding: 2.75rem; background-color: rgba(35, 25, 60, 0.9); backdrop-filter: blur(10px); border-radius: 1rem; border: 1px solid rgba(174, 139, 213, 0.45); text-align: center; box-shadow: 0 10px 35px rgba(0,0,0,0.4); }
+        #personality-match-section.visible { opacity: 1 !important; transform: translateY(0) !important; display: block !important; }
+        #personality-match-section h2 { color: var(--highlight-purple-lighter); font-size: 2.2rem; font-family: 'Outfit', sans-serif; margin-bottom: 2rem; }
+        #personality-match-section p { font-size: 1.2rem; color: #E0D8F0; margin-bottom: 1.25rem; }
+        #personality-match-section #match-percentage-value { font-weight: 700; font-size: 3.5rem; color: #FFFFFF; display: inline-block; margin: 0.5rem 0 1rem 0; padding: 0.3rem 0.8rem; border-radius: 0.5rem; background: linear-gradient(135deg, #AE8BD5, #9272CE); box-shadow: 0 4px 15px rgba(146, 114, 206, 0.4); opacity: 1; transform: scale(1); }
+        #personality-match-section #mbti-type-value { font-weight: 600; color: var(--highlight-purple-lighter); font-size: 1.3rem; }
+        #contact-telegram-btn { margin-top: 2rem; display: none; background-color: #28A8EA; color: white; font-size: 1.1rem; padding: 0.9rem 1.8rem; }
+        #contact-telegram-btn:hover { background-color: #229AC8; }
+        #calculate-match-button { margin-top: 3rem; padding: 1rem 2.2rem; background-color: #9272CE; color: #FFFFFF; border: none; border-radius: 0.6rem; font-weight: 600; font-size: 1.15rem; }
+        #calculate-match-button:disabled { background: #5a506b; color: #a8a8a8; cursor: not-allowed; opacity: 0.7; }
+        #calculate-match-button:disabled::before, #calculate-match-button:disabled::after { display: none; }
         @media (max-width: 768px) {
-            .site-navbar { width: 100%; height: auto; max-height: 60vh; /* Increased for taller blockquote */ position: static; border-right: none; border-bottom: 1px solid #CCCCCC; padding: 1.5rem 1rem; min-width: unset; max-width: unset; }
+            .site-navbar { width: 100%; height: auto; max-height: 60vh; position: static; border-right: none; border-bottom: 1px solid #CCCCCC; padding: 1.5rem 1rem; min-width: unset; max-width: unset; }
             #navbar-agraj-image { width: 50%; max-width: 150px; margin-bottom: 0.5rem;}
             .site-navbar #typewriter { font-size: 0.85rem; min-height: 2em; margin-bottom: 0.75rem; }
             .site-navbar .quote { font-size: 0.9rem; min-height: 5em; margin-bottom: 1.5rem; padding: 1rem; }
             .navbar-links a { padding: 0.6rem 1rem; font-size: 1rem; }
             #navbar-logo-image { width: 45px; margin-top: 1rem; }
             .site-content { margin-left: 0; width: 100%; padding: 1.5rem 1rem; }
-            #animated-images-container-wrapper { height: 50vh; /* Adjusted from 60vh as navbar is taller */ }
+            #animated-images-container-wrapper { height: 50vh; }
             .progress-container { display: none; } 
         }
     </style>
 </head>
 <body>
-    <!-- HTML Structure (audio, p5, progress, overlay, site-container, etc.) -->
-    <!-- This structure remains the same as your last fully working visual version -->
     <audio id="gameSpawnSound" src="spawn_sound.mp3" preload="auto"></audio>
     <audio id="gameWinSound" src="win_sound.mp3" preload="auto"></audio>
     <audio id="revealSound" src="reveal_sound.mp3" preload="auto"></audio>
@@ -276,47 +247,7 @@
     </div>
 
     <script>
-        // --- JAVASCRIPT FROM THE PREVIOUS "fix everything" RESPONSE ---
-        // (The one with the corrected renderQuestionnaire, setupRotatingText, showMainSection, handleMainRouteChange)
-        // This JavaScript should be the complete block you had that was mostly working,
-        // but now with the CSS above also updated.
-
-        const APP_CONFIG = { /* ... */ };
-        let ALL_QUESTIONNAIRE_DATA = []; let visitorAnswers = {}; let questionsAnsweredCount = 0;
-        let revealSound, gameSpawnSoundEl, gameWinSoundEl;
-        function $(selector) { return document.querySelector(selector); }
-        function $$(selector) { return document.querySelectorAll(selector); }
-        let p5Blobs = []; const NUM_P5_BLOBS = 5; 
-        function p5Sketch(p) { /* ... p5 code ... */ }
-        let ALL_POSTS_DATA = [];
-        function simpleMarkdownToHtml(md) { /* ... */ }
-        function createPostPreviewCard(post, isForHome = false) { /* ... */ }
-        function createFullArticleHtml(post) { /* ... */ }
-        async function setupHomePageRightColumnImages() { /* ... */ }
-        async function loadAndRenderPosts() { /* ... */ }
-        async function renderQuestionnaire() { /* ... (Ensure this has the console.logs and error handling) ... */ }
-        function setupQuestionnaireInteractions() { /* ... */ }
-        function calculateAndShowMatch() { /* ... */ }
-        let matterEngine, matterRender, matterRunner; /* ... Secret Game JS ... */
-        function playSound(soundElement) { /* ... */ }
-        function resetSecretGame() { /* ... */ }
-        function updateGameInfoDisplay() { /* ... */ }
-        function setupSecretGame() { /* ... */ }
-        let rotatingTextInstances = {};
-        function setupRotatingText(elementId, config) { /* ... (direct start for navbar elements) ... */ }
-        function setupScrollProgressBar() { /* ... */ }
-        function setupWritingsCardHoverEffects() { /* ... */ }
-        let currentMainSection = null; let lastClickedReadMoreLink = null; 
-        function showMainSection(sectionId) { /* ... (with display:none/block) ... */ }
-        function handleMainRouteChange() { /* ... (with robust #home default and section re-evaluation) ... */ }
-        function handleWritingsArticleLogic(articleHash) { /* ... */ }
-        function isElementInViewport(el) { /* ... */ }
-        document.addEventListener('DOMContentLoaded', async () => { /* ... (ensure handleMainRouteChange is called) ... */ });
-
-        // PASTE THE FULL JAVASCRIPT FROM THE PREVIOUS MESSAGE HERE
-        // (The one that begins with "const APP_CONFIG = { ..." and ends with the DOMContentLoaded listener)
-        // This is just a placeholder comment.
-            <script>
+        // --- Start of JS ---
         const APP_CONFIG = {
              ROTATING_TEXT_HOME: { 
                  'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
@@ -468,161 +399,7 @@
             setupSecretGame(); 
             window.addEventListener('resize', () => { if (currentMainSection === 'home-content' && typeof setupHomePageRightColumnImages === 'function') { clearTimeout(window.resizeHomeImagesTimeout); window.resizeHomeImagesTimeout = setTimeout(setupHomePageRightColumnImages, 250); } });
         });
-    </script>
-
-        // --- Start of JS from previous functional state ---
-        const APP_CONFIG_PREV = {
-             ROTATING_TEXT_HOME: { 
-                 'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
-                 'main-heading-text': { texts: ["agraj", "アグラジ", "अग्रज", "αγραξ"], typeSpeed: 100, deleteSpeed: 60, pauseDuration: 2500 }, 
-                 'blockquote-text': { 
-                     texts: [
-                        "The stream ran bright, water paving away, tap dancing with sunlight.",
-                        "Was I born different? What did I do different that made me the way I am?",
-                        "Time flies by; for me it does so in gloom. Worries of the future, regrets of the past.",
-                        "If a book doesn't change you, even in the slightest, it isn't worth reading.",
-                        "All went away for nothing, and all I am now is who I was never supposed to be."
-                     ], 
-                     typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500 
-                 }
-            },
-            DEFAULT_TITLES_PREV: { home: "agraj - Portfolio", writings: "Writings - Agraj Dubey", about: "About Me - Agraj Dubey" },
-            POSTS_JSON_PATH_PREV: 'posts.json', QUESTIONS_JSON_PATH_PREV: 'questions.json',
-            TELEGRAM_USERNAME_PREV: 'agraj0669', MATCH_THRESHOLD_FOR_CONTACT_PREV: 70
-        };
-        
-        let ALL_QUESTIONNAIRE_DATA_PREV = []; let visitorAnswers_PREV = {}; let questionsAnsweredCount_PREV = 0;
-        let revealSound_PREV, gameSpawnSoundEl_PREV, gameWinSoundEl_PREV;
-
-        function $_PREV(selector) { return document.querySelector(selector); }
-        function $$_PREV(selector) { return document.querySelectorAll(selector); }
-
-        let p5Blobs_PREV = []; const NUM_P5_BLOBS_PREV = 5; 
-        function p5Sketch_PREV(p) { 
-            class Blob {
-                constructor() { this.x = p.random(p.width); this.y = p.random(p.height); this.r = p.random(p.width / 3.5, p.width / 1.3); this.xSpeed = p.random(-0.35, 0.35); this.ySpeed = p.random(-0.35, 0.35); this.numPoints = p.int(p.random(6, 12)); this.noiseSeedX = p.random(1000); this.noiseSeedY = p.random(1000); this.noiseSeedR = p.random(1000); this.hueMin = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-hue-min')); this.hueMax = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-hue-max')); this.hue = p.random(this.hueMin, this.hueMax); this.hueShiftSpeed = p.random(-0.12, 0.12); this.opacity = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-opacity')); }
-                update() { this.x += this.xSpeed + (p.noise(this.noiseSeedX + p.frameCount * 0.0005) - 0.5) * 0.5; this.y += this.ySpeed + (p.noise(this.noiseSeedY + p.frameCount * 0.0005) - 0.5) * 0.5; this.r = p.map(p.noise(this.noiseSeedR + p.frameCount * 0.0012), 0, 1, p.width / 4.5, p.width / 1.1); if (this.x < -this.r * 1.5) this.x = p.width + this.r * 1.5; if (this.x > p.width + this.r * 1.5) this.x = -this.r * 1.5; if (this.y < -this.r * 1.5) this.y = p.height + this.r * 1.5; if (this.y > p.height + this.r * 1.5) this.y = -this.r * 1.5; this.hue = (this.hue + this.hueShiftSpeed); if (this.hue > this.hueMax) this.hue = this.hueMin; if (this.hue < this.hueMin) this.hue = this.hueMax; }
-                display() { p.fill(this.hue, 60, 70, this.opacity); p.beginShape(); let angleStep = p.TWO_PI / this.numPoints; for (let i = 0; i <= this.numPoints; i++) { let angle = i * angleStep; let radiusOffset = p.map(p.noise(this.noiseSeedX + i * 0.2 + p.frameCount * 0.002, this.noiseSeedY + i * 0.2), 0, 1, -this.r * 0.4, this.r * 0.4); let currentR = this.r + radiusOffset; let vx = this.x + currentR * p.cos(angle); let vy = this.y + currentR * p.sin(angle); p.curveVertex(vx, vy); if (i === 0 || i === 1 || i === this.numPoints-1 || i === this.numPoints) { p.curveVertex(vx, vy); } } p.endShape(); }
-            }
-            p.setup = function() { const p5CanvasContainer = $_PREV('#p5-background-canvas'); if (!p5CanvasContainer) { return; } const p5Renderer = p.createCanvas(p.windowWidth, p.windowHeight); p5Renderer.parent(p5CanvasContainer); p.colorMode(p.HSB, 360, 100, 100, 100); p.noStroke(); for (let i = 0; i < NUM_P5_BLOBS_PREV; i++) { p5Blobs_PREV.push(new Blob()); } };
-            p.draw = function() { p.clear(); for (let blob of p5Blobs_PREV) { blob.update(); blob.display(); } };
-            p.windowResized = function() { p.resizeCanvas(p.windowWidth, p.windowHeight); p5Blobs_PREV = []; for (let i = 0; i < NUM_P5_BLOBS_PREV; i++) { p5Blobs_PREV.push(new Blob()); } };
-        }
-        
-        let ALL_POSTS_DATA_PREV = [];
-        function simpleMarkdownToHtml_PREV(md) { if (typeof md !== 'string') return ''; let html = md; if (html.startsWith('`') && html.endsWith('`') && !html.startsWith('```') && !html.endsWith('```')) { html = html.substring(1, html.length - 1); } html = html.replace(/\r\n/g, '\n'); html = html.replace(/<br\s*\/?>\n?/gi, '\n'); html = html.replace(/\n\s*\n+/g, '<br>\n<br>\n'); html = html.replace(/\n/g, '<br>\n'); html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); html = html.replace(/\*(.*?)\*/g, '<em>$1</em>'); html = html.replace(/\\\"/g, '"'); html = html.replace(/(<br>\n\s*){3,}/g, '<br>\n<br>\n'); return html; }
-        function createPostPreviewCard_PREV(post, isForHome = false) { const cardClass = 'writing-preview-card'; const anchorClass = `read-more-link`; const readMoreTextContent = `Read More →`; const dataText = readMoreTextContent.trim(); return `<div class="${cardClass} rounded-lg p-7 shadow-lg relative overflow-hidden"><h3 class="text-xl lg:text-2xl font-semibold mb-4 group text-hover-scale font-outfit"><span class="transition-all duration-300 inline-block">${post.title}</span></h3><div class="post-meta-info">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div><div class="mb-5"><p class="excerpt line-clamp-4">${post.excerpt}</p></div><a href="#${post.id}" class="${anchorClass}" data-text="${dataText}"><span class="btn-text">${readMoreTextContent}</span></a></div>`; }
-        function createFullArticleHtml_PREV(post) { const htmlContent = simpleMarkdownToHtml_PREV(post.contentMarkdown); return `<article id="${post.id}" tabindex="-1"><h2 class="text-hover-scale">${post.title}</h2><div class="post-meta-info">Published: ${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>${post.image ? `<img src="${post.image}" alt="${post.imageAlt || post.title}" class="my-8 rounded-lg shadow-lg mx-auto max-w-full md:max-w-2xl" loading="lazy">` : ''}<div class="post-content-html">${htmlContent}</div><a href="#writings" class="back-button mt-8 glitch-button" data-text="← Back to Writings"><span class="btn-text">← Back to Writings</span></a></article>`; }
-        async function setupHomePageRightColumnImages_PREV() { const container = $_PREV('#animated-images-container'); const sectionContainer = $_PREV('#animated-images-container-wrapper'); if (!container || !sectionContainer) { return; } if (ALL_POSTS_DATA_PREV.length === 0) { setTimeout(setupHomePageRightColumnImages_PREV, 200); return; } const postsWithImages = ALL_POSTS_DATA_PREV.filter(post => post.image).slice(0, 5); if (postsWithImages.length === 0) { container.innerHTML = '<p class="text-text-subtle text-sm text-center md:text-left">No recent visual entries.</p>'; return; } container.innerHTML = ''; const bubbleConfigs = [ { sizeVW: 18, minSize: 150, maxSize: 250, zIndex: 1 }, { sizeVW: 15, minSize: 130, maxSize: 220, zIndex: 3 }, { sizeVW: 20, minSize: 170, maxSize: 280, zIndex: 2 }, { sizeVW: 16, minSize: 140, maxSize: 230, zIndex: 1 }, { sizeVW: 14, minSize: 120, maxSize: 200, zIndex: 3 }]; requestAnimationFrame(() => { const containerWidth = container.offsetWidth; const containerHeight = container.offsetHeight; postsWithImages.forEach((post, index) => { if (index >= bubbleConfigs.length) return; const config = bubbleConfigs[index]; const escapedTitle = post.title.replace(/"/g, '"'); let bubbleSize = Math.max(config.minSize, Math.min(config.maxSize, window.innerWidth * (config.sizeVW / 100))); bubbleSize = Math.min(bubbleSize, (containerWidth > 0 ? containerWidth * 0.8 : config.maxSize), (containerHeight > 0 ? containerHeight * 0.40 : config.maxSize)); const bubbleLink = document.createElement('a'); bubbleLink.href = `#${post.id}`; bubbleLink.classList.add('animated-post-image-bubble'); bubbleLink.setAttribute('aria-label', `Read more about ${escapedTitle}`); bubbleLink.title = escapedTitle; bubbleLink.style.width = `${bubbleSize}px`; bubbleLink.style.height = `${bubbleSize}px`; bubbleLink.style.zIndex = config.zIndex; bubbleLink.style.opacity = 0; const img = document.createElement('img'); img.src = post.image; img.alt = `Preview for ${escapedTitle}`; bubbleLink.appendChild(img); container.appendChild(bubbleLink); }); const imageBubbles = $$_PREV('#animated-images-container .animated-post-image-bubble'); if (typeof anime === 'function' && imageBubbles.length > 0) { imageBubbles.forEach((bubble) => { function fizzleAnimation() { const bubbleSize = parseFloat(bubble.style.width); const currentContainerHeight = container.offsetHeight > 0 ? container.offsetHeight : 600; const currentContainerWidth = container.offsetWidth > 0 ? container.offsetWidth : 300; const maxTop = Math.max(0, currentContainerHeight - bubbleSize - 10); const maxLeft = Math.max(0, currentContainerWidth - bubbleSize - 10); const newTop = anime.random(0, maxTop); const newLeft = anime.random(0, maxLeft); bubble.style.top = `${newTop}px`; bubble.style.left = `${newLeft}px`; bubble.style.transform = 'translateX(0px) translateY(0px)'; anime.timeline({ targets: bubble, easing: 'easeOutExpo', complete: fizzleAnimation }).add({ opacity: [0, 0.9], scale: [0.3, 1], duration: anime.random(700, 1000), }).add({ translateX: () => anime.random(-20, 20) + 'px', translateY: () => anime.random(-20, 20) + 'px', scale: () => anime.random(0.9, 1.1), duration: anime.random(3000, 5000), easing: 'easeInOutSine' }, '-=300') .add({ opacity: [bubble.style.opacity, 0], scale: [parseFloat(getComputedStyle(bubble).transform.split(',')[0].split('(')[1]) || 1, 0.2], duration: anime.random(600, 900), easing: 'easeInExpo', delay: anime.random(0, 400) }); } setTimeout(fizzleAnimation, anime.random(0, 2500)); }); } }); }
-        async function loadAndRenderPosts_PREV() { try { const response = await fetch(APP_CONFIG_PREV.POSTS_JSON_PATH_PREV); if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}, path: ${APP_CONFIG_PREV.POSTS_JSON_PATH_PREV}`); } ALL_POSTS_DATA_PREV = await response.json(); ALL_POSTS_DATA_PREV.sort((a, b) => new Date(b.date) - new Date(a.date)); const writingsGrid = $_PREV('#writings-grid-container'); if (writingsGrid) { if (ALL_POSTS_DATA_PREV.length > 0) { writingsGrid.innerHTML = ALL_POSTS_DATA_PREV.map(post => createPostPreviewCard_PREV(post, false)).join(''); } else { writingsGrid.innerHTML = '<p class="text-text-subtle col-span-full text-center">No writings available.</p>'; } setupWritingsCardHoverEffects_PREV(); } const fullArticlesTarget = $_PREV('#full-articles-dynamic-content'); if (fullArticlesTarget) { fullArticlesTarget.innerHTML = ALL_POSTS_DATA_PREV.map(post => createFullArticleHtml_PREV(post)).join(''); } if (typeof setupHomePageRightColumnImages_PREV === 'function' && currentMainSection_PREV === 'home-content') { await setupHomePageRightColumnImages_PREV(); } } catch (error) { console.error("ERROR in loadAndRenderPosts:", error); if ($_PREV('#writings-grid-container')) $_PREV('#writings-grid-container').innerHTML = '<p class="text-text-subtle col-span-full text-center">Error: Could not load writings.</p>'; } }
-        
-        async function renderQuestionnaire_PREV() { const container = $_PREV('#questionnaire-render-area'); const calculateButton = $_PREV('#calculate-match-button'); const personalityMatchSection = $_PREV('#personality-match-section'); const contactTelegramBtn = $_PREV('#contact-telegram-btn'); if (!container || !calculateButton || !personalityMatchSection || !contactTelegramBtn) { if(container) container.innerHTML = '<p class="text-text-subtle text-center">Core UI elements missing.</p>'; return; } container.innerHTML = '<p class="text-center text-text-subtle">Loading questions...</p>'; try { console.log("Fetching:", APP_CONFIG_PREV.QUESTIONS_JSON_PATH_PREV); const response = await fetch(APP_CONFIG_PREV.QUESTIONS_JSON_PATH_PREV); if (!response.ok) { const errorText = await response.text(); console.error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}, path: ${APP_CONFIG_PREV.QUESTIONS_JSON_PATH_PREV}`); console.error("Response text:", errorText); throw new Error(`HTTP error! status: ${response.status} for ${APP_CONFIG_PREV.QUESTIONS_JSON_PATH_PREV}`); } ALL_QUESTIONNAIRE_DATA_PREV = await response.json(); console.log("Questions loaded:", ALL_QUESTIONNAIRE_DATA_PREV); } catch (error) { console.error("Error loading/parsing questionnaire data:", error); let userErrorMessage = "Error: Could not load questions. Check console."; if (error.message.includes("HTTP error")) { userErrorMessage = `Error: Could not fetch questions. Path: ${APP_CONFIG_PREV.QUESTIONS_JSON_PATH_PREV}`; } else if (error instanceof SyntaxError) { userErrorMessage = `Error: questions.json malformed. Path: ${APP_CONFIG_PREV.QUESTIONS_JSON_PATH_PREV}`; } container.innerHTML = `<p class="text-text-subtle text-center">${userErrorMessage}</p>`; return; } if (!Array.isArray(ALL_QUESTIONNAIRE_DATA_PREV) || ALL_QUESTIONNAIRE_DATA_PREV.length === 0) { container.innerHTML = '<p class="text-text-subtle text-center">No questions available or data format error.</p>'; return; } let html = ''; ALL_QUESTIONNAIRE_DATA_PREV.forEach((q) => { html += `<div class="question-block" id="question-${q.id}" data-question-id="${q.id}"><h3>${q.questionText}</h3><div class="answer-options">`; q.options.forEach((opt) => { const escapedOptionText = String(opt.text).replace(/"/g, '"'); html += `<button class="answer-option" data-option-text="${escapedOptionText}">${opt.text}</button>`; }); html += `</div><div class="feedback-area" id="feedback-${q.id}"></div></div>`; }); container.innerHTML = html; if (typeof anime === 'function') { anime({ targets: '.question-block', translateY: [30, 0], opacity: [0, 1], delay: anime.stagger(120, { start: 100 }), duration: 600, easing: 'easeOutExpo' }); } visitorAnswers_PREV = {}; questionsAnsweredCount_PREV = 0; personalityMatchSection.style.display = 'none'; personalityMatchSection.classList.remove('visible'); personalityMatchSection.style.opacity = '0'; personalityMatchSection.style.transform = 'translateY(20px)'; contactTelegramBtn.style.display = 'none'; calculateButton.style.display = 'none'; calculateButton.disabled = true; setupQuestionnaireInteractions_PREV(); }
-        function setupQuestionnaireInteractions_PREV() { const answerOptionButtons = $$_PREV('#questionnaire-render-area .answer-option'); answerOptionButtons.forEach(button => { button.addEventListener('click', function() { const questionBlock = this.closest('.question-block'); if (questionBlock.classList.contains('answered')) return; const questionId = questionBlock.dataset.questionId; const selectedOptionText = this.dataset.optionText; const questionData = ALL_QUESTIONNAIRE_DATA_PREV.find(q => q.id === questionId); if (!questionData) return; const selectedOptionData = questionData.options.find(opt => opt.text === selectedOptionText); if (!selectedOptionData) return; questionBlock.classList.add('answered'); if (!visitorAnswers_PREV.hasOwnProperty(questionId)) questionsAnsweredCount_PREV++; visitorAnswers_PREV[questionId] = selectedOptionText; const optionsInBlock = questionBlock.querySelectorAll('.answer-option'); optionsInBlock.forEach(opt => { opt.disabled = true; opt.classList.remove('selected-visitor', 'selected-visitor-wrong', 'agraj-correct-answer'); if (opt !== this && opt.dataset.optionText !== questionData.agrajAnswerText && typeof anime === 'function') { anime({ targets: opt, opacity: 0.4, scale: 0.95, duration: 400, easing: 'easeOutQuad' }); } }); let animParams = { targets: this, duration: 400, easing: 'easeOutBack' }; if (selectedOptionText === questionData.agrajAnswerText) { this.classList.add('selected-visitor'); animParams.scale = [1, 1.05, 1]; } else { this.classList.add('selected-visitor-wrong'); const agrajAnswerButton = Array.from(optionsInBlock).find(optBtn => optBtn.dataset.optionText === questionData.agrajAnswerText); if (agrajAnswerButton) { agrajAnswerButton.classList.add('agraj-correct-answer'); if (typeof anime === 'function') { anime({ targets: agrajAnswerButton, scale: [1, 1.03, 1], duration: 400, delay:100, easing: 'easeOutBack' }); } } } if (typeof anime === 'function') anime(animParams); const feedbackArea = questionBlock.querySelector('.feedback-area'); feedbackArea.innerHTML = selectedOptionData.feedback; feedbackArea.classList.add('visible'); if (typeof anime === 'function') { anime({ targets: feedbackArea, opacity: [0, 1], translateY: [10,0], duration: 500, delay: 200, easing: 'easeOutExpo' }); } const calculateButton = $_PREV('#calculate-match-button'); if (ALL_QUESTIONNAIRE_DATA_PREV.length > 0 && questionsAnsweredCount_PREV === ALL_QUESTIONNAIRE_DATA_PREV.length) { calculateButton.style.display = 'inline-block'; calculateButton.disabled = false; if (typeof anime === 'function') { anime({ targets: calculateButton, opacity: [0, 1], scale: [0.8, 1], duration: 500, easing: 'easeOutExpo' }); } } else { calculateButton.style.display = 'none'; calculateButton.disabled = true; } }); }); const calculateButton = $_PREV('#calculate-match-button'); if (calculateButton) calculateButton.addEventListener('click', calculateAndShowMatch_PREV); }
-        function calculateAndShowMatch_PREV() { const calcButton = $_PREV('#calculate-match-button'); if(calcButton) calcButton.disabled = true; if (ALL_QUESTIONNAIRE_DATA_PREV.length === 0 || questionsAnsweredCount_PREV < ALL_QUESTIONNAIRE_DATA_PREV.length) return; let matches = 0; ALL_QUESTIONNAIRE_DATA_PREV.forEach(qData => { const visitorSelectedText = visitorAnswers_PREV[qData.id]; if (visitorSelectedText && typeof visitorSelectedText === 'string' && typeof qData.agrajAnswerText === 'string' && visitorSelectedText.trim() === qData.agrajAnswerText.trim()) { matches++; } }); const totalQuestions = ALL_QUESTIONNAIRE_DATA_PREV.length; const percentage = totalQuestions > 0 ? Math.round((matches / totalQuestions) * 100) : 0; const percentageEl = $_PREV('#match-percentage-value'); const personalityMatchSection = $_PREV('#personality-match-section'); const contactTelegramBtn = $_PREV('#contact-telegram-btn'); if (!percentageEl || !personalityMatchSection || !contactTelegramBtn) return; percentageEl.textContent = percentage; percentageEl.style.opacity = '0'; percentageEl.style.transform = 'scale(0.5)'; if (revealSound_PREV && typeof revealSound_PREV.play === 'function') { revealSound_PREV.currentTime = 0; revealSound_PREV.play().catch(e => console.warn("Reveal sound play failed:", e)); } personalityMatchSection.style.display = 'block'; setTimeout(() => { if (typeof anime === 'function') { anime.timeline({ easing: 'easeOutExpo' }).add({ targets: personalityMatchSection, opacity: [0, 1], translateY: [30, 0], duration: 700, begin: () => personalityMatchSection.classList.add('visible') }).add({ targets: percentageEl, opacity: [0,1], scale: [0.5, 1.1, 1], duration: 800, }, '-=400') .add({ targets: [$_PREV('#personality-match-section h2'), $_PREV('#personality-match-section p'), $_PREV('#personality-match-section #mbti-type-value')], opacity: [0,1], translateY: [10,0], delay: anime.stagger(100), duration: 500 }, '-=500').finished.then(() => { personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' }); if (percentage >= APP_CONFIG_PREV.MATCH_THRESHOLD_FOR_CONTACT_PREV) { contactTelegramBtn.style.display = 'inline-block'; anime({targets: contactTelegramBtn, opacity: [0,1], scale: [0.8,1], duration: 500, easing: 'easeOutExpo'}); } else { contactTelegramBtn.style.display = 'none'; } }); } else { percentageEl.style.opacity = '1'; percentageEl.style.transform = 'scale(1)'; personalityMatchSection.style.opacity = '1'; personalityMatchSection.style.transform = 'translateY(0)'; personalityMatchSection.classList.add('visible'); personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' }); if (percentage >= APP_CONFIG_PREV.MATCH_THRESHOLD_FOR_CONTACT_PREV) { contactTelegramBtn.style.display = 'inline-block'; } else { contactTelegramBtn.style.display = 'none'; } } }, 50); }
-
-        let matterEngine_PREV, matterRender_PREV, matterRunner_PREV; let gameShapes_PREV = []; const MAX_SHAPES_TO_SPAWN_PREV = 10; const SHAPES_TO_WIN_PREV = 3; let shapesSpawned_PREV = 0; let gameHasBeenWon_PREV = false; let targetZoneBody_PREV;
-        function playSound_PREV(soundElement) { if (soundElement && typeof soundElement.play === 'function') { soundElement.currentTime = 0; soundElement.play().catch(e => console.warn("Game sound play failed:", e.message)); } }
-        function resetSecretGame_PREV() { gameHasBeenWon_PREV = false; shapesSpawned_PREV = 0; if (matterEngine_PREV) Matter.Composite.clear(matterEngine_PREV.world, false); gameShapes_PREV = []; const canvas = $_PREV('#matter-canvas'); if (!canvas || !matterEngine_PREV) return; const canvasWidth = parseFloat(canvas.width); const canvasHeight = parseFloat(canvas.height); const ground = Matter.Bodies.rectangle(canvasWidth / 2, canvasHeight - 10, canvasWidth + 20, 60, { isStatic: true, render: { fillStyle: '#6a4a9a' } }); const leftWall = Matter.Bodies.rectangle(-30, canvasHeight / 2, 60, canvasHeight, { isStatic: true, render: { fillStyle: '#6a4a9a' } }); const rightWall = Matter.Bodies.rectangle(canvasWidth + 30, canvasHeight / 2, 60, canvasHeight, { isStatic: true, render: { fillStyle: '#6a4a9a' } }); const targetZoneHeight = 50; const targetZoneY = canvasHeight - 30 - (targetZoneHeight / 2) - 10; targetZoneBody_PREV = Matter.Bodies.rectangle(canvasWidth / 2, targetZoneY, canvasWidth * 0.5, targetZoneHeight, { isStatic: true, isSensor: true, label: 'targetZone', render: { fillStyle: 'rgba(174, 139, 213, 0.35)', strokeStyle: 'rgba(203, 184, 232, 0.6)', lineWidth: 2 } }); Matter.Composite.add(matterEngine_PREV.world, [ground, leftWall, rightWall, targetZoneBody_PREV]); updateGameInfoDisplay_PREV(); if ($_PREV('#game-win-message')) $_PREV('#game-win-message').textContent = "Drag shapes into the purple zone!"; }
-        function updateGameInfoDisplay_PREV() { if ($_PREV('#game-shapes-dropped')) $_PREV('#game-shapes-dropped').textContent = shapesSpawned_PREV; if ($_PREV('#game-max-shapes')) $_PREV('#game-max-shapes').textContent = MAX_SHAPES_TO_SPAWN_PREV; let shapesInTargetCount = 0; if (targetZoneBody_PREV && gameShapes_PREV.length > 0) { gameShapes_PREV.forEach(shape => { if (Matter.Bounds.overlaps(shape.bounds, targetZoneBody_PREV.bounds) && shape.position.y > targetZoneBody_PREV.bounds.min.y && shape.position.y < targetZoneBody_PREV.bounds.max.y && Math.abs(shape.velocity.x) < 0.1 && Math.abs(shape.velocity.y) < 0.1) { shapesInTargetCount++; } }); } if ($_PREV('#game-shapes-in-target')) $_PREV('#game-shapes-in-target').textContent = shapesInTargetCount; if ($_PREV('#game-shapes-to-win')) $_PREV('#game-shapes-to-win').textContent = SHAPES_TO_WIN_PREV; const winMessageEl = $_PREV('#game-win-message'); if (winMessageEl) { if (!gameHasBeenWon_PREV && shapesInTargetCount >= SHAPES_TO_WIN_PREV) { gameHasBeenWon_PREV = true; winMessageEl.textContent = "YOU WIN! ✨"; playSound_PREV(gameWinSoundEl_PREV); if (typeof anime === 'function') { anime({ targets: winMessageEl, scale: [1, 1.2, 1], color: ['#AE8BD5', '#FFFFFF', '#AE8BD5'], duration: 1000, easing: 'easeInOutQuad' }); } } else if (!gameHasBeenWon_PREV && shapesSpawned_PREV >= MAX_SHAPES_TO_SPAWN_PREV && shapesInTargetCount < SHAPES_TO_WIN_PREV) { winMessageEl.textContent = "Out of shapes! Try again?"; } } }
-        function setupSecretGame_PREV() { const trigger = $_PREV('#navbar-logo-image'); const modal = $_PREV('#secret-game-modal'); const canvas = $_PREV('#matter-canvas'); const closeButton = $_PREV('#close-game-button'); const resetButton = $_PREV('#reset-game-button'); if (!trigger || !modal || !canvas || !closeButton || !resetButton || typeof Matter === 'undefined') { if(trigger) trigger.style.display = 'none'; return; } const Engine = Matter.Engine, Render = Matter.Render, Runner = Matter.Runner, Bodies = Matter.Bodies, Composite = Matter.Composite, Mouse = Matter.Mouse, MouseConstraint = Matter.MouseConstraint, Events = Matter.Events; trigger.addEventListener('click', () => { modal.style.display = 'flex'; if (typeof anime === 'function') { anime({ targets: modal, opacity: [0,1], scale: [0.9, 1], duration: 400, easing: 'easeOutExpo' }); } if (matterRender_PREV) Matter.Render.stop(matterRender_PREV); if (matterRunner_PREV) Runner.stop(matterRunner_PREV); if (matterEngine_PREV) Matter.Engine.clear(matterEngine_PREV); if (canvas.firstChild && canvas.firstChild.tagName === 'CANVAS') { canvas.removeChild(canvas.firstChild); } matterEngine_PREV = Engine.create({ gravity: { y: 0.7 } }); let canvasWidth = Math.min(window.innerWidth * 0.85, 700); let canvasHeight = Math.min(window.innerHeight * 0.75, 450); canvas.width = canvasWidth; canvas.height = canvasHeight; matterRender_PREV = Render.create({ element: modal, canvas: canvas, engine: matterEngine_PREV, options: { width: canvasWidth, height: canvasHeight, wireframes: false, background: 'transparent' } }); resetSecretGame_PREV(); const mouse = Mouse.create(matterRender_PREV.canvas); const mouseConstraint = MouseConstraint.create(matterEngine_PREV, { mouse: mouse, constraint: { stiffness: 0.1, render: { visible: false } } }); Composite.add(matterEngine_PREV.world, mouseConstraint); matterRender_PREV.mouse = mouse; Events.on(mouseConstraint, 'mousedown', (event) => { if (gameHasBeenWon_PREV || shapesSpawned_PREV >= MAX_SHAPES_TO_SPAWN_PREV) return; const mousePosition = event.mouse.position; let body; const size = Math.random() * 20 + 15; const color = ['#CBB8E8', '#AE8BD5', '#FFFFFF', '#9272CE'][Math.floor(Math.random() * 4)]; if (shapesSpawned_PREV % 2 === 0) { body = Bodies.rectangle(mousePosition.x, mousePosition.y, size, size, { render: { fillStyle: color }, frictionAir: 0.03, restitution: 0.4 }); } else { body = Bodies.circle(mousePosition.x, mousePosition.y, size / 1.8, { render: { fillStyle: color }, frictionAir: 0.02, restitution: 0.6 }); } Composite.add(matterEngine_PREV.world, body); gameShapes_PREV.push(body); shapesSpawned_PREV++; playSound_PREV(gameSpawnSoundEl_PREV); updateGameInfoDisplay_PREV(); }); Events.on(matterEngine_PREV, 'afterUpdate', updateGameInfoDisplay_PREV); Render.run(matterRender_PREV); matterRunner_PREV = Runner.create(); Runner.run(matterRunner_PREV, matterEngine_PREV); }); closeButton.addEventListener('click', () => { if (typeof anime === 'function') { anime({ targets: modal, opacity: [1,0], scale: [1, 0.9], duration: 300, easing: 'easeInExpo', complete: () => modal.style.display = 'none' }); } else { modal.style.display = 'none'; } if (matterRender_PREV) Matter.Render.stop(matterRender_PREV); if (matterRunner_PREV) Runner.stop(matterRunner_PREV); if (matterEngine_PREV) Matter.Engine.clear(matterEngine_PREV); }); resetButton.addEventListener('click', resetSecretGame_PREV); }
-        
-        let rotatingTextInstances_PREV = {};
-        function setupRotatingText_PREV(elementId, config) { 
-            if (rotatingTextInstances_PREV[elementId]) { return; }
-            const element = document.getElementById(elementId);
-            if (!element) { console.warn(`Rotating text element not found: #${elementId}`); return; }
-            let currentIndex = -1, isBusy = false, cycleTimeout = null;
-            const runOnce = (elementId === 'typewriter' || config.texts.length === 1);
-            element.textContent = ''; 
-            function typeWriterInternal(text, callback) {
-                let i = 0; isBusy = true;
-                function type() {
-                    if (!isBusy) { isBusy = false; return; }
-                    if (i < text.length) { element.textContent += text.charAt(i); i++; setTimeout(type, config.typeSpeed); } 
-                    else { const existingCursor = element.querySelector('.typed-cursor'); if (existingCursor) existingCursor.remove(); const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor); isBusy = false; if (callback) callback(); }
-                } type();
-            }
-            function deleteWriterInternal(callback) {
-                if (runOnce && element.textContent.length > 0) { const existingCursor = element.querySelector('.typed-cursor'); if (!existingCursor) { const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor); } if (callback) callback(); return; }
-                let text = element.textContent; const existingCursor = element.querySelector('.typed-cursor'); if (existingCursor) existingCursor.remove(); text = element.textContent; let i = text.length; isBusy = true;
-                function del() {
-                     if (!isBusy) { isBusy = false; return; }
-                    if (i > 0) { element.textContent = text.substring(0, i - 1); i--; if (!element.querySelector('.typed-cursor') && element.textContent.length > 0) { const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor); } setTimeout(del, config.deleteSpeed); } 
-                    else { const finalCursor = element.querySelector('.typed-cursor'); if (finalCursor) finalCursor.remove(); element.textContent = ''; isBusy = false; if (callback) callback(); }
-                } del();
-            }
-            function scheduleCycle(delay) { if (runOnce) return; clearTimeout(cycleTimeout); cycleTimeout = setTimeout(startCycle, delay); }
-            function startCycle() {
-                if (runOnce || isBusy) return; 
-                deleteWriterInternal(() => {
-                    let nextIndex; do { nextIndex = Math.floor(Math.random() * config.texts.length); } while (nextIndex === currentIndex && config.texts.length > 1);
-                    currentIndex = nextIndex; const nextText = config.texts[currentIndex];
-                    element.textContent = ''; typeWriterInternal(nextText, () => scheduleCycle(config.pauseDuration));
-                });
-            }
-            currentIndex = runOnce ? 0 : (elementId === 'main-heading-text' ? 0 : Math.floor(Math.random() * config.texts.length));
-            const firstText = config.texts[currentIndex]; element.textContent = ''; 
-            typeWriterInternal(firstText, () => { if (!runOnce) scheduleCycle(config.pauseDuration); });
-        }
-        
-        function setupScrollProgressBar_PREV() { const progressBar = $_PREV("#progressBar"); if (!progressBar) return; window.addEventListener('scroll', () => { const winScroll = document.body.scrollTop || document.documentElement.scrollTop; const height = document.documentElement.scrollHeight - document.documentElement.clientHeight; const scrolled = height > 0 ? (winScroll / height) * 100 : 0; progressBar.style.width = scrolled + "%"; }, { passive: true }); }
-        function setupWritingsCardHoverEffects_PREV() { $$_PREV('#writings-content .writing-preview-card').forEach(card => { card.addEventListener('mousemove', (e) => { const rect = card.getBoundingClientRect(); const x = e.clientX - rect.left; const y = e.clientY - rect.top; const centerX = rect.width / 2; const centerY = rect.height / 2; const rotateX = (y - centerY) / 20; const rotateY = (centerX - x) / 20; card.style.transition = 'transform 0.1s ease-out'; card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`; }); card.addEventListener('mouseleave', () => { card.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; }); card.querySelectorAll('a').forEach(link => { link.addEventListener('click', (e) => e.stopPropagation()); }); }); }
-        
-        let currentMainSection_PREV = null; let lastClickedReadMoreLink_PREV = null; 
-        function showMainSection_PREV(sectionId) { 
-            const previouslyActiveSection = $_PREV('.page-section.active-section');
-            if (previouslyActiveSection) { previouslyActiveSection.classList.remove('active-section'); previouslyActiveSection.style.display = 'none'; }
-            const targetSection = $_PREV(`#${sectionId}`);
-            if (targetSection) {
-                targetSection.style.display = 'block'; targetSection.classList.add('active-section'); currentMainSection_PREV = sectionId;
-                $$_PREV('.site-navbar .navbar-links a').forEach(navLink => { navLink.classList.remove('active'); const navTarget = navLink.dataset.navlink; if ( (sectionId === 'home-content' && navTarget === 'home') || (sectionId === 'writings-content' && navTarget === 'writings') || (sectionId === 'about-content' && navTarget === 'about') ) { navLink.classList.add('active'); } });
-                if (sectionId === 'about-content' && typeof renderQuestionnaire_PREV === 'function') { renderQuestionnaire_PREV(); } 
-                else if (sectionId === 'home-content' && typeof setupHomePageRightColumnImages_PREV === 'function') { 
-                    const existingBubbles = $$_PREV('#animated-images-container .animated-post-image-bubble');
-                    if (existingBubbles.length === 0 && ALL_POSTS_DATA_PREV.length > 0) { setupHomePageRightColumnImages_PREV(); }
-                }
-                window.scrollTo({ top: 0, behavior: 'auto' });
-            } else { console.warn(`Target section #${sectionId} not found.`); }
-        }
-        function handleMainRouteChange_PREV() { 
-            let mainSectionTarget = 'home-content'; let articleDetailHash = '';
-            const currentFullHash = window.location.hash;
-            if (currentFullHash.startsWith('#post-')) { mainSectionTarget = 'writings-content'; articleDetailHash = currentFullHash; } 
-            else if (currentFullHash === '#writings') { mainSectionTarget = 'writings-content'; } 
-            else if (currentFullHash === '#about') { mainSectionTarget = 'about-content'; } 
-            else if (currentFullHash === '#home' || currentFullHash === '' || currentFullHash === '#') {
-                mainSectionTarget = 'home-content'; 
-                if (currentFullHash === '' || currentFullHash === '#') {
-                    if (window.history.replaceState) { window.history.replaceState(null, '', '#home'); } else { window.location.hash = '#home'; }
-                }
-            } else { 
-                const isExternalNav = Array.from($$_PREV('.site-navbar .navbar-links a[target="_blank"]')).some(link => link.href.endsWith(currentFullHash) || `#${link.dataset.navlink}` === currentFullHash);
-                if (!isExternalNav) { if (window.history.replaceState) { window.history.replaceState(null, '', '#home'); } else { window.location.hash = '#home'; } mainSectionTarget = 'home-content'; } 
-                else { return; }
-            }
-            if (currentMainSection_PREV !== mainSectionTarget || mainSectionTarget === 'home-content' || (mainSectionTarget === 'writings-content' && articleDetailHash)) {
-                 showMainSection_PREV(mainSectionTarget);
-            }
-            if (mainSectionTarget === 'writings-content' && typeof handleWritingsArticleLogic_PREV === 'function') { handleWritingsArticleLogic_PREV(articleDetailHash); document.title = articleDetailHash ? ($_PREV(`#${articleDetailHash.substring(1)} h2`)?.textContent + " - Writings") : APP_CONFIG_PREV.DEFAULT_TITLES_PREV.writings; } 
-            else if (mainSectionTarget === 'about-content') { document.title = APP_CONFIG_PREV.DEFAULT_TITLES_PREV.about; } 
-            else if (mainSectionTarget === 'home-content') { document.title = APP_CONFIG_PREV.DEFAULT_TITLES_PREV.home; }
-        }
-        function handleWritingsArticleLogic_PREV(articleHash) { const defaultWritingsTitle = APP_CONFIG_PREV.DEFAULT_TITLES_PREV.writings; if (articleHash && articleHash.startsWith('#post-')) { const targetId = articleHash.substring(1); const targetArticle = $_PREV(`#${targetId}`); if (targetArticle) { const titleElement = targetArticle.querySelector('h2'); const articleTitle = titleElement ? titleElement.textContent.trim() : "Article"; document.title = `${articleTitle} - Writings - Agraj Dubey`; if (currentMainSection_PREV !== 'writings-content') { showMainSection_PREV('writings-content'); } setTimeout(() => { if (!isElementInViewport_PREV(targetArticle)) targetArticle.scrollIntoView({ behavior: 'smooth', block: 'start' }); const heading = targetArticle.querySelector('h2'); if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); } }, 100); } else { document.title = defaultWritingsTitle; } } else { document.title = defaultWritingsTitle; const grid = $_PREV('#writings-grid-container'); if (grid && lastClickedReadMoreLink_PREV && document.body.contains(lastClickedReadMoreLink_PREV)) { setTimeout(() => { lastClickedReadMoreLink_PREV.focus({preventScroll: true}); if (!isElementInViewport_PREV(lastClickedReadMoreLink_PREV)) lastClickedReadMoreLink_PREV.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 50); } else if (grid) { setTimeout(() => { grid.setAttribute('tabindex', '-1'); grid.focus({preventScroll: true}); if (!isElementInViewport_PREV(grid)) grid.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); } lastClickedReadMoreLink_PREV = null; } }
-        function isElementInViewport_PREV(el) { if(!el) return false; const rect = el.getBoundingClientRect(); return (rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth)); }
-        
-        document.addEventListener('DOMContentLoaded', async () => {
-            revealSound_PREV = $_PREV('#revealSound'); gameSpawnSoundEl_PREV = $_PREV('#gameSpawnSound'); gameWinSoundEl_PREV = $_PREV('#gameWinSound');
-            if (typeof p5 !== 'undefined') { new p5(p5Sketch_PREV); } else { console.error("p5.js is not loaded!"); }
-            setupScrollProgressBar_PREV();
-            await loadAndRenderPosts_PREV(); 
-            for (const elId in APP_CONFIG_PREV.ROTATING_TEXT_HOME) { if (document.getElementById(elId) && typeof setupRotatingText_PREV === 'function') { setupRotatingText_PREV(elId, APP_CONFIG_PREV.ROTATING_TEXT_HOME[elId]); } }
-            document.body.addEventListener('click', function(event) { const clickedLink = event.target.closest('a.glitch-button[href^="#post-"], a.read-more-link[href^="#post-"]'); if (clickedLink) { lastClickedReadMoreLink_PREV = clickedLink; } });
-            handleMainRouteChange_PREV();
-            window.addEventListener('hashchange', handleMainRouteChange_PREV); 
-            setupSecretGame_PREV(); 
-            window.addEventListener('resize', () => { if (currentMainSection_PREV === 'home-content' && typeof setupHomePageRightColumnImages_PREV === 'function') { clearTimeout(window.resizeHomeImagesTimeout); window.resizeHomeImagesTimeout = setTimeout(setupHomePageRightColumnImages_PREV, 250); } });
-        });
-        // --- End of JS from previous functional state ---
+        // --- End of JS ---
     </script>
 </body>
 </html>
