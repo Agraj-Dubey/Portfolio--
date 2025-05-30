@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>agraj - Portfolio</title>
-    <link rel="icon" type="image/png" href="frieren.png"> {/* Kept existing favicon */}
+    <link rel="icon" type="image/png" href="frieren.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,35 +13,40 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
-    <!-- p5.js is removed as per white background requirement -->
 
     <script>
-        // Tailwind CSS configuration
         window.tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         'brand-white': '#FFFFFF',
                         'brand-black': '#000000',
-                        'brand-purple': '#800080', // Asexual purple - adjust if needed
+                        'brand-purple': '#800080', 
                         'brand-purple-light': '#A64CA6',
                         'brand-purple-dark': '#5F005F',
-                        'brand-grey': '#808080',    // Asexual grey - adjust if needed
+                        'brand-grey': '#808080',
                         'brand-grey-light': '#A9A9A9',
-                        'brand-grey-xlight': '#F0F0F0', // For subtle backgrounds on white
+                        'brand-grey-xlight': '#F0F0F0', 
                         'text-primary': '#000000', 
-                        'text-secondary': '#555555', 
-                        'text-tertiary': '#777777',
-                        // Colors for questionnaire (can be adapted from old theme or new)
-                        'correct-answer-bg': 'rgba(128, 0, 128, 0.3)', // Purple with opacity
-                        'selected-wrong-bg': 'rgba(128, 128, 128, 0.3)', // Grey with opacity
-                        'disabled-option-bg': 'rgba(200, 200, 200, 0.5)',
+                        'text-secondary': '#333333', 
+                        'text-tertiary': '#555555',
+                        // Colors for OLD dark-themed components (About Me, Writings Cards)
+                        'old-dark': '#0f0a19', 'old-darker': '#090613', 
+                        'old-accent': '#9272CE', 'old-accent-hover': '#AE8BD5', 
+                        'old-light-accent': '#CBB8E8',
+                        'old-text-primary': '#ffffff', 'old-text-secondary': '#D1D1D1', 
+                        'old-text-tertiary': '#A8A8A8',
+                        'old-article-bg': 'rgba(20, 20, 22, 0.93)', 
+                        'old-writings-card-bg': 'rgba(25, 15, 40, 0.88)',
+                        'old-writings-card-hover-bg': 'rgba(45, 35, 60, 0.96)',
+                        'old-correct-answer-bg': 'rgba(146, 114, 206, 0.35)', 
+                        'old-selected-wrong-bg': 'rgba(100, 100, 100, 0.3)', 
+                        'old-disabled-option-bg': 'rgba(30, 20, 50, 0.7)',
                     },
                     fontFamily: { 
                         sans: ['Inter', 'sans-serif'], serif: ['Baloo Bhai 2', 'cursive'],
                         lato: ['Lato', 'sans-serif'], outfit: ['Outfit', 'sans-serif'],
                         nunito: ['Nunito', 'sans-serif'], 'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'],
-                        verdana: ['Verdana', 'sans-serif'], 'trebuchet': ['Trebuchet MS', 'sans-serif'],
                     },
                 }
             }
@@ -55,20 +60,15 @@
             color: tailwind.theme.extend.colors['text-primary']; 
             font-family: 'Inter', sans-serif;
             overflow-x: hidden; line-height: 1.6; font-size: 16px;
-            display: flex; /* For left nav and main content layout */
+            display: flex;
         }
 
-        /* Page Section Transitions (kept from old) */
         .page-section { display: none; animation: fadeInPage 0.7s ease-out forwards; width: 100%; }
         .page-section.active-section { display: block; }
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Typography (adjust as needed) */
         h1, h2, h3, h4, h5, h6 { color: tailwind.theme.extend.colors['text-primary']; font-weight: 700; }
-        .font-serif { font-family: 'Baloo Bhai 2', cursive; }
-        .font-outfit { font-family: 'Outfit', sans-serif; }
         
-        /* Scrollbar Styling (adapted for light theme) */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: tailwind.theme.extend.colors['brand-grey-xlight']; }
         ::-webkit-scrollbar-thumb { background: tailwind.theme.extend.colors['brand-grey']; border-radius: 4px; }
@@ -76,138 +76,115 @@
 
         /* --- Left Navigation Bar --- */
         #left-navbar {
-            width: 260px; /* Adjust as needed */
+            width: 280px; /* Increased width */
             height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: tailwind.theme.extend.colors['brand-grey-xlight']; /* Subtle grey or white */
+            position: fixed; top: 0; left: 0;
+            background-color: tailwind.theme.extend.colors['brand-grey-xlight'];
             border-right: 1px solid tailwind.theme.extend.colors['brand-grey-light'];
-            padding: 2rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Centers items like logo if they are not full width */
-            z-index: 100;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            padding: 1.5rem 1.5rem; /* Adjusted padding */
+            display: flex; flex-direction: column;
+            align-items: flex-start; /* Align items to the start for full width usage */
+            z-index: 100; box-shadow: 2px 0 10px rgba(0,0,0,0.05);
         }
         #nav-logo-type {
-            width: 150px; /* Adjust as needed */
-            height: auto;
-            margin-bottom: 2.5rem;
+            width: 180px; /* Adjust as needed for new nav width */
+            height: auto; margin-bottom: 2rem;
+            align-self: center; /* Center the main logo if desired */
         }
         #left-navbar nav {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem; /* Space between nav items */
-            margin-bottom: auto; /* Pushes logo to bottom */
+            width: 100%; display: flex; flex-direction: column;
+            gap: 0.75rem; /* Space between nav items */
         }
         #left-navbar nav a {
-            color: tailwind.theme.extend.colors['text-secondary'];
-            text-decoration: none;
-            font-size: 1.1rem;
-            padding: 0.75rem 1rem;
-            border-radius: 6px;
+            color: tailwind.theme.extend.colors['text-secondary']; text-decoration: none;
+            font-size: 1.05rem; padding: 0.65rem 1rem; border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease;
-            font-weight: 500;
-            text-align: left;
+            font-weight: 500; text-align: left; display: block; /* Ensure full clickable width */
         }
         #left-navbar nav a:hover {
-            background-color: rgba(128, 0, 128, 0.1); /* Light purple hover */
+            background-color: rgba(128, 0, 128, 0.08); 
             color: tailwind.theme.extend.colors['brand-purple-dark'];
         }
         #left-navbar nav a.active {
             background-color: tailwind.theme.extend.colors['brand-purple'];
             color: tailwind.theme.extend.colors['brand-white'];
-            font-weight: 700;
+            font-weight: 600;
         }
-        #left-navbar nav a[target="_blank"]::after { /* External link indicator */
-            content: ' \2197'; font-size: 0.8em; vertical-align: super; display: inline-block; opacity: 0.7;
+        #left-navbar nav a[target="_blank"]::after { 
+            content: ' \2197'; font-size: 0.8em; vertical-align: super; opacity: 0.7;
         }
-        #nav-logo-icon-trigger { /* For the bottom logo */
-            width: 70px; /* Adjust as needed */
-            height: auto;
-            margin-top: 2rem;
-            cursor: pointer;
-            transition: transform 0.3s ease;
+        #nav-blockquote-container { /* Container for the typewriter blockquote */
+            width: 100%;
+            margin-top: 1.5rem; margin-bottom: auto; /* Pushes logo to bottom */
+            padding: 0.75rem;
+            font-size: 0.9rem;
+            color: tailwind.theme.extend.colors['text-tertiary'];
+            border-left: 3px solid tailwind.theme.extend.colors['brand-purple'];
+            background-color: rgba(128, 0, 128, 0.03);
+            min-height: 6em; /* Ensure space for typewriter text */
+            line-height: 1.5;
         }
-        #nav-logo-icon-trigger:hover {
-            transform: scale(1.1);
+        #nav-blockquote-text .typed-cursor { /* Cursor for navbar blockquote */
+            display: inline-block; width: 2px; 
+            background-color: tailwind.theme.extend.colors['brand-purple']; 
+            margin-left: 3px; animation: pulseCursor 1s infinite; vertical-align: baseline;
+            height: 1em;
         }
+        @keyframes pulseCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        #nav-logo-icon-trigger {
+            width: 60px; height: auto; margin-top: 1.5rem;
+            cursor: pointer; transition: transform 0.3s ease;
+            align-self: center; /* Center the bottom logo */
+        }
+        #nav-logo-icon-trigger:hover { transform: scale(1.1); }
 
         /* --- Main Content Area --- */
         #main-content-area {
-            margin-left: 260px; /* Same as left-navbar width */
-            width: calc(100% - 260px);
+            margin-left: 280px; /* Matches new left-navbar width */
+            width: calc(100% - 280px);
             min-height: 100vh;
             background-color: tailwind.theme.extend.colors['brand-white'];
-            padding: 0; /* Page sections will have their own padding */
-            position: relative; /* For potential fixed elements within */
         }
-        /* Responsive: On smaller screens, stack nav and content or use hamburger */
+        /* Basic responsive for navbar (could be enhanced with hamburger) */
         @media (max-width: 768px) {
-            body { display: block; } /* Stack them */
+            body { display: block; }
             #left-navbar {
-                width: 100%;
-                height: auto; /* Or a fixed height if it becomes a top bar */
-                position: static; /* Or sticky if it's a top bar */
-                border-right: none;
-                border-bottom: 1px solid tailwind.theme.extend.colors['brand-grey-light'];
-                /* Further mobile styling for nav needed if it's not just stacked */
+                width: 100%; height: auto; position: static;
+                border-right: none; border-bottom: 1px solid tailwind.theme.extend.colors['brand-grey-light'];
+                align-items: center; /* Center content on mobile if nav stacks */
             }
-            #main-content-area {
-                margin-left: 0;
-                width: 100%;
-            }
-            /* Consider a hamburger menu for the nav items on mobile */
+            #left-navbar nav { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+            #nav-blockquote-container { display: none; /* Hide blockquote on small screens or restyle */ }
+            #main-content-area { margin-left: 0; width: 100%; }
         }
-
 
         /* --- Home Section (#home-content) --- */
-        #home-content {
-            padding: 2rem; /* Adjust padding as needed */
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Center the bubbles container if it's not full width */
-        }
+        #home-content { padding: 2rem; display: flex; flex-direction: column; align-items: center; }
         #home-animated-post-images-container {
-            position: relative; /* Was sticky, now relative for main content area */
-            width: 100%; /* Or a max-width */
-            max-width: 1200px; /* Example max width */
-            min-height: 70vh; /* Ensure space for bubbles */
-            margin-top: 1rem; 
+            position: relative; width: 100%; max-width: 1200px; 
+            min-height: 70vh; margin-top: 1rem; 
         }
+        /* .animated-post-image-bubble styles remain largely same, ensure colors are fine */
         .animated-post-image-bubble {
-            position: absolute;
-            border-radius: 50%;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(128, 0, 128, 0.15), 0 0 8px rgba(0,0,0,0.1); /* Purple shadow */
-            border: 2px solid rgba(128, 0, 128, 0.3); /* Purple border */
-            transition: border-color 0.3s ease, transform 0.3s ease;
-            opacity: 0; /* Initial state for JS animation */
-            background-color: tailwind.theme.extend.colors['brand-white']; /* Ensure image bg is white if transparent parts */
+            position: absolute; border-radius: 50%; overflow: hidden;
+            box-shadow: 0 5px 20px rgba(128, 0, 128, 0.15), 0 0 8px rgba(0,0,0,0.1);
+            border: 2px solid rgba(128, 0, 128, 0.3); 
+            transition: border-color 0.3s ease, transform 0.3s ease; opacity: 0;
         }
         .animated-post-image-bubble:hover {
-            border-color: tailwind.theme.extend.colors['brand-purple-dark']; 
-            transform: scale(1.05);
+            border-color: tailwind.theme.extend.colors['brand-purple-dark']; transform: scale(1.05);
         }
-        .animated-post-image-bubble img {
-            width: 100%; height: 100%; object-fit: cover; display: block;
-        }
-        /* Container for a single post viewed from Home */
-        #home-single-post-view {
-            display: none; /* Shown by JS */
-            width: 100%;
-            max-width: 900px; /* Or your preferred article width */
-            margin: 2rem auto;
-            padding: 2rem;
-            background-color: tailwind.theme.extend.colors['brand-white'];
+        .animated-post-image-bubble img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        
+        #home-single-post-view { /* For post viewed from Home bubble click */
+            display: none; width: 100%; max-width: 900px; margin: 2rem auto;
+            padding: 2rem; background-color: tailwind.theme.extend.colors['brand-white'];
             border-radius: 8px;
-            /*box-shadow: 0 4px 15px rgba(0,0,0,0.08);*/ /* Subtle shadow */
         }
-        #home-single-post-view h2 { color: tailwind.theme.extend.colors['brand-purple-dark']; margin-bottom: 0.75rem; font-size: 2.1rem; }
-        #home-single-post-view .post-meta-info { font-size: 0.95rem; color: tailwind.theme.extend.colors['brand-grey-dark']; margin-bottom: 2.5rem; }
-        #home-single-post-view .post-content-html { /* Re-use existing styles, ensure colors match */ }
+        /* Styles for #home-single-post-view h2, .post-meta-info, .post-content-html (as before) */
+        #home-single-post-view h2 { color: tailwind.theme.extend.colors['brand-purple-dark']; /* ... */ }
+        #home-single-post-view .post-meta-info { color: tailwind.theme.extend.colors['text-tertiary']; /* ... */ }
         #home-single-post-view .post-content-html p, 
         #home-single-post-view .post-content-html span { color: tailwind.theme.extend.colors['text-primary']; }
         #home-single-post-view .post-content-html strong { color: tailwind.theme.extend.colors['text-primary']; }
@@ -218,182 +195,177 @@
             color: tailwind.theme.extend.colors['text-secondary'];
         }
 
-
-        /* --- Writings Section (#writings-content) --- */
-        #writings-content { font-size: 17px; padding: 2rem; }
+        /* --- Writings Section (#writings-content) - OLD STYLES RESTORED --- */
+        #writings-content { font-size: 17px; padding: 2rem; background-color: tailwind.theme.extend.colors['brand-white'];}
         #writings-content .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
-        #writings-content .text-hover-scale:hover { transform: scale(1.03); color: tailwind.theme.extend.colors['brand-purple-dark'];}
+        #writings-content .text-hover-scale:hover { transform: scale(1.03); }
         
-        .writing-preview-card { 
-            background-color: tailwind.theme.extend.colors['brand-white']; 
-            border-radius: 0.75rem; 
-            padding: 2rem; 
-            border: 1px solid tailwind.theme.extend.colors['brand-grey-light']; 
+        .writing-preview-card { /* Reverted to OLD styles */
+            background-color: tailwind.theme.extend.colors['old-writings-card-bg']; 
+            backdrop-filter: blur(7px); border-radius: 0.75rem; padding: 2rem; 
+            border: 1px solid rgba(146, 114, 206, 0.25); /* old-accent with opacity */
             display: flex; flex-direction: column; 
-            box-shadow: 0 6px 18px rgba(0,0,0, 0.08); /* Lighter shadow */
+            box-shadow: 0 6px 18px rgba(0,0,0, 0.35), 0 0 8px 1px rgba(146, 114, 206, 0.2);
             position: relative; overflow: hidden;   
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                        box-shadow 0.4s ease-out,
-                        border-color 0.4s ease-out;
+                        box-shadow 0.4s ease-out, border-color 0.4s ease-out,
+                        background-color 0.3s ease;
         }
-        .writing-preview-card::before { /* Hover shimmer (optional, was from dark theme) */
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: linear-gradient(90deg, transparent, rgba(128, 0, 128, 0.05), transparent); 
-            transform: translateX(-100%); transition: transform 0.8s ease; pointer-events: none; z-index: 0; 
+        .writing-preview-card::before { /* Shimmer from old style */
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(146, 114, 206, 0.1), transparent);
+            transform: translateX(-100%); transition: transform 0.8s ease;
+            pointer-events: none; z-index: 0; 
         }
         .writing-preview-card:hover { 
-            box-shadow: 0 10px 25px rgba(128, 0, 128, 0.1), 0 0 15px rgba(128, 0, 128, 0.05); /* Purple tint shadow */
-            border-color: tailwind.theme.extend.colors['brand-purple']; 
+            background-color: tailwind.theme.extend.colors['old-writings-card-hover-bg']; 
+            box-shadow: 0 15px 30px rgba(9, 6, 19, 0.6), 0 0 20px rgba(146, 114, 206, 0.35); 
+            border-color: rgba(146, 114, 206, 0.45); 
+            /* transform handled by JS for writings-preview-card in original for 3D */
         }
         .writing-preview-card:hover::before { transform: translateX(100%); }
 
-        .writing-preview-card h3 { color: tailwind.theme.extend.colors['text-primary']; font-size: 1.55rem; font-weight: 600; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif; }
-        .writing-preview-card h3:hover { color: tailwind.theme.extend.colors['brand-purple-dark'];}
-        .writing-preview-card .post-meta-info { font-size: 0.9rem; color: tailwind.theme.extend.colors['brand-purple-light']; margin-bottom: 1.25rem; font-family: 'Lato', sans-serif; opacity: 0.9; }
-        .writing-preview-card .excerpt { color: tailwind.theme.extend.colors['text-secondary']; font-size: 1.05rem; line-height: 1.65; flex-grow: 1; margin-bottom: 1.5rem; }
+        .writing-preview-card h3 { color: tailwind.theme.extend.colors['old-text-primary']; font-size: 1.55rem; font-weight: 600; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif; }
+        .writing-preview-card .post-meta-info { font-size: 0.9rem; color: tailwind.theme.extend.colors['old-light-accent']; margin-bottom: 1.25rem; font-family: 'Lato', sans-serif; opacity: 0.9; }
+        .writing-preview-card .excerpt { color: tailwind.theme.extend.colors['old-text-secondary']; font-size: 1.05rem; line-height: 1.65; flex-grow: 1; margin-bottom: 1.5rem; }
         .writing-preview-card a.read-more-link { 
             display: inline-block; background: none; border: none; padding: 0; 
-            color: tailwind.theme.extend.colors['brand-purple']; font-weight: 500; text-decoration: none; 
+            color: tailwind.theme.extend.colors['old-accent']; font-weight: 500; text-decoration: none; 
             align-self: flex-start; cursor: pointer; transition: color 0.3s ease; 
             font-size: 1.05rem; margin-top: auto; 
         }
-        .writing-preview-card a.read-more-link:hover { color: tailwind.theme.extend.colors['brand-purple-dark']; }
+        .writing-preview-card a.read-more-link:hover { color: tailwind.theme.extend.colors['old-accent-hover']; }
         
-        /* Full Article View Styles (Writings section) */
-        #full-articles-container { display: block; margin-top: 2rem; }
+        /* Full Article View Styles (Writings section) - OLD STYLES RESTORED for article container */
         #full-articles-container article { 
-            display: none; 
-            background-color: tailwind.theme.extend.colors['brand-white']; 
-            border-radius: 0.75rem; padding: 2.5rem 2rem; margin-bottom: 3rem; 
-            /* box-shadow: 0 10px 40px rgba(0,0,0, 0.1); */ /* Subtle shadow */
-            border: 1px solid tailwind.theme.extend.colors['brand-grey-light']; 
-            border-top: 5px solid tailwind.theme.extend.colors['brand-purple']; 
+            display: none; background-color: tailwind.theme.extend.colors['old-article-bg']; 
+            backdrop-filter: blur(10px); border-radius: 0.75rem; padding: 2.5rem 2rem; 
+            margin-bottom: 3rem; 
+            box-shadow: 0 10px 40px rgba(0,0,0, 0.6), inset 0 1px 3px rgba(146, 114, 206, 0.1); 
+            border: 1px solid rgba(146, 114, 206, 0.3); 
+            border-top: 5px solid tailwind.theme.extend.colors['old-accent']; 
             opacity: 0; 
         }
         #full-articles-container article:target { display: block !important; opacity: 1 !important; animation: fadeInArticle 0.6s ease-out forwards; }
-        @keyframes fadeInArticle { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         #writings-grid-container:has(~ #full-articles-container article:target) { display: none; }
         hr.separator:has(~ #full-articles-container article:target) { display: none; }
         
-        #full-articles-container h2 { color: tailwind.theme.extend.colors['brand-purple-dark']; margin-bottom: 0.75rem; font-size: 2.1rem; }
-        #full-articles-container .post-meta-info { font-size: 0.95rem; color: tailwind.theme.extend.colors['brand-purple-light']; margin-bottom: 2.5rem; }
-        a.back-button { 
-            display: inline-block; margin-top: 2.5rem; padding: 0.7rem 1.4rem; 
-            background-color: tailwind.theme.extend.colors['brand-purple']; 
-            color: tailwind.theme.extend.colors['brand-white']; 
-            border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; 
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; 
-            box-shadow: 0 3px 10px rgba(128, 0, 128, 0.2); font-size: 1rem; text-decoration: none; 
+        #full-articles-container h2 { color: tailwind.theme.extend.colors['old-accent']; margin-bottom: 0.75rem; font-size: 2.1rem; }
+        #full-articles-container .post-meta-info { font-size: 0.95rem; color: tailwind.theme.extend.colors['old-light-accent']; margin-bottom: 2.5rem; }
+        /* Back button in full article uses old accent colors */
+        #full-articles-container a.back-button { 
+            background-color: tailwind.theme.extend.colors['old-accent']; 
+            color: tailwind.theme.extend.colors['old-text-primary']; 
+            /* ... other back-button styles ... */
         }
-        a.back-button:hover { background-color: tailwind.theme.extend.colors['brand-purple-dark']; transform: scale(1.05) translateY(-2px); box-shadow: 0 8px 20px rgba(128, 0, 128, 0.3); }
-        hr.separator { border: none; height: 2px; background-image: linear-gradient(to right, transparent, tailwind.theme.extend.colors['brand-purple'], tailwind.theme.extend.colors['brand-purple-light'], tailwind.theme.extend.colors['brand-purple'], transparent); margin-top: 3rem; margin-bottom: 3rem; opacity: 0.6; display: block; }
+        #full-articles-container a.back-button:hover { background-color: tailwind.theme.extend.colors['old-accent-hover'];}
+        /* Article Content HTML - uses old-text colors */
+        #full-articles-container .post-content-html p, 
+        #full-articles-container .post-content-html span { color: tailwind.theme.extend.colors['old-text-secondary']; }
+        #full-articles-container .post-content-html strong { color: tailwind.theme.extend.colors['old-text-primary']; }
+        #full-articles-container .post-content-html a { color: tailwind.theme.extend.colors['old-accent']; }
+        #full-articles-container .post-content-html blockquote {
+            border-left-color: tailwind.theme.extend.colors['old-accent'];
+            background-color: rgba(146, 114, 206, 0.05); /* old-accent with opacity */
+            color: tailwind.theme.extend.colors['old-text-tertiary'];
+        }
         
-        /* Article Content HTML Styling (General, check colors) */
-        .post-content-html { white-space: pre-line; text-align: left; line-height: 1.7; }
-        .post-content-html p, .post-content-html blockquote, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html strong, .post-content-html i, .post-content-html em, .post-content-html u, .post-content-html a { font-family: inherit; font-size: 1.1rem; color: tailwind.theme.extend.colors['text-primary']; background-color: transparent !important; margin: 0 0 0.8em 0; font-weight: normal; font-style: normal; text-decoration: none; word-wrap: break-word; border-radius: 3px; }
-        .post-content-html br { content: ""; display: block; margin-bottom: 0.1em; }
-        .post-content-html span { margin: 0; display: inline; }
-        .post-content-html b, .post-content-html strong { font-weight: 700; } 
-        .post-content-html i, .post-content-html em { font-style: italic; } 
-        .post-content-html u { text-decoration: underline; } 
-        .post-content-html a { color: tailwind.theme.extend.colors['brand-purple']; text-decoration: underline; transition: color 0.2s ease; display: inline; } 
-        .post-content-html a:hover { color: tailwind.theme.extend.colors['brand-purple-dark']; }
-        .post-content-html blockquote { border-left: 4px solid tailwind.theme.extend.colors['brand-purple']; padding: 1em 1.75rem; margin-left: 0; margin-right: 0; font-style: italic; color: tailwind.theme.extend.colors['text-secondary']; background-color: rgba(128, 0, 128, 0.03); } /* Light purple bg */
-        .post-content-html img { max-width: 100%; height: auto; display: block; margin: 2.5rem auto; border-radius: 0.75rem; box-shadow: 0 6px 20px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .post-content-html img:hover { transform: scale(1.03); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
-        
-        /* Glitch Button (colors might need slight adjustment for light theme visibility) */
-        .glitch-button { /* ... existing glitch styles ... */ }
-        .glitch-button:not(:disabled):hover::before { text-shadow: 2px 0px #FF00FF; /* Keep glitch colors distinct */ }
-        .glitch-button:not(:disabled):hover::after { text-shadow: -2px 0px #00FFFF; }
-        
-        /* --- About Section (#about-content) --- */
-        #about-content { padding: 2rem; }
+        /* --- About Section (#about-content) - OLD STYLES RESTORED --- */
+        #about-content { padding: 2rem; background-color: tailwind.theme.extend.colors['brand-white']; }
         #about-content .questionnaire-container-wrapper { max-width: 850px; margin-left: auto; margin-right: auto; }
-        .question-block { 
-            background-color: tailwind.theme.extend.colors['brand-white']; 
-            border: 1px solid tailwind.theme.extend.colors['brand-grey-light']; 
+        .question-block { /* Reverted to OLD styles */
+            background-color: rgba(28, 18, 52, 0.85); /* From old: rgba(28, 18, 52, 0.85) */
+            backdrop-filter: blur(8px); 
+            border: 1px solid rgba(174, 139, 213, 0.35); /* old-accent-hover with opacity */
             border-radius: 1rem; padding: 2.25rem 2.5rem; margin-bottom: 3.5rem; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
             min-height: 220px; display: flex; flex-direction: column;
             opacity: 0; transform: translateY(30px); 
         }
-        .question-block h3 { color: tailwind.theme.extend.colors['brand-purple-dark']; font-size: 1.5rem; margin-bottom: 1.75rem; }
-        .answer-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem; margin-bottom: 1.75rem; flex-grow: 1; }
-        .answer-option {
-            background-color: tailwind.theme.extend.colors['brand-grey-xlight']; color: tailwind.theme.extend.colors['text-secondary']; 
+        .question-block h3 { color: #D7C2F2; /* old-light-accent variation */ font-size: 1.5rem; margin-bottom: 1.75rem; }
+        .answer-options { /* ... */ }
+        .answer-option { /* Reverted to OLD styles */
+            background-color: rgba(45, 30, 70, 0.8); color: #E0D8F0; /* old light purple text */
             padding: 1rem 1.3rem; border-radius: 0.75rem; 
-            border: 1px solid tailwind.theme.extend.colors['brand-grey']; cursor: pointer;
+            border: 1px solid rgba(174, 139, 213, 0.45); cursor: pointer;
             transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.2s ease-out, box-shadow 0.25s ease;
         }
         .answer-option:not([disabled]):hover {
-            background-color: rgba(128, 0, 128, 0.1); border-color: tailwind.theme.extend.colors['brand-purple']; 
-            transform: translateY(-4px) scale(1.02); box-shadow: 0 5px 15px rgba(128, 0, 128, 0.1);
-            color: tailwind.theme.extend.colors['brand-purple-dark'];
+            background-color: rgba(174, 139, 213, 0.25); border-color: tailwind.theme.extend.colors['old-accent-hover']; 
+            transform: translateY(-4px) scale(1.035); box-shadow: 0 5px 15px rgba(174, 139, 213, 0.25);
         }
         .answer-option.selected-visitor { 
-            background-color: tailwind.theme.extend.colors['brand-purple'] !important; 
-            color: tailwind.theme.extend.colors['brand-white'] !important; 
-            border-color: tailwind.theme.extend.colors['brand-purple-dark'] !important; font-weight: 700; 
-            box-shadow: 0 0 12px rgba(128, 0, 128, 0.4);
+            background-color: #825FBD !important; /* Specific old purple */
+            color: tailwind.theme.extend.colors['old-text-primary'] !important; 
+            border-color: tailwind.theme.extend.colors['old-light-accent'] !important; font-weight: 700; 
+            box-shadow: 0 0 18px rgba(146, 114, 206, 0.7);
         }
-        /* Use configured colors for wrong/correct */
-        .answer-option.selected-visitor-wrong { background-color: var(--selected-wrong-bg) !important; /* ... */ }
-        .answer-option.agraj-correct-answer { background-color: var(--correct-answer-bg) !important; /* ... */ }
-        .answer-option[disabled] { background-color: var(--disabled-option-bg) !important; /* ... */ }
+        .answer-option.selected-visitor-wrong { background-color: tailwind.theme.extend.colors['old-selected-wrong-bg'] !important; /* ... */ }
+        .answer-option.agraj-correct-answer { background-color: tailwind.theme.extend.colors['old-correct-answer-bg'] !important; /* ... */ }
+        .answer-option[disabled] { background-color: tailwind.theme.extend.colors['old-disabled-option-bg'] !important; /* ... */ }
         
-        .feedback-area { 
+        .feedback-area { /* Reverted to OLD styles */
             margin-top: auto; padding: 1.35rem; 
-            background-color: tailwind.theme.extend.colors['brand-grey-xlight']; 
-            border-radius: 0.6rem; border-left: 5px solid tailwind.theme.extend.colors['brand-purple']; 
-            color: tailwind.theme.extend.colors['text-secondary']; 
+            background-color: rgba(15, 10, 30, 0.9); /* old darker shade */
+            border-radius: 0.6rem; border-left: 5px solid tailwind.theme.extend.colors['old-accent-hover']; 
+            color: #D7C2F2; /* old light purple text */
             font-size: 1rem; display: none; animation: fadeInFeedback 0.6s ease-out forwards; 
         }
         .feedback-area.visible { display: block; }
-        .feedback-area strong { color: tailwind.theme.extend.colors['brand-purple-dark']; }
+        .feedback-area strong { color: tailwind.theme.extend.colors['old-text-primary']; }
         
-        #personality-match-section { 
+        #personality-match-section { /* Reverted to OLD styles */
             margin-top: 4rem; padding: 2.75rem;  
-            background-color: tailwind.theme.extend.colors['brand-white']; 
-            border-radius: 1rem; border: 1px solid tailwind.theme.extend.colors['brand-purple-light']; 
-            text-align: center; box-shadow: 0 10px 30px rgba(128,0,128,0.08); 
+            background-color: rgba(35, 25, 60, 0.9); /* old dark purple */
+            backdrop-filter: blur(10px); 
+            border-radius: 1rem; border: 1px solid rgba(174, 139, 213, 0.45); 
+            text-align: center; box-shadow: 0 10px 35px rgba(0,0,0,0.4); 
         }
-        #personality-match-section h2 { color: tailwind.theme.extend.colors['brand-purple-dark']; }
-        #personality-match-section p { color: tailwind.theme.extend.colors['text-secondary']; }
+        #personality-match-section h2 { color: tailwind.theme.extend.colors['old-light-accent']; }
+        #personality-match-section p { color: #E0D8F0; /* old light purple text */ }
         #personality-match-section #match-percentage-value { 
-            color: tailwind.theme.extend.colors['brand-white']; 
-            background: linear-gradient(135deg, tailwind.theme.extend.colors['brand-purple-light'], tailwind.theme.extend.colors['brand-purple-dark']);
+            color: tailwind.theme.extend.colors['old-text-primary']; 
+            background: linear-gradient(135deg, tailwind.theme.extend.colors['old-accent-hover'], tailwind.theme.extend.colors['old-accent']);
         }
-        #personality-match-section #mbti-type-value { color: tailwind.theme.extend.colors['brand-purple-dark']; }
-        #contact-telegram-btn {
-             background-color: #28A8EA; /* Keep telegram brand color or adapt */
-        }
+        #personality-match-section #mbti-type-value { color: tailwind.theme.extend.colors['old-light-accent']; }
         #calculate-match-button { 
-            background-color: tailwind.theme.extend.colors['brand-purple']; color: tailwind.theme.extend.colors['brand-white'];
+            background-color: tailwind.theme.extend.colors['old-accent']; 
+            color: tailwind.theme.extend.colors['old-text-primary'];
         }
-        #calculate-match-button:disabled { background: tailwind.theme.extend.colors['brand-grey']; }
+        #calculate-match-button:disabled { background: #5a506b; color: tailwind.theme.extend.colors['old-text-tertiary']; }
 
-        /* --- SECRET GAME STYLES (Kept mostly dark as it's a modal overlay) --- */
-        #secret-game-modal { 
+
+        /* Glitch Button and Secret Game styles largely unchanged, they work okay on light/dark modal */
+        .glitch-button { position: relative; display: inline-block; cursor: pointer; padding: 0.75rem 1.5rem; text-decoration: none; overflow: hidden; transition: transform 0.1s ease-out; -webkit-user-select: none; -ms-user-select: none; user-select: none; }
+        .glitch-button .btn-text { position: relative; z-index: 1; }
+        .glitch-button::before, .glitch-button::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: inherit; color: inherit; padding: inherit; overflow: hidden; transition: transform 0.3s cubic-bezier(0.75, 0, 0.25, 1), opacity 0.3s ease; opacity: 0; }
+        .glitch-button:not(:disabled):hover::before { transform: translate(-3px, -2px) skewX(-5deg); text-shadow: 2px 0px #FF00FF; opacity: 0.8; animation: glitchEffectBefore 0.2s infinite alternate; }
+        .glitch-button:not(:disabled):hover::after { transform: translate(3px, 2px) skewX(5deg); text-shadow: -2px 0px #00FFFF; opacity: 0.8; animation: glitchEffectAfter 0.2s infinite alternate-reverse; }
+        .glitch-button:active { transform: scale(0.97); }
+        @keyframes glitchEffectBefore { 0% { clip-path: inset(10% 0 70% 0); } 50% { clip-path: inset(40% 0 20% 0); } 100% { clip-path: inset(75% 0 5% 0); } }
+        @keyframes glitchEffectAfter { 0% { clip-path: inset(60% 0 25% 0); } 50% { clip-path: inset(15% 0 55% 0); } 100% { clip-path: inset(50% 0 10% 0); } }
+        
+        #secret-game-modal { /* Dark overlay */
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background-color: rgba(15, 10, 25, 0.97); /* Dark overlay */
-            backdrop-filter: blur(8px); z-index: 1000; display: none; /* ... */
+            background-color: rgba(9, 6, 19, 0.97); backdrop-filter: blur(8px); 
+            z-index: 1000; display: none; flex-direction: column; 
+            align-items: center; justify-content: center; 
+            animation: fadeInGameModal 0.5s ease-out forwards; 
         }
-        #matter-canvas { background-color: rgba(20, 15, 35, 0.6); border: 2px solid rgba(146, 114, 206, 0.4); /* ... */ }
-        .game-controls button { /* ... */ }
+        @keyframes fadeInGameModal { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        #matter-canvas { background-color: rgba(20, 15, 35, 0.6); border: 2px solid rgba(146, 114, 206, 0.4);}
+        .game-controls button { padding: 10px 20px; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 500; transition: background-color 0.3s, transform 0.2s; font-family: 'Outfit', sans-serif;}
         #close-game-button { background-color: #7c5bab; } #reset-game-button { background-color: #5887a7; }
-        #game-info { background-color: rgba(0,0,0,0.4); color: #CBB8E8; /* ... */ }
-        #game-win-message { color: #AE8BD5; }
+        #game-info { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); padding: 8px 15px; background-color: rgba(0,0,0,0.4); border-radius: 5px; color: #CBB8E8; font-size: 0.9rem; text-align: center; min-width: 250px; }
+        #game-info p { margin: 2px 0; } #game-win-message { font-weight: bold; color: #AE8BD5; }
+        .game-instructions { color: #A8A8A8; font-size: 0.85rem; margin-top: 5px; }
+
     </style>
 </head>
 <body>
     <audio id="gameSpawnSound" src="spawn_sound.mp3" preload="auto"></audio>
     <audio id="gameWinSound" src="win_sound.mp3" preload="auto"></audio>
     <audio id="revealSound" src="reveal_sound.mp3" preload="auto"></audio>
-
-    <!-- Removed p5-background-canvas and bg-overlay -->
-    <!-- Progress bar can be kept or removed based on preference for new design -->
-    <!-- <div class="progress-container"> <div class="progress-bar" id="progressBar"></div> </div> -->
 
     <div id="left-navbar">
         <img src="Agraj.png" alt="Agraj Typeface Logo" id="nav-logo-type">
@@ -404,29 +376,26 @@
             <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer" data-navlink="reddit">Reddit</a>
             <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" data-navlink="contact">Contact</a>
         </nav>
+        <div id="nav-blockquote-container">
+            <span id="nav-blockquote-text"></span>
+        </div>
         <img src="asexual.png" alt="Site Logo - Secret Game Trigger" id="nav-logo-icon-trigger">
     </div>
 
     <div id="main-content-area">
-        <div id="page-container"> <!-- This div now sits inside main-content-area -->
+        <div id="page-container">
             <section id="home-content" class="page-section active-section">
-                <!-- This will be populated by JS with fizzling image bubbles -->
-                <div id="home-animated-post-images-container">
-                    <!-- Bubbles will be injected here by JS -->
-                </div>
-                <!-- This div is for showing a single post when a bubble is clicked -->
-                <div id="home-single-post-view">
-                    <!-- Single post content will be injected here -->
-                </div>
+                <div id="home-animated-post-images-container"></div>
+                <div id="home-single-post-view"></div>
             </section>
             
             <section id="writings-content" class="page-section"> 
                 <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen"> 
                     <div class="text-center mb-12 md:mb-16 pt-8"> 
-                        <h1 class="text-4xl md:text-5xl font-bold text-text-primary font-outfit">My Writings</h1> 
+                        <h1 class="text-4xl md:text-5xl font-bold font-outfit" style="color: black;">My Writings</h1> 
                     </div> 
                     <section id="writings-grid-container" class="mb-12 md:mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"></section> 
-                    <hr class="separator"> 
+                    <hr class="separator" style="background-image: linear-gradient(to right, transparent, #9272CE, #AE8BD5, #9272CE, transparent);"> 
                     <section id="full-articles-container"> 
                         <div class="full-articles-content max-w-4xl mx-auto" id="full-articles-dynamic-content"></div> 
                     </section> 
@@ -436,7 +405,7 @@
             <section id="about-content" class="page-section">
                 <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen">
                     <div class="text-center mb-12 md:mb-16 pt-8">
-                        <h1 class="text-4xl md:text-5xl font-bold text-text-primary font-outfit">A Little More About Me</h1>
+                        <h1 class="text-4xl md:text-5xl font-bold font-outfit" style="color: black;">A Little More About Me</h1>
                         <p class="text-text-secondary mt-4 text-lg">Answer these questions to see how our perspectives align (or amusingly diverge!).</p>
                     </div>
                     <div id="questionnaire-container-wrapper" class="questionnaire-container-wrapper">
@@ -447,8 +416,8 @@
                             <h2>Personality Snapshot</h2>
                             <p>Your alignment with my perspectives: <span id="match-percentage-value">0</span>%</p>
                             <p>My MBTI Type: <span id="mbti-type-value">INFJ</span></p>
-                            <p class="text-sm text-text-tertiary mt-4">Note: This is a simplified alignment based on these specific questions.</p>
-                            <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" id="contact-telegram-btn" class="glitch-button mt-6" data-text="Contact on Telegram!" style="display:none;">
+                            <p class="text-sm text-text-tertiary mt-4" style="color: #E0D8F0;">Note: This is a simplified alignment based on these specific questions.</p>
+                            <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" id="contact-telegram-btn" class="glitch-button mt-6" data-text="Contact on Telegram!" style="display:none; background-color: #28A8EA;">
                                 <span class="btn-text">Contact on Telegram!</span>
                             </a>
                         </div>
@@ -460,645 +429,481 @@
             </section>
         </div>
     </div>
-    
-    <!-- Footer removed -->
-    
+        
     <div id="secret-game-modal">
-        <div id="game-info">
-            <p>Shapes dropped: <span id="game-shapes-dropped">0</span>/<span id="game-max-shapes">0</span></p>
-            <p>In target: <span id="game-shapes-in-target">0</span>/<span id="game-shapes-to-win">0</span></p>
-            <p id="game-win-message" class="game-instructions">Drag shapes into the purple zone!</p>
-        </div>
-        <canvas id="matter-canvas"></canvas>
-        <div class="game-controls">
-            <button id="reset-game-button" class="glitch-button" data-text="Reset Game"><span class="btn-text">Reset Game</span></button>
-            <button id="close-game-button" class="glitch-button" data-text="Close Game"><span class="btn-text">Close Game</span></button>
-        </div>
+        <!-- Secret game structure remains same -->
+        <div id="game-info"> <p>Shapes dropped: <span id="game-shapes-dropped">0</span>/<span id="game-max-shapes">0</span></p> <p>In target: <span id="game-shapes-in-target">0</span>/<span id="game-shapes-to-win">0</span></p> <p id="game-win-message" class="game-instructions">Drag shapes into the purple zone!</p> </div> <canvas id="matter-canvas"></canvas> <div class="game-controls"> <button id="reset-game-button" class="glitch-button" data-text="Reset Game"><span class="btn-text">Reset Game</span></button> <button id="close-game-button" class="glitch-button" data-text="Close Game"><span class="btn-text">Close Game</span></button> </div>
     </div>
 
     <script>
         const APP_CONFIG = {
-            // ROTATING_TEXT_HOME is removed as hero text section is gone from home
+             NAV_BLOCKQUOTE_TEXTS: { // For the new navbar blockquote
+                 texts: [
+                    "The stream ran bright, water paving away, tap dancing with sunlight.",
+                    "Was I born different? What did I do different that made me the way I am?",
+                    "Time flies by; for me it does so in gloom. Worries of the future, regrets of the past.",
+                    "If a book doesn't change you, even in the slightest, it isn't worth reading.",
+                    "All went away for nothing, and all I am now is who I was never supposed to be.",
+                 ], 
+                 typeSpeed: 60, deleteSpeed: 30, pauseDuration: 4000 
+             },
             DEFAULT_TITLES: { 
                 home: "agraj - Portfolio",
                 writings: "Writings - Agraj Dubey",
                 about: "About Me - Agraj Dubey"
             },
             POSTS_JSON_PATH: 'posts.json',
-            QUESTIONS_JSON_PATH: 'questions.json', // Assuming this file exists for About Me
+            QUESTIONS_JSON_PATH: 'questions.json',
             TELEGRAM_USERNAME: 'agraj0669',
             MATCH_THRESHOLD_FOR_CONTACT: 70,
-            MAX_HOME_BUBBLES: 8 // Show up to 8 post bubbles on home
+            MAX_HOME_BUBBLES: 8
         };
         
         let ALL_QUESTIONNAIRE_DATA = [];
         let visitorAnswers = {}; 
         let questionsAnsweredCount = 0;
         let revealSound, gameSpawnSoundEl, gameWinSoundEl;
+        let rotatingTextInstances = {}; // To manage multiple typewriter instances
 
         function $(selector) { return document.querySelector(selector); }
         function $$(selector) { return document.querySelectorAll(selector); }
 
-        // --- p5.js Generative Background REMOVED ---
-
         // --- Content Rendering (Writings) ---
-        let ALL_POSTS_DATA = []; // ALL_POST_DATA_FOR_HOME_RECENT is not needed separately now
+        let ALL_POSTS_DATA = [];
         
-        function simpleMarkdownToHtml(md) {
-            if (typeof md !== 'string') return '';
-            let html = md;
-            html = html.replace(/\r\n/g, '\n');
-            html = html.replace(/<br\s*\/?>\n?/gi, '\n');
-            html = html.replace(/\n\s*\n+/g, '<br>\n<br>\n');
-            html = html.replace(/\n/g, '<br>\n');
-            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-            html = html.replace(/\\\"/g, '"');
-            html = html.replace(/(<br>\n\s*){3,}/g, '<br>\n<br>\n');
+        function simpleMarkdownToHtml(md) { /* ... same as before ... */ 
+            if (typeof md !== 'string') return ''; let html = md;
+            html = html.replace(/\r\n/g, '\n'); html = html.replace(/<br\s*\/?>\n?/gi, '\n');
+            html = html.replace(/\n\s*\n+/g, '<br>\n<br>\n'); html = html.replace(/\n/g, '<br>\n');
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            html = html.replace(/\\\"/g, '"'); html = html.replace(/(<br>\n\s*){3,}/g, '<br>\n<br>\n');
             return html;
         }
 
-        function createPostPreviewCard(post) { // isForHome flag removed
-            const cardClass = 'writing-preview-card'; // Standard card for writings page
-            const anchorClass = `read-more-link glitch-button`; // Glitch button for writings page cards
+        function createPostPreviewCard(post) {
+            const cardClass = 'writing-preview-card';
+            const anchorClass = `read-more-link glitch-button`;
             const readMoreTextContent = `Read More →`;
             const dataText = readMoreTextContent.trim();
-
             return `
-                <div class="${cardClass} rounded-lg p-7 shadow-lg relative overflow-hidden">
-                    <h3 class="text-xl lg:text-2xl font-semibold mb-4 group text-hover-scale font-outfit">
-                        <span class="transition-all duration-300 inline-block">${post.title}</span>
-                    </h3>
+                <div class="${cardClass}">
+                    <h3 class="text-hover-scale">${post.title}</h3>
                     <div class="post-meta-info">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
-                    <div class="mb-5"><p class="text-text-secondary line-clamp-4 excerpt">${post.excerpt}</p></div>
+                    <div class="mb-5"><p class="excerpt line-clamp-4">${post.excerpt}</p></div>
                     <a href="#${post.id}" class="${anchorClass}" data-text="${dataText}">
                         <span class="btn-text">${readMoreTextContent}</span>
                     </a>
-                </div>
-            `;
+                </div>`;
         }
         function createFullArticleHtml(post, isForHomeView = false) { 
             const htmlContent = simpleMarkdownToHtml(post.contentMarkdown); 
-            // Base class for article container
             let articleContainerId = post.id;
             let backButtonHtml = `<a href="#writings" class="back-button mt-8 glitch-button" data-text="← Back to Writings"><span class="btn-text">← Back to Writings</span></a>`;
-            
-            if (isForHomeView) {
-                // No back button if viewed from home, or a different kind of close
-                backButtonHtml = ''; // Or a close button for the home-single-post-view
-            }
-
+            if (isForHomeView) { backButtonHtml = ''; }
             return `
                 <article id="${articleContainerId}" tabindex="-1">
-                    <h2 class="text-hover-scale">${post.title}</h2>
+                    <h2>${post.title}</h2>
                     <div class="post-meta-info">Published: ${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
                     ${post.image ? `<img src="${post.image}" alt="${post.imageAlt || post.title}" class="my-8 rounded-lg shadow-lg mx-auto max-w-full md:max-w-2xl" loading="lazy">` : ''}
                     <div class="post-content-html">${htmlContent}</div>
                     ${backButtonHtml}
-                </article>
-            `;
+                </article>`;
         }
 
-        // --- Home Page Right Column Animated Image Bubbles (Fizzling Effect) ---
-        async function setupHomePostBubbles() {
+        // --- Home Page Bubbles ---
+        async function setupHomePostBubbles() { /* ... same as before ... */ 
             const container = $('#home-animated-post-images-container');
             if (!container) { console.warn("Home animated images container not found."); return; }
             if (ALL_POSTS_DATA.length === 0) { setTimeout(setupHomePostBubbles, 200); return; }
-
             const postsWithImages = ALL_POSTS_DATA.filter(post => post.image).slice(0, APP_CONFIG.MAX_HOME_BUBBLES);
-            if (postsWithImages.length === 0) {
-                container.innerHTML = '<p class="text-text-tertiary text-sm text-center">No recent visual entries.</p>';
-                return;
-            }
-            
+            if (postsWithImages.length === 0) { container.innerHTML = '<p class="text-text-tertiary text-sm text-center">No recent visual entries.</p>'; return; }
             container.innerHTML = ''; 
-
-            // Define bubble sizes - these can be more varied or randomized
-            const bubbleBaseSizeVW = 12; // Average size relative to viewport width
-            const minBubbleSize = 120;   // Min pixel size
-            const maxBubbleSize = 250;   // Max pixel size
-            
+            const bubbleBaseSizeVW = 12; const minBubbleSize = 120; const maxBubbleSize = 250;   
             requestAnimationFrame(() => {
-                const containerWidth = container.offsetWidth;
-                const containerHeight = container.offsetHeight;
-
+                const containerWidth = container.offsetWidth; const containerHeight = container.offsetHeight;
                 postsWithImages.forEach((post, index) => {
                     const escapedTitle = post.title.replace(/"/g, '"');
-                    
                     let bubbleSize = Math.max(minBubbleSize, Math.min(maxBubbleSize, window.innerWidth * ((bubbleBaseSizeVW + Math.random() * 4 - 2) / 100) ));
                     bubbleSize = Math.min(bubbleSize, (containerWidth > 0 ? containerWidth * 0.8 : maxBubbleSize), (containerHeight > 0 ? containerHeight * 0.40 : maxBubbleSize));
-
                     const bubbleLink = document.createElement('a');
-                    // When clicked from home, use a specific hash or JS to show post without "back to writings"
-                    bubbleLink.href = `#home/${post.id}`; 
-                    bubbleLink.classList.add('animated-post-image-bubble');
-                    bubbleLink.setAttribute('aria-label', `Read more about ${escapedTitle}`);
-                    bubbleLink.title = escapedTitle;
-                    bubbleLink.dataset.postId = post.id; // Store post ID for click handler
-                    
-                    bubbleLink.style.width = `${bubbleSize}px`;
-                    bubbleLink.style.height = `${bubbleSize}px`;
-                    bubbleLink.style.zIndex = Math.floor(Math.random() * 3) + 1;
-                    bubbleLink.style.opacity = 0; 
-
-                    const img = document.createElement('img');
-                    img.src = post.image;
-                    img.alt = `Preview for ${escapedTitle}`;
-                    
-                    bubbleLink.appendChild(img);
-                    container.appendChild(bubbleLink);
-
-                    bubbleLink.addEventListener('click', function(e) {
-                        e.preventDefault(); // Prevent default hash change initially
-                        const postId = this.dataset.postId;
-                        showPostInHomeView(postId);
-                        window.location.hash = `home/${postId}`; // Update hash for bookmarking/linking
-                    });
+                    bubbleLink.href = `#home/${post.id}`; bubbleLink.classList.add('animated-post-image-bubble');
+                    bubbleLink.setAttribute('aria-label', `Read more about ${escapedTitle}`); bubbleLink.title = escapedTitle;
+                    bubbleLink.dataset.postId = post.id; 
+                    bubbleLink.style.width = `${bubbleSize}px`; bubbleLink.style.height = `${bubbleSize}px`;
+                    bubbleLink.style.zIndex = Math.floor(Math.random() * 3) + 1; bubbleLink.style.opacity = 0; 
+                    const img = document.createElement('img'); img.src = post.image; img.alt = `Preview for ${escapedTitle}`;
+                    bubbleLink.appendChild(img); container.appendChild(bubbleLink);
+                    bubbleLink.addEventListener('click', function(e) { e.preventDefault(); const postId = this.dataset.postId; showPostInHomeView(postId); window.location.hash = `home/${postId}`; });
                 });
-
                 const imageBubbles = $$('#home-animated-post-images-container .animated-post-image-bubble');
                 if (typeof anime === 'function' && imageBubbles.length > 0) {
                     imageBubbles.forEach((bubble) => {
                         function fizzleAnimation() {
-                            const bubbleSize = parseFloat(bubble.style.width);
-                            const currentContainerHeight = container.offsetHeight > 0 ? container.offsetHeight : 600; 
+                            const bubbleSize = parseFloat(bubble.style.width); const currentContainerHeight = container.offsetHeight > 0 ? container.offsetHeight : 600; 
                             const currentContainerWidth = container.offsetWidth > 0 ? container.offsetWidth : 300; 
-
-                            const maxTop = Math.max(0, currentContainerHeight - bubbleSize - 10); 
-                            const maxLeft = Math.max(0, currentContainerWidth - bubbleSize - 10);
-
-                            const newTop = anime.random(0, maxTop);
-                            const newLeft = anime.random(0, maxLeft);
-                            
-                            bubble.style.top = `${newTop}px`;
-                            bubble.style.left = `${newLeft}px`;
-                            bubble.style.transform = 'translateX(0px) translateY(0px)';
-
-                            anime.timeline({
-                                targets: bubble,
-                                easing: 'easeOutExpo', 
-                                complete: fizzleAnimation 
-                            })
-                            .add({ 
-                                opacity: [0, 0.9], scale: [0.3, 1],
-                                duration: anime.random(700, 1200), // Slower appearance
-                            })
-                            .add({ 
-                                translateX: () => anime.random(-20, 20) + 'px',
-                                translateY: () => anime.random(-20, 20) + 'px',
-                                scale: () => anime.random(0.9, 1.1), 
-                                duration: anime.random(3000, 5000), // Longer hover/float
-                                easing: 'easeInOutSine'
-                            }, '-=300') 
-                            .add({ 
-                                opacity: [bubble.style.opacity, 0], 
-                                scale: [parseFloat(getComputedStyle(bubble).transform.split(',')[0].split('(')[1]) || 1, 0.2], 
-                                duration: anime.random(600, 900), // Slower disappearance
-                                easing: 'easeInExpo', 
-                                delay: anime.random(0, 500) 
-                            });
-                        }
-                        setTimeout(fizzleAnimation, anime.random(0, 2500)); 
+                            const maxTop = Math.max(0, currentContainerHeight - bubbleSize - 10); const maxLeft = Math.max(0, currentContainerWidth - bubbleSize - 10);
+                            const newTop = anime.random(0, maxTop); const newLeft = anime.random(0, maxLeft);
+                            bubble.style.top = `${newTop}px`; bubble.style.left = `${newLeft}px`; bubble.style.transform = 'translateX(0px) translateY(0px)';
+                            anime.timeline({ targets: bubble, easing: 'easeOutExpo', complete: fizzleAnimation })
+                            .add({ opacity: [0, 0.9], scale: [0.3, 1], duration: anime.random(700, 1200)})
+                            .add({ translateX: () => anime.random(-20, 20) + 'px', translateY: () => anime.random(-20, 20) + 'px', scale: () => anime.random(0.9, 1.1), duration: anime.random(3000, 5000), easing: 'easeInOutSine'}, '-=300') 
+                            .add({ opacity: [bubble.style.opacity, 0], scale: [parseFloat(getComputedStyle(bubble).transform.split(',')[0].split('(')[1]) || 1, 0.2], duration: anime.random(600, 900), easing: 'easeInExpo', delay: anime.random(0, 500) });
+                        } setTimeout(fizzleAnimation, anime.random(0, 2500)); 
                     });
                 }
             }); 
         }
-        
-        function showPostInHomeView(postId) {
-            const post = ALL_POSTS_DATA.find(p => p.id === postId);
-            if (!post) return;
-
-            const homePostViewContainer = $('#home-single-post-view');
-            const bubblesContainer = $('#home-animated-post-images-container');
-            
+        function showPostInHomeView(postId) { /* ... same as before ... */ 
+            const post = ALL_POSTS_DATA.find(p => p.id === postId); if (!post) return;
+            const homePostViewContainer = $('#home-single-post-view'); const bubblesContainer = $('#home-animated-post-images-container');
             if (homePostViewContainer && bubblesContainer) {
-                homePostViewContainer.innerHTML = createFullArticleHtml(post, true); // true for home view (no back button)
-                bubblesContainer.style.display = 'none'; // Hide bubbles
-                homePostViewContainer.style.display = 'block';
-                homePostViewContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                homePostViewContainer.innerHTML = createFullArticleHtml(post, true); bubblesContainer.style.display = 'none'; 
+                homePostViewContainer.style.display = 'block'; homePostViewContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 document.title = `${post.title} - ${APP_CONFIG.DEFAULT_TITLES.home}`;
             }
         }
-
-        function hidePostInHomeView() {
-            const homePostViewContainer = $('#home-single-post-view');
-            const bubblesContainer = $('#home-animated-post-images-container');
+        function hidePostInHomeView() { /* ... same as before ... */ 
+            const homePostViewContainer = $('#home-single-post-view'); const bubblesContainer = $('#home-animated-post-images-container');
             if (homePostViewContainer && bubblesContainer) {
-                homePostViewContainer.style.display = 'none';
-                homePostViewContainer.innerHTML = '';
-                bubblesContainer.style.display = 'block'; // Show bubbles again
-                document.title = APP_CONFIG.DEFAULT_TITLES.home;
+                homePostViewContainer.style.display = 'none'; homePostViewContainer.innerHTML = '';
+                bubblesContainer.style.display = 'block'; document.title = APP_CONFIG.DEFAULT_TITLES.home;
             }
         }
 
-
-        async function loadAndRenderPosts() { 
+        async function loadAndRenderPosts() { /* ... same as before, ensure setupWritingsCardHoverEffects is called if needed ... */ 
             try {
                 const response = await fetch(APP_CONFIG.POSTS_JSON_PATH);
                 if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}, path: ${APP_CONFIG.POSTS_JSON_PATH}`); }
-                ALL_POSTS_DATA = await response.json();
-                ALL_POSTS_DATA.sort((a, b) => new Date(b.date) - new Date(a.date)); 
-                
+                ALL_POSTS_DATA = await response.json(); ALL_POSTS_DATA.sort((a, b) => new Date(b.date) - new Date(a.date)); 
                 const writingsGrid = $('#writings-grid-container');
                 if (writingsGrid) {
                      if (ALL_POSTS_DATA.length > 0) { writingsGrid.innerHTML = ALL_POSTS_DATA.map(post => createPostPreviewCard(post)).join(''); } 
                      else { writingsGrid.innerHTML = '<p class="text-text-secondary col-span-full text-center">No writings available.</p>'; }
-                     // setupWritingsCardHoverEffects(); // Keep if you want 3D hover
+                     setupWritingsCardHoverEffects(); // RESTORED HOVER FOR WRITINGS CARDS
                 }
                 const fullArticlesTarget = $('#full-articles-dynamic-content');
-                 if (fullArticlesTarget) {  fullArticlesTarget.innerHTML = ALL_POSTS_DATA.map(post => createFullArticleHtml(post, false)).join(''); } // false = not home view
-
-                // Call to setup home page bubbles if home is the active section or on first load
+                if (fullArticlesTarget) { fullArticlesTarget.innerHTML = ALL_POSTS_DATA.map(post => createFullArticleHtml(post, false)).join(''); }
                 if (typeof setupHomePostBubbles === 'function' && (!$('.page-section.active-section') || $('.page-section.active-section').id === 'home-content')) {
                     await setupHomePostBubbles(); 
                 }
-                // setupHomeScrollAnimations(); // Re-evaluate if needed for new home page
-
-            } catch (error) {
-                console.error("ERROR in loadAndRenderPosts:", error);
-                if ($('#writings-grid-container')) $('#writings-grid-container').innerHTML = '<p class="text-text-secondary col-span-full text-center">Error: Could not load writings.</p>';
-            }
+            } catch (error) { console.error("ERROR in loadAndRenderPosts:", error); /* Error handling */ }
         }
 
-        // --- Questionnaire Logic (Copied from old, styling changes are in CSS block) ---
-        async function renderQuestionnaire() {
-            // ... (Same JS logic as provided in old file, ensure selectors are correct)
-            // Ensure APP_CONFIG.QUESTIONS_JSON_PATH is correctly pointing to your questions file
-            const container = $('#questionnaire-render-area');
-            const calculateButton = $('#calculate-match-button');
-            const personalityMatchSection = $('#personality-match-section');
-            const contactTelegramBtn = $('#contact-telegram-btn');
-
-            if (!container || !calculateButton || !personalityMatchSection || !contactTelegramBtn) {
-                console.error("One or more questionnaire UI elements not found. Aborting render.");
-                if(container) container.innerHTML = '<p class="text-text-secondary text-center">Core UI elements missing.</p>';
-                return;
+        // --- Typewriter for Navbar ---
+        function setupRotatingText(elementId, config) { 
+            // ... (Full function from original `index.html` or previous response, with isVisible logic)
+            if (rotatingTextInstances[elementId]) { return; }
+            const element = document.getElementById(elementId);
+            if (!element) { console.warn(`Rotating text element not found: #${elementId}`); return; }
+            let currentIndex = -1, isBusy = false, cycleTimeout = null, isVisible = true; // Assume navbar visible
+            const runOnce = (config.runOnce === true); // Check for runOnce if needed
+            element.textContent = ''; 
+            function typeWriterInternal(text, callback) {
+                let i = 0; isBusy = true;
+                function type() {
+                    if (!isVisible || !isBusy) { isBusy = false; if (!isVisible) element.textContent = ''; return; }
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i); i++;
+                        setTimeout(type, config.typeSpeed);
+                    } else {
+                        if (element.querySelector('.typed-cursor')) element.removeChild(element.querySelector('.typed-cursor'));
+                        const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor);
+                        isBusy = false; if (callback) callback();
+                    }
+                } type();
             }
-            container.innerHTML = '<p class="text-center text-text-secondary">Loading questions...</p>'; 
+            function deleteWriterInternal(callback) {
+                if (runOnce && element.textContent.length > 0) { if (callback) callback(); return; }
+                let text = element.textContent;
+                const existingCursor = element.querySelector('.typed-cursor');
+                if (existingCursor) element.removeChild(existingCursor);
+                text = element.textContent; 
+                let i = text.length; isBusy = true;
+                function del() {
+                    if (!isVisible || !isBusy) { isBusy = false; if (!isVisible) element.textContent = ''; return; }
+                    if (i > 0) {
+                        element.textContent = text.substring(0, i - 1); i--;
+                        if (!element.querySelector('.typed-cursor') && element.textContent.length > 0) {
+                           const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor);
+                        } setTimeout(del, config.deleteSpeed);
+                    } else {
+                        const finalCursor = element.querySelector('.typed-cursor'); if (finalCursor) element.removeChild(finalCursor);
+                        element.textContent = ''; isBusy = false; if (callback) callback();
+                    }
+                } del();
+            }
+            function scheduleCycle(delay) { if (runOnce) return; clearTimeout(cycleTimeout); cycleTimeout = setTimeout(() => { if(isVisible) startCycle(); }, delay); }
+            function startCycle() {
+                if (runOnce || isBusy || !isVisible) return;
+                deleteWriterInternal(() => {
+                    if (!isVisible) return; let nextIndex;
+                    do { nextIndex = Math.floor(Math.random() * config.texts.length); }
+                    while (nextIndex === currentIndex && config.texts.length > 1);
+                    currentIndex = nextIndex; const nextText = config.texts[currentIndex];
+                    element.textContent = ''; typeWriterInternal(nextText, () => scheduleCycle(config.pauseDuration));
+                });
+            }
+            // For navbar, start immediately as it's always "visible" in this layout
+            currentIndex = Math.floor(Math.random() * config.texts.length);
+            const firstText = config.texts[currentIndex];
+            element.textContent = ''; typeWriterInternal(firstText, () => { if (!runOnce) scheduleCycle(config.pauseDuration); });
+            rotatingTextInstances[elementId] = { element: element }; // No observer needed for navbar
+        }
+        
+        // --- Writings Card Hover Effect (restored from original if it was JS driven for 3D) ---
+        function setupWritingsCardHoverEffects() {
+            $$('#writings-content .writing-preview-card').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2; const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 15; // Increased sensitivity
+                    const rotateY = (centerX - x) / 15; // Increased sensitivity
+                    card.style.transition = 'transform 0.1s ease-out'; 
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(30px)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; 
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+                });
+                card.querySelectorAll('a').forEach(link => { link.addEventListener('click', (e) => e.stopPropagation()); });
+            });
+        }
 
+
+        // --- Questionnaire Logic ---
+        async function renderQuestionnaire() { /* ... same as before ... */ 
+            const container = $('#questionnaire-render-area'); const calculateButton = $('#calculate-match-button');
+            const personalityMatchSection = $('#personality-match-section'); const contactTelegramBtn = $('#contact-telegram-btn');
+            if (!container || !calculateButton || !personalityMatchSection || !contactTelegramBtn) { /* error handling */ return; }
+            container.innerHTML = '<p class="text-center text-text-secondary">Loading questions...</p>'; 
             try {
                 const response = await fetch(APP_CONFIG.QUESTIONS_JSON_PATH);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status} for ${APP_CONFIG.QUESTIONS_JSON_PATH}`);
                 ALL_QUESTIONNAIRE_DATA = await response.json();
-            } catch (error) {
-                console.error("Error loading questionnaire data:", error);
-                container.innerHTML = `<p class="text-text-secondary text-center">Error: Could not load questions. (${error.message})</p>`;
-                return;
-            }
-            
-            if (ALL_QUESTIONNAIRE_DATA.length === 0) {
-                container.innerHTML = '<p class="text-text-secondary text-center">No questions available.</p>';
-                return;
-            }
-
-            let html = '';
-            ALL_QUESTIONNAIRE_DATA.forEach((q) => {
-                html += `
-                    <div class="question-block" id="question-${q.id}" data-question-id="${q.id}">
-                        <h3>${q.questionText}</h3>
-                        <div class="answer-options">
-                `;
-                q.options.forEach((opt) => {
-                    const escapedOptionText = String(opt.text).replace(/"/g, '"');
-                    html += `<button class="answer-option" data-option-text="${escapedOptionText}">${opt.text}</button>`;
-                });
-                html += `
-                        </div>
-                        <div class="feedback-area" id="feedback-${q.id}"></div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-            
-            if (typeof anime === 'function') {
-                anime({
-                    targets: '.question-block', translateY: [30, 0], opacity: [0, 1],
-                    delay: anime.stagger(120, { start: 100 }), duration: 600, easing: 'easeOutExpo'
-                });
-            }
-            
+            } catch (error) { console.error("Error loading questionnaire data:", error); /* error handling */ return; }
+            if (ALL_QUESTIONNAIRE_DATA.length === 0) { /* no questions handling */ return; }
+            let html = ''; ALL_QUESTIONNAIRE_DATA.forEach((q) => { /* build HTML */ 
+                html += `<div class="question-block" id="question-${q.id}" data-question-id="${q.id}"><h3>${q.questionText}</h3><div class="answer-options">`;
+                q.options.forEach((opt) => { const escapedOptionText = String(opt.text).replace(/"/g, '"'); html += `<button class="answer-option" data-option-text="${escapedOptionText}">${opt.text}</button>`; });
+                html += `</div><div class="feedback-area" id="feedback-${q.id}"></div></div>`;
+            }); container.innerHTML = html;
+            if (typeof anime === 'function') { anime({ targets: '.question-block', translateY: [30, 0], opacity: [0, 1], delay: anime.stagger(120, { start: 100 }), duration: 600, easing: 'easeOutExpo' }); }
             visitorAnswers = {}; questionsAnsweredCount = 0; 
-            personalityMatchSection.style.display = 'none'; 
-            personalityMatchSection.classList.remove('visible'); // If 'visible' class controls display
-            personalityMatchSection.style.opacity = '0';
-            personalityMatchSection.style.transform = 'translateY(20px)';
-            contactTelegramBtn.style.display = 'none';
-            calculateButton.style.display = 'none'; 
-            calculateButton.disabled = true;
-
+            personalityMatchSection.style.display = 'none'; personalityMatchSection.style.opacity = '0'; personalityMatchSection.style.transform = 'translateY(20px)';
+            contactTelegramBtn.style.display = 'none'; calculateButton.style.display = 'none'; calculateButton.disabled = true;
             setupQuestionnaireInteractions();
         }
-        function setupQuestionnaireInteractions() { // Copied from old
-            const answerOptionButtons = $$('#questionnaire-render-area .answer-option');
+        function setupQuestionnaireInteractions() { /* ... same as before ... */ 
+             const answerOptionButtons = $$('#questionnaire-render-area .answer-option');
             answerOptionButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    const questionBlock = this.closest('.question-block');
-                    if (questionBlock.classList.contains('answered')) return;
-                    const questionId = questionBlock.dataset.questionId;
-                    const selectedOptionText = this.dataset.optionText;
-                    const questionData = ALL_QUESTIONNAIRE_DATA.find(q => q.id === questionId);
-                    if (!questionData) return;
-                    const selectedOptionData = questionData.options.find(opt => opt.text === selectedOptionText);
-                    if (!selectedOptionData) return;
-                    questionBlock.classList.add('answered'); 
-                    if (!visitorAnswers.hasOwnProperty(questionId)) questionsAnsweredCount++;
+                    const questionBlock = this.closest('.question-block'); if (questionBlock.classList.contains('answered')) return;
+                    const questionId = questionBlock.dataset.questionId; const selectedOptionText = this.dataset.optionText;
+                    const questionData = ALL_QUESTIONNAIRE_DATA.find(q => q.id === questionId); if (!questionData) return;
+                    const selectedOptionData = questionData.options.find(opt => opt.text === selectedOptionText); if (!selectedOptionData) return;
+                    questionBlock.classList.add('answered'); if (!visitorAnswers.hasOwnProperty(questionId)) questionsAnsweredCount++;
                     visitorAnswers[questionId] = selectedOptionText; 
                     const optionsInBlock = questionBlock.querySelectorAll('.answer-option');
                     optionsInBlock.forEach(opt => {
-                        opt.disabled = true;
-                        opt.classList.remove('selected-visitor', 'selected-visitor-wrong', 'agraj-correct-answer'); 
-                        if (opt !== this && opt.dataset.optionText !== questionData.agrajAnswerText && typeof anime === 'function') {
-                            anime({ targets: opt, opacity: 0.4, scale: 0.95, duration: 400, easing: 'easeOutQuad' });
-                        }
+                        opt.disabled = true; opt.classList.remove('selected-visitor', 'selected-visitor-wrong', 'agraj-correct-answer'); 
+                        if (opt !== this && opt.dataset.optionText !== questionData.agrajAnswerText && typeof anime === 'function') { anime({ targets: opt, opacity: 0.4, scale: 0.95, duration: 400, easing: 'easeOutQuad' }); }
                     });
                     let animParams = { targets: this, duration: 400, easing: 'easeOutBack' };
-                    if (selectedOptionText === questionData.agrajAnswerText) {
-                        this.classList.add('selected-visitor');
-                        animParams.scale = [1, 1.05, 1]; 
-                        // animParams.backgroundColor = tailwind.theme.extend.colors['brand-purple']; // Using CSS class now
-                    } else {
-                        this.classList.add('selected-visitor-wrong');
-                        // animParams.backgroundColor = tailwind.theme.extend.colors['selected-wrong-bg'];
-                        const agrajAnswerButton = Array.from(optionsInBlock).find(optBtn => optBtn.dataset.optionText === questionData.agrajAnswerText);
-                        if (agrajAnswerButton) {
-                            agrajAnswerButton.classList.add('agraj-correct-answer');
-                             if (typeof anime === 'function') {
-                                anime({ targets: agrajAnswerButton, scale: [1, 1.03, 1], /*backgroundColor: tailwind.theme.extend.colors['correct-answer-bg'],*/ duration: 400, delay:100, easing: 'easeOutBack' });
-                            }
-                        }
-                    }
+                    if (selectedOptionText === questionData.agrajAnswerText) { this.classList.add('selected-visitor'); animParams.scale = [1, 1.05, 1];  } 
+                    else { this.classList.add('selected-visitor-wrong'); const agrajAnswerButton = Array.from(optionsInBlock).find(optBtn => optBtn.dataset.optionText === questionData.agrajAnswerText); if (agrajAnswerButton) { agrajAnswerButton.classList.add('agraj-correct-answer'); if (typeof anime === 'function') { anime({ targets: agrajAnswerButton, scale: [1, 1.03, 1], duration: 400, delay:100, easing: 'easeOutBack' }); } } }
                     if (typeof anime === 'function') anime(animParams); 
-                    const feedbackArea = questionBlock.querySelector('.feedback-area');
-                    feedbackArea.innerHTML = selectedOptionData.feedback; 
-                    feedbackArea.classList.add('visible');
-                     if (typeof anime === 'function') { 
-                        anime({ targets: feedbackArea, opacity: [0, 1], translateY: [10,0], duration: 500, delay: 200, easing: 'easeOutExpo' });
-                    }
+                    const feedbackArea = questionBlock.querySelector('.feedback-area'); feedbackArea.innerHTML = selectedOptionData.feedback; feedbackArea.classList.add('visible');
+                    if (typeof anime === 'function') { anime({ targets: feedbackArea, opacity: [0, 1], translateY: [10,0], duration: 500, delay: 200, easing: 'easeOutExpo' }); }
                     const calculateButton = $('#calculate-match-button');
-                    if (ALL_QUESTIONNAIRE_DATA.length > 0 && questionsAnsweredCount === ALL_QUESTIONNAIRE_DATA.length) {
-                        calculateButton.style.display = 'inline-block';
-                        calculateButton.disabled = false;
-                         if (typeof anime === 'function') {
-                            anime({ targets: calculateButton, opacity: [0, 1], scale: [0.8, 1], duration: 500, easing: 'easeOutExpo' });
-                        }
-                    } else {
-                        calculateButton.style.display = 'none';
-                        calculateButton.disabled = true;
-                    }
+                    if (ALL_QUESTIONNAIRE_DATA.length > 0 && questionsAnsweredCount === ALL_QUESTIONNAIRE_DATA.length) { calculateButton.style.display = 'inline-block'; calculateButton.disabled = false; if (typeof anime === 'function') { anime({ targets: calculateButton, opacity: [0, 1], scale: [0.8, 1], duration: 500, easing: 'easeOutExpo' }); } } 
+                    else { calculateButton.style.display = 'none'; calculateButton.disabled = true; }
                 });
             });
-            const calculateButton = $('#calculate-match-button');
-            if (calculateButton) calculateButton.addEventListener('click', calculateAndShowMatch);
+            const calculateButton = $('#calculate-match-button'); if (calculateButton) calculateButton.addEventListener('click', calculateAndShowMatch);
         }
-        function calculateAndShowMatch() { // Copied from old
-            const calcButton = $('#calculate-match-button'); 
-            if(calcButton) calcButton.disabled = true; 
+        function calculateAndShowMatch() { /* ... same as before ... */ 
+            const calcButton = $('#calculate-match-button'); if(calcButton) calcButton.disabled = true; 
             if (ALL_QUESTIONNAIRE_DATA.length === 0 || questionsAnsweredCount < ALL_QUESTIONNAIRE_DATA.length) return;
-            let matches = 0;
-            ALL_QUESTIONNAIRE_DATA.forEach(qData => {
-                const visitorSelectedText = visitorAnswers[qData.id];
-                if (visitorSelectedText && typeof visitorSelectedText === 'string' && typeof qData.agrajAnswerText === 'string' && 
-                    visitorSelectedText.trim() === qData.agrajAnswerText.trim()) {
-                    matches++;
-                }
-            });
-            const totalQuestions = ALL_QUESTIONNAIRE_DATA.length;
-            const percentage = totalQuestions > 0 ? Math.round((matches / totalQuestions) * 100) : 0;
-            const percentageEl = $('#match-percentage-value');
-            const personalityMatchSection = $('#personality-match-section');
-            const contactTelegramBtn = $('#contact-telegram-btn');
+            let matches = 0; ALL_QUESTIONNAIRE_DATA.forEach(qData => { const visitorSelectedText = visitorAnswers[qData.id]; if (visitorSelectedText && typeof visitorSelectedText === 'string' && typeof qData.agrajAnswerText === 'string' && visitorSelectedText.trim() === qData.agrajAnswerText.trim()) { matches++; } });
+            const totalQuestions = ALL_QUESTIONNAIRE_DATA.length; const percentage = totalQuestions > 0 ? Math.round((matches / totalQuestions) * 100) : 0;
+            const percentageEl = $('#match-percentage-value'); const personalityMatchSection = $('#personality-match-section'); const contactTelegramBtn = $('#contact-telegram-btn');
             if (!percentageEl || !personalityMatchSection || !contactTelegramBtn) return;
-            percentageEl.textContent = percentage; 
-            percentageEl.style.opacity = '0'; 
-            percentageEl.style.transform = 'scale(0.5)';
-            if (revealSound && typeof revealSound.play === 'function') {
-                revealSound.currentTime = 0; 
-                revealSound.play().catch(e => console.warn("Reveal sound play failed:", e));
-            }
+            percentageEl.textContent = percentage; percentageEl.style.opacity = '0'; percentageEl.style.transform = 'scale(0.5)';
+            if (revealSound && typeof revealSound.play === 'function') { revealSound.currentTime = 0; revealSound.play().catch(e => console.warn("Reveal sound play failed:", e)); }
             personalityMatchSection.style.display = 'block'; 
             setTimeout(() => { 
                 if (typeof anime === 'function') {
                     anime.timeline({ easing: 'easeOutExpo' })
-                    .add({
-                        targets: personalityMatchSection, opacity: [0, 1], translateY: [30, 0], duration: 700,
-                        begin: () => personalityMatchSection.classList.add('visible') // If 'visible' class is used
-                    })
+                    .add({ targets: personalityMatchSection, opacity: [0, 1], translateY: [30, 0], duration: 700, begin: () => personalityMatchSection.classList.add('visible') })
                     .add({ targets: percentageEl, opacity: [0,1], scale: [0.5, 1.1, 1], duration: 800 }, '-=400') 
                     .add({ targets: [$('#personality-match-section h2'), $('#personality-match-section p'), $('#personality-match-section #mbti-type-value')], opacity: [0,1], translateY: [10,0], delay: anime.stagger(100), duration: 500 }, '-=500')
-                    .finished.then(() => {
-                        personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) {
-                            contactTelegramBtn.style.display = 'inline-block'; 
-                            anime({targets: contactTelegramBtn, opacity: [0,1], scale: [0.8,1], duration: 500, easing: 'easeOutExpo'});
-                        } else { contactTelegramBtn.style.display = 'none'; }
-                    });
-                } else { /* Fallback for no anime.js */ }
+                    .finished.then(() => { personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' }); if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) { contactTelegramBtn.style.display = 'inline-block'; anime({targets: contactTelegramBtn, opacity: [0,1], scale: [0.8,1], duration: 500, easing: 'easeOutExpo'}); } else { contactTelegramBtn.style.display = 'none'; } });
+                } else { /* Fallback */ }
             }, 50);
         }
 
-        // --- Secret Game Logic (Triggered by new logo) --- 
-        // ... (Same JS logic as provided in old file, ensure selectors are correct for modal and buttons)
-        // The trigger is now #nav-logo-icon-trigger
-        let matterEngine, matterRender, matterRunner; // Matter.js variables
+        // --- Secret Game Logic ---
+        let matterEngine, matterRender, matterRunner; 
         let gameShapes = []; const MAX_SHAPES_TO_SPAWN = 10; const SHAPES_TO_WIN = 3;
         let shapesSpawned = 0; let gameHasBeenWon = false; let targetZoneBody;
-        function playSound(soundElement) { /* ... same ... */ }
-        function resetSecretGame() { /* ... same ... */ }
-        function updateGameInfoDisplay() { /* ... same ... */ }
-        function setupSecretGame() {
-            const trigger = $('#nav-logo-icon-trigger'); // UPDATED TRIGGER
-            const modal = $('#secret-game-modal'); 
-            const canvas = $('#matter-canvas'); const closeButton = $('#close-game-button');
-            const resetButton = $('#reset-game-button');
-
-            if (!trigger || !modal || !canvas || !closeButton || !resetButton || typeof Matter === 'undefined') { 
-                if(trigger) trigger.style.display = 'none'; 
-                console.warn("Secret game elements missing or Matter.js missing. Game disabled."); return; 
+        function playSound(soundElement) { if (soundElement && typeof soundElement.play === 'function') { soundElement.currentTime = 0; soundElement.play().catch(e => console.warn("Game sound play failed:", e.message)); } }
+        function resetSecretGame() { /* ... same as before ... */ 
+            gameHasBeenWon = false; shapesSpawned = 0;
+            if (matterEngine) Matter.Composite.clear(matterEngine.world, false); gameShapes = [];
+            const canvas = $('#matter-canvas'); if (!canvas || !matterEngine) return;
+            const canvasWidth = parseFloat(canvas.width); const canvasHeight = parseFloat(canvas.height);
+            const ground = Matter.Bodies.rectangle(canvasWidth / 2, canvasHeight - 10, canvasWidth + 20, 60, { isStatic: true, render: { fillStyle: '#6a4a9a' } });
+            const leftWall = Matter.Bodies.rectangle(-30, canvasHeight / 2, 60, canvasHeight, { isStatic: true, render: { fillStyle: '#6a4a9a' } });
+            const rightWall = Matter.Bodies.rectangle(canvasWidth + 30, canvasHeight / 2, 60, canvasHeight, { isStatic: true, render: { fillStyle: '#6a4a9a' } });
+            const targetZoneHeight = 50; const targetZoneY = canvasHeight - 30 - (targetZoneHeight / 2) - 10;
+            targetZoneBody = Matter.Bodies.rectangle(canvasWidth / 2, targetZoneY, canvasWidth * 0.5, targetZoneHeight, { isStatic: true, isSensor: true, label: 'targetZone', render: { fillStyle: 'rgba(174, 139, 213, 0.35)', strokeStyle: 'rgba(203, 184, 232, 0.6)', lineWidth: 2 } });
+            Matter.Composite.add(matterEngine.world, [ground, leftWall, rightWall, targetZoneBody]);
+            updateGameInfoDisplay(); if ($('#game-win-message')) $('#game-win-message').textContent = "Drag shapes into the purple zone!";
+        }
+        function updateGameInfoDisplay() { /* ... same as before ... */ 
+            if ($('#game-shapes-dropped')) $('#game-shapes-dropped').textContent = shapesSpawned;
+            if ($('#game-max-shapes')) $('#game-max-shapes').textContent = MAX_SHAPES_TO_SPAWN;
+            let shapesInTargetCount = 0;
+            if (targetZoneBody && gameShapes.length > 0) {
+                gameShapes.forEach(shape => { if (Matter.Bounds.overlaps(shape.bounds, targetZoneBody.bounds) && shape.position.y > targetZoneBody.bounds.min.y && shape.position.y < targetZoneBody.bounds.max.y && Math.abs(shape.velocity.x) < 0.1 && Math.abs(shape.velocity.y) < 0.1) { shapesInTargetCount++; } });
             }
-            // ... (Rest of Matter.js setup, event listeners for mousedown on canvas, close, reset - copied from old)
-            const Engine = Matter.Engine, Render = Matter.Render, Runner = Matter.Runner, 
-                  Bodies = Matter.Bodies, Composite = Matter.Composite, Mouse = Matter.Mouse, 
-                  MouseConstraint = Matter.MouseConstraint, Events = Matter.Events;
+            if ($('#game-shapes-in-target')) $('#game-shapes-in-target').textContent = shapesInTargetCount;
+            if ($('#game-shapes-to-win')) $('#game-shapes-to-win').textContent = SHAPES_TO_WIN;
+            const winMessageEl = $('#game-win-message');
+            if (winMessageEl) {
+                if (!gameHasBeenWon && shapesInTargetCount >= SHAPES_TO_WIN) { gameHasBeenWon = true; winMessageEl.textContent = "YOU WIN! ✨"; playSound(gameWinSoundEl); if (typeof anime === 'function') { anime({ targets: winMessageEl, scale: [1, 1.2, 1], color: ['#AE8BD5', '#FFFFFF', '#AE8BD5'], duration: 1000, easing: 'easeInOutQuad' }); } } 
+                else if (!gameHasBeenWon && shapesSpawned >= MAX_SHAPES_TO_SPAWN && shapesInTargetCount < SHAPES_TO_WIN) { winMessageEl.textContent = "Out of shapes! Try again?"; }
+            }
+        }
+        function setupSecretGame() { /* ... same, ensure trigger is #nav-logo-icon-trigger ... */ 
+            const trigger = $('#nav-logo-icon-trigger'); const modal = $('#secret-game-modal'); 
+            const canvas = $('#matter-canvas'); const closeButton = $('#close-game-button'); const resetButton = $('#reset-game-button');
+            if (!trigger || !modal || !canvas || !closeButton || !resetButton || typeof Matter === 'undefined') { if(trigger) trigger.style.display = 'none'; console.warn("Secret game elements missing or Matter.js missing."); return; }
+            const Engine = Matter.Engine, Render = Matter.Render, Runner = Matter.Runner, Bodies = Matter.Bodies, Composite = Matter.Composite, Mouse = Matter.Mouse, MouseConstraint = Matter.MouseConstraint, Events = Matter.Events;
             trigger.addEventListener('click', () => {
-                modal.style.display = 'flex';
-                if (typeof anime === 'function') { anime({ targets: modal, opacity: [0,1], scale: [0.9, 1], duration: 400, easing: 'easeOutExpo' }); }
-                if (matterRender) Matter.Render.stop(matterRender); 
-                if (matterRunner) Runner.stop(matterRunner);
-                if (matterEngine) Matter.Engine.clear(matterEngine); 
+                modal.style.display = 'flex'; if (typeof anime === 'function') { anime({ targets: modal, opacity: [0,1], scale: [0.9, 1], duration: 400, easing: 'easeOutExpo' }); }
+                if (matterRender) Matter.Render.stop(matterRender); if (matterRunner) Runner.stop(matterRunner); if (matterEngine) Matter.Engine.clear(matterEngine); 
                 if (canvas.firstChild && canvas.firstChild.tagName === 'CANVAS') { canvas.removeChild(canvas.firstChild); }
                 matterEngine = Engine.create({ gravity: { y: 0.7 } });
-                let canvasWidth = Math.min(window.innerWidth * 0.85, 700); 
-                let canvasHeight = Math.min(window.innerHeight * 0.75, 450);
+                let canvasWidth = Math.min(window.innerWidth * 0.85, 700); let canvasHeight = Math.min(window.innerHeight * 0.75, 450);
                 canvas.width = canvasWidth; canvas.height = canvasHeight;
-                matterRender = Render.create({ 
-                    element: modal, /*modal is parent*/ canvas: canvas, engine: matterEngine, 
-                    options: { width: canvasWidth, height: canvasHeight, wireframes: false, background: 'transparent' } 
-                });
-                resetSecretGame(); // Sets up ground, walls, targetZoneBody
-                const mouse = Mouse.create(matterRender.canvas); 
-                const mouseConstraint = MouseConstraint.create(matterEngine, { 
-                    mouse: mouse, constraint: { stiffness: 0.1, render: { visible: false } } 
-                });
+                matterRender = Render.create({ element: modal, canvas: canvas, engine: matterEngine, options: { width: canvasWidth, height: canvasHeight, wireframes: false, background: 'transparent' } });
+                resetSecretGame();
+                const mouse = Mouse.create(matterRender.canvas); const mouseConstraint = MouseConstraint.create(matterEngine, { mouse: mouse, constraint: { stiffness: 0.1, render: { visible: false } } });
                 Composite.add(matterEngine.world, mouseConstraint); matterRender.mouse = mouse;
                 Events.on(mouseConstraint, 'mousedown', (event) => {
                     if (gameHasBeenWon || shapesSpawned >= MAX_SHAPES_TO_SPAWN) return;
-                    const mousePosition = event.mouse.position; let body;
-                    const size = Math.random() * 20 + 15;
-                    const color = ['#CBB8E8', '#AE8BD5', '#FFFFFF', '#9272CE'][Math.floor(Math.random() * 4)]; // From old theme, fine for game
-                    if (shapesSpawned % 2 === 0) { 
-                        body = Bodies.rectangle(mousePosition.x, mousePosition.y, size, size, { render: { fillStyle: color }, frictionAir: 0.03, restitution: 0.4 });
-                    } else {
-                        body = Bodies.circle(mousePosition.x, mousePosition.y, size / 1.8, { render: { fillStyle: color }, frictionAir: 0.02, restitution: 0.6 });
-                    }
+                    const mousePosition = event.mouse.position; let body; const size = Math.random() * 20 + 15;
+                    const color = ['#CBB8E8', '#AE8BD5', '#FFFFFF', '#9272CE'][Math.floor(Math.random() * 4)];
+                    if (shapesSpawned % 2 === 0) { body = Bodies.rectangle(mousePosition.x, mousePosition.y, size, size, { render: { fillStyle: color }, frictionAir: 0.03, restitution: 0.4 }); } 
+                    else { body = Bodies.circle(mousePosition.x, mousePosition.y, size / 1.8, { render: { fillStyle: color }, frictionAir: 0.02, restitution: 0.6 }); }
                     Composite.add(matterEngine.world, body); gameShapes.push(body);
                     shapesSpawned++; playSound(gameSpawnSoundEl); updateGameInfoDisplay();
                 });
                 Events.on(matterEngine, 'afterUpdate', updateGameInfoDisplay);
                 Render.run(matterRender); matterRunner = Runner.create(); Runner.run(matterRunner, matterEngine);
             });
-            closeButton.addEventListener('click', () => { 
-                if (typeof anime === 'function') {
-                    anime({ targets: modal, opacity: [1,0], scale: [1, 0.9], duration: 300, easing: 'easeInExpo', complete: () => modal.style.display = 'none' });
-                } else { modal.style.display = 'none'; }
-                if (matterRender) Matter.Render.stop(matterRender); if (matterRunner) Runner.stop(matterRunner);
-                if (matterEngine) Matter.Engine.clear(matterEngine); 
-            });
+            closeButton.addEventListener('click', () => { if (typeof anime === 'function') { anime({ targets: modal, opacity: [1,0], scale: [1, 0.9], duration: 300, easing: 'easeInExpo', complete: () => modal.style.display = 'none' }); } else { modal.style.display = 'none'; } if (matterRender) Matter.Render.stop(matterRender); if (matterRunner) Runner.stop(matterRunner); if (matterEngine) Matter.Engine.clear(matterEngine); });
             resetButton.addEventListener('click', resetSecretGame);
         }
 
-
         // --- Routing and Page Display ---
-        let currentMainSection = 'home-content'; // Default to home
+        let currentMainSection = 'home-content';
         let lastClickedReadMoreLink = null; 
 
         function showMainSection(sectionId) { 
+            // Hide all page sections first
             $$('.page-section').forEach(s => s.classList.remove('active-section'));
+            
+            // Specifically hide home page elements if not navigating to home
+            if (sectionId !== 'home-content') {
+                if ($('#home-animated-post-images-container')) $('#home-animated-post-images-container').style.display = 'none';
+                if ($('#home-single-post-view')) $('#home-single-post-view').style.display = 'none';
+            } else { // If navigating to home
+                if ($('#home-animated-post-images-container')) $('#home-animated-post-images-container').style.display = 'block'; // Or 'flex' etc.
+                if ($('#home-single-post-view')) $('#home-single-post-view').style.display = 'none'; // Ensure single post view is hidden initially
+            }
+
             const targetSection = $(`#${sectionId}`);
             if (targetSection) {
                 targetSection.classList.add('active-section');
                 currentMainSection = sectionId;
-                
-                // Update active link in left navbar
                 $$('#left-navbar nav a').forEach(navLink => {
                     navLink.classList.remove('active');
                     if (navLink.dataset.navlink === sectionId.replace('-content', '')) {
                         navLink.classList.add('active');
                     }
                 });
-
-                if (sectionId === 'home-content') {
-                    // If returning to home and a post was viewed, hide post view and show bubbles
-                    hidePostInHomeView();
-                    // Potentially re-init bubbles if they were cleared or for fresh animation
-                    if (!$('#home-animated-post-images-container').innerHTML.includes('animated-post-image-bubble')) {
-                         setupHomePostBubbles();
+                if (sectionId === 'about-content') { if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); }
+                 else if (sectionId === 'home-content') {
+                    // Refresh bubbles if needed, or ensure they are visible
+                    if ($('#home-animated-post-images-container') && !$('#home-animated-post-images-container').innerHTML.includes('animated-post-image-bubble')) {
+                         setupHomePostBubbles(); // Only if bubbles aren't there
                     }
-                } else if (sectionId === 'about-content') {
-                    if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); 
                 }
-                window.scrollTo({ top: 0, behavior: 'auto' }); // Keep scroll to top
+                window.scrollTo({ top: 0, behavior: 'auto' });
             } else { console.warn(`Target section #${sectionId} not found.`); }
         }
 
-        function handleMainRouteChange() { 
-            let mainSectionTarget = 'home-content';
-            let articleDetailHash = '';
+        function handleMainRouteChange() { /* ... same logic, ensuring showMainSection handles visibility correctly ... */ 
+            let mainSectionTarget = 'home-content'; let articleDetailHash = '';
             const currentFullHash = window.location.hash;
 
-            if (currentFullHash.startsWith('#home/post-')) { // Post viewed from Home
-                mainSectionTarget = 'home-content';
-                const postId = currentFullHash.split('/')[1];
-                showPostInHomeView(postId); // Ensure post view is active
-                // Nav link 'home' should be active
-            } else if (currentFullHash.startsWith('#post-')) { // Post viewed from Writings
-                mainSectionTarget = 'writings-content'; 
-                articleDetailHash = currentFullHash;
+            if (currentFullHash.startsWith('#home/post-')) { 
+                mainSectionTarget = 'home-content'; const postId = currentFullHash.split('/')[1];
+                showMainSection(mainSectionTarget); // Show home base first
+                showPostInHomeView(postId); 
+            } else if (currentFullHash.startsWith('#post-')) { 
+                mainSectionTarget = 'writings-content'; articleDetailHash = currentFullHash;
+                showMainSection(mainSectionTarget);
             } else if (currentFullHash === '#writings') {
-                mainSectionTarget = 'writings-content';
+                mainSectionTarget = 'writings-content'; showMainSection(mainSectionTarget);
             } else if (currentFullHash === '#about') {
-                mainSectionTarget = 'about-content';
+                mainSectionTarget = 'about-content'; showMainSection(mainSectionTarget);
             } else if (currentFullHash === '#home' || currentFullHash === '' || currentFullHash === '#') {
                 mainSectionTarget = 'home-content'; 
-                if (currentFullHash === '' || currentFullHash === '#') window.location.hash = 'home'; // Normalize
-                hidePostInHomeView(); // Ensure bubbles are shown if navigating directly to #home
-            } else { 
-                const isExternalNav = Array.from($$('#left-navbar nav a[target="_blank"]'))
-                                        .some(link => link.href.endsWith(currentFullHash) || `#${link.dataset.navlink}` === currentFullHash);
-                if (!isExternalNav) {
-                     console.warn("Unknown hash, redirecting to #home:", currentFullHash);
-                     window.location.hash = 'home'; return; 
-                } else { return; /* It's an external link, do nothing with our sections */ }
-            }
+                if (currentFullHash === '' || currentFullHash === '#') window.location.hash = 'home';
+                showMainSection(mainSectionTarget); // This will hide single post view
+            } else { /* External link or unknown */ return; }
             
-            if (currentMainSection !== mainSectionTarget) {
-                 showMainSection(mainSectionTarget);
-            }
-            
-            // Handle title and specific logic for writings articles
-            if (mainSectionTarget === 'writings-content') {
-                handleWritingsArticleLogic(articleDetailHash); 
-            } else if (mainSectionTarget === 'about-content') {
-                document.title = APP_CONFIG.DEFAULT_TITLES.about;
-            } else if (mainSectionTarget === 'home-content' && !currentFullHash.startsWith('#home/post-')) { 
-                document.title = APP_CONFIG.DEFAULT_TITLES.home; 
-            }
+            if (mainSectionTarget === 'writings-content') { handleWritingsArticleLogic(articleDetailHash); } 
+            else if (mainSectionTarget === 'about-content') { document.title = APP_CONFIG.DEFAULT_TITLES.about; } 
+            else if (mainSectionTarget === 'home-content' && !currentFullHash.startsWith('#home/post-')) { document.title = APP_CONFIG.DEFAULT_TITLES.home; }
         }
 
-        function handleWritingsArticleLogic(articleHash) { 
+        function handleWritingsArticleLogic(articleHash) { /* ... same as before ... */ 
             const defaultWritingsTitle = APP_CONFIG.DEFAULT_TITLES.writings;
             if (articleHash && articleHash.startsWith('#post-')) {
-                const targetId = articleHash.substring(1);
-                const targetArticle = $(`#full-articles-dynamic-content #${targetId}`); // More specific selector
+                const targetId = articleHash.substring(1); const targetArticle = $(`#full-articles-dynamic-content #${targetId}`);
                 if (targetArticle) {
-                    const titleElement = targetArticle.querySelector('h2');
-                    const articleTitle = titleElement ? titleElement.textContent.trim() : "Article";
+                    const titleElement = targetArticle.querySelector('h2'); const articleTitle = titleElement ? titleElement.textContent.trim() : "Article";
                     document.title = `${articleTitle} - Writings - Agraj Dubey`;
-                    setTimeout(() => { // Ensure article is rendered and then scroll/focus
-                        if (!isElementInViewport(targetArticle)) targetArticle.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        const heading = targetArticle.querySelector('h2');
-                        if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); }
-                    }, 100); // Small delay
-                } else { document.title = defaultWritingsTitle; console.warn(`Article with ID ${targetId} not found in writings full view.`); }
+                    setTimeout(() => { if (!isElementInViewport(targetArticle)) targetArticle.scrollIntoView({ behavior: 'smooth', block: 'start' }); const heading = targetArticle.querySelector('h2'); if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); } }, 100);
+                } else { document.title = defaultWritingsTitle; console.warn(`Article with ID ${targetId} not found.`); }
             } else {
                 document.title = defaultWritingsTitle;
                 const grid = $('#writings-grid-container');
-                if (grid && lastClickedReadMoreLink && document.body.contains(lastClickedReadMoreLink)) {
-                     setTimeout(() => {
-                        lastClickedReadMoreLink.focus({preventScroll: true});
-                        if (!isElementInViewport(lastClickedReadMoreLink)) lastClickedReadMoreLink.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                     }, 50);
-                } else if (grid) { /* ... focus grid if needed ... */ }
+                if (grid && lastClickedReadMoreLink && document.body.contains(lastClickedReadMoreLink)) { setTimeout(() => { lastClickedReadMoreLink.focus({preventScroll: true}); if (!isElementInViewport(lastClickedReadMoreLink)) lastClickedReadMoreLink.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 50); } 
                 lastClickedReadMoreLink = null; 
             }
         }
-        function isElementInViewport(el) { /* ... same ... */ }
+        function isElementInViewport(el) { if(!el) return false; const rect = el.getBoundingClientRect(); return (rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth));}
         
         document.addEventListener('DOMContentLoaded', async () => {
-            revealSound = $('#revealSound'); 
-            gameSpawnSoundEl = $('#gameSpawnSound');
-            gameWinSoundEl = $('#gameWinSound');
-
-            // Mobile menu logic removed as per new design focus
-            // Scroll progress bar removed for cleaner look, can be re-added if desired
-            await loadAndRenderPosts(); 
+            revealSound = $('#revealSound'); gameSpawnSoundEl = $('#gameSpawnSound'); gameWinSoundEl = $('#gameWinSound');
             
-            document.body.addEventListener('click', function(event) {
-                const clickedLink = event.target.closest('a.glitch-button[href^="#post-"]'); // For writings cards
-                if (clickedLink) { lastClickedReadMoreLink = clickedLink; }
-            });
-
-            // Static image click for videos removed (was part of old home page hero)
+            await loadAndRenderPosts(); 
+             // Setup typewriter for navbar blockquote
+            if (APP_CONFIG.NAV_BLOCKQUOTE_TEXTS && APP_CONFIG.NAV_BLOCKQUOTE_TEXTS.texts.length > 0) {
+                setupRotatingText('nav-blockquote-text', APP_CONFIG.NAV_BLOCKQUOTE_TEXTS);
+            }
+            
+            document.body.addEventListener('click', function(event) { const clickedLink = event.target.closest('a.glitch-button[href^="#post-"]'); if (clickedLink) { lastClickedReadMoreLink = clickedLink; } });
             handleMainRouteChange(); 
             window.addEventListener('hashchange', handleMainRouteChange); 
-            
-            setupSecretGame(); // Trigger is now #nav-logo-icon-trigger
-
-             window.addEventListener('resize', () => {
-                if (currentMainSection === 'home-content' && typeof setupHomePostBubbles === 'function' && !$('#home-single-post-view').style.display !== 'none') {
-                    clearTimeout(window.resizeHomeImagesTimeout); // Ensure only one timeout
-                    window.resizeHomeImagesTimeout = setTimeout(setupHomePostBubbles, 300); // Debounce
-                }
-            });
+            setupSecretGame();
+            window.addEventListener('resize', () => { if (currentMainSection === 'home-content' && typeof setupHomePostBubbles === 'function' && (!$('#home-single-post-view') || $('#home-single-post-view').style.display === 'none')) { clearTimeout(window.resizeHomeImagesTimeout); window.resizeHomeImagesTimeout = setTimeout(setupHomePostBubbles, 300); } });
         });
     </script>
 </body>
