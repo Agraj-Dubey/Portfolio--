@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>agraj - Portfolio</title>
-    <link rel="icon" type="image/png" href="frieren.png">
+    <link rel="icon" type="image/png" href="logo.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,11 +89,53 @@
         }
         .navbar-top-content { text-align: center; }
         #navbar-agraj-image { width: 70%; max-width: 220px; height: auto; margin: 0 auto 1rem; display: block; }
-        .site-navbar #typewriter { min-height: 2.5em; font-size: 0.95rem; color: var(--nav-text-subtle); margin-bottom: 1rem; display: inline-block; width: 100%;}
+        
+        .site-navbar #typewriter {
+            min-height: 4.5em; 
+            font-size: 1rem;   
+            color: var(--nav-text-subtle);
+            margin-bottom: 1.5rem; 
+            padding: 0.5rem;      
+            background-color: var(--nav-quote-bg); 
+            border-radius: 0.375rem;
+            display: flex; 
+            align-items: center; 
+            justify-content: flex-start; /* Changed from center for longer text */
+            text-align: left; 
+            width: 95%; 
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+        }
         .site-navbar #main-heading-text { min-height: 1.2em; display: inline-block; } /* Primarily for JS, image is visual */
-        .site-navbar #blockquote-text { min-height: 3em; display: inline-block; font-size: 0.9rem; }
+        .site-navbar #blockquote-text { 
+            min-height: 3em; 
+            display: inline-block; 
+            font-size: 0.9rem; 
+            width: 100%; /* Allow it to use available space within padding */
+            box-sizing: border-box;
+        }
         .site-navbar .typed-cursor { background-color: var(--highlight-purple); }
-        .site-navbar .quote { position: relative; border-left: 3px solid var(--highlight-purple); margin-top: 1rem; margin-bottom: 2rem; background-color: var(--nav-quote-bg); padding: 0.75rem 1rem; border-radius: 0.375rem; font-size: 0.9rem; color: var(--nav-text-subtle); }
+        .site-navbar .quote { 
+            position: relative;
+            border-left: 3px solid var(--highlight-purple);
+            margin-top: 0; 
+            margin-bottom: 2.5rem; 
+            background-color: var(--nav-quote-bg); 
+            padding: 1rem 1.2rem; 
+            border-radius: 0.375rem;
+            font-size: 0.95rem; 
+            color: var(--nav-text-subtle);
+            min-height: 6em; 
+            display: flex; 
+            align-items: center; 
+            justify-content: flex-start; /* Changed from center */
+            text-align: left; 
+            width: 95%; 
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+        }
         .site-navbar .quote::before { content: '"'; position: absolute; top: -10px; left: 5px; font-size: 3rem; color: color-mix(in srgb, var(--nav-text-subtle) 15%, transparent); font-family: 'Inter', sans-serif; font-weight: 700; }
         .navbar-links a { display: block; padding: 0.85rem calc(0.85rem * 1.618); margin-bottom: 0.5rem; text-decoration: none; color: var(--nav-text); font-weight: 500; border-radius: 0.375rem; transition: background-color 0.2s ease, color 0.2s ease; font-size: 1.1rem; }
         .navbar-links a:hover { background-color: var(--nav-link-hover-bg); color: var(--highlight-purple); }
@@ -102,21 +144,38 @@
         .navbar-bottom { text-align: center; margin-top:1rem; }
         #navbar-logo-image { width: 60px; height: auto; margin: 1.5rem auto 0; cursor: pointer; display: block; opacity: 0.8; transition: opacity 0.2s ease; }
         #navbar-logo-image:hover { opacity: 1; }
-        .site-content { margin-left: 38.2vw; width: calc(100% - 38.2vw); padding: 2rem; background-color: var(--page-bg); }
+        
+        .site-content { 
+            margin-left: 38.2vw; 
+            width: calc(100% - 38.2vw);
+            padding: 2rem; 
+            background-color: var(--page-bg);
+            overflow-x: hidden; /* Crucial for preventing horizontal leakage */
+            position: relative; 
+        }
         @media (max-width: calc(300px / 0.382)) { .site-content { margin-left: 300px; width: calc(100% - 300px); } }
         @media (min-width: calc(550px / 0.382)) { .site-content { margin-left: 550px; width: calc(100% - 550px); } }
+        
         .page-section { display: none; animation: fadeInPage 0.7s ease-out forwards; }
         .page-section.active-section { display: block; }
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         h1, h2, h3, h4, h5, h6 { color: var(--highlight-purple); font-weight: 700; }
         .font-serif { font-family: 'Baloo Bhai 2', cursive; } .font-outfit { font-family: 'Outfit', sans-serif; }
-        ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-track { background: color-mix(in srgb, var(--nav-bg) 70%, transparent); } ::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--highlight-purple) 60%, transparent); border-radius: 4px; } ::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--highlight-purple) 80%, transparent); }
+        ::-webkit-scrollbar { width: 8px; } 
+        ::-webkit-scrollbar-track { background: rgba(50, 50, 50, 0.2); } 
+        ::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--highlight-purple) 60%, transparent); border-radius: 4px; } 
+        ::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--highlight-purple) 80%, transparent); }
         #animated-images-container-wrapper { height: calc(100vh - 4rem); position: relative; }
         #animated-images-container { position: relative; width: 100%; height: 100%; }
         .animated-post-image-bubble { position: absolute; border-radius: 50%; overflow: hidden; box-shadow: 0 5px 20px color-mix(in srgb, var(--highlight-purple) 20%, #000000 50%), 0 0 8px rgba(0,0,0,0.2); border: 2px solid color-mix(in srgb, var(--highlight-purple-lighter) 30%, transparent); transition: border-color 0.3s ease; opacity: 0; }
         .animated-post-image-bubble:hover { border-color: color-mix(in srgb, var(--highlight-purple-hover) 70%, transparent); }
         .animated-post-image-bubble img { width: 100%; height: 100%; object-fit: cover; display: block; }
         #writings-content, #about-content { font-size: 17px; }
+        #writings-grid-container .writing-preview-card,
+        #full-articles-container article {
+            max-width: 100%; 
+            box-sizing: border-box; 
+        }
         .writing-preview-card { background-color: var(--writings-card-bg-color); backdrop-filter: blur(7px); border-radius: 0.75rem; padding: 2rem; border: 1px solid var(--card-border-color); display: flex; flex-direction: column; box-shadow: 0 6px 18px rgba(0,0,0, 0.35), 0 0 8px 1px color-mix(in srgb, var(--highlight-purple) 20%, transparent); position: relative; overflow: hidden; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease; }
         .writing-preview-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--highlight-purple) 10%, transparent), transparent); transform: translateX(-100%); transition: transform 0.8s ease; pointer-events: none; z-index: 0; }
         .writing-preview-card:hover { background-color: var(--writings-card-hover-bg-color); box-shadow: 0 15px 30px rgba(0,0,0, 0.5), 0 0 20px color-mix(in srgb, var(--highlight-purple) 35%, transparent); border-color: var(--card-hover-border-color); }
@@ -193,9 +252,9 @@
                 <h1 class="text-2xl md:text-3xl font-bold mb-3 tracking-tight font-serif sr-only"> 
                     <span id="main-heading-text"></span>
                 </h1> 
-                <p id="typewriter" class="mb-4"></p> 
+                <div id="typewriter" class="mb-4"></div> <!-- Changed P to DIV for flex centering -->
                 <blockquote class="quote"> 
-                    "<span id="blockquote-text"></span>" 
+                    <span id="blockquote-text"></span> 
                 </blockquote>
             </div>
             
@@ -273,9 +332,6 @@
     </div>
 
     <script>
-        // --- JAVASCRIPT FROM PREVIOUS RESPONSE ---
-        // This section should contain the JavaScript provided in the previous "fix"
-        // with the corrected setupRotatingText, showMainSection, and handleMainRouteChange.
         const APP_CONFIG = {
              ROTATING_TEXT_HOME: { 
                  'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
@@ -305,60 +361,25 @@
         let p5Blobs = []; const NUM_P5_BLOBS = 5; 
         function p5Sketch(p) { 
             class Blob {
-                constructor() {
-                    this.x = p.random(p.width); this.y = p.random(p.height);
-                    this.r = p.random(p.width / 3.5, p.width / 1.3); 
-                    this.xSpeed = p.random(-0.35, 0.35); this.ySpeed = p.random(-0.35, 0.35); 
-                    this.numPoints = p.int(p.random(6, 12));
-                    this.noiseSeedX = p.random(1000); this.noiseSeedY = p.random(1000); this.noiseSeedR = p.random(1000); 
-                    this.hueMin = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-hue-min'));
-                    this.hueMax = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-hue-max'));
-                    this.hue = p.random(this.hueMin, this.hueMax);
-                    this.hueShiftSpeed = p.random(-0.12, 0.12); 
-                    this.opacity = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-opacity'));
-                }
-                update() {
-                    this.x += this.xSpeed + (p.noise(this.noiseSeedX + p.frameCount * 0.0005) - 0.5) * 0.5; 
-                    this.y += this.ySpeed + (p.noise(this.noiseSeedY + p.frameCount * 0.0005) - 0.5) * 0.5; 
-                    this.r = p.map(p.noise(this.noiseSeedR + p.frameCount * 0.0012), 0, 1, p.width / 4.5, p.width / 1.1); 
-                    if (this.x < -this.r * 1.5) this.x = p.width + this.r * 1.5; if (this.x > p.width + this.r * 1.5) this.x = -this.r * 1.5;
-                    if (this.y < -this.r * 1.5) this.y = p.height + this.r * 1.5; if (this.y > p.height + this.r * 1.5) this.y = -this.r * 1.5;
-                    this.hue = (this.hue + this.hueShiftSpeed);
-                    if (this.hue > this.hueMax) this.hue = this.hueMin; if (this.hue < this.hueMin) this.hue = this.hueMax;
-                }
-                display() {
-                    p.fill(this.hue, 60, 70, this.opacity); p.beginShape();
-                    let angleStep = p.TWO_PI / this.numPoints;
-                    for (let i = 0; i <= this.numPoints; i++) { 
-                        let angle = i * angleStep;
-                        let radiusOffset = p.map(p.noise(this.noiseSeedX + i * 0.2 + p.frameCount * 0.002, this.noiseSeedY + i * 0.2), 0, 1, -this.r * 0.4, this.r * 0.4);
-                        let currentR = this.r + radiusOffset;
-                        let vx = this.x + currentR * p.cos(angle); let vy = this.y + currentR * p.sin(angle);
-                        p.curveVertex(vx, vy); if (i === 0 || i === 1 || i === this.numPoints-1 || i === this.numPoints) { p.curveVertex(vx, vy); }
-                    }
-                    p.endShape();
-                }
+                constructor() { this.x = p.random(p.width); this.y = p.random(p.height); this.r = p.random(p.width / 3.5, p.width / 1.3); this.xSpeed = p.random(-0.35, 0.35); this.ySpeed = p.random(-0.35, 0.35); this.numPoints = p.int(p.random(6, 12)); this.noiseSeedX = p.random(1000); this.noiseSeedY = p.random(1000); this.noiseSeedR = p.random(1000); this.hueMin = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-hue-min')); this.hueMax = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-hue-max')); this.hue = p.random(this.hueMin, this.hueMax); this.hueShiftSpeed = p.random(-0.12, 0.12); this.opacity = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-opacity')); }
+                update() { this.x += this.xSpeed + (p.noise(this.noiseSeedX + p.frameCount * 0.0005) - 0.5) * 0.5; this.y += this.ySpeed + (p.noise(this.noiseSeedY + p.frameCount * 0.0005) - 0.5) * 0.5; this.r = p.map(p.noise(this.noiseSeedR + p.frameCount * 0.0012), 0, 1, p.width / 4.5, p.width / 1.1); if (this.x < -this.r * 1.5) this.x = p.width + this.r * 1.5; if (this.x > p.width + this.r * 1.5) this.x = -this.r * 1.5; if (this.y < -this.r * 1.5) this.y = p.height + this.r * 1.5; if (this.y > p.height + this.r * 1.5) this.y = -this.r * 1.5; this.hue = (this.hue + this.hueShiftSpeed); if (this.hue > this.hueMax) this.hue = this.hueMin; if (this.hue < this.hueMin) this.hue = this.hueMax; }
+                display() { p.fill(this.hue, 60, 70, this.opacity); p.beginShape(); let angleStep = p.TWO_PI / this.numPoints; for (let i = 0; i <= this.numPoints; i++) { let angle = i * angleStep; let radiusOffset = p.map(p.noise(this.noiseSeedX + i * 0.2 + p.frameCount * 0.002, this.noiseSeedY + i * 0.2), 0, 1, -this.r * 0.4, this.r * 0.4); let currentR = this.r + radiusOffset; let vx = this.x + currentR * p.cos(angle); let vy = this.y + currentR * p.sin(angle); p.curveVertex(vx, vy); if (i === 0 || i === 1 || i === this.numPoints-1 || i === this.numPoints) { p.curveVertex(vx, vy); } } p.endShape(); }
             }
-            p.setup = function() {
-                const p5CanvasContainer = $('#p5-background-canvas'); if (!p5CanvasContainer) { return; }
-                const p5Renderer = p.createCanvas(p.windowWidth, p.windowHeight); p5Renderer.parent(p5CanvasContainer); 
-                p.colorMode(p.HSB, 360, 100, 100, 100); p.noStroke();
-                for (let i = 0; i < NUM_P5_BLOBS; i++) { p5Blobs.push(new Blob()); }
-            };
+            p.setup = function() { const p5CanvasContainer = $('#p5-background-canvas'); if (!p5CanvasContainer) { return; } const p5Renderer = p.createCanvas(p.windowWidth, p.windowHeight); p5Renderer.parent(p5CanvasContainer); p.colorMode(p.HSB, 360, 100, 100, 100); p.noStroke(); for (let i = 0; i < NUM_P5_BLOBS; i++) { p5Blobs.push(new Blob()); } };
             p.draw = function() { p.clear(); for (let blob of p5Blobs) { blob.update(); blob.display(); } };
             p.windowResized = function() { p.resizeCanvas(p.windowWidth, p.windowHeight); p5Blobs = []; for (let i = 0; i < NUM_P5_BLOBS; i++) { p5Blobs.push(new Blob()); } };
         }
         
-        let ALL_POSTS_DATA = []; // ALL_POST_DATA_FOR_HOME_RECENT removed as it's not directly used this way now
+        let ALL_POSTS_DATA = [];
         function simpleMarkdownToHtml(md) { if (typeof md !== 'string') return ''; let html = md; if (html.startsWith('`') && html.endsWith('`') && !html.startsWith('```') && !html.endsWith('```')) { html = html.substring(1, html.length - 1); } html = html.replace(/\r\n/g, '\n'); html = html.replace(/<br\s*\/?>\n?/gi, '\n'); html = html.replace(/\n\s*\n+/g, '<br>\n<br>\n'); html = html.replace(/\n/g, '<br>\n'); html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); html = html.replace(/\*(.*?)\*/g, '<em>$1</em>'); html = html.replace(/\\\"/g, '"'); html = html.replace(/(<br>\n\s*){3,}/g, '<br>\n<br>\n'); return html; }
         function createPostPreviewCard(post, isForHome = false) { const cardClass = 'writing-preview-card'; const anchorClass = `read-more-link`; const readMoreTextContent = `Read More →`; const dataText = readMoreTextContent.trim(); return `<div class="${cardClass} rounded-lg p-7 shadow-lg relative overflow-hidden"><h3 class="text-xl lg:text-2xl font-semibold mb-4 group text-hover-scale font-outfit"><span class="transition-all duration-300 inline-block">${post.title}</span></h3><div class="post-meta-info">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div><div class="mb-5"><p class="excerpt line-clamp-4">${post.excerpt}</p></div><a href="#${post.id}" class="${anchorClass}" data-text="${dataText}"><span class="btn-text">${readMoreTextContent}</span></a></div>`; }
         function createFullArticleHtml(post) { const htmlContent = simpleMarkdownToHtml(post.contentMarkdown); return `<article id="${post.id}" tabindex="-1"><h2 class="text-hover-scale">${post.title}</h2><div class="post-meta-info">Published: ${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>${post.image ? `<img src="${post.image}" alt="${post.imageAlt || post.title}" class="my-8 rounded-lg shadow-lg mx-auto max-w-full md:max-w-2xl" loading="lazy">` : ''}<div class="post-content-html">${htmlContent}</div><a href="#writings" class="back-button mt-8 glitch-button" data-text="← Back to Writings"><span class="btn-text">← Back to Writings</span></a></article>`; }
         async function setupHomePageRightColumnImages() { const container = $('#animated-images-container'); const sectionContainer = $('#animated-images-container-wrapper'); if (!container || !sectionContainer) { return; } if (ALL_POSTS_DATA.length === 0) { setTimeout(setupHomePageRightColumnImages, 200); return; } const postsWithImages = ALL_POSTS_DATA.filter(post => post.image).slice(0, 5); if (postsWithImages.length === 0) { container.innerHTML = '<p class="text-text-subtle text-sm text-center md:text-left">No recent visual entries.</p>'; return; } container.innerHTML = ''; const bubbleConfigs = [ { sizeVW: 18, minSize: 150, maxSize: 250, zIndex: 1 }, { sizeVW: 15, minSize: 130, maxSize: 220, zIndex: 3 }, { sizeVW: 20, minSize: 170, maxSize: 280, zIndex: 2 }, { sizeVW: 16, minSize: 140, maxSize: 230, zIndex: 1 }, { sizeVW: 14, minSize: 120, maxSize: 200, zIndex: 3 }]; requestAnimationFrame(() => { const containerWidth = container.offsetWidth; const containerHeight = container.offsetHeight; postsWithImages.forEach((post, index) => { if (index >= bubbleConfigs.length) return; const config = bubbleConfigs[index]; const escapedTitle = post.title.replace(/"/g, '"'); let bubbleSize = Math.max(config.minSize, Math.min(config.maxSize, window.innerWidth * (config.sizeVW / 100))); bubbleSize = Math.min(bubbleSize, (containerWidth > 0 ? containerWidth * 0.8 : config.maxSize), (containerHeight > 0 ? containerHeight * 0.40 : config.maxSize)); const bubbleLink = document.createElement('a'); bubbleLink.href = `#${post.id}`; bubbleLink.classList.add('animated-post-image-bubble'); bubbleLink.setAttribute('aria-label', `Read more about ${escapedTitle}`); bubbleLink.title = escapedTitle; bubbleLink.style.width = `${bubbleSize}px`; bubbleLink.style.height = `${bubbleSize}px`; bubbleLink.style.zIndex = config.zIndex; bubbleLink.style.opacity = 0; const img = document.createElement('img'); img.src = post.image; img.alt = `Preview for ${escapedTitle}`; bubbleLink.appendChild(img); container.appendChild(bubbleLink); }); const imageBubbles = $$('#animated-images-container .animated-post-image-bubble'); if (typeof anime === 'function' && imageBubbles.length > 0) { imageBubbles.forEach((bubble) => { function fizzleAnimation() { const bubbleSize = parseFloat(bubble.style.width); const currentContainerHeight = container.offsetHeight > 0 ? container.offsetHeight : 600; const currentContainerWidth = container.offsetWidth > 0 ? container.offsetWidth : 300; const maxTop = Math.max(0, currentContainerHeight - bubbleSize - 10); const maxLeft = Math.max(0, currentContainerWidth - bubbleSize - 10); const newTop = anime.random(0, maxTop); const newLeft = anime.random(0, maxLeft); bubble.style.top = `${newTop}px`; bubble.style.left = `${newLeft}px`; bubble.style.transform = 'translateX(0px) translateY(0px)'; anime.timeline({ targets: bubble, easing: 'easeOutExpo', complete: fizzleAnimation }).add({ opacity: [0, 0.9], scale: [0.3, 1], duration: anime.random(700, 1000), }).add({ translateX: () => anime.random(-20, 20) + 'px', translateY: () => anime.random(-20, 20) + 'px', scale: () => anime.random(0.9, 1.1), duration: anime.random(3000, 5000), easing: 'easeInOutSine' }, '-=300') .add({ opacity: [bubble.style.opacity, 0], scale: [parseFloat(getComputedStyle(bubble).transform.split(',')[0].split('(')[1]) || 1, 0.2], duration: anime.random(600, 900), easing: 'easeInExpo', delay: anime.random(0, 400) }); } setTimeout(fizzleAnimation, anime.random(0, 2500)); }); } }); }
         async function loadAndRenderPosts() { try { const response = await fetch(APP_CONFIG.POSTS_JSON_PATH); if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}, path: ${APP_CONFIG.POSTS_JSON_PATH}`); } ALL_POSTS_DATA = await response.json(); ALL_POSTS_DATA.sort((a, b) => new Date(b.date) - new Date(a.date)); const writingsGrid = $('#writings-grid-container'); if (writingsGrid) { if (ALL_POSTS_DATA.length > 0) { writingsGrid.innerHTML = ALL_POSTS_DATA.map(post => createPostPreviewCard(post, false)).join(''); } else { writingsGrid.innerHTML = '<p class="text-text-subtle col-span-full text-center">No writings available.</p>'; } setupWritingsCardHoverEffects(); } const fullArticlesTarget = $('#full-articles-dynamic-content'); if (fullArticlesTarget) { fullArticlesTarget.innerHTML = ALL_POSTS_DATA.map(post => createFullArticleHtml(post)).join(''); } if (typeof setupHomePageRightColumnImages === 'function' && currentMainSection === 'home-content') { await setupHomePageRightColumnImages(); } } catch (error) { console.error("ERROR in loadAndRenderPosts:", error); if ($('#writings-grid-container')) $('#writings-grid-container').innerHTML = '<p class="text-text-subtle col-span-full text-center">Error: Could not load writings.</p>'; } }
         
-        async function renderQuestionnaire() { /* ... same as previous ... */ }
-        function setupQuestionnaireInteractions() { /* ... same as previous ... */ }
-        function calculateAndShowMatch() { /* ... same as previous ... */ }
+        async function renderQuestionnaire() { const container = $('#questionnaire-render-area'); const calculateButton = $('#calculate-match-button'); const personalityMatchSection = $('#personality-match-section'); const contactTelegramBtn = $('#contact-telegram-btn'); if (!container || !calculateButton || !personalityMatchSection || !contactTelegramBtn) { if(container) container.innerHTML = '<p class="text-text-subtle text-center">Core UI elements missing.</p>'; return; } container.innerHTML = '<p class="text-center text-text-subtle">Loading questions...</p>'; try { console.log("Fetching:", APP_CONFIG.QUESTIONS_JSON_PATH); const response = await fetch(APP_CONFIG.QUESTIONS_JSON_PATH); if (!response.ok) { const errorText = await response.text(); console.error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}, path: ${APP_CONFIG.QUESTIONS_JSON_PATH}`); console.error("Response text:", errorText); throw new Error(`HTTP error! status: ${response.status} for ${APP_CONFIG.QUESTIONS_JSON_PATH}`); } ALL_QUESTIONNAIRE_DATA = await response.json(); console.log("Questions loaded:", ALL_QUESTIONNAIRE_DATA); } catch (error) { console.error("Error loading/parsing questionnaire data:", error); let userErrorMessage = "Error: Could not load questions. Check console."; if (error.message.includes("HTTP error")) { userErrorMessage = `Error: Could not fetch questions. Path: ${APP_CONFIG.QUESTIONS_JSON_PATH}`; } else if (error instanceof SyntaxError) { userErrorMessage = `Error: questions.json malformed. Path: ${APP_CONFIG.QUESTIONS_JSON_PATH}`; } container.innerHTML = `<p class="text-text-subtle text-center">${userErrorMessage}</p>`; return; } if (!Array.isArray(ALL_QUESTIONNAIRE_DATA) || ALL_QUESTIONNAIRE_DATA.length === 0) { container.innerHTML = '<p class="text-text-subtle text-center">No questions available or data format error.</p>'; return; } let html = ''; ALL_QUESTIONNAIRE_DATA.forEach((q) => { html += `<div class="question-block" id="question-${q.id}" data-question-id="${q.id}"><h3>${q.questionText}</h3><div class="answer-options">`; q.options.forEach((opt) => { const escapedOptionText = String(opt.text).replace(/"/g, '"'); html += `<button class="answer-option" data-option-text="${escapedOptionText}">${opt.text}</button>`; }); html += `</div><div class="feedback-area" id="feedback-${q.id}"></div></div>`; }); container.innerHTML = html; if (typeof anime === 'function') { anime({ targets: '.question-block', translateY: [30, 0], opacity: [0, 1], delay: anime.stagger(120, { start: 100 }), duration: 600, easing: 'easeOutExpo' }); } visitorAnswers = {}; questionsAnsweredCount = 0; personalityMatchSection.style.display = 'none'; personalityMatchSection.classList.remove('visible'); personalityMatchSection.style.opacity = '0'; personalityMatchSection.style.transform = 'translateY(20px)'; contactTelegramBtn.style.display = 'none'; calculateButton.style.display = 'none'; calculateButton.disabled = true; setupQuestionnaireInteractions(); }
+        function setupQuestionnaireInteractions() { const answerOptionButtons = $$('#questionnaire-render-area .answer-option'); answerOptionButtons.forEach(button => { button.addEventListener('click', function() { const questionBlock = this.closest('.question-block'); if (questionBlock.classList.contains('answered')) return; const questionId = questionBlock.dataset.questionId; const selectedOptionText = this.dataset.optionText; const questionData = ALL_QUESTIONNAIRE_DATA.find(q => q.id === questionId); if (!questionData) return; const selectedOptionData = questionData.options.find(opt => opt.text === selectedOptionText); if (!selectedOptionData) return; questionBlock.classList.add('answered'); if (!visitorAnswers.hasOwnProperty(questionId)) questionsAnsweredCount++; visitorAnswers[questionId] = selectedOptionText; const optionsInBlock = questionBlock.querySelectorAll('.answer-option'); optionsInBlock.forEach(opt => { opt.disabled = true; opt.classList.remove('selected-visitor', 'selected-visitor-wrong', 'agraj-correct-answer'); if (opt !== this && opt.dataset.optionText !== questionData.agrajAnswerText && typeof anime === 'function') { anime({ targets: opt, opacity: 0.4, scale: 0.95, duration: 400, easing: 'easeOutQuad' }); } }); let animParams = { targets: this, duration: 400, easing: 'easeOutBack' }; if (selectedOptionText === questionData.agrajAnswerText) { this.classList.add('selected-visitor'); animParams.scale = [1, 1.05, 1]; } else { this.classList.add('selected-visitor-wrong'); const agrajAnswerButton = Array.from(optionsInBlock).find(optBtn => optBtn.dataset.optionText === questionData.agrajAnswerText); if (agrajAnswerButton) { agrajAnswerButton.classList.add('agraj-correct-answer'); if (typeof anime === 'function') { anime({ targets: agrajAnswerButton, scale: [1, 1.03, 1], duration: 400, delay:100, easing: 'easeOutBack' }); } } } if (typeof anime === 'function') anime(animParams); const feedbackArea = questionBlock.querySelector('.feedback-area'); feedbackArea.innerHTML = selectedOptionData.feedback; feedbackArea.classList.add('visible'); if (typeof anime === 'function') { anime({ targets: feedbackArea, opacity: [0, 1], translateY: [10,0], duration: 500, delay: 200, easing: 'easeOutExpo' }); } const calculateButton = $('#calculate-match-button'); if (ALL_QUESTIONNAIRE_DATA.length > 0 && questionsAnsweredCount === ALL_QUESTIONNAIRE_DATA.length) { calculateButton.style.display = 'inline-block'; calculateButton.disabled = false; if (typeof anime === 'function') { anime({ targets: calculateButton, opacity: [0, 1], scale: [0.8, 1], duration: 500, easing: 'easeOutExpo' }); } } else { calculateButton.style.display = 'none'; calculateButton.disabled = true; } }); }); const calculateButton = $('#calculate-match-button'); if (calculateButton) calculateButton.addEventListener('click', calculateAndShowMatch); }
+        function calculateAndShowMatch() { const calcButton = $('#calculate-match-button'); if(calcButton) calcButton.disabled = true; if (ALL_QUESTIONNAIRE_DATA.length === 0 || questionsAnsweredCount < ALL_QUESTIONNAIRE_DATA.length) return; let matches = 0; ALL_QUESTIONNAIRE_DATA.forEach(qData => { const visitorSelectedText = visitorAnswers[qData.id]; if (visitorSelectedText && typeof visitorSelectedText === 'string' && typeof qData.agrajAnswerText === 'string' && visitorSelectedText.trim() === qData.agrajAnswerText.trim()) { matches++; } }); const totalQuestions = ALL_QUESTIONNAIRE_DATA.length; const percentage = totalQuestions > 0 ? Math.round((matches / totalQuestions) * 100) : 0; const percentageEl = $('#match-percentage-value'); const personalityMatchSection = $('#personality-match-section'); const contactTelegramBtn = $('#contact-telegram-btn'); if (!percentageEl || !personalityMatchSection || !contactTelegramBtn) return; percentageEl.textContent = percentage; percentageEl.style.opacity = '0'; percentageEl.style.transform = 'scale(0.5)'; if (revealSound && typeof revealSound.play === 'function') { revealSound.currentTime = 0; revealSound.play().catch(e => console.warn("Reveal sound play failed:", e)); } personalityMatchSection.style.display = 'block'; setTimeout(() => { if (typeof anime === 'function') { anime.timeline({ easing: 'easeOutExpo' }).add({ targets: personalityMatchSection, opacity: [0, 1], translateY: [30, 0], duration: 700, begin: () => personalityMatchSection.classList.add('visible') }).add({ targets: percentageEl, opacity: [0,1], scale: [0.5, 1.1, 1], duration: 800, }, '-=400') .add({ targets: [$('#personality-match-section h2'), $('#personality-match-section p'), $('#personality-match-section #mbti-type-value')], opacity: [0,1], translateY: [10,0], delay: anime.stagger(100), duration: 500 }, '-=500').finished.then(() => { personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' }); if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) { contactTelegramBtn.style.display = 'inline-block'; anime({targets: contactTelegramBtn, opacity: [0,1], scale: [0.8,1], duration: 500, easing: 'easeOutExpo'}); } else { contactTelegramBtn.style.display = 'none'; } }); } else { percentageEl.style.opacity = '1'; percentageEl.style.transform = 'scale(1)'; personalityMatchSection.style.opacity = '1'; personalityMatchSection.style.transform = 'translateY(0)'; personalityMatchSection.classList.add('visible'); personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' }); if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) { contactTelegramBtn.style.display = 'inline-block'; } else { contactTelegramBtn.style.display = 'none'; } } }, 50); }
 
         let matterEngine, matterRender, matterRunner; let gameShapes = []; const MAX_SHAPES_TO_SPAWN = 10; const SHAPES_TO_WIN = 3; let shapesSpawned = 0; let gameHasBeenWon = false; let targetZoneBody;
         function playSound(soundElement) { if (soundElement && typeof soundElement.play === 'function') { soundElement.currentTime = 0; soundElement.play().catch(e => console.warn("Game sound play failed:", e.message)); } }
@@ -440,7 +461,7 @@
                 if (!isExternalNav) { if (window.history.replaceState) { window.history.replaceState(null, '', '#home'); } else { window.location.hash = '#home'; } mainSectionTarget = 'home-content'; } 
                 else { return; }
             }
-            if (currentMainSection !== mainSectionTarget || mainSectionTarget === 'home-content' || (mainSectionTarget === 'writings-content' && articleDetailHash)) { // Ensure home always re-evaluates for bubbles if needed
+            if (currentMainSection !== mainSectionTarget || mainSectionTarget === 'home-content' || (mainSectionTarget === 'writings-content' && articleDetailHash)) {
                  showMainSection(mainSectionTarget);
             }
             if (mainSectionTarget === 'writings-content' && typeof handleWritingsArticleLogic === 'function') { handleWritingsArticleLogic(articleDetailHash); document.title = articleDetailHash ? ($(`#${articleDetailHash.substring(1)} h2`)?.textContent + " - Writings") : APP_CONFIG.DEFAULT_TITLES.writings; } 
@@ -457,7 +478,7 @@
             await loadAndRenderPosts(); 
             for (const elId in APP_CONFIG.ROTATING_TEXT_HOME) { if (document.getElementById(elId) && typeof setupRotatingText === 'function') { setupRotatingText(elId, APP_CONFIG.ROTATING_TEXT_HOME[elId]); } }
             document.body.addEventListener('click', function(event) { const clickedLink = event.target.closest('a.glitch-button[href^="#post-"], a.read-more-link[href^="#post-"]'); if (clickedLink) { lastClickedReadMoreLink = clickedLink; } });
-            handleMainRouteChange(); // This call is crucial for initial page load.
+            handleMainRouteChange();
             window.addEventListener('hashchange', handleMainRouteChange); 
             setupSecretGame(); 
             window.addEventListener('resize', () => { if (currentMainSection === 'home-content' && typeof setupHomePageRightColumnImages === 'function') { clearTimeout(window.resizeHomeImagesTimeout); window.resizeHomeImagesTimeout = setTimeout(setupHomePageRightColumnImages, 250); } });
