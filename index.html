@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>agraj - Portfolio</title>
-    <!-- Ensure frieren.png is in the same folder as this HTML file -->
-    <link rel="icon" type="image/png" href="frieren.png">
+    <link rel="icon" type="image/png" href="frieren.png"> <!-- You might want to update this or remove if not relevant -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,51 +13,46 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
 
     <script>
+        // Tailwind CSS configuration (Slightly modified for new theme potential)
         window.tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        // New Theme Base
-                        'brand-white': '#FFFFFF', // For navbar bg
-                        'brand-black': '#000000',
-                        'brand-purple': '#800080', 
-                        'brand-purple-light': '#A64CA6',
-                        'brand-purple-dark': '#5F005F', // For page titles
-                        'brand-grey': '#808080',
-                        'brand-grey-light': '#CCCCCC', 
-                        'brand-grey-xlight': '#F5F5F5', // Main content bg default
-                        'brand-content-dark-bg': '#1A1A1A', // For toggled dark background (slightly lighter than pure black)
+                        'brand-purple': '#9272CE',
+                        'brand-purple-light': '#AE8BD5', // For hover or lighter shades
+                        'brand-purple-lighter': '#CBB8E8',
 
-                        'text-primary': '#000000', 
-                        'text-secondary': '#333333', 
-                        'text-tertiary': '#555555',
+                        'text-dark-primary': '#000000', // Black for text on light bg
+                        'text-dark-secondary': '#333333', // Darker grey
+                        'text-dark-tertiary': '#666666', // Lighter grey
+
+                        'bg-light': '#FFFFFF', // White background
+                        'bg-light-accent': '#F5F3F7', // Very light purple/grey for subtle backgrounds
+
+                        // Original dark theme colors (will be used in dark mode)
+                        'dark': '#0f0a19', 'darker': '#090613', 'accent': '#9272CE',
+                        'accent-hover': '#AE8BD5', 'light-accent': '#CBB8E8',
+                        'text-primary': '#ffffff', 'text-secondary': '#D1D1D1', 'text-tertiary': '#A8A8A8',
                         
-                        // Colors for OLD dark-themed components
-                        'old-dark': '#0f0a19', 
-                        'old-darker': '#090613', 
-                        'old-accent': '#9272CE', 
-                        'old-accent-hover': '#AE8BD5', 
-                        'old-light-accent': '#CBB8E8',
-                        'old-text-primary': '#ffffff', 
-                        'old-text-secondary': '#D1D1D1', 
-                        'old-text-tertiary': '#A8A8A8', 
-                        'old-article-bg': 'rgba(20, 20, 22, 0.95)', // More opaque
-                        'old-writings-card-bg': 'rgba(25, 15, 40, 0.92)',
-                        'old-writings-card-hover-bg': 'rgba(45, 35, 60, 0.98)',
-                        'old-questionnaire-block-bg': 'rgba(28, 18, 52, 0.92)',
-                        'old-questionnaire-option-bg': 'rgba(45, 30, 70, 0.88)',
-                        'old-questionnaire-feedback-bg': 'rgba(15, 10, 30, 0.97)',
-                        'old-questionnaire-match-bg': 'rgba(35, 25, 60, 0.97)',
-                        'old-correct-answer-bg': 'rgba(146, 114, 206, 0.35)', 
-                        'old-selected-wrong-bg': 'rgba(100, 100, 100, 0.3)', 
-                        'old-disabled-option-bg': 'rgba(30, 20, 50, 0.7)',
+                        // Card backgrounds from original, to be preserved
+                        'article-bg': 'rgba(20, 20, 22, 0.93)', 
+                        'writings-card-bg': 'rgba(25, 15, 40, 0.88)',
+                        'writings-card-hover-bg': 'rgba(45, 35, 60, 0.96)',
+                        
+                        'dark-purple-bg': '#1a0a2e',
+                        'hover-highlight': 'rgba(146, 114, 206, 0.1)',
+                        'correct-answer-bg': 'rgba(146, 114, 206, 0.35)', 
+                        'selected-wrong-bg': 'rgba(100, 100, 100, 0.3)', 
+                        'disabled-option-bg': 'rgba(30, 20, 50, 0.7)',
                     },
                     fontFamily: { 
                         sans: ['Inter', 'sans-serif'], serif: ['Baloo Bhai 2', 'cursive'],
                         lato: ['Lato', 'sans-serif'], outfit: ['Outfit', 'sans-serif'],
                         nunito: ['Nunito', 'sans-serif'], 'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'],
+                        verdana: ['Verdana', 'sans-serif'], 'trebuchet': ['Trebuchet MS', 'sans-serif'],
                     },
                 }
             }
@@ -66,251 +60,504 @@
     </script>
 
     <style>
+        :root {
+            --page-bg: #FFFFFF;
+            --text-main: #000000;
+            --text-subtle: #555555;
+            --highlight-purple: #9272CE;
+            --highlight-purple-hover: #AE8BD5;
+            --nav-bg: #F8F8F8; /* Light grey for navbar in light mode */
+            --nav-text: #333333;
+            --nav-link-hover-bg: rgba(146, 114, 206, 0.1);
+
+            /* p5 background & overlay for light mode (can be adjusted or disabled if too distracting) */
+            --p5-blob-hue-min: 220;
+            --p5-blob-hue-max: 280; /* Purplish hues */
+            --p5-blob-opacity: 3; /* Very subtle */
+            --bg-overlay-color-1: rgba(146, 114, 206, 0.01); /* very faint purple */
+            --bg-overlay-color-2: rgba(255, 255, 255, 0.7);
+
+             /* Preserved dark card styles from original */
+            --article-bg-color: rgba(20, 20, 22, 0.93);
+            --writings-card-bg-color: rgba(25, 15, 40, 0.88);
+            --writings-card-hover-bg-color: rgba(45, 35, 60, 0.96);
+            --card-border-color: rgba(146, 114, 206, 0.25);
+            --card-hover-border-color: rgba(146, 114, 206, 0.45);
+        }
+
+        body.dark-mode {
+            --page-bg: #0f0a19;
+            --text-main: #D1D1D1;
+            --text-subtle: #A8A8A8;
+            /* --highlight-purple remains same */
+            --nav-bg: #090613; /* Darker bg for navbar in dark mode */
+            --nav-text: #D1D1D1;
+            --nav-link-hover-bg: rgba(146, 114, 206, 0.15);
+
+            --p5-blob-hue-min: 230;
+            --p5-blob-hue-max: 310;
+            --p5-blob-opacity: 6; /* Slightly more visible in dark mode */
+            --bg-overlay-color-1: rgba(146, 114, 206, 0.03);
+            --bg-overlay-color-2: rgba(15, 10, 25, 0.85);
+        }
+
         html { scroll-behavior: smooth; }
         body {
-            background-color: tailwind.theme.extend.colors['brand-grey-xlight'];
-            color: tailwind.theme.extend.colors['text-primary']; 
-            font-family: 'Inter', sans-serif;
+            background-color: var(--page-bg); color: var(--text-main); font-family: 'Inter', sans-serif;
             overflow-x: hidden; line-height: 1.6; font-size: 16px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* p5 Background & Overlay - kept from original, with CSS vars for theming */
+        #p5-background-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, var(--bg-overlay-color-1), var(--bg-overlay-color-2) 70%); z-index: -5; pointer-events:none; }
+        
+        .site-container { display: flex; min-height: 100vh; }
+
+        .site-navbar {
+            width: 320px; /* Fixed width for the left navbar */
+            background-color: var(--nav-bg);
+            border-right: 1px solid rgba(146, 114, 206, 0.15);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            padding: 2rem 1.5rem;
             display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-y: auto;
+            z-index: 100;
+            transition: background-color 0.3s ease;
         }
-
-        .page-section { display: none; animation: fadeInPage 0.7s ease-out forwards; width: 100%; }
-        .page-section.active-section { display: block; }
-        @keyframes fadeInPage { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-                
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #E0E0E0; }
-        ::-webkit-scrollbar-thumb { background: tailwind.theme.extend.colors['brand-grey']; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: tailwind.theme.extend.colors['brand-purple-dark']; }
-
-        /* --- Left Navigation Bar --- */
-        #left-navbar {
-            width: 300px; height: 100vh; position: fixed; top: 0; left: 0;
-            background-color: tailwind.theme.extend.colors['brand-white'];
-            border-right: 1px solid tailwind.theme.extend.colors['brand-grey-light'];
-            padding: 1.5rem; display: flex; flex-direction: column;
-            align-items: flex-start; z-index: 100; box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+        .navbar-top-content { text-align: center; }
+        #navbar-agraj-image {
+            width: 180px; /* Adjust as needed */
+            height: auto;
+            margin: 0 auto 1rem;
+            display: block;
         }
-        #nav-logo-type {
-            width: 200px; height: auto; margin-bottom: 2rem; align-self: center; cursor: pointer;
+        .site-navbar .gradient-text { /* From original, might need slight adjustment if used for 'agraj' text */
+             background: linear-gradient(90deg, var(--highlight-purple), var(--highlight-purple-hover), var(--highlight-purple-lighter), var(--highlight-purple-hover), var(--highlight-purple));
+             background-size: 300% auto; background-clip: text; -webkit-background-clip: text; color: transparent; 
+             animation: gradientTextAnim 8s linear infinite; display: inline-block;
         }
-        #left-navbar nav { width: 100%; display: flex; flex-direction: column; gap: 0.85rem; }
-        #left-navbar nav a {
-            color: tailwind.theme.extend.colors['text-secondary']; text-decoration: none;
-            font-size: 1.1rem; padding: 0.8rem 1.1rem; border-radius: 6px;
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-            font-weight: 500; text-align: left; display: block;
-        }
-        #left-navbar nav a:hover { background-color: rgba(128, 0, 128, 0.08); color: tailwind.theme.extend.colors['brand-purple-dark']; transform: translateX(3px); }
-        #left-navbar nav a.active { background-color: tailwind.theme.extend.colors['brand-purple']; color: tailwind.theme.extend.colors['brand-white']; font-weight: 600; }
-        #left-navbar nav a[target="_blank"]::after { content: ' \2197'; font-size: 0.8em; vertical-align: super; opacity: 0.7; }
+        @keyframes gradientTextAnim { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        #nav-blockquote-container { /* OLD DARK THEME FOR NAVBAR QUOTE */
-            width: 100%; margin-top: 2rem; margin-bottom: auto; padding: 1.25rem 1rem; 
-            font-size: 0.95rem; color: tailwind.theme.extend.colors['old-text-tertiary'];
-            border-left: 4px solid tailwind.theme.extend.colors['old-accent'];
-            background-color: tailwind.theme.extend.colors['old-darker'];
-            min-height: 8em; line-height: 1.6; border-radius: 4px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Subtle shadow for depth */
+        .site-navbar #typewriter {
+            min-height: 2.5em; font-size: 0.95rem; color: var(--text-subtle); margin-bottom: 1rem;
+            display: inline-block; width: 100%;
         }
-        #nav-blockquote-text .typed-cursor { display: inline-block; width: 2px; background-color: tailwind.theme.extend.colors['old-accent']; margin-left: 3px; animation: pulseCursor 1s infinite; vertical-align: baseline; height: 1em; }
-        @keyframes pulseCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .site-navbar #main-heading-text { min-height: 1.2em; display: inline-block; } /* If used for agraj text */
+        .site-navbar #blockquote-text { min-height: 3em; display: inline-block; font-size: 0.9rem; }
+        .site-navbar .typed-cursor { background-color: var(--highlight-purple); }
 
-        #nav-logo-icon-trigger { width: 60px; height: auto; margin-top: 1.5rem; cursor: pointer; transition: transform 0.3s ease; align-self: center; }
-        #nav-logo-icon-trigger:hover { transform: scale(1.1); }
+        .site-navbar .quote { /* Adapted from original home-content .quote */
+            position: relative; border-left: 3px solid var(--highlight-purple); margin-top: 1rem; margin-bottom: 2rem;
+            background-color: rgba(0,0,0,0.02); /* Subtle bg */
+            padding: 0.75rem 1rem; border-radius: 0.375rem; font-size: 0.9rem; color: var(--text-subtle);
+        }
+        body.dark-mode .site-navbar .quote { background-color: rgba(255,255,255,0.04); }
+        .site-navbar .quote::before {
+            content: '"'; position: absolute; top: -10px; left: 5px; font-size: 3rem; 
+            color: color-mix(in srgb, var(--highlight-purple) 10%, transparent); /* More subtle quote mark */
+            font-family: 'Inter', sans-serif; font-weight: 700;
+        }
 
-        /* --- Main Content Area --- */
-        #main-content-area {
-            margin-left: 300px; width: calc(100% - 300px); min-height: 100vh;
-            background-color: tailwind.theme.extend.colors['brand-grey-xlight'];
-            transition: background-color 0.5s ease;
-        }
-        #main-content-area.content-dark-mode { background-color: tailwind.theme.extend.colors['brand-content-dark-bg']; }
-        
-        /* Main Page Titles (e.g., "My Writings", "A Little More About Me") */
-        .page-title-container { /* Wrapper for H1 and subtitle */
-            text-align: center; 
-            padding-top: 2rem; /* Reduced top padding */
-            margin-bottom: 2.5rem; /* Reduced bottom margin */
-        }
-        .page-title-container h1.page-main-title {
-             color: tailwind.theme.extend.colors['brand-purple-dark'];
-             font-family: 'Outfit', sans-serif; /* As per original potentially */
-             font-size: 2.5rem; /* md:text-5xl was 3rem */
-        }
-        @media (min-width: 768px) { .page-title-container h1.page-main-title {font-size: 3rem;} }
 
-        .page-title-container p.page-subtitle {
-            color: tailwind.theme.extend.colors['text-secondary'];
-            margin-top: 0.75rem;
+        .navbar-links a {
+            display: block;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            text-decoration: none;
+            color: var(--nav-text);
+            font-weight: 500;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
             font-size: 1.1rem;
         }
-        /* When main content is dark, adjust title colors */
-        #main-content-area.content-dark-mode .page-title-container h1.page-main-title {
-             color: tailwind.theme.extend.colors['old-light-accent'];
+        .navbar-links a:hover {
+            background-color: var(--nav-link-hover-bg);
+            color: var(--highlight-purple);
         }
-        #main-content-area.content-dark-mode .page-title-container p.page-subtitle {
-             color: tailwind.theme.extend.colors['old-text-secondary'];
+        .navbar-links a.active {
+            background-color: var(--highlight-purple);
+            color: white !important; /* Ensure text is white on purple bg */
+            font-weight: 700;
         }
+        .navbar-links a[target="_blank"]::after { /* External link icon from original */
+            content: ' \2197'; font-size: 0.7em; vertical-align: super; 
+            display: inline-block; margin-left: 2px; opacity: 0.7;
+        }
+
+        .navbar-bottom { text-align: center; margin-top:1rem; }
+        #dark-mode-toggle {
+            background-color: var(--highlight-purple);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            transition: background-color 0.2s ease;
+        }
+        #dark-mode-toggle:hover { background-color: var(--highlight-purple-hover); }
+        #navbar-logo-image {
+            width: 60px; /* Adjust as needed */
+            height: auto;
+            margin: 0 auto;
+            cursor: pointer; /* For secret game */
+            display: block;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+        }
+        #navbar-logo-image:hover { opacity: 1; }
+
+        .site-content {
+            margin-left: 320px; /* Same as navbar width */
+            padding: 2rem; /* Adjust as needed */
+            width: calc(100% - 320px);
+            background-color: var(--page-bg);
+            transition: background-color 0.3s ease;
+        }
+
+        /* Page Section Transitions (from original) */
+        .page-section { display: none; animation: fadeInPage 0.7s ease-out forwards; }
+        .page-section.active-section { display: block; }
+        @keyframes fadeInPage { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        @media (max-width: 820px) { /* Responsive adjustments */
-            body { display: block; }
-            #left-navbar { width: 100%; height: auto; position: static; border-right: none; border-bottom: 1px solid tailwind.theme.extend.colors['brand-grey-light']; align-items: center; padding-bottom:1rem;}
-            #left-navbar nav { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 0.5rem;}
-            #left-navbar nav a {padding: 0.5rem 0.8rem; font-size: 1rem;}
-            #nav-blockquote-container { display: none; }
-            #main-content-area { margin-left: 0; width: 100%; }
-            .page-title-container h1.page-main-title { font-size: 2rem; }
+        /* Typography - Headings are purple */
+        h1, h2, h3, h4, h5, h6 { 
+            color: var(--highlight-purple); 
+            font-weight: 700; 
+        }
+        /* Other typography from original as needed */
+        .font-serif { font-family: 'Baloo Bhai 2', cursive; }
+        .font-outfit { font-family: 'Outfit', sans-serif; }
+        
+        /* Scrollbar Styling (from original) */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: color-mix(in srgb, var(--nav-bg) 80%, transparent); } /* Adjusted for theme */
+        ::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--highlight-purple) 50%, transparent); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--highlight-purple) 70%, transparent); }
+
+        /* Home Page Right Column - Animated Images */
+        #animated-images-container-wrapper { /* New wrapper for better positioning if needed */
+            height: calc(100vh - 4rem); /* Example height, adjust */
+            position: relative;
+        }
+        #animated-images-container {
+            position: relative;
+            width: 100%;
+            height: 100%; 
+        }
+        .animated-post-image-bubble { /* Styles from original */
+            position: absolute; border-radius: 50%; overflow: hidden;
+            box-shadow: 0 5px 20px color-mix(in srgb, var(--highlight-purple) 25%, transparent), 0 0 8px rgba(0,0,0,0.1);
+            border: 2px solid color-mix(in srgb, var(--highlight-purple-hover) 30%, transparent); 
+            transition: border-color 0.3s ease; opacity: 0;
+        }
+        .animated-post-image-bubble:hover {
+            border-color: color-mix(in srgb, var(--highlight-purple-hover) 70%, transparent); 
+        }
+        .animated-post-image-bubble img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
         }
 
-        /* --- Home Section Specific Styles --- */
-        #home-content { padding: 2rem 2rem 0 2rem; display: flex; flex-direction: column; align-items: center; }
-        #home-animated-post-images-container { position: relative; width: 100%; max-width: 1200px; min-height: calc(100vh - 4rem); margin-top: 0; }
-        .animated-post-image-bubble { position: absolute; border-radius: 50%; overflow: hidden; box-shadow: 0 5px 20px rgba(128, 0, 128, 0.15), 0 0 8px rgba(0,0,0,0.1); border: 2px solid rgba(128, 0, 128, 0.3); transition: border-color 0.3s ease, transform 0.3s ease; opacity: 0; }
-        .animated-post-image-bubble:hover { border-color: tailwind.theme.extend.colors['brand-purple-dark']; transform: scale(1.05); }
-        .animated-post-image-bubble img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        #home-single-post-view { display: none; width: 100%; max-width: 900px; margin: 0 auto; padding: 2.5rem 2rem; background-color: tailwind.theme.extend.colors['brand-grey-xlight']; border-radius: 8px; }
-        #home-single-post-view h2 { color: tailwind.theme.extend.colors['brand-purple-dark']; font-size: 2.2rem; margin-bottom: 1rem;}
-        #home-single-post-view .post-meta-info { color: tailwind.theme.extend.colors['text-tertiary']; font-size: 0.9rem; margin-bottom: 2rem;}
-        #home-single-post-view .post-content-html { line-height: 1.75; }
-        #home-single-post-view .post-content-html p, #home-single-post-view .post-content-html span { color: tailwind.theme.extend.colors['text-primary']; }
-        #home-single-post-view .post-content-html strong { color: tailwind.theme.extend.colors['text-primary']; font-weight: 600;}
-        #home-single-post-view .post-content-html a { color: tailwind.theme.extend.colors['brand-purple']; text-decoration: underline;}
-        #home-single-post-view .post-content-html a:hover { color: tailwind.theme.extend.colors['brand-purple-dark'];}
-        #home-single-post-view .post-content-html blockquote { border-left-color: tailwind.theme.extend.colors['brand-purple']; background-color: tailwind.theme.extend.colors['brand-white']; padding: 1.25em 2rem; margin: 1.5em 0; color: tailwind.theme.extend.colors['text-secondary']; border-radius: 4px; }
-        #main-content-area.content-dark-mode #home-single-post-view { background-color: tailwind.theme.extend.colors['brand-content-dark-bg']; }
-        #main-content-area.content-dark-mode #home-single-post-view h2 { color: tailwind.theme.extend.colors['old-light-accent'];}
-        #main-content-area.content-dark-mode #home-single-post-view .post-meta-info { color: tailwind.theme.extend.colors['old-text-tertiary'];}
-        #main-content-area.content-dark-mode #home-single-post-view .post-content-html p, #main-content-area.content-dark-mode #home-single-post-view .post-content-html span { color: tailwind.theme.extend.colors['old-text-secondary'];}
-        #main-content-area.content-dark-mode #home-single-post-view .post-content-html strong { color: tailwind.theme.extend.colors['old-text-primary'];}
-        #main-content-area.content-dark-mode #home-single-post-view .post-content-html a { color: tailwind.theme.extend.colors['old-accent'];}
-        #main-content-area.content-dark-mode #home-single-post-view .post-content-html blockquote { border-left-color: tailwind.theme.extend.colors['old-accent']; background-color: tailwind.theme.extend.colors['old-darker']; color: tailwind.theme.extend.colors['old-text-tertiary']; }
-
-        /* --- Writings Section & About Me - OLD DARK STYLES RESTORED for components --- */
-        /* The .page-section for Writings and About will have the overall page background (light grey or dark). */
-        /* The actual components (cards, questionnaire) will have their specific old dark backgrounds. */
-
-        /* Writings Cards */
-        .writing-preview-card { background-color: tailwind.theme.extend.colors['old-writings-card-bg']; backdrop-filter: blur(7px); border-radius: 0.75rem; padding: 2rem; border: 1px solid rgba(146, 114, 206, 0.25); display: flex; flex-direction: column; box-shadow: 0 6px 18px rgba(0,0,0, 0.35), 0 0 8px 1px rgba(146, 114, 206, 0.2); position: relative; overflow: hidden; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease; }
-        .writing-preview-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(146, 114, 206, 0.1), transparent); transform: translateX(-100%); transition: transform 0.8s ease; pointer-events: none; z-index: 0; }
-        .writing-preview-card:hover { background-color: tailwind.theme.extend.colors['old-writings-card-hover-bg']; box-shadow: 0 15px 30px rgba(9, 6, 19, 0.6), 0 0 20px rgba(146, 114, 206, 0.35); border-color: rgba(146, 114, 206, 0.45); }
+        /* Writings & About Section Styles - Preserving original card styles */
+        #writings-content, #about-content { font-size: 17px; }
+        #writings-content .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
+        #writings-content .text-hover-scale:hover { transform: scale(1.03); }
+        
+        .writing-preview-card { 
+            background-color: var(--writings-card-bg-color); /* Preserved */
+            backdrop-filter: blur(7px); border-radius: 0.75rem; padding: 2rem; 
+            border: 1px solid var(--card-border-color); /* Preserved */
+            display: flex; flex-direction: column; 
+            box-shadow: 0 6px 18px rgba(0,0,0, 0.35), 0 0 8px 1px color-mix(in srgb, var(--highlight-purple) 20%, transparent);
+            position: relative; overflow: hidden;   
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        box-shadow 0.4s ease-out, border-color 0.4s ease-out,
+                        background-color 0.3s ease;
+        }
+        .writing-preview-card::before { /* Shine effect from original */
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--highlight-purple) 10%, transparent), transparent);
+            transform: translateX(-100%); transition: transform 0.8s ease;
+            pointer-events: none; z-index: 0; 
+        }
+        .writing-preview-card:hover { 
+            background-color: var(--writings-card-hover-bg-color); /* Preserved */
+            box-shadow: 0 15px 30px rgba(0,0,0, 0.5), 0 0 20px color-mix(in srgb, var(--highlight-purple) 35%, transparent); 
+            border-color: var(--card-hover-border-color); /* Preserved */
+        }
         .writing-preview-card:hover::before { transform: translateX(100%); }
-        .writing-preview-card h3 { color: tailwind.theme.extend.colors['old-text-primary']; font-size: 1.55rem; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem; }
-        .writing-preview-card .post-meta-info { color: tailwind.theme.extend.colors['old-light-accent']; font-size: 0.9rem; margin-bottom: 1.25rem; }
-        .writing-preview-card .excerpt { color: tailwind.theme.extend.colors['old-text-secondary']; font-size: 1.05rem; line-height: 1.65; flex-grow: 1; margin-bottom: 1.5rem; }
-        .writing-preview-card a.read-more-link { color: tailwind.theme.extend.colors['old-accent']; font-weight: 500; font-size: 1.05rem; margin-top: auto; text-decoration: none; display:inline-block; }
-        .writing-preview-card a.read-more-link:hover { color: tailwind.theme.extend.colors['old-accent-hover']; }
+
+        /* Text inside dark cards is already light from original CSS, so it's fine */
+        .writing-preview-card h3 { color: #FFFFFF; /* Preserved */ font-size: 1.55rem; font-weight: 600; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif; }
+        .writing-preview-card .post-meta-info { font-size: 0.9rem; color: #CBB8E8; /* Preserved */ margin-bottom: 1.25rem; font-family: 'Lato', sans-serif; opacity: 0.9; }
+        .writing-preview-card .excerpt { color: #D1D1D1; /* Preserved */ font-size: 1.05rem; line-height: 1.65; flex-grow: 1; margin-bottom: 1.5rem; }
+        .writing-preview-card a.read-more-link { 
+            display: inline-block; background: none; border: none; padding: 0; 
+            color: var(--highlight-purple); /* Use CSS var for consistency */
+            font-weight: 500; text-decoration: none; align-self: flex-start; 
+            cursor: pointer; transition: color 0.3s ease; font-size: 1.05rem; margin-top: auto;
+        }
+        .writing-preview-card a.read-more-link:hover { color: var(--highlight-purple-hover); }
         
-        /* Full Article View (Writings section) */
-        #full-articles-container article { background-color: tailwind.theme.extend.colors['old-article-bg']; border-top: 5px solid tailwind.theme.extend.colors['old-accent']; backdrop-filter: blur(10px); border-radius: 0.75rem; padding: 2.5rem 2rem; margin-bottom: 3rem; box-shadow: 0 10px 40px rgba(0,0,0, 0.6), inset 0 1px 3px rgba(146, 114, 206, 0.1); border: 1px solid rgba(146, 114, 206, 0.3); display: none; opacity: 0; }
+        /* Full Article View Styles (Preserved) */
+        #full-articles-container { display: block; margin-top: 2rem; }
+        #full-articles-container article { 
+            display: none; background-color: var(--article-bg-color); /* Preserved */
+            backdrop-filter: blur(10px); border-radius: 0.75rem; padding: 2.5rem 2rem; 
+            margin-bottom: 3rem; 
+            box-shadow: 0 10px 40px rgba(0,0,0, 0.6), inset 0 1px 3px color-mix(in srgb, var(--highlight-purple) 10%, transparent); 
+            border: 1px solid var(--card-border-color); /* Preserved */
+            border-top: 5px solid var(--highlight-purple); opacity: 0;
+        }
         #full-articles-container article:target { display: block !important; opacity: 1 !important; animation: fadeInArticle 0.6s ease-out forwards; }
-        #full-articles-container h2 { color: tailwind.theme.extend.colors['old-accent']; font-size: 2.1rem; margin-bottom: 0.75rem;}
-        #full-articles-container .post-meta-info { color: tailwind.theme.extend.colors['old-light-accent']; font-size: 0.95rem; margin-bottom: 2.5rem;}
-        #full-articles-container a.back-button { background-color: tailwind.theme.extend.colors['old-accent']; color: tailwind.theme.extend.colors['old-text-primary']; /* other styles from before */ display: inline-block; margin-top: 2.5rem; padding: 0.7rem 1.4rem; border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; box-shadow: 0 3px 10px rgba(146, 114, 206, 0.2); font-size: 1rem; text-decoration: none;}
-        #full-articles-container a.back-button:hover { background-color: tailwind.theme.extend.colors['old-accent-hover']; transform: scale(1.05) translateY(-2px); box-shadow: 0 8px 20px rgba(146, 114, 206, 0.3);}
-        #full-articles-container .post-content-html p, #full-articles-container .post-content-html span { color: tailwind.theme.extend.colors['old-text-secondary']; font-size: 1.1rem; line-height: 1.7; }
-        #full-articles-container .post-content-html strong { color: tailwind.theme.extend.colors['old-text-primary']; }
-        #full-articles-container .post-content-html a { color: tailwind.theme.extend.colors['old-accent']; text-decoration:underline; }
-        #full-articles-container .post-content-html blockquote { border-left-color: tailwind.theme.extend.colors['old-accent']; background-color: rgba(146, 114, 206, 0.05); color: tailwind.theme.extend.colors['old-text-tertiary']; padding: 1em 1.75rem; margin: 1.5em 0; font-style:italic;}
+        @keyframes fadeInArticle { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        #writings-grid-container:has(~ #full-articles-container article:target) { display: none; }
+        hr.separator:has(~ #full-articles-container article:target) { display: none; }
         
-        /* About Me Questionnaire */
-        #about-content .container { padding: 0 2rem 2rem 2rem; } /* Add padding around content, title container already has top */
-        .question-block { background-color: tailwind.theme.extend.colors['old-questionnaire-block-bg']; border: 1px solid rgba(174, 139, 213, 0.35); backdrop-filter: blur(8px); border-radius: 1rem; padding: 2.25rem 2.5rem; margin-bottom: 3.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.4); min-height: 220px; display: flex; flex-direction: column; opacity: 0; transform: translateY(30px); }
-        .question-block h3 { color: #D7C2F2; font-size: 1.5rem; font-family: 'Outfit', sans-serif; margin-bottom: 1.75rem; font-weight:600;}
-        .answer-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem; margin-bottom: 1.75rem; flex-grow: 1; }
-        .answer-option { background-color: tailwind.theme.extend.colors['old-questionnaire-option-bg']; color: #E0D8F0; border: 1px solid rgba(174, 139, 213, 0.45); padding: 1rem 1.3rem; border-radius: 0.75rem; cursor: pointer; transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.2s ease-out, box-shadow 0.25s ease; text-align:left; font-size:1.05rem; line-height:1.4;}
-        .answer-option:not([disabled]):hover { background-color: rgba(174, 139, 213, 0.25); border-color: tailwind.theme.extend.colors['old-accent-hover']; transform: translateY(-4px) scale(1.035); box-shadow: 0 5px 15px rgba(174, 139, 213, 0.25); }
-        .answer-option.selected-visitor { background-color: #825FBD !important; color: tailwind.theme.extend.colors['old-text-primary'] !important; border-color: tailwind.theme.extend.colors['old-light-accent'] !important; font-weight: 700; box-shadow: 0 0 18px rgba(146, 114, 206, 0.7); }
-        .answer-option.selected-visitor-wrong { background-color: tailwind.theme.extend.colors['old-selected-wrong-bg'] !important; color: #D8D8D8 !important; border-color: tailwind.theme.extend.colors['old-text-tertiary'] !important; font-weight: 500; box-shadow: 0 0 8px rgba(120, 120, 120, 0.25); }
-        .answer-option.agraj-correct-answer { background-color: tailwind.theme.extend.colors['old-correct-answer-bg'] !important; color: tailwind.theme.extend.colors['old-text-primary'] !important; border-color: tailwind.theme.extend.colors['old-light-accent'] !important; font-weight: 700; box-shadow: 0 0 15px rgba(174, 139, 213, 0.6); }
-        .answer-option[disabled] { background-color: tailwind.theme.extend.colors['old-disabled-option-bg'] !important; color: #9a9a9a !important; cursor: not-allowed; border-color: rgba(146, 114, 206, 0.25) !important; opacity: 0.6 !important;}
-        .answer-option[disabled]:not(.selected-visitor):not(.selected-visitor-wrong):not(.agraj-correct-answer) { opacity: 0.45 !important; }
-        .feedback-area { background-color: tailwind.theme.extend.colors['old-questionnaire-feedback-bg']; border-left: 5px solid tailwind.theme.extend.colors['old-accent-hover']; color: #D7C2F2; margin-top: auto; padding: 1.35rem; border-radius: 0.6rem; font-size: 1rem; line-height:1.65; display: none; animation: fadeInFeedback 0.6s ease-out forwards; }
-        .feedback-area.visible { display: block; }
-        .feedback-area strong { color: tailwind.theme.extend.colors['old-text-primary']; font-weight:700; }
-        #personality-match-section { background-color: tailwind.theme.extend.colors['old-questionnaire-match-bg']; border: 1px solid rgba(174, 139, 213, 0.45); backdrop-filter: blur(10px); margin-top: 4rem; padding: 2.75rem; border-radius: 1rem; text-align: center; box-shadow: 0 10px 35px rgba(0,0,0,0.4); }
-        #personality-match-section h2 { color: tailwind.theme.extend.colors['old-light-accent']; font-size:2.2rem; font-family:'Outfit', sans-serif; margin-bottom:2rem; }
-        #personality-match-section p { color: #E0D8F0; font-size:1.2rem; margin-bottom:1.25rem;}
-        #personality-match-section #match-percentage-value { color: tailwind.theme.extend.colors['old-text-primary']; background: linear-gradient(135deg, tailwind.theme.extend.colors['old-accent-hover'], tailwind.theme.extend.colors['old-accent']); font-weight: 700; font-size: 3.5rem; display: inline-block; margin: 0.5rem 0 1rem 0; padding: 0.3rem 0.8rem; border-radius: 0.5rem; box-shadow: 0 4px 15px rgba(146, 114, 206, 0.4); opacity: 1; transform: scale(1); }
-        #personality-match-section #mbti-type-value { color: tailwind.theme.extend.colors['old-light-accent']; font-weight:600; font-size:1.3rem; }
-        #calculate-match-button { background-color: tailwind.theme.extend.colors['old-accent']; color: tailwind.theme.extend.colors['old-text-primary']; margin-top: 3rem; padding: 1rem 2.2rem; border: none; border-radius: 0.6rem; font-weight: 600; font-size: 1.15rem;}
-        #calculate-match-button:disabled { background: #5a506b; color: tailwind.theme.extend.colors['old-text-tertiary']; cursor: not-allowed; opacity: 0.7;}
-
-
-        /* Glitch Button and Secret Game styles remain the same */
+        /* Headings inside full articles are already handled by global h1,h2 rule */
+        /* #full-articles-container h2 { color: var(--highlight-purple); ... } */
+        #full-articles-container .post-meta-info { font-size: 0.95rem; color: #CBB8E8; /* Preserved */ margin-bottom: 2.5rem; font-family: 'Lato', sans-serif; opacity: 0.85; }
+        a.back-button { 
+            display: inline-block; margin-top: 2.5rem; padding: 0.7rem 1.4rem; 
+            background-color: var(--highlight-purple); color: #FFFFFF; 
+            border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; 
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; 
+            box-shadow: 0 3px 10px color-mix(in srgb, var(--highlight-purple) 20%, transparent); 
+            font-size: 1rem; text-decoration: none;
+        }
+        a.back-button:hover { 
+            background-color: var(--highlight-purple-hover); transform: scale(1.05) translateY(-2px); 
+            box-shadow: 0 8px 20px color-mix(in srgb, var(--highlight-purple) 30%, transparent);
+        }
+        hr.separator { /* From original */
+            border: none; height: 2px; 
+            background-image: linear-gradient(to right, transparent, var(--highlight-purple), var(--highlight-purple-hover), var(--highlight-purple), transparent); 
+            margin-top: 3rem; margin-bottom: 3rem; opacity: 0.6; display: block;
+        }
+        
+        /* Article Content HTML Styling (Preserved from original, ensuring text color adapts to card bg) */
+        .post-content-html { white-space: pre-line; text-align: left; line-height: 1.7; }
+        .post-content-html p, .post-content-html span, .post-content-html div, 
+        .post-content-html b, .post-content-html strong, .post-content-html i, 
+        .post-content-html em, .post-content-html u { 
+            font-family: inherit; font-size: 1.1rem; color: #D1D1D1; /* Preserved light text for dark cards */
+            background-color: transparent !important; margin: 0 0 0.8em 0; 
+            font-weight: normal; font-style: normal; text-decoration: none; 
+            word-wrap: break-word; border-radius: 3px;
+        }
+        .post-content-html br { content: ""; display: block; margin-bottom: 0.1em; }
+        .post-content-html span { margin: 0; display: inline; }
+        /* Font family styles from original */
+        .post-content-html [style*="font-weight: bold"] { font-weight: 700; } 
+        .post-content-html [style*="font-style: italic"] { font-style: italic; } 
+        .post-content-html u { text-decoration: underline; } 
+        .post-content-html a { color: var(--highlight-purple); text-decoration: underline; transition: color 0.2s ease; display: inline; } 
+        .post-content-html a:hover { color: var(--highlight-purple-hover); }
+        .post-content-html blockquote { 
+            border-left: 4px solid var(--highlight-purple); padding: 1em 1.75rem; 
+            margin-left: 0; margin-right: 0; font-style: italic; color: #A8A8A8; /* Preserved */
+            background-color: rgba(146, 114, 206, 0.05); /* Preserved */
+        }
+        .post-content-html img { /* From original */
+            max-width: 100%; height: auto; display: block; margin: 2.5rem auto; 
+            border-radius: 0.75rem; box-shadow: 0 6px 20px rgba(0,0,0,0.4); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .post-content-html img:hover { transform: scale(1.03); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        /* Glitch Button (from original, ensure colors match theme) */
         .glitch-button { position: relative; display: inline-block; cursor: pointer; padding: 0.75rem 1.5rem; text-decoration: none; overflow: hidden; transition: transform 0.1s ease-out; -webkit-user-select: none; -ms-user-select: none; user-select: none; }
         .glitch-button .btn-text { position: relative; z-index: 1; }
         .glitch-button::before, .glitch-button::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: inherit; color: inherit; padding: inherit; overflow: hidden; transition: transform 0.3s cubic-bezier(0.75, 0, 0.25, 1), opacity 0.3s ease; opacity: 0; }
         .glitch-button:not(:disabled):hover::before { transform: translate(-3px, -2px) skewX(-5deg); text-shadow: 2px 0px #FF00FF; opacity: 0.8; animation: glitchEffectBefore 0.2s infinite alternate; }
         .glitch-button:not(:disabled):hover::after { transform: translate(3px, 2px) skewX(5deg); text-shadow: -2px 0px #00FFFF; opacity: 0.8; animation: glitchEffectAfter 0.2s infinite alternate-reverse; }
-        #secret-game-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(9, 6, 19, 0.97); backdrop-filter: blur(8px); z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center; animation: fadeInGameModal 0.5s ease-out forwards; }
+        .glitch-button:active { transform: scale(0.97); }
+        @keyframes glitchEffectBefore { 0% { clip-path: inset(10% 0 70% 0); } 50% { clip-path: inset(40% 0 20% 0); } 100% { clip-path: inset(75% 0 5% 0); } }
+        @keyframes glitchEffectAfter { 0% { clip-path: inset(60% 0 25% 0); } 50% { clip-path: inset(15% 0 55% 0); } 100% { clip-path: inset(50% 0 10% 0); } }
+        
+        /* Progress Bar (from original, uses fixed purple gradient) */
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 200; } /* Increased z-index */
+        .progress-bar { height: 3px; background: linear-gradient(90deg, #9272CE, #AE8BD5); width: 0%; }
+
+        /* Secret Game Modal Styles (from original, background adapted for theme) */
+        #secret-game-modal { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background-color: color-mix(in srgb, var(--page-bg) 97%, black); /* Themed overlay */
+            backdrop-filter: blur(8px); z-index: 1000; display: none; 
+            flex-direction: column; align-items: center; justify-content: center; 
+            animation: fadeInGameModal 0.5s ease-out forwards; 
+        }
         @keyframes fadeInGameModal { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        #matter-canvas { background-color: rgba(20, 15, 35, 0.6); border: 2px solid rgba(146, 114, 206, 0.4);}
-        .game-controls button { padding: 10px 20px; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 500; transition: background-color 0.3s, transform 0.2s; font-family: 'Outfit', sans-serif;}
-        #close-game-button { background-color: #7c5bab; } #reset-game-button { background-color: #5887a7; }
-        #game-info { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); padding: 8px 15px; background-color: rgba(0,0,0,0.4); border-radius: 5px; color: #CBB8E8; font-size: 0.9rem; text-align: center; min-width: 250px; }
-        #game-info p { margin: 2px 0; } #game-win-message { font-weight: bold; color: #AE8BD5; }
+        #matter-canvas { 
+            background-color: color-mix(in srgb, var(--highlight-purple) 15%, transparent); /* Themed canvas bg */
+            border: 2px solid color-mix(in srgb, var(--highlight-purple) 40%, transparent); 
+            border-radius: 8px; box-shadow: 0 0 20px color-mix(in srgb, var(--highlight-purple) 20%, transparent);
+        }
+        /* Game controls, info, etc. styles from original - text color will adapt via var(--text-main) or specific overrides */
+        .game-controls button { color: white; /* Keep white for buttons */ }
+        #game-info { color: var(--highlight-purple-lighter); }
+        #game-win-message { color: var(--highlight-purple-hover); }
+        .game-instructions { color: var(--text-subtle); }
+
+
+        /* About Section Questionnaire Styles (Preserved dark cards from original) */
+        #about-content .questionnaire-container-wrapper { max-width: 850px; margin-left: auto; margin-right: auto; }
+        .question-block { 
+            background-color: rgba(28, 18, 52, 0.85); /* Preserved dark */
+            backdrop-filter: blur(8px); 
+            border: 1px solid rgba(174, 139, 213, 0.35); border-radius: 1rem; 
+            padding: 2.25rem 2.5rem; margin-bottom: 3.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            min-height: 220px; display: flex; flex-direction: column;
+            opacity: 0; transform: translateY(30px); 
+        }
+        .question-block h3 { color: #D7C2F2; /* Preserved light text for dark card */ font-size: 1.5rem; font-weight: 600; margin-bottom: 1.75rem; font-family: 'Outfit', sans-serif; }
+        .answer-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem; margin-bottom: 1.75rem; flex-grow: 1; }
+        .answer-option { /* Preserved dark options */
+            background-color: rgba(45, 30, 70, 0.8); color: #E0D8F0; 
+            padding: 1rem 1.3rem; border-radius: 0.75rem; 
+            border: 1px solid rgba(174, 139, 213, 0.45); cursor: pointer;
+            /* ... other answer option styles from original ... */
+        }
+        /* .answer-option hover, selected, correct, disabled states from original CSS */
+        .answer-option:not([disabled]):hover {
+            background-color: rgba(174, 139, 213, 0.25); border-color: #AE8BD5; 
+            transform: translateY(-4px) scale(1.035); box-shadow: 0 5px 15px rgba(174, 139, 213, 0.25);
+        }
+        .answer-option.selected-visitor { 
+            background-color: #825FBD !important; color: #FFFFFF !important; 
+            border-color: #CBB8E8 !important; font-weight: 700; 
+            box-shadow: 0 0 18px rgba(146, 114, 206, 0.7);
+        }
+        /* ... other .answer-option states ... */
+        .feedback-area { /* Preserved */
+            margin-top: auto; padding: 1.35rem; background-color: rgba(15, 10, 30, 0.9); 
+            border-radius: 0.6rem; border-left: 5px solid #AE8BD5; color: #D7C2F2; 
+            font-size: 1rem; line-height: 1.65; display: none; animation: fadeInFeedback 0.6s ease-out forwards; 
+        }
+        .feedback-area.visible { display: block; }
+        @keyframes fadeInFeedback { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .feedback-area strong { color: #FFFFFF; font-weight: 700; }
+        
+        #personality-match-section { /* Preserved */
+            margin-top: 4rem; padding: 2.75rem;  
+            background-color: rgba(35, 25, 60, 0.9); backdrop-filter: blur(10px); 
+            border-radius: 1rem; border: 1px solid rgba(174, 139, 213, 0.45); 
+            text-align: center; box-shadow: 0 10px 35px rgba(0,0,0,0.4); 
+        }
+        /* ... #personality-match-section h2, p, etc. from original ... */
+         #personality-match-section h2 { color: #CBB8E8; font-size: 2.2rem; font-family: 'Outfit', sans-serif; margin-bottom: 2rem; }
+        #personality-match-section p { font-size: 1.2rem; color: #E0D8F0; margin-bottom: 1.25rem; }
+
+
+        /* Responsive adjustments for the new layout if needed */
+        @media (max-width: 768px) {
+            .site-navbar {
+                width: 100%;
+                height: auto;
+                position: static; /* Or relative, needs careful thought for mobile */
+                border-right: none;
+                border-bottom: 1px solid rgba(146, 114, 206, 0.15);
+                /* Further mobile-specific navbar styling may be needed if it's not always fixed left */
+            }
+            .site-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 1rem;
+            }
+            #animated-images-container-wrapper {
+                height: 50vh; /* Adjust for smaller screens */
+            }
+            /* May need to hide typewriter/blockquote on very small screens or reduce font sizes */
+            .site-navbar #typewriter, .site-navbar .quote { font-size: 0.8rem; }
+        }
+
     </style>
 </head>
-<body>
+<body class="light-mode"> <!-- Default to light mode -->
     <audio id="gameSpawnSound" src="spawn_sound.mp3" preload="auto"></audio>
     <audio id="gameWinSound" src="win_sound.mp3" preload="auto"></audio>
     <audio id="revealSound" src="reveal_sound.mp3" preload="auto"></audio>
 
-    <div id="left-navbar">
-        <!-- IMPORTANT: Ensure Agraj.png is in the same folder as this HTML file -->
-        <img src="Agraj.png" alt="Agraj Typeface Logo" id="nav-logo-type">
-        <nav>
-            <a href="#home" data-navlink="home" class="active">Home</a>
-            <a href="#writings" data-navlink="writings">Writings</a>
-            <a href="#about" data-navlink="about">About Me</a>
-            <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer" data-navlink="reddit">Reddit</a>
-            <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" data-navlink="contact">Contact</a>
-        </nav>
-        <div id="nav-blockquote-container">
-            <span id="nav-blockquote-text"></span>
-        </div>
-        <!-- IMPORTANT: Ensure asexual.png is in the same folder as this HTML file -->
-        <img src="asexual.png" alt="Site Logo - Secret Game Trigger" id="nav-logo-icon-trigger">
-    </div>
+    <div id="p5-background-canvas"></div>
+    <div class="progress-container"> <div class="progress-bar" id="progressBar"></div> </div> 
+    <div class="bg-overlay"></div>
 
-    <div id="main-content-area">
-        <div id="page-container">
-            <section id="home-content" class="page-section active-section">
-                <div id="home-animated-post-images-container"></div>
-                <div id="home-single-post-view"></div>
-            </section>
+    <div class="site-container">
+        <aside class="site-navbar">
+            <div class="navbar-top-content">
+                <a href="#home" aria-label="Go to Home Page">
+                    <img src="agraj.png" alt="Agraj stylized text logo" id="navbar-agraj-image">
+                </a>
+                <!-- Typewriter and Blockquote moved here -->
+                 <h1 class="text-2xl md:text-3xl font-bold mb-3 tracking-tight font-serif sr-only"> 
+                    <span id="main-heading-text"></span> <!-- Kept for JS compatibility, visually use image -->
+                </h1> 
+                <p id="typewriter" class="text-text-subtle mb-4"></p> 
+                <blockquote class="quote text-text-subtle"> 
+                    "<span id="blockquote-text"></span>" 
+                </blockquote>
+            </div>
             
-            <section id="writings-content" class="page-section"> 
-                <main class="container mx-auto px-6 py-0 min-h-screen"> 
-                    <div class="page-title-container"> 
-                        <h1 class="page-main-title">My Writings</h1> 
+            <nav class="navbar-links">
+                <a href="#home" data-navlink="home" class="active">Home</a> 
+                <a href="#writings" data-navlink="writings">Writings</a> 
+                <a href="#about" data-navlink="about">About Me</a> 
+                <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer" data-navlink="reddit">Reddit</a>
+                <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" data-navlink="contact">Contact Me</a> 
+            </nav>
+
+            <div class="navbar-bottom">
+                <button id="dark-mode-toggle" aria-label="Toggle Dark Mode">Dark Mode</button>
+                <img src="logo.png" alt="Agraj personal logo" id="navbar-logo-image" title="Play a game?">
+            </div>
+        </aside>
+
+        <main class="site-content">
+            <div id="page-container">
+                <section id="home-content" class="page-section">
+                    <!-- This is where the animated bubbles go for the Home page -->
+                    <div id="animated-images-container-wrapper">
+                        <div id="animated-images-container">
+                            <!-- Bubbles will be injected by JS -->
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="writings-content" class="page-section"> 
+                    <!-- Structure from original index(1).html -->
+                    <div class="text-center mb-12 md:mb-16 pt-8"> 
+                        <h1 class="text-4xl md:text-5xl font-bold font-outfit">My Writings</h1> 
                     </div> 
                     <section id="writings-grid-container" class="mb-12 md:mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"></section> 
-                    <hr class="separator" style="background-image: linear-gradient(to right, transparent, #9272CE, #AE8BD5, #9272CE, transparent); margin-top:3rem; margin-bottom:3rem;"> 
+                    <hr class="separator"> 
                     <section id="full-articles-container"> 
                         <div class="full-articles-content max-w-4xl mx-auto" id="full-articles-dynamic-content"></div> 
                     </section> 
-                </main> 
-            </section>
-
-            <section id="about-content" class="page-section">
-                <main class="container mx-auto px-6 py-0 min-h-screen">
-                    <div class="page-title-container">
-                        <h1 class="page-main-title">A Little More About Me</h1>
-                        <p class="page-subtitle">Answer these questions to see how our perspectives align (or amusingly diverge!).</p>
+                </section>
+        
+                <section id="about-content" class="page-section">
+                     <!-- Structure from original index(1).html -->
+                    <div class="text-center mb-12 md:mb-16 pt-8">
+                        <h1 class="text-4xl md:text-5xl font-bold font-outfit">A Little More About Me</h1>
+                        <p class="text-text-subtle mt-4 text-lg">Answer these questions to see how our perspectives align (or amusingly diverge!).</p>
                     </div>
                     <div id="questionnaire-container-wrapper" class="questionnaire-container-wrapper">
                         <div id="questionnaire-render-area">
-                            <p class="text-center text-text-secondary">Loading questions...</p>
+                            <p class="text-center text-text-subtle">Loading questions...</p>
                         </div>
                         <div id="personality-match-section" class="mt-12" style="display: none; opacity: 0; transform: translateY(20px);">
                             <h2>Personality Snapshot</h2>
                             <p>Your alignment with my perspectives: <span id="match-percentage-value">0</span>%</p>
                             <p>My MBTI Type: <span id="mbti-type-value">INFJ</span></p>
-                            <p class="text-sm mt-4">Note: This is a simplified alignment based on these specific questions.</p>
-                            <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" id="contact-telegram-btn" class="glitch-button mt-6" data-text="Contact on Telegram!" style="display:none; background-color: #28A8EA;">
+                            <p class="text-sm text-text-tertiary mt-4">Note: This is a simplified alignment based on these specific questions.</p>
+                            <a href="https://t.me/agraj0669" target="_blank" rel="noopener noreferrer" id="contact-telegram-btn" class="glitch-button mt-6" data-text="Contact on Telegram!">
                                 <span class="btn-text">Contact on Telegram!</span>
                             </a>
                         </div>
@@ -318,131 +565,983 @@
                              <button id="calculate-match-button" class="glitch-button" data-text="See How We Match!" style="display: none;"><span class="btn-text">See How We Match!</span></button>
                         </div>
                     </div>
-                </main>
-            </section>
-        </div>
+                </section>
+            </div>
+        </main>
     </div>
-        
+    
     <div id="secret-game-modal">
-        <div id="game-info"> <p>Shapes dropped: <span id="game-shapes-dropped">0</span>/<span id="game-max-shapes">0</span></p> <p>In target: <span id="game-shapes-in-target">0</span>/<span id="game-shapes-to-win">0</span></p> <p id="game-win-message" class="game-instructions">Drag shapes into the purple zone!</p> </div> <canvas id="matter-canvas"></canvas> <div class="game-controls"> <button id="reset-game-button" class="glitch-button" data-text="Reset Game"><span class="btn-text">Reset Game</span></button> <button id="close-game-button" class="glitch-button" data-text="Close Game"><span class="btn-text">Close Game</span></button> </div>
+        <!-- Secret game structure from original index(1).html -->
+        <div id="game-info">
+            <p>Shapes dropped: <span id="game-shapes-dropped">0</span>/<span id="game-max-shapes">0</span></p>
+            <p>In target: <span id="game-shapes-in-target">0</span>/<span id="game-shapes-to-win">0</span></p>
+            <p id="game-win-message" class="game-instructions">Drag shapes into the purple zone!</p>
+        </div>
+        <canvas id="matter-canvas"></canvas>
+        <div class="game-controls">
+            <button id="reset-game-button" class="glitch-button" data-text="Reset Game"><span class="btn-text">Reset Game</span></button>
+            <button id="close-game-button" class="glitch-button" data-text="Close Game"><span class="btn-text">Close Game</span></button>
+        </div>
     </div>
 
     <script>
-        // --- APP_CONFIG, $, $$, and all helper functions (simpleMarkdownToHtml, createPostPreviewCard, etc.)
-        // --- setupRotatingText, setupWritingsCardHoverEffects, questionnaire logic, secret game logic, routing logic
-        // --- should be exactly as in the previous *approved* and working version, with the specific fixes applied below.
+        // --- ALL JAVASCRIPT FROM ORIGINAL index(1).html GOES HERE ---
+        // --- WITH THE FOLLOWING MODIFICATIONS: ---
 
         const APP_CONFIG = {
-             NAV_BLOCKQUOTE_TEXTS: { 
-                 texts: ["The stream ran bright, water paving away, tap dancing with sunlight.","Was I born different? What did I do different that made me the way I am?","Time flies by; for me it does so in gloom. Worries of the future, regrets of the past.","If a book doesn't change you, even in the slightest, it isn't worth reading.","All went away for nothing, and all I am now is who I was never supposed to be.","Kingdoms never meant to last anyways.","To sink sweetly, for the freedom below.","Like a hawk that couldn’t be caged anymore.","Society, globally, is broken.","Isolation breeds introspection.","Now I smile at what made me frown.","Cherish that is left hoping for a better tomorrow.","The only season with so much warmth... Mornings so lazy, yet so cozy and full of perfection.","Got no way to run but all my feelings to hide."], 
-                 typeSpeed: 70, deleteSpeed: 35, pauseDuration: 5000 /* Slower typing, longer pause */
-             },
-            DEFAULT_TITLES: { home: "agraj - Portfolio", writings: "Writings - Agraj Dubey", about: "About Me - Agraj Dubey" },
-            POSTS_JSON_PATH: 'posts.json', QUESTIONS_JSON_PATH: 'questions.json',
-            TELEGRAM_USERNAME: 'agraj0669', MATCH_THRESHOLD_FOR_CONTACT: 70, MAX_HOME_BUBBLES: 8
+             ROTATING_TEXT_HOME: { // These are now in the left navbar
+                 'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
+                 'main-heading-text': { texts: ["agraj", "アグラジ", "अग्रज", "αγραξ"], typeSpeed: 100, deleteSpeed: 60, pauseDuration: 2500 }, // For sr-only or if you put text over image
+                 'blockquote-text': { 
+                     texts: [
+                        "The stream ran bright, water paving away, tap dancing with sunlight.",
+                        "Was I born different? What did I do different that made me the way I am?",
+                        "Time flies by; for me it does so in gloom. Worries of the future, regrets of the past.",
+                        "If a book doesn't change you, even in the slightest, it isn't worth reading.",
+                        "All went away for nothing, and all I am now is who I was never supposed to be.",
+                        "What remains now is foreign—stranger even to myself.",
+                        "Kingdoms never meant to last anyways.",
+                        "To sink sweetly, for the freedom below.",
+                        "Like a hawk that couldn’t be caged anymore.",
+                        "Society, globally, is broken.",
+                        "Isolation breeds introspection.",
+                        "Now I smile at what made me frown.",
+                        "Cherish that is left hoping for a better tomorrow.",
+                        "The only season with so much warmth... Mornings so lazy, yet so cozy and full of perfection.",
+                        "Got no way to run but all my feelings to hide."
+                     ], 
+                     typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500 
+                 }
+            },
+            DEFAULT_TITLES: { 
+                home: "agraj - Portfolio",
+                writings: "Writings - Agraj Dubey",
+                about: "About Me - Agraj Dubey"
+            },
+            POSTS_JSON_PATH: 'posts.json',
+            QUESTIONS_JSON_PATH: 'questions.json', // Assuming you have this file
+            TELEGRAM_USERNAME: 'agraj0669',
+            MATCH_THRESHOLD_FOR_CONTACT: 70
         };
         
-        let ALL_QUESTIONNAIRE_DATA = []; let visitorAnswers = {}; let questionsAnsweredCount = 0;
-        let revealSound, gameSpawnSoundEl, gameWinSoundEl; let rotatingTextInstances = {};
-        function $(selector) { return document.querySelector(selector); } function $$(selector) { return document.querySelectorAll(selector); }
-        let ALL_POSTS_DATA = [];
+        let ALL_QUESTIONNAIRE_DATA = [];
+        let visitorAnswers = {}; 
+        let questionsAnsweredCount = 0;
+        let revealSound, gameSpawnSoundEl, gameWinSoundEl;
 
-        function simpleMarkdownToHtml(md) { if (typeof md !== 'string') return ''; let html = md; html = html.replace(/\r\n/g, '\n'); html = html.replace(/<br\s*\/?>\n?/gi, '\n'); html = html.replace(/\n\s*\n+/g, '<br>\n<br>\n'); html = html.replace(/\n/g, '<br>\n'); html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); html = html.replace(/\*(.*?)\*/g, '<em>$1</em>'); html = html.replace(/\\\"/g, '"'); html = html.replace(/(<br>\n\s*){3,}/g, '<br>\n<br>\n'); return html; }
-        function createPostPreviewCard(post) { const cardClass = 'writing-preview-card'; const anchorClass = `read-more-link glitch-button`; const readMoreTextContent = `Read More →`; const dataText = readMoreTextContent.trim(); return `<div class="${cardClass}"><h3 class="text-hover-scale">${post.title}</h3><div class="post-meta-info">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div><div class="mb-5"><p class="excerpt line-clamp-4">${post.excerpt}</p></div><a href="#${post.id}" class="${anchorClass}" data-text="${dataText}"><span class="btn-text">${readMoreTextContent}</span></a></div>`; }
-        function createFullArticleHtml(post, isForHomeView = false) { const htmlContent = simpleMarkdownToHtml(post.contentMarkdown); let articleContainerId = post.id; let backButtonHtml = `<a href="#writings" class="back-button mt-8 glitch-button" data-text="← Back to Writings"><span class="btn-text">← Back to Writings</span></a>`; if (isForHomeView) { backButtonHtml = ''; } return `<article id="${articleContainerId}" tabindex="-1"><h2>${post.title}</h2><div class="post-meta-info">Published: ${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>${post.image ? `<img src="${post.image}" alt="${post.imageAlt || post.title}" class="my-8 rounded-lg shadow-lg mx-auto max-w-full md:max-w-2xl" loading="lazy">` : ''}<div class="post-content-html">${htmlContent}</div>${backButtonHtml}</article>`; }
-        
-        async function setupHomePostBubbles() {
-            const container = $('#home-animated-post-images-container');
-            if (!container) { console.warn("Home animated images container not found."); return; }
-            if (ALL_POSTS_DATA.length === 0) { setTimeout(setupHomePostBubbles, 200); return; }
+        function $(selector) { return document.querySelector(selector); }
+        function $$(selector) { return document.querySelectorAll(selector); }
 
-            // Ensure unique posts with images
-            const uniquePostIdsWithImages = new Set();
-            const uniquePostsWithImages = ALL_POSTS_DATA.filter(post => {
-                if (post.image && !uniquePostIdsWithImages.has(post.id)) {
-                    uniquePostIdsWithImages.add(post.id);
-                    return true;
+        // --- p5.js Generative Background (Adapted with CSS vars) ---
+        let p5Blobs = [];
+        const NUM_P5_BLOBS = 5; 
+
+        function p5Sketch(p) {
+            class Blob {
+                constructor() {
+                    this.x = p.random(p.width);
+                    this.y = p.random(p.height);
+                    this.r = p.random(p.width / 3.5, p.width / 1.3); 
+                    this.xSpeed = p.random(-0.35, 0.35); 
+                    this.ySpeed = p.random(-0.35, 0.35); 
+                    this.numPoints = p.int(p.random(6, 12));
+                    this.noiseSeedX = p.random(1000);
+                    this.noiseSeedY = p.random(1000);
+                    this.noiseSeedR = p.random(1000); 
+                    this.hue = p.random(parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-hue-min')), 
+                                        parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-hue-max')));
+                    this.hueShiftSpeed = p.random(-0.12, 0.12); 
+                    this.opacity = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-opacity'));
                 }
-                return false;
-            }).slice(0, APP_CONFIG.MAX_HOME_BUBBLES);
 
-            if (uniquePostsWithImages.length === 0) { container.innerHTML = '<p class="text-text-tertiary text-sm text-center">No recent visual entries.</p>'; return; }
+                update() {
+                    // Update opacity based on current CSS variable (for dark mode changes)
+                    this.opacity = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-opacity'));
+                    this.hueMin = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-hue-min'));
+                    this.hueMax = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-hue-max'));
+
+
+                    this.x += this.xSpeed + (p.noise(this.noiseSeedX + p.frameCount * 0.0005) - 0.5) * 0.5; 
+                    this.y += this.ySpeed + (p.noise(this.noiseSeedY + p.frameCount * 0.0005) - 0.5) * 0.5; 
+                    this.r = p.map(p.noise(this.noiseSeedR + p.frameCount * 0.0012), 0, 1, p.width / 4.5, p.width / 1.1); 
+
+                    if (this.x < -this.r * 1.5) this.x = p.width + this.r * 1.5;
+                    if (this.x > p.width + this.r * 1.5) this.x = -this.r * 1.5;
+                    if (this.y < -this.r * 1.5) this.y = p.height + this.r * 1.5;
+                    if (this.y > p.height + this.r * 1.5) this.y = -this.r * 1.5;
+                    
+                    this.hue = (this.hue + this.hueShiftSpeed);
+                    if (this.hue > this.hueMax) this.hue = this.hueMin;
+                    if (this.hue < this.hueMin) this.hue = this.hueMax;
+                }
+
+                display() {
+                    p.fill(this.hue, 60, 70, this.opacity); 
+                    p.beginShape();
+                    let angleStep = p.TWO_PI / this.numPoints;
+                    for (let i = 0; i <= this.numPoints; i++) { 
+                        let angle = i * angleStep;
+                        let radiusOffset = p.map(p.noise(this.noiseSeedX + i * 0.2 + p.frameCount * 0.002, this.noiseSeedY + i * 0.2), 0, 1, -this.r * 0.4, this.r * 0.4);
+                        let currentR = this.r + radiusOffset;
+                        let vx = this.x + currentR * p.cos(angle);
+                        let vy = this.y + currentR * p.sin(angle);
+                        p.curveVertex(vx, vy);
+                         if (i === 0 || i === 1 || i === this.numPoints-1 || i === this.numPoints) { 
+                            p.curveVertex(vx, vy);
+                        }
+                    }
+                    p.endShape();
+                }
+            }
+
+            p.setup = function() {
+                const p5CanvasContainer = $('#p5-background-canvas');
+                if (!p5CanvasContainer) { console.error("p5 canvas container not found!"); return; }
+                const p5Renderer = p.createCanvas(p.windowWidth, p.windowHeight);
+                p5Renderer.parent(p5CanvasContainer); 
+                p.colorMode(p.HSB, 360, 100, 100, 100);
+                p.noStroke();
+                for (let i = 0; i < NUM_P5_BLOBS; i++) { p5Blobs.push(new Blob()); }
+            };
+
+            p.draw = function() {
+                p.clear(); 
+                for (let blob of p5Blobs) {
+                    blob.update();
+                    blob.display();
+                }
+            };
+
+            p.windowResized = function() {
+                p.resizeCanvas(p.windowWidth, p.windowHeight);
+                p5Blobs = []; // Recreate blobs on resize to adapt to new CSS vars if mode changed
+                for (let i = 0; i < NUM_P5_BLOBS; i++) { p5Blobs.push(new Blob()); }
+            };
+        }
+        // --- End p5.js Generative Background ---
+
+        // --- Content Rendering (Writings) - Largely same as original ---
+        let ALL_POST_DATA_FOR_HOME_RECENT = []; let ALL_POSTS_DATA = [];
+        
+        function simpleMarkdownToHtml(md) { /* ... (Same as original) ... */ 
+            if (typeof md !== 'string') return '';
+            let html = md;
+            if (html.startsWith('`') && html.endsWith('`') && !html.startsWith('```') && !html.endsWith('```')) {
+                html = html.substring(1, html.length - 1);
+            }
+            html = html.replace(/\r\n/g, '\n');
+            html = html.replace(/<br\s*\/?>\n?/gi, '\n');
+            html = html.replace(/\n\s*\n+/g, '<br>\n<br>\n');
+            html = html.replace(/\n/g, '<br>\n');
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            html = html.replace(/\\\"/g, '"');
+            html = html.replace(/(<br>\n\s*){3,}/g, '<br>\n<br>\n');
+            return html;
+        }
+
+        function createPostPreviewCard(post, isForHome = false) {  /* ... (Same as original, but isForHome is now irrelevant for styling cards) ... */
+            const cardClass = 'writing-preview-card'; // Always use this class for consistent styling
+            // isForHome is not used anymore to determine card style, only for line-clamp if needed or other minor logic.
+            // Since the home page will now use animated bubbles, this function might only be used for the /writings page.
+            // If you still plan to show preview cards on home page's right panel (instead of just bubbles), this is fine.
+            // For now, assuming animated bubbles are the primary home content.
+
+            const anchorClass = `read-more-link`; // Standard link style
+            const readMoreTextContent = `Read More →`;
+            const dataText = readMoreTextContent.trim();
+
+            return `
+                <div class="${cardClass} rounded-lg p-7 shadow-lg relative overflow-hidden">
+                    <h3 class="text-xl lg:text-2xl font-semibold mb-4 group text-hover-scale font-outfit">
+                        <span class="transition-all duration-300 inline-block">${post.title}</span>
+                    </h3>
+                    <div class="post-meta-info">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                    <div class="mb-5"><p class="text-text-secondary line-clamp-4 excerpt">${post.excerpt}</p></div>
+                    <a href="#${post.id}" class="${anchorClass}" data-text="${dataText}">
+                        <span class="btn-text">${readMoreTextContent}</span>
+                    </a>
+                </div>
+            `;
+        }
+        function createFullArticleHtml(post) { /* ... (Same as original) ... */ 
+            const htmlContent = simpleMarkdownToHtml(post.contentMarkdown); 
+            return `
+                <article id="${post.id}" tabindex="-1">
+                    <h2 class="text-hover-scale">${post.title}</h2>
+                    <div class="post-meta-info">Published: ${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                    ${post.image ? `<img src="${post.image}" alt="${post.imageAlt || post.title}" class="my-8 rounded-lg shadow-lg mx-auto max-w-full md:max-w-2xl" loading="lazy">` : ''}
+                    <div class="post-content-html">${htmlContent}</div>
+                    <a href="#writings" class="back-button mt-8 glitch-button" data-text="← Back to Writings"><span class="btn-text">← Back to Writings</span></a>
+                </article>
+            `;
+        }
+
+        // --- Home Page Right Column Animated Image Bubbles (Fizzling Effect) ---
+        // This function is largely the same, targets the new container in the right panel
+        async function setupHomePageRightColumnImages() {
+            const container = $('#animated-images-container'); // This is now in the right panel's #home-content
+            const sectionContainer = $('#animated-images-container-wrapper'); // The wrapper
+
+            if (!container || !sectionContainer) { console.warn("Animated images container not ready."); return; }
+            if (ALL_POSTS_DATA.length === 0) { setTimeout(setupHomePageRightColumnImages, 200); return; }
+
+            const postsWithImages = ALL_POSTS_DATA.filter(post => post.image).slice(0, 5); // Show up to 5
+            if (postsWithImages.length === 0) {
+                container.innerHTML = '<p class="text-text-subtle text-sm text-center md:text-left">No recent visual entries.</p>';
+                return;
+            }
             
             container.innerHTML = ''; 
-            const bubbleBaseSizeVW = 12; const minBubbleSize = 120; const maxBubbleSize = 250;   
+
+            const bubbleConfigs = [ 
+                { sizeVW: 18, minSize: 150, maxSize: 250, zIndex: 1 }, 
+                { sizeVW: 15, minSize: 130, maxSize: 220, zIndex: 3 },
+                { sizeVW: 20, minSize: 170, maxSize: 280, zIndex: 2 },
+                { sizeVW: 16, minSize: 140, maxSize: 230, zIndex: 1 },
+                { sizeVW: 14, minSize: 120, maxSize: 200, zIndex: 3 }
+            ];
+            
             requestAnimationFrame(() => {
-                const containerWidth = container.offsetWidth; const containerHeight = container.offsetHeight;
-                uniquePostsWithImages.forEach((post) => { // Use uniquePostsWithImages
+                const containerWidth = container.offsetWidth;
+                const containerHeight = container.offsetHeight;
+
+                postsWithImages.forEach((post, index) => {
+                    if (index >= bubbleConfigs.length) return; 
+                    const config = bubbleConfigs[index];
                     const escapedTitle = post.title.replace(/"/g, '"');
-                    let bubbleSize = Math.max(minBubbleSize, Math.min(maxBubbleSize, window.innerWidth * ((bubbleBaseSizeVW + Math.random() * 4 - 2) / 100) ));
-                    bubbleSize = Math.min(bubbleSize, (containerWidth > 0 ? containerWidth * 0.8 : maxBubbleSize), (containerHeight > 0 ? containerHeight * 0.40 : maxBubbleSize));
+                    
+                    let bubbleSize = Math.max(config.minSize, Math.min(config.maxSize, window.innerWidth * (config.sizeVW / 100)));
+                     bubbleSize = Math.min(bubbleSize, 
+                                        (containerWidth > 0 ? containerWidth * 0.8 : config.maxSize), 
+                                        (containerHeight > 0 ? containerHeight * 0.40 : config.maxSize)); // Max 40% of container height
+
                     const bubbleLink = document.createElement('a');
-                    bubbleLink.href = `#home/${post.id}`; bubbleLink.classList.add('animated-post-image-bubble');
-                    bubbleLink.setAttribute('aria-label', `Read more about ${escapedTitle}`); bubbleLink.title = escapedTitle;
-                    bubbleLink.dataset.postId = post.id; 
-                    bubbleLink.style.width = `${bubbleSize}px`; bubbleLink.style.height = `${bubbleSize}px`;
-                    bubbleLink.style.zIndex = Math.floor(Math.random() * 3) + 1; bubbleLink.style.opacity = 0; 
-                    const img = document.createElement('img'); img.src = post.image; img.alt = `Preview for ${escapedTitle}`;
-                    bubbleLink.appendChild(img); container.appendChild(bubbleLink);
-                    bubbleLink.addEventListener('click', function(e) { e.preventDefault(); const postId = this.dataset.postId; showPostInHomeView(postId); window.location.hash = `home/${postId}`; });
+                    bubbleLink.href = `#${post.id}`; // Clicking bubble navigates to post
+                    bubbleLink.classList.add('animated-post-image-bubble');
+                    bubbleLink.setAttribute('aria-label', `Read more about ${escapedTitle}`);
+                    bubbleLink.title = escapedTitle;
+                    
+                    bubbleLink.style.width = `${bubbleSize}px`;
+                    bubbleLink.style.height = `${bubbleSize}px`;
+                    bubbleLink.style.zIndex = config.zIndex;
+                    bubbleLink.style.opacity = 0; 
+
+                    const img = document.createElement('img');
+                    img.src = post.image;
+                    img.alt = `Preview for ${escapedTitle}`;
+                    
+                    bubbleLink.appendChild(img);
+                    container.appendChild(bubbleLink);
                 });
-                const imageBubbles = $$('#home-animated-post-images-container .animated-post-image-bubble');
+
+                const imageBubbles = $$('#animated-images-container .animated-post-image-bubble');
                 if (typeof anime === 'function' && imageBubbles.length > 0) {
                     imageBubbles.forEach((bubble) => {
                         function fizzleAnimation() {
-                            const bubbleSize = parseFloat(bubble.style.width); const currentContainerHeight = container.offsetHeight > 0 ? container.offsetHeight : 600; 
+                            const bubbleSize = parseFloat(bubble.style.width);
+                            const currentContainerHeight = container.offsetHeight > 0 ? container.offsetHeight : 600; 
                             const currentContainerWidth = container.offsetWidth > 0 ? container.offsetWidth : 300; 
-                            const maxTop = Math.max(0, currentContainerHeight - bubbleSize - 20); /* Add some margin */ const maxLeft = Math.max(0, currentContainerWidth - bubbleSize - 20);
-                            const newTop = anime.random(10, maxTop); const newLeft = anime.random(10, maxLeft); /* Start slightly offset */
-                            bubble.style.top = `${newTop}px`; bubble.style.left = `${newLeft}px`; bubble.style.transform = 'translateX(0px) translateY(0px)';
-                            anime.timeline({ targets: bubble, easing: 'easeOutExpo', complete: fizzleAnimation })
-                            .add({ opacity: [0, 0.85], scale: [0.2, 1], duration: anime.random(1200, 1800) /* Slower appearance */})
-                            .add({ translateX: () => anime.random(-25, 25) + 'px', translateY: () => anime.random(-25, 25) + 'px', scale: () => anime.random(0.9, 1.1), duration: anime.random(4000, 7000) /* Much slower float */, easing: 'easeInOutSine'}, '-=500') 
-                            .add({ opacity: [bubble.style.opacity, 0], scale: [parseFloat(getComputedStyle(bubble).transform.split(',')[0].split('(')[1]) || 1, 0.1], duration: anime.random(1000, 1500) /* Slower disappearance */, easing: 'easeInExpo', delay: anime.random(200, 800) });
-                        } setTimeout(fizzleAnimation, anime.random(0, 3000)); 
+
+                            const maxTop = Math.max(0, currentContainerHeight - bubbleSize - 10); 
+                            const maxLeft = Math.max(0, currentContainerWidth - bubbleSize - 10);
+
+                            const newTop = anime.random(0, maxTop);
+                            const newLeft = anime.random(0, maxLeft);
+                            
+                            bubble.style.top = `${newTop}px`;
+                            bubble.style.left = `${newLeft}px`;
+                            bubble.style.transform = 'translateX(0px) translateY(0px)';
+
+                            anime.timeline({
+                                targets: bubble,
+                                easing: 'easeOutExpo', 
+                                complete: fizzleAnimation 
+                            })
+                            .add({ 
+                                opacity: [0, 0.9], scale: [0.3, 1],
+                                duration: anime.random(700, 1000), // Slower appearance
+                            })
+                            .add({ 
+                                translateX: () => anime.random(-20, 20) + 'px', // Wider movement
+                                translateY: () => anime.random(-20, 20) + 'px',
+                                scale: () => anime.random(0.9, 1.1), 
+                                duration: anime.random(3000, 5000), // Longer hover
+                                easing: 'easeInOutSine'
+                            }, '-=300') 
+                            .add({ 
+                                opacity: [bubble.style.opacity, 0], 
+                                scale: [parseFloat(getComputedStyle(bubble).transform.split(',')[0].split('(')[1]) || 1, 0.2], 
+                                duration: anime.random(600, 900), // Slower disappearance
+                                easing: 'easeInExpo', 
+                                delay: anime.random(0, 400) 
+                            });
+                        }
+                        setTimeout(fizzleAnimation, anime.random(0, 2500)); 
                     });
                 }
             }); 
         }
-        function showPostInHomeView(postId) { const post = ALL_POSTS_DATA.find(p => p.id === postId); if (!post) return; const homePostViewContainer = $('#home-single-post-view'); const bubblesContainer = $('#home-animated-post-images-container'); if (homePostViewContainer && bubblesContainer) { homePostViewContainer.innerHTML = createFullArticleHtml(post, true); bubblesContainer.style.display = 'none'; homePostViewContainer.style.display = 'block'; homePostViewContainer.scrollIntoView({ behavior: 'smooth', block: 'start' }); document.title = `${post.title} - ${APP_CONFIG.DEFAULT_TITLES.home}`; } }
-        function hidePostInHomeView() { const homePostViewContainer = $('#home-single-post-view'); const bubblesContainer = $('#home-animated-post-images-container'); if (homePostViewContainer && bubblesContainer) { homePostViewContainer.style.display = 'none'; homePostViewContainer.innerHTML = ''; bubblesContainer.style.display = 'block'; document.title = APP_CONFIG.DEFAULT_TITLES.home; } }
-        async function loadAndRenderPosts() { try { const response = await fetch(APP_CONFIG.POSTS_JSON_PATH); if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}, path: ${APP_CONFIG.POSTS_JSON_PATH}`); } ALL_POSTS_DATA = await response.json(); ALL_POSTS_DATA.sort((a, b) => new Date(b.date) - new Date(a.date)); const writingsGrid = $('#writings-grid-container'); if (writingsGrid) { if (ALL_POSTS_DATA.length > 0) { writingsGrid.innerHTML = ALL_POSTS_DATA.map(post => createPostPreviewCard(post)).join(''); } else { writingsGrid.innerHTML = '<p class="text-text-secondary col-span-full text-center">No writings available.</p>'; } setupWritingsCardHoverEffects(); } const fullArticlesTarget = $('#full-articles-dynamic-content'); if (fullArticlesTarget) { fullArticlesTarget.innerHTML = ALL_POSTS_DATA.map(post => createFullArticleHtml(post, false)).join(''); } if (typeof setupHomePostBubbles === 'function' && (!$('.page-section.active-section') || $('.page-section.active-section').id === 'home-content')) { await setupHomePostBubbles(); } } catch (error) { console.error("ERROR in loadAndRenderPosts:", error); } }
-        function setupRotatingText(elementId, config) { if (rotatingTextInstances[elementId]) { return; } const element = document.getElementById(elementId); if (!element) { return; } let currentIndex = -1, isBusy = false, cycleTimeout = null, isVisible = true; const runOnce = (config.runOnce === true); element.textContent = ''; function typeWriterInternal(text, callback) { let i = 0; isBusy = true; function type() { if (!isVisible || !isBusy) { isBusy = false; if (!isVisible) element.textContent = ''; return; } if (i < text.length) { element.textContent += text.charAt(i); i++; setTimeout(type, config.typeSpeed); } else { if (element.querySelector('.typed-cursor')) element.removeChild(element.querySelector('.typed-cursor')); const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor); isBusy = false; if (callback) callback(); } } type(); } function deleteWriterInternal(callback) { if (runOnce && element.textContent.length > 0) { if (callback) callback(); return; } let text = element.textContent; const existingCursor = element.querySelector('.typed-cursor'); if (existingCursor) element.removeChild(existingCursor); text = element.textContent; let i = text.length; isBusy = true; function del() { if (!isVisible || !isBusy) { isBusy = false; if (!isVisible) element.textContent = ''; return; } if (i > 0) { element.textContent = text.substring(0, i - 1); i--; if (!element.querySelector('.typed-cursor') && element.textContent.length > 0) { const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor); } setTimeout(del, config.deleteSpeed); } else { const finalCursor = element.querySelector('.typed-cursor'); if (finalCursor) element.removeChild(finalCursor); element.textContent = ''; isBusy = false; if (callback) callback(); } } del(); } function scheduleCycle(delay) { if (runOnce) return; clearTimeout(cycleTimeout); cycleTimeout = setTimeout(() => { if(isVisible) startCycle(); }, delay); } function startCycle() { if (runOnce || isBusy || !isVisible) return; deleteWriterInternal(() => { if (!isVisible) return; let nextIndex; do { nextIndex = Math.floor(Math.random() * config.texts.length); } while (nextIndex === currentIndex && config.texts.length > 1); currentIndex = nextIndex; const nextText = config.texts[currentIndex]; element.textContent = ''; typeWriterInternal(nextText, () => scheduleCycle(config.pauseDuration)); }); } currentIndex = Math.floor(Math.random() * config.texts.length); const firstText = config.texts[currentIndex]; element.textContent = ''; typeWriterInternal(firstText, () => { if (!runOnce) scheduleCycle(config.pauseDuration); }); rotatingTextInstances[elementId] = { element: element }; }
-        function setupWritingsCardHoverEffects() { $$('#writings-content .writing-preview-card').forEach(card => { card.addEventListener('mousemove', (e) => { const rect = card.getBoundingClientRect(); const x = e.clientX - rect.left; const y = e.clientY - rect.top; const centerX = rect.width / 2; const centerY = rect.height / 2; const rotateX = (y - centerY) / 15; const rotateY = (centerX - x) / 15; card.style.transition = 'transform 0.1s ease-out'; card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(30px)`; }); card.addEventListener('mouseleave', () => { card.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; }); card.querySelectorAll('a').forEach(link => { link.addEventListener('click', (e) => e.stopPropagation()); }); }); }
-        async function renderQuestionnaire() { const container = $('#questionnaire-render-area'); const calculateButton = $('#calculate-match-button'); const personalityMatchSection = $('#personality-match-section'); const contactTelegramBtn = $('#contact-telegram-btn'); if (!container || !calculateButton || !personalityMatchSection || !contactTelegramBtn) { return; } container.innerHTML = '<p class="text-center" style="color: #A8A8A8;">Loading questions...</p>'; try { const response = await fetch(APP_CONFIG.QUESTIONS_JSON_PATH); if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); ALL_QUESTIONNAIRE_DATA = await response.json(); } catch (error) { container.innerHTML = `<p class="text-center" style="color: #A8A8A8;">Error: Could not load questions.</p>`; return; } if (ALL_QUESTIONNAIRE_DATA.length === 0) { container.innerHTML = '<p class="text-center" style="color: #A8A8A8;">No questions available.</p>'; return; } let html = ''; ALL_QUESTIONNAIRE_DATA.forEach((q) => { html += `<div class="question-block" id="question-${q.id}" data-question-id="${q.id}"><h3>${q.questionText}</h3><div class="answer-options">`; q.options.forEach((opt) => { const escapedOptionText = String(opt.text).replace(/"/g, '"'); html += `<button class="answer-option" data-option-text="${escapedOptionText}">${opt.text}</button>`; }); html += `</div><div class="feedback-area" id="feedback-${q.id}"></div></div>`; }); container.innerHTML = html; if (typeof anime === 'function') { anime({ targets: '.question-block', translateY: [30, 0], opacity: [0, 1], delay: anime.stagger(120, { start: 100 }), duration: 600, easing: 'easeOutExpo' }); } visitorAnswers = {}; questionsAnsweredCount = 0; personalityMatchSection.style.display = 'none'; personalityMatchSection.style.opacity = '0'; personalityMatchSection.style.transform = 'translateY(20px)'; contactTelegramBtn.style.display = 'none'; calculateButton.style.display = 'none'; calculateButton.disabled = true; setupQuestionnaireInteractions(); }
-        function setupQuestionnaireInteractions() { const answerOptionButtons = $$('#questionnaire-render-area .answer-option'); answerOptionButtons.forEach(button => { button.addEventListener('click', function() { const questionBlock = this.closest('.question-block'); if (questionBlock.classList.contains('answered')) return; const questionId = questionBlock.dataset.questionId; const selectedOptionText = this.dataset.optionText; const questionData = ALL_QUESTIONNAIRE_DATA.find(q => q.id === questionId); if (!questionData) return; const selectedOptionData = questionData.options.find(opt => opt.text === selectedOptionText); if (!selectedOptionData) return; questionBlock.classList.add('answered'); if (!visitorAnswers.hasOwnProperty(questionId)) questionsAnsweredCount++; visitorAnswers[questionId] = selectedOptionText; const optionsInBlock = questionBlock.querySelectorAll('.answer-option'); optionsInBlock.forEach(opt => { opt.disabled = true; opt.classList.remove('selected-visitor', 'selected-visitor-wrong', 'agraj-correct-answer'); if (opt !== this && opt.dataset.optionText !== questionData.agrajAnswerText && typeof anime === 'function') { anime({ targets: opt, opacity: 0.4, scale: 0.95, duration: 400, easing: 'easeOutQuad' }); } }); let animParams = { targets: this, duration: 400, easing: 'easeOutBack' }; if (selectedOptionText === questionData.agrajAnswerText) { this.classList.add('selected-visitor'); animParams.scale = [1, 1.05, 1];  } else { this.classList.add('selected-visitor-wrong'); const agrajAnswerButton = Array.from(optionsInBlock).find(optBtn => optBtn.dataset.optionText === questionData.agrajAnswerText); if (agrajAnswerButton) { agrajAnswerButton.classList.add('agraj-correct-answer'); if (typeof anime === 'function') { anime({ targets: agrajAnswerButton, scale: [1, 1.03, 1], duration: 400, delay:100, easing: 'easeOutBack' }); } } } if (typeof anime === 'function') anime(animParams); const feedbackArea = questionBlock.querySelector('.feedback-area'); feedbackArea.innerHTML = selectedOptionData.feedback; feedbackArea.classList.add('visible'); if (typeof anime === 'function') { anime({ targets: feedbackArea, opacity: [0, 1], translateY: [10,0], duration: 500, delay: 200, easing: 'easeOutExpo' }); } const calculateButton = $('#calculate-match-button'); if (ALL_QUESTIONNAIRE_DATA.length > 0 && questionsAnsweredCount === ALL_QUESTIONNAIRE_DATA.length) { calculateButton.style.display = 'inline-block'; calculateButton.disabled = false; if (typeof anime === 'function') { anime({ targets: calculateButton, opacity: [0, 1], scale: [0.8, 1], duration: 500, easing: 'easeOutExpo' }); } } else { calculateButton.style.display = 'none'; calculateButton.disabled = true; } }); }); const calculateButton = $('#calculate-match-button'); if (calculateButton) calculateButton.addEventListener('click', calculateAndShowMatch); }
-        function calculateAndShowMatch() { const calcButton = $('#calculate-match-button'); if(calcButton) calcButton.disabled = true; if (ALL_QUESTIONNAIRE_DATA.length === 0 || questionsAnsweredCount < ALL_QUESTIONNAIRE_DATA.length) return; let matches = 0; ALL_QUESTIONNAIRE_DATA.forEach(qData => { const visitorSelectedText = visitorAnswers[qData.id]; if (visitorSelectedText && typeof visitorSelectedText === 'string' && typeof qData.agrajAnswerText === 'string' && visitorSelectedText.trim() === qData.agrajAnswerText.trim()) { matches++; } }); const totalQuestions = ALL_QUESTIONNAIRE_DATA.length; const percentage = totalQuestions > 0 ? Math.round((matches / totalQuestions) * 100) : 0; const percentageEl = $('#match-percentage-value'); const personalityMatchSection = $('#personality-match-section'); const contactTelegramBtn = $('#contact-telegram-btn'); if (!percentageEl || !personalityMatchSection || !contactTelegramBtn) return; percentageEl.textContent = percentage; percentageEl.style.opacity = '0'; percentageEl.style.transform = 'scale(0.5)'; if (revealSound && typeof revealSound.play === 'function') { revealSound.currentTime = 0; revealSound.play().catch(e => {}); } personalityMatchSection.style.display = 'block'; setTimeout(() => { if (typeof anime === 'function') { anime.timeline({ easing: 'easeOutExpo' }).add({ targets: personalityMatchSection, opacity: [0, 1], translateY: [30, 0], duration: 700, begin: () => personalityMatchSection.classList.add('visible') }).add({ targets: percentageEl, opacity: [0,1], scale: [0.5, 1.1, 1], duration: 800 }, '-=400') .add({ targets: [$('#personality-match-section h2'), $('#personality-match-section p'), $('#personality-match-section #mbti-type-value')], opacity: [0,1], translateY: [10,0], delay: anime.stagger(100), duration: 500 }, '-=500').finished.then(() => { personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' }); if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) { contactTelegramBtn.style.display = 'inline-block'; anime({targets: contactTelegramBtn, opacity: [0,1], scale: [0.8,1], duration: 500, easing: 'easeOutExpo'}); } else { contactTelegramBtn.style.display = 'none'; } }); } }, 50); }
-        let matterEngine, matterRender, matterRunner; let gameShapes = []; const MAX_SHAPES_TO_SPAWN = 10; const SHAPES_TO_WIN = 3; let shapesSpawned = 0; let gameHasBeenWon = false; let targetZoneBody; function playSound(soundElement) { if (soundElement && typeof soundElement.play === 'function') { soundElement.currentTime = 0; soundElement.play().catch(e => {}); } } function resetSecretGame() { gameHasBeenWon = false; shapesSpawned = 0; if (matterEngine) Matter.Composite.clear(matterEngine.world, false); gameShapes = []; const canvas = $('#matter-canvas'); if (!canvas || !matterEngine) return; const canvasWidth = parseFloat(canvas.width); const canvasHeight = parseFloat(canvas.height); const ground = Matter.Bodies.rectangle(canvasWidth / 2, canvasHeight - 10, canvasWidth + 20, 60, { isStatic: true, render: { fillStyle: '#6a4a9a' } }); const leftWall = Matter.Bodies.rectangle(-30, canvasHeight / 2, 60, canvasHeight, { isStatic: true, render: { fillStyle: '#6a4a9a' } }); const rightWall = Matter.Bodies.rectangle(canvasWidth + 30, canvasHeight / 2, 60, canvasHeight, { isStatic: true, render: { fillStyle: '#6a4a9a' } }); const targetZoneHeight = 50; const targetZoneY = canvasHeight - 30 - (targetZoneHeight / 2) - 10; targetZoneBody = Matter.Bodies.rectangle(canvasWidth / 2, targetZoneY, canvasWidth * 0.5, targetZoneHeight, { isStatic: true, isSensor: true, label: 'targetZone', render: { fillStyle: 'rgba(174, 139, 213, 0.35)', strokeStyle: 'rgba(203, 184, 232, 0.6)', lineWidth: 2 } }); Matter.Composite.add(matterEngine.world, [ground, leftWall, rightWall, targetZoneBody]); updateGameInfoDisplay(); if ($('#game-win-message')) $('#game-win-message').textContent = "Drag shapes into the purple zone!"; }
-        function updateGameInfoDisplay() { if ($('#game-shapes-dropped')) $('#game-shapes-dropped').textContent = shapesSpawned; if ($('#game-max-shapes')) $('#game-max-shapes').textContent = MAX_SHAPES_TO_SPAWN; let shapesInTargetCount = 0; if (targetZoneBody && gameShapes.length > 0) { gameShapes.forEach(shape => { if (Matter.Bounds.overlaps(shape.bounds, targetZoneBody.bounds) && shape.position.y > targetZoneBody.bounds.min.y && shape.position.y < targetZoneBody.bounds.max.y && Math.abs(shape.velocity.x) < 0.1 && Math.abs(shape.velocity.y) < 0.1) { shapesInTargetCount++; } }); } if ($('#game-shapes-in-target')) $('#game-shapes-in-target').textContent = shapesInTargetCount; if ($('#game-shapes-to-win')) $('#game-shapes-to-win').textContent = SHAPES_TO_WIN; const winMessageEl = $('#game-win-message'); if (winMessageEl) { if (!gameHasBeenWon && shapesInTargetCount >= SHAPES_TO_WIN) { gameHasBeenWon = true; winMessageEl.textContent = "YOU WIN! ✨"; playSound(gameWinSoundEl); if (typeof anime === 'function') { anime({ targets: winMessageEl, scale: [1, 1.2, 1], color: ['#AE8BD5', '#FFFFFF', '#AE8BD5'], duration: 1000, easing: 'easeInOutQuad' }); } } else if (!gameHasBeenWon && shapesSpawned >= MAX_SHAPES_TO_SPAWN && shapesInTargetCount < SHAPES_TO_WIN) { winMessageEl.textContent = "Out of shapes! Try again?"; } } }
-        function setupSecretGame() { const trigger = $('#nav-logo-icon-trigger'); const modal = $('#secret-game-modal'); const canvas = $('#matter-canvas'); const closeButton = $('#close-game-button'); const resetButton = $('#reset-game-button'); if (!trigger || !modal || !canvas || !closeButton || !resetButton || typeof Matter === 'undefined') { if(trigger) trigger.style.display = 'none'; return; } const Engine = Matter.Engine, Render = Matter.Render, Runner = Matter.Runner, Bodies = Matter.Bodies, Composite = Matter.Composite, Mouse = Matter.Mouse, MouseConstraint = Matter.MouseConstraint, Events = Matter.Events; trigger.addEventListener('click', () => { modal.style.display = 'flex'; if (typeof anime === 'function') { anime({ targets: modal, opacity: [0,1], scale: [0.9, 1], duration: 400, easing: 'easeOutExpo' }); } if (matterRender) Matter.Render.stop(matterRender); if (matterRunner) Runner.stop(matterRunner); if (matterEngine) Matter.Engine.clear(matterEngine); if (canvas.firstChild && canvas.firstChild.tagName === 'CANVAS') { canvas.removeChild(canvas.firstChild); } matterEngine = Engine.create({ gravity: { y: 0.7 } }); let canvasWidth = Math.min(window.innerWidth * 0.85, 700); let canvasHeight = Math.min(window.innerHeight * 0.75, 450); canvas.width = canvasWidth; canvas.height = canvasHeight; matterRender = Render.create({ element: modal, canvas: canvas, engine: matterEngine, options: { width: canvasWidth, height: canvasHeight, wireframes: false, background: 'transparent' } }); resetSecretGame(); const mouse = Mouse.create(matterRender.canvas); const mouseConstraint = MouseConstraint.create(matterEngine, { mouse: mouse, constraint: { stiffness: 0.1, render: { visible: false } } }); Composite.add(matterEngine.world, mouseConstraint); matterRender.mouse = mouse; Events.on(mouseConstraint, 'mousedown', (event) => { if (gameHasBeenWon || shapesSpawned >= MAX_SHAPES_TO_SPAWN) return; const mousePosition = event.mouse.position; let body; const size = Math.random() * 20 + 15; const color = ['#CBB8E8', '#AE8BD5', '#FFFFFF', '#9272CE'][Math.floor(Math.random() * 4)]; if (shapesSpawned % 2 === 0) { body = Bodies.rectangle(mousePosition.x, mousePosition.y, size, size, { render: { fillStyle: color }, frictionAir: 0.03, restitution: 0.4 }); } else { body = Bodies.circle(mousePosition.x, mousePosition.y, size / 1.8, { render: { fillStyle: color }, frictionAir: 0.02, restitution: 0.6 }); } Composite.add(matterEngine.world, body); gameShapes.push(body); shapesSpawned++; playSound(gameSpawnSoundEl); updateGameInfoDisplay(); }); Events.on(matterEngine, 'afterUpdate', updateGameInfoDisplay); Render.run(matterRender); matterRunner = Runner.create(); Runner.run(matterRunner, matterEngine); }); closeButton.addEventListener('click', () => { if (typeof anime === 'function') { anime({ targets: modal, opacity: [1,0], scale: [1, 0.9], duration: 300, easing: 'easeInExpo', complete: () => modal.style.display = 'none' }); } else { modal.style.display = 'none'; } if (matterRender) Matter.Render.stop(matterRender); if (matterRunner) Runner.stop(matterRunner); if (matterEngine) Matter.Engine.clear(matterEngine); }); resetButton.addEventListener('click', resetSecretGame); }
-        let currentMainSection = 'home-content'; let lastClickedReadMoreLink = null; 
-        function showMainSection(sectionId) { $$('.page-section').forEach(s => s.classList.remove('active-section')); if (sectionId !== 'home-content') { if ($('#home-animated-post-images-container')) $('#home-animated-post-images-container').style.display = 'none'; if ($('#home-single-post-view')) $('#home-single-post-view').style.display = 'none'; } else { if ($('#home-animated-post-images-container')) $('#home-animated-post-images-container').style.display = 'block'; if ($('#home-single-post-view')) $('#home-single-post-view').style.display = 'none'; } const targetSection = $(`#${sectionId}`); if (targetSection) { targetSection.classList.add('active-section'); currentMainSection = sectionId; $$('#left-navbar nav a').forEach(navLink => { navLink.classList.remove('active'); if (navLink.dataset.navlink === sectionId.replace('-content', '')) { navLink.classList.add('active'); } }); if (sectionId === 'about-content') { if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); } else if (sectionId === 'home-content') { if ($('#home-animated-post-images-container') && (!$('#home-animated-post-images-container').innerHTML || !$('#home-animated-post-images-container').innerHTML.includes('animated-post-image-bubble'))) { setupHomePostBubbles(); } } window.scrollTo({ top: 0, behavior: 'auto' }); } }
-        function handleMainRouteChange() { let mainSectionTarget = 'home-content'; let articleDetailHash = ''; const currentFullHash = window.location.hash; if (currentFullHash.startsWith('#home/post-')) { mainSectionTarget = 'home-content'; const postId = currentFullHash.split('/')[1]; showMainSection(mainSectionTarget); showPostInHomeView(postId); } else if (currentFullHash.startsWith('#post-')) { mainSectionTarget = 'writings-content'; articleDetailHash = currentFullHash; showMainSection(mainSectionTarget); } else if (currentFullHash === '#writings') { mainSectionTarget = 'writings-content'; showMainSection(mainSectionTarget); } else if (currentFullHash === '#about') { mainSectionTarget = 'about-content'; showMainSection(mainSectionTarget); } else if (currentFullHash === '#home' || currentFullHash === '' || currentFullHash === '#') { mainSectionTarget = 'home-content'; if (currentFullHash === '' || currentFullHash === '#') window.location.hash = 'home'; showMainSection(mainSectionTarget); } else { return; } if (mainSectionTarget === 'writings-content') { handleWritingsArticleLogic(articleDetailHash); } else if (mainSectionTarget === 'about-content') { document.title = APP_CONFIG.DEFAULT_TITLES.about; } else if (mainSectionTarget === 'home-content' && !currentFullHash.startsWith('#home/post-')) { document.title = APP_CONFIG.DEFAULT_TITLES.home; } }
-        function handleWritingsArticleLogic(articleHash) { const defaultWritingsTitle = APP_CONFIG.DEFAULT_TITLES.writings; if (articleHash && articleHash.startsWith('#post-')) { const targetId = articleHash.substring(1); const targetArticle = $(`#full-articles-dynamic-content #${targetId}`); if (targetArticle) { const titleElement = targetArticle.querySelector('h2'); const articleTitle = titleElement ? titleElement.textContent.trim() : "Article"; document.title = `${articleTitle} - Writings - Agraj Dubey`; setTimeout(() => { if (!isElementInViewport(targetArticle)) targetArticle.scrollIntoView({ behavior: 'smooth', block: 'start' }); const heading = targetArticle.querySelector('h2'); if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); } }, 100); } else { document.title = defaultWritingsTitle; } } else { document.title = defaultWritingsTitle; const grid = $('#writings-grid-container'); if (grid && lastClickedReadMoreLink && document.body.contains(lastClickedReadMoreLink)) { setTimeout(() => { lastClickedReadMoreLink.focus({preventScroll: true}); if (!isElementInViewport(lastClickedReadMoreLink)) lastClickedReadMoreLink.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 50); } lastClickedReadMoreLink = null; } }
-        function isElementInViewport(el) { if(!el) return false; const rect = el.getBoundingClientRect(); return (rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth));}
-        
-        function setupBackgroundToggle() {
-            const logoType = $('#nav-logo-type');
-            const mainContentArea = $('#main-content-area');
-            if (logoType && mainContentArea) {
-                logoType.addEventListener('click', () => {
-                    mainContentArea.classList.toggle('content-dark-mode');
-                });
+
+
+        async function loadAndRenderPosts() { /* ... (Largely same as original, but no homeGrid for cards) ... */ 
+            try {
+                const response = await fetch(APP_CONFIG.POSTS_JSON_PATH);
+                if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}, path: ${APP_CONFIG.POSTS_JSON_PATH}`); }
+                ALL_POSTS_DATA = await response.json();
+                ALL_POSTS_DATA.sort((a, b) => new Date(b.date) - new Date(a.date)); 
+                // ALL_POST_DATA_FOR_HOME_RECENT is not used for cards on home anymore.
+                
+                // Home page now uses animated bubbles, not cards.
+                // const homeGrid = $('#home-recent-writings-grid'); // This element is removed from new HTML
+                // if (homeGrid) { ... }
+
+                const writingsGrid = $('#writings-grid-container');
+                if (writingsGrid) {
+                     if (ALL_POSTS_DATA.length > 0) { writingsGrid.innerHTML = ALL_POSTS_DATA.map(post => createPostPreviewCard(post, false)).join(''); } 
+                     else { writingsGrid.innerHTML = '<p class="text-text-subtle col-span-full text-center">No writings available.</p>'; }
+                     setupWritingsCardHoverEffects(); 
+                }
+                const fullArticlesTarget = $('#full-articles-dynamic-content');
+                 if (fullArticlesTarget) {  fullArticlesTarget.innerHTML = ALL_POSTS_DATA.map(post => createFullArticleHtml(post)).join(''); }
+
+                if (typeof setupHomePageRightColumnImages === 'function') {
+                    await setupHomePageRightColumnImages(); 
+                }
+                // setupHomeScrollAnimations(); // This was for home cards, might not be needed or needs rework for bubbles if desired
+            } catch (error) {
+                console.error("ERROR in loadAndRenderPosts:", error);
+                if ($('#writings-grid-container')) $('#writings-grid-container').innerHTML = '<p class="text-text-subtle col-span-full text-center">Error: Could not load writings.</p>';
             }
         }
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            revealSound = $('#revealSound'); gameSpawnSoundEl = $('#gameSpawnSound'); gameWinSoundEl = $('#gameWinSound');
-            await loadAndRenderPosts(); 
-            if (APP_CONFIG.NAV_BLOCKQUOTE_TEXTS && APP_CONFIG.NAV_BLOCKQUOTE_TEXTS.texts.length > 0) {
-                setupRotatingText('nav-blockquote-text', APP_CONFIG.NAV_BLOCKQUOTE_TEXTS);
+        // --- Questionnaire Logic - Same as original ---
+        async function renderQuestionnaire() { /* ... (Same as original) ... */ 
+            const container = $('#questionnaire-render-area');
+            const calculateButton = $('#calculate-match-button');
+            const personalityMatchSection = $('#personality-match-section');
+            const contactTelegramBtn = $('#contact-telegram-btn');
+
+            if (!container || !calculateButton || !personalityMatchSection || !contactTelegramBtn) {
+                console.error("One or more questionnaire UI elements not found. Aborting render.");
+                if(container) container.innerHTML = '<p class="text-text-subtle text-center">Core UI elements missing for questionnaire.</p>';
+                return;
             }
-            document.body.addEventListener('click', function(event) { const clickedLink = event.target.closest('a.glitch-button[href^="#post-"]'); if (clickedLink) { lastClickedReadMoreLink = clickedLink; } });
-            setupBackgroundToggle();
+            container.innerHTML = '<p class="text-center text-text-subtle">Loading questions...</p>'; 
+
+            try {
+                const response = await fetch(APP_CONFIG.QUESTIONS_JSON_PATH);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status} for ${APP_CONFIG.QUESTIONS_JSON_PATH}`);
+                ALL_QUESTIONNAIRE_DATA = await response.json();
+            } catch (error) {
+                console.error("Error loading questionnaire data:", error);
+                container.innerHTML = `<p class="text-text-subtle text-center">Error: Could not load questions. (${error.message})</p>`;
+                return;
+            }
+            
+            if (ALL_QUESTIONNAIRE_DATA.length === 0) {
+                container.innerHTML = '<p class="text-text-subtle text-center">No questions available at the moment.</p>';
+                return;
+            }
+
+            let html = '';
+            ALL_QUESTIONNAIRE_DATA.forEach((q) => {
+                html += `
+                    <div class="question-block" id="question-${q.id}" data-question-id="${q.id}">
+                        <h3>${q.questionText}</h3>
+                        <div class="answer-options">
+                `;
+                q.options.forEach((opt) => {
+                    const escapedOptionText = String(opt.text).replace(/"/g, '"');
+                    html += `<button class="answer-option" data-option-text="${escapedOptionText}">${opt.text}</button>`;
+                });
+                html += `
+                        </div>
+                        <div class="feedback-area" id="feedback-${q.id}"></div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            
+            if (typeof anime === 'function') {
+                anime({
+                    targets: '.question-block', translateY: [30, 0], opacity: [0, 1],
+                    delay: anime.stagger(120, { start: 100 }), duration: 600, easing: 'easeOutExpo'
+                });
+            }
+            
+            visitorAnswers = {}; 
+            questionsAnsweredCount = 0; 
+
+            personalityMatchSection.style.display = 'none'; 
+            personalityMatchSection.classList.remove('visible');
+            personalityMatchSection.style.opacity = '0';
+            personalityMatchSection.style.transform = 'translateY(20px)';
+            contactTelegramBtn.style.display = 'none';
+            calculateButton.style.display = 'none'; 
+            calculateButton.disabled = true;
+
+            setupQuestionnaireInteractions();
+        }
+        function setupQuestionnaireInteractions() { /* ... (Same as original) ... */ 
+            const answerOptionButtons = $$('#questionnaire-render-area .answer-option');
+            answerOptionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const questionBlock = this.closest('.question-block');
+                    if (questionBlock.classList.contains('answered')) return;
+                    const questionId = questionBlock.dataset.questionId;
+                    const selectedOptionText = this.dataset.optionText;
+                    const questionData = ALL_QUESTIONNAIRE_DATA.find(q => q.id === questionId);
+                    if (!questionData) return;
+                    const selectedOptionData = questionData.options.find(opt => opt.text === selectedOptionText);
+                    if (!selectedOptionData) return;
+                    questionBlock.classList.add('answered'); 
+                    if (!visitorAnswers.hasOwnProperty(questionId)) questionsAnsweredCount++;
+                    visitorAnswers[questionId] = selectedOptionText; 
+                    const optionsInBlock = questionBlock.querySelectorAll('.answer-option');
+                    optionsInBlock.forEach(opt => {
+                        opt.disabled = true;
+                        opt.classList.remove('selected-visitor', 'selected-visitor-wrong', 'agraj-correct-answer'); 
+                        if (opt !== this && opt.dataset.optionText !== questionData.agrajAnswerText && typeof anime === 'function') {
+                            anime({ targets: opt, opacity: 0.4, scale: 0.95, duration: 400, easing: 'easeOutQuad' });
+                        }
+                    });
+                    let animParams = { targets: this, duration: 400, easing: 'easeOutBack' };
+                    if (selectedOptionText === questionData.agrajAnswerText) {
+                        this.classList.add('selected-visitor');
+                        animParams.scale = [1, 1.05, 1]; 
+                        // animParams.backgroundColor = '#825FBD'; // Handled by class
+                    } else {
+                        this.classList.add('selected-visitor-wrong');
+                        // animParams.backgroundColor = tailwind.theme.extend.colors['selected-wrong-bg'] || 'rgba(120,120,120,0.45)';
+                        const agrajAnswerButton = Array.from(optionsInBlock).find(optBtn => optBtn.dataset.optionText === questionData.agrajAnswerText);
+                        if (agrajAnswerButton) {
+                            agrajAnswerButton.classList.add('agraj-correct-answer');
+                             if (typeof anime === 'function') {
+                                // anime({ targets: agrajAnswerButton, scale: [1, 1.03, 1], backgroundColor: tailwind.theme.extend.colors['correct-answer-bg'] || 'rgba(146,114,206,0.55)', duration: 400, delay:100, easing: 'easeOutBack' });
+                                anime({ targets: agrajAnswerButton, scale: [1, 1.03, 1], duration: 400, delay:100, easing: 'easeOutBack' });
+                            }
+                        }
+                    }
+                    if (typeof anime === 'function') anime(animParams); 
+                    const feedbackArea = questionBlock.querySelector('.feedback-area');
+                    feedbackArea.innerHTML = selectedOptionData.feedback; 
+                    feedbackArea.classList.add('visible');
+                     if (typeof anime === 'function') { 
+                        anime({ targets: feedbackArea, opacity: [0, 1], translateY: [10,0], duration: 500, delay: 200, easing: 'easeOutExpo' });
+                    }
+                    const calculateButton = $('#calculate-match-button');
+                    if (ALL_QUESTIONNAIRE_DATA.length > 0 && questionsAnsweredCount === ALL_QUESTIONNAIRE_DATA.length) {
+                        calculateButton.style.display = 'inline-block';
+                        calculateButton.disabled = false;
+                         if (typeof anime === 'function') {
+                            anime({ targets: calculateButton, opacity: [0, 1], scale: [0.8, 1], duration: 500, easing: 'easeOutExpo' });
+                        }
+                    } else {
+                        calculateButton.style.display = 'none';
+                        calculateButton.disabled = true;
+                    }
+                });
+            });
+            const calculateButton = $('#calculate-match-button');
+            if (calculateButton) calculateButton.addEventListener('click', calculateAndShowMatch);
+        }
+        function calculateAndShowMatch() { /* ... (Same as original) ... */ 
+            const calcButton = $('#calculate-match-button'); 
+            if(calcButton) calcButton.disabled = true; 
+            if (ALL_QUESTIONNAIRE_DATA.length === 0 || questionsAnsweredCount < ALL_QUESTIONNAIRE_DATA.length) return;
+            let matches = 0;
+            ALL_QUESTIONNAIRE_DATA.forEach(qData => {
+                const visitorSelectedText = visitorAnswers[qData.id];
+                if (visitorSelectedText && typeof visitorSelectedText === 'string' && typeof qData.agrajAnswerText === 'string' && 
+                    visitorSelectedText.trim() === qData.agrajAnswerText.trim()) {
+                    matches++;
+                }
+            });
+            const totalQuestions = ALL_QUESTIONNAIRE_DATA.length;
+            const percentage = totalQuestions > 0 ? Math.round((matches / totalQuestions) * 100) : 0;
+            const percentageEl = $('#match-percentage-value');
+            const personalityMatchSection = $('#personality-match-section');
+            const contactTelegramBtn = $('#contact-telegram-btn');
+            if (!percentageEl || !personalityMatchSection || !contactTelegramBtn) return;
+            percentageEl.textContent = percentage; 
+            percentageEl.style.opacity = '0'; 
+            percentageEl.style.transform = 'scale(0.5)';
+            if (revealSound && typeof revealSound.play === 'function') {
+                revealSound.currentTime = 0; 
+                revealSound.play().catch(e => console.warn("Reveal sound play failed:", e));
+            }
+            personalityMatchSection.style.display = 'block'; 
+            setTimeout(() => { 
+                if (typeof anime === 'function') {
+                    anime.timeline({ easing: 'easeOutExpo' })
+                    .add({
+                        targets: personalityMatchSection,
+                        opacity: [0, 1], translateY: [30, 0], duration: 700,
+                        begin: () => personalityMatchSection.classList.add('visible')
+                    })
+                    .add({
+                        targets: percentageEl, opacity: [0,1], scale: [0.5, 1.1, 1], duration: 800,
+                    }, '-=400') 
+                    .add({
+                        targets: [$('#personality-match-section h2'), $('#personality-match-section p'), $('#personality-match-section #mbti-type-value')],
+                        opacity: [0,1], translateY: [10,0], delay: anime.stagger(100), duration: 500
+                    }, '-=500')
+                    .finished.then(() => {
+                        personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) {
+                            contactTelegramBtn.style.display = 'inline-block'; 
+                            anime({targets: contactTelegramBtn, opacity: [0,1], scale: [0.8,1], duration: 500, easing: 'easeOutExpo'});
+                        } else {
+                            contactTelegramBtn.style.display = 'none';
+                        }
+                    });
+                } else { 
+                    percentageEl.style.opacity = '1'; percentageEl.style.transform = 'scale(1)';
+                    personalityMatchSection.style.opacity = '1'; personalityMatchSection.style.transform = 'translateY(0)';
+                    personalityMatchSection.classList.add('visible');
+                    personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) {
+                        contactTelegramBtn.style.display = 'inline-block';
+                    } else {
+                        contactTelegramBtn.style.display = 'none';
+                    }
+                }
+            }, 50);
+        }
+
+        // --- Secret Game Logic - Trigger changed --- 
+        let matterEngine, matterRender, matterRunner;
+        let gameShapes = [];
+        const MAX_SHAPES_TO_SPAWN = 10; const SHAPES_TO_WIN = 3;
+        let shapesSpawned = 0; let gameHasBeenWon = false; let targetZoneBody;
+        function playSound(soundElement) { /* ... (Same as original) ... */ 
+            if (soundElement && typeof soundElement.play === 'function') {
+                soundElement.currentTime = 0;
+                soundElement.play().catch(e => console.warn("Game sound play failed:", e.message));
+            }
+        }
+        function resetSecretGame() { /* ... (Same as original) ... */ 
+            gameHasBeenWon = false; shapesSpawned = 0;
+            if (matterEngine) Matter.Composite.clear(matterEngine.world, false); 
+            gameShapes = [];
+            const canvas = $('#matter-canvas');
+            if (!canvas || !matterEngine) return;
+            const canvasWidth = parseFloat(canvas.width); const canvasHeight = parseFloat(canvas.height);
+            const ground = Matter.Bodies.rectangle(canvasWidth / 2, canvasHeight - 10, canvasWidth + 20, 60, { isStatic: true, render: { fillStyle: '#6a4a9a' } });
+            const leftWall = Matter.Bodies.rectangle(-30, canvasHeight / 2, 60, canvasHeight, { isStatic: true, render: { fillStyle: '#6a4a9a' } });
+            const rightWall = Matter.Bodies.rectangle(canvasWidth + 30, canvasHeight / 2, 60, canvasHeight, { isStatic: true, render: { fillStyle: '#6a4a9a' } });
+            const targetZoneHeight = 50;
+            const targetZoneY = canvasHeight - 30 - (targetZoneHeight / 2) - 10;
+            targetZoneBody = Matter.Bodies.rectangle(canvasWidth / 2, targetZoneY, canvasWidth * 0.5, targetZoneHeight, {
+                isStatic: true, isSensor: true, label: 'targetZone',
+                render: { fillStyle: 'rgba(174, 139, 213, 0.35)', strokeStyle: 'rgba(203, 184, 232, 0.6)', lineWidth: 2 }
+            });
+            Matter.Composite.add(matterEngine.world, [ground, leftWall, rightWall, targetZoneBody]);
+            updateGameInfoDisplay();
+            if ($('#game-win-message')) $('#game-win-message').textContent = "Drag shapes into the purple zone!";
+        }
+        function updateGameInfoDisplay() { /* ... (Same as original) ... */ 
+             if ($('#game-shapes-dropped')) $('#game-shapes-dropped').textContent = shapesSpawned;
+            if ($('#game-max-shapes')) $('#game-max-shapes').textContent = MAX_SHAPES_TO_SPAWN;
+            let shapesInTargetCount = 0;
+            if (targetZoneBody && gameShapes.length > 0) {
+                gameShapes.forEach(shape => {
+                    if (Matter.Bounds.overlaps(shape.bounds, targetZoneBody.bounds) && 
+                        shape.position.y > targetZoneBody.bounds.min.y && 
+                        shape.position.y < targetZoneBody.bounds.max.y &&
+                        Math.abs(shape.velocity.x) < 0.1 && Math.abs(shape.velocity.y) < 0.1) { 
+                        shapesInTargetCount++;
+                    }
+                });
+            }
+            if ($('#game-shapes-in-target')) $('#game-shapes-in-target').textContent = shapesInTargetCount;
+            if ($('#game-shapes-to-win')) $('#game-shapes-to-win').textContent = SHAPES_TO_WIN;
+            const winMessageEl = $('#game-win-message');
+            if (winMessageEl) {
+                if (!gameHasBeenWon && shapesInTargetCount >= SHAPES_TO_WIN) {
+                    gameHasBeenWon = true; winMessageEl.textContent = "YOU WIN! ✨"; playSound(gameWinSoundEl);
+                    if (typeof anime === 'function') { anime({ targets: winMessageEl, scale: [1, 1.2, 1], color: ['#AE8BD5', '#FFFFFF', '#AE8BD5'], duration: 1000, easing: 'easeInOutQuad' }); }
+                } else if (!gameHasBeenWon && shapesSpawned >= MAX_SHAPES_TO_SPAWN && shapesInTargetCount < SHAPES_TO_WIN) {
+                     winMessageEl.textContent = "Out of shapes! Try again?";
+                }
+            }
+        }
+        function setupSecretGame() {
+            const trigger = $('#navbar-logo-image'); // MODIFIED: Trigger is now the navbar logo
+            const modal = $('#secret-game-modal'); 
+            const canvas = $('#matter-canvas'); const closeButton = $('#close-game-button');
+            const resetButton = $('#reset-game-button');
+            if (!trigger || !modal || !canvas || !closeButton || !resetButton || typeof Matter === 'undefined') { 
+                if(trigger) trigger.style.display = 'none'; 
+                console.warn("Secret game elements not found or Matter.js missing. Game disabled."); return; 
+            }
+            // ... (Rest of setupSecretGame is the same as original) ...
+            const Engine = Matter.Engine, Render = Matter.Render, Runner = Matter.Runner, 
+                  Bodies = Matter.Bodies, Composite = Matter.Composite, Mouse = Matter.Mouse, 
+                  MouseConstraint = Matter.MouseConstraint, Events = Matter.Events;
+            trigger.addEventListener('click', () => {
+                modal.style.display = 'flex';
+                if (typeof anime === 'function') { anime({ targets: modal, opacity: [0,1], scale: [0.9, 1], duration: 400, easing: 'easeOutExpo' }); }
+                if (matterRender) Matter.Render.stop(matterRender); 
+                if (matterRunner) Runner.stop(matterRunner);
+                if (matterEngine) Matter.Engine.clear(matterEngine); 
+                if (canvas.firstChild && canvas.firstChild.tagName === 'CANVAS') { canvas.removeChild(canvas.firstChild); }
+                matterEngine = Engine.create({ gravity: { y: 0.7 } });
+                let canvasWidth = Math.min(window.innerWidth * 0.85, 700); 
+                let canvasHeight = Math.min(window.innerHeight * 0.75, 450);
+                canvas.width = canvasWidth; canvas.height = canvasHeight;
+                matterRender = Render.create({ 
+                    element: modal, canvas: canvas, engine: matterEngine, 
+                    options: { width: canvasWidth, height: canvasHeight, wireframes: false, background: 'transparent' } 
+                });
+                resetSecretGame();
+                const mouse = Mouse.create(matterRender.canvas); 
+                const mouseConstraint = MouseConstraint.create(matterEngine, { 
+                    mouse: mouse, constraint: { stiffness: 0.1, render: { visible: false } } 
+                });
+                Composite.add(matterEngine.world, mouseConstraint); matterRender.mouse = mouse;
+                Events.on(mouseConstraint, 'mousedown', (event) => {
+                    if (gameHasBeenWon || shapesSpawned >= MAX_SHAPES_TO_SPAWN) return;
+                    const mousePosition = event.mouse.position; let body;
+                    const size = Math.random() * 20 + 15;
+                    const color = ['#CBB8E8', '#AE8BD5', '#FFFFFF', '#9272CE'][Math.floor(Math.random() * 4)];
+                    if (shapesSpawned % 2 === 0) { 
+                        body = Bodies.rectangle(mousePosition.x, mousePosition.y, size, size, { render: { fillStyle: color }, frictionAir: 0.03, restitution: 0.4 });
+                    } else {
+                        body = Bodies.circle(mousePosition.x, mousePosition.y, size / 1.8, { render: { fillStyle: color }, frictionAir: 0.02, restitution: 0.6 });
+                    }
+                    Composite.add(matterEngine.world, body); gameShapes.push(body);
+                    shapesSpawned++; playSound(gameSpawnSoundEl); updateGameInfoDisplay();
+                });
+                Events.on(matterEngine, 'afterUpdate', updateGameInfoDisplay);
+                Render.run(matterRender); matterRunner = Runner.create(); Runner.run(matterRunner, matterEngine);
+            });
+            closeButton.addEventListener('click', () => { 
+                if (typeof anime === 'function') {
+                    anime({
+                        targets: modal, opacity: [1,0], scale: [1, 0.9], duration: 300, easing: 'easeInExpo',
+                        complete: () => modal.style.display = 'none'
+                    });
+                } else { modal.style.display = 'none'; }
+                if (matterRender) Matter.Render.stop(matterRender); if (matterRunner) Runner.stop(matterRunner);
+                if (matterEngine) Matter.Engine.clear(matterEngine); 
+            });
+            resetButton.addEventListener('click', resetSecretGame);
+        }
+
+        // --- Other JS functions (Routing, Utils, etc.) --- 
+        let rotatingTextInstances = {}; // Same as original
+        function setupRotatingText(elementId, config) { /* ... (Same as original) ... */ 
+             if (rotatingTextInstances[elementId]) { return; }
+            const element = document.getElementById(elementId);
+            if (!element) { console.warn(`Rotating text element not found: #${elementId}`); return; }
+            let currentIndex = -1, isBusy = false, cycleTimeout = null, isVisible = false;
+            const runOnce = (elementId === 'typewriter' || elementId === 'main-heading-text'); // main-heading-text is sr-only, still run once.
+            element.textContent = ''; 
+            function typeWriterInternal(text, callback) {
+                let i = 0; isBusy = true;
+                function type() {
+                    if (!isVisible || !isBusy) { isBusy = false; if (!isVisible) element.textContent = ''; return; }
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i); i++;
+                        setTimeout(type, config.typeSpeed);
+                    } else {
+                        if (element.querySelector('.typed-cursor')) element.removeChild(element.querySelector('.typed-cursor'));
+                        const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor);
+                        isBusy = false; if (callback) callback();
+                    }
+                } type();
+            }
+            function deleteWriterInternal(callback) {
+                if (runOnce && element.textContent.length > 0) { if (callback) callback(); return; }
+                let text = element.textContent;
+                const existingCursor = element.querySelector('.typed-cursor');
+                if (existingCursor) element.removeChild(existingCursor);
+                text = element.textContent; 
+                let i = text.length; isBusy = true;
+                function del() {
+                    if (!isVisible || !isBusy) { isBusy = false; if (!isVisible) element.textContent = ''; return; }
+                    if (i > 0) {
+                        element.textContent = text.substring(0, i - 1); i--;
+                        if (!element.querySelector('.typed-cursor') && element.textContent.length > 0) {
+                           const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor);
+                        } setTimeout(del, config.deleteSpeed);
+                    } else {
+                        const finalCursor = element.querySelector('.typed-cursor'); if (finalCursor) element.removeChild(finalCursor);
+                        element.textContent = ''; isBusy = false; if (callback) callback();
+                    }
+                } del();
+            }
+            function scheduleCycle(delay) { if (runOnce) return; clearTimeout(cycleTimeout); cycleTimeout = setTimeout(() => { if(isVisible) startCycle(); }, delay); }
+            function startCycle() {
+                if (runOnce || isBusy || !isVisible) return;
+                deleteWriterInternal(() => {
+                    if (!isVisible) return; let nextIndex;
+                    do { nextIndex = Math.floor(Math.random() * config.texts.length); }
+                    while (nextIndex === currentIndex && config.texts.length > 1);
+                    currentIndex = nextIndex; const nextText = config.texts[currentIndex];
+                    element.textContent = ''; typeWriterInternal(nextText, () => scheduleCycle(config.pauseDuration));
+                });
+            }
+            let initialized = false;
+            const intersectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const wasVisible = isVisible; isVisible = entry.isIntersecting;
+                    if (isVisible && !wasVisible) {
+                        if (!initialized) {
+                            initialized = true;
+                            currentIndex = runOnce ? 0 : (elementId === 'main-heading-text' ? 0 : Math.floor(Math.random() * config.texts.length));
+                            const firstText = config.texts[currentIndex];
+                            element.textContent = ''; typeWriterInternal(firstText, () => { if (!runOnce) scheduleCycle(config.pauseDuration); });
+                        } else { 
+                            if (!isBusy) {
+                                if (runOnce) { if(element.textContent === '') { element.textContent = ''; typeWriterInternal(config.texts[0], () => {}); }
+                                } else { element.textContent = ''; scheduleCycle(100); }
+                            }
+                        }
+                    } else if (!isVisible && wasVisible) { clearTimeout(cycleTimeout); isBusy = false; }
+                });
+            }, { threshold: 0.1 });
+            intersectionObserver.observe(element);
+            rotatingTextInstances[elementId] = { observer: intersectionObserver, element: element };
+        }
+        
+        // NO setupMobileMenu() as the new navbar is fixed left.
+        // If mobile responsiveness is needed for the left nav, it's a new feature.
+
+        function setupScrollProgressBar() { /* ... (Same as original) ... */ 
+            const progressBar = $("#progressBar"); if (!progressBar) return;
+            window.addEventListener('scroll', () => { const winScroll = document.body.scrollTop || document.documentElement.scrollTop; const height = document.documentElement.scrollHeight - document.documentElement.clientHeight; const scrolled = height > 0 ? (winScroll / height) * 100 : 0; progressBar.style.width = scrolled + "%"; }, { passive: true });
+        }
+        
+        // NO setupStaticImageClick() as the Frieren ring image functionality isn't in the new design's spec.
+
+        // setupHomeCardHoverEffects() is not needed for the new home page (uses bubbles).
+        // setupWritingsCardHoverEffects() is still relevant for the Writings page.
+        function setupWritingsCardHoverEffects() { /* ... (Same as original) ... */ 
+            $$('#writings-content .writing-preview-card').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 20; 
+                    const rotateY = (centerX - x) / 20; 
+                    card.style.transition = 'transform 0.1s ease-out'; 
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; 
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+                });
+                card.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', (e) => e.stopPropagation());
+                });
+            });
+        }
+        
+        // setupHomeScrollAnimations() was for home cards, can be removed or adapted if home bubbles need scroll anim.
+        
+        let currentMainSection = null;
+        let lastClickedReadMoreLink = null; 
+
+        function showMainSection(sectionId) { 
+            const previouslyActiveSection = $('.page-section.active-section');
+            if (previouslyActiveSection) previouslyActiveSection.classList.remove('active-section');
+            const targetSection = $(`#${sectionId}`);
+            if (targetSection) {
+                targetSection.classList.add('active-section');
+                currentMainSection = sectionId;
+                // Update active nav link in the new .site-navbar
+                $$('.site-navbar .navbar-links a').forEach(navLink => {
+                    navLink.classList.remove('active');
+                    const navTarget = navLink.dataset.navlink;
+                    if ( (sectionId === 'home-content' && navTarget === 'home') ||
+                         (sectionId === 'writings-content' && navTarget === 'writings') ||
+                         (sectionId === 'about-content' && navTarget === 'about') ) {
+                        navLink.classList.add('active');
+                    }
+                });
+                
+                // No need to re-init typewriter for navbar elements as they are always visible.
+                // if (sectionId === 'home-content') { ... }
+                
+                if (sectionId === 'about-content') {
+                    if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); 
+                }
+                window.scrollTo({ top: 0, behavior: 'auto' });
+            } else { console.warn(`Target section #${sectionId} not found.`); }
+        }
+
+        function handleMainRouteChange() { /* ... (Same logic as original, adapted for new nav link selector) ... */ 
+            let mainSectionTarget = 'home-content';
+            let articleDetailHash = '';
+            const currentFullHash = window.location.hash;
+
+            if (currentFullHash.startsWith('#post-')) {
+                mainSectionTarget = 'writings-content'; articleDetailHash = currentFullHash;
+            } else if (currentFullHash === '#writings') {
+                mainSectionTarget = 'writings-content';
+            } else if (currentFullHash === '#about') {
+                mainSectionTarget = 'about-content';
+            } else if (currentFullHash === '#home' || currentFullHash === '' || currentFullHash === '#') {
+                mainSectionTarget = 'home-content'; 
+                if (currentFullHash === '' || currentFullHash === '#') window.location.hash = 'home';
+            } else { 
+                 const isExternalNav = Array.from($$('.site-navbar .navbar-links a[target="_blank"]')) // Updated selector
+                                        .some(link => link.href.endsWith(currentFullHash) || `#${link.dataset.navlink}` === currentFullHash);
+                if (!isExternalNav) {
+                     console.warn("Unknown hash, redirecting to #home:", currentFullHash);
+                     window.location.hash = 'home'; return; 
+                }
+            }
+            
+            if (currentMainSection !== mainSectionTarget && (mainSectionTarget === 'home-content' || mainSectionTarget === 'writings-content' || mainSectionTarget === 'about-content')) {
+                 showMainSection(mainSectionTarget);
+            } else if (mainSectionTarget === 'writings-content' && articleDetailHash) { 
+                 if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash);
+            }
+            
+            if (mainSectionTarget === 'writings-content') {
+                if(typeof handleWritingsArticleLogic === 'function') handleWritingsArticleLogic(articleDetailHash); 
+            } else if (mainSectionTarget === 'about-content') {
+                document.title = APP_CONFIG.DEFAULT_TITLES.about;
+            } else if (mainSectionTarget === 'home-content') { 
+                document.title = APP_CONFIG.DEFAULT_TITLES.home; 
+            }
+        }
+
+        function handleWritingsArticleLogic(articleHash) { /* ... (Same as original) ... */ 
+            const defaultWritingsTitle = APP_CONFIG.DEFAULT_TITLES.writings;
+            if (articleHash && articleHash.startsWith('#post-')) {
+                const targetId = articleHash.substring(1);
+                const targetArticle = $(`#${targetId}`);
+                if (targetArticle) {
+                    const titleElement = targetArticle.querySelector('h2');
+                    const articleTitle = titleElement ? titleElement.textContent.trim() : "Article";
+                    document.title = `${articleTitle} - Writings - Agraj Dubey`;
+                    // Ensure the writings page section is active if navigating directly to a post
+                    if (currentMainSection !== 'writings-content') {
+                        showMainSection('writings-content');
+                    }
+                    setTimeout(() => {
+                        if (!isElementInViewport(targetArticle)) targetArticle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        const heading = targetArticle.querySelector('h2');
+                        if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); }
+                    }, 100); // Delay to ensure section is visible
+                } else { document.title = defaultWritingsTitle; console.warn(`Article with ID ${targetId} not found.`); }
+            } else {
+                document.title = defaultWritingsTitle;
+                const grid = $('#writings-grid-container');
+                if (grid && lastClickedReadMoreLink && document.body.contains(lastClickedReadMoreLink)) {
+                     setTimeout(() => {
+                        lastClickedReadMoreLink.focus({preventScroll: true});
+                        if (!isElementInViewport(lastClickedReadMoreLink)) lastClickedReadMoreLink.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                     }, 50);
+                } else if (grid) {
+                    setTimeout(() => {
+                        grid.setAttribute('tabindex', '-1'); grid.focus({preventScroll: true});
+                         if (!isElementInViewport(grid)) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 50);
+                }
+                lastClickedReadMoreLink = null; 
+            }
+        }
+        function isElementInViewport(el) { /* ... (Same as original) ... */ 
+            if(!el) return false; const rect = el.getBoundingClientRect();
+            return (rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth));
+        }
+
+        // Dark Mode Toggle Logic
+        function setupDarkModeToggle() {
+            const darkModeToggle = $('#dark-mode-toggle');
+            const body = document.body;
+
+            function setDarkMode(isDark) {
+                if (isDark) {
+                    body.classList.add('dark-mode');
+                    body.classList.remove('light-mode');
+                    localStorage.setItem('darkMode', 'enabled');
+                    if(darkModeToggle) darkModeToggle.textContent = "Light Mode";
+                     // Update p5 blobs for dark mode (they read CSS vars)
+                    if (p5Blobs.length > 0 && typeof p5Blobs[0].update === 'function') {
+                         p5Blobs.forEach(b => {
+                            b.hueMin = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-hue-min'));
+                            b.hueMax = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-hue-max'));
+                            b.opacity = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-opacity'));
+                         });
+                    }
+                } else {
+                    body.classList.remove('dark-mode');
+                    body.classList.add('light-mode');
+                    localStorage.setItem('darkMode', 'disabled');
+                    if(darkModeToggle) darkModeToggle.textContent = "Dark Mode";
+                    if (p5Blobs.length > 0 && typeof p5Blobs[0].update === 'function') {
+                         p5Blobs.forEach(b => {
+                            b.hueMin = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-hue-min'));
+                            b.hueMax = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-hue-max'));
+                            b.opacity = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-opacity'));
+                         });
+                    }
+                }
+            }
+
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                setDarkMode(true);
+            } else {
+                setDarkMode(false); // Default to light
+            }
+
+            if(darkModeToggle) {
+                darkModeToggle.addEventListener('click', () => {
+                    setDarkMode(!body.classList.contains('dark-mode'));
+                });
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            revealSound = $('#revealSound'); 
+            gameSpawnSoundEl = $('#gameSpawnSound');
+            gameWinSoundEl = $('#gameWinSound');
+
+            if (typeof p5 !== 'undefined') {
+                new p5(p5Sketch); 
+            } else {
+                console.error("p5.js is not loaded!");
+            }
+
+            setupDarkModeToggle(); // Initialize dark mode state
+            setupScrollProgressBar();
+            await loadAndRenderPosts(); 
+            
+            // Initialize typewriter for navbar elements as they are always visible
+            for (const elId in APP_CONFIG.ROTATING_TEXT_HOME) {
+                if (document.getElementById(elId) && typeof setupRotatingText === 'function') { 
+                     setupRotatingText(elId, APP_CONFIG.ROTATING_TEXT_HOME[elId]);
+                }
+            }
+            
+            document.body.addEventListener('click', function(event) {
+                const clickedLink = event.target.closest('a.glitch-button[href^="#post-"], a.read-more-link[href^="#post-"]');
+                if (clickedLink) {
+                    lastClickedReadMoreLink = clickedLink;
+                }
+            });
+
             handleMainRouteChange(); 
             window.addEventListener('hashchange', handleMainRouteChange); 
-            setupSecretGame();
-            window.addEventListener('resize', () => { if (currentMainSection === 'home-content' && typeof setupHomePostBubbles === 'function' && (!$('#home-single-post-view') || $('#home-single-post-view').style.display === 'none')) { clearTimeout(window.resizeHomeImagesTimeout); window.resizeHomeImagesTimeout = setTimeout(setupHomePostBubbles, 300); } });
+            
+            // NO currentYearEl as footer is removed
+            setupSecretGame(); // Trigger is now #navbar-logo-image
+
+             window.addEventListener('resize', () => {
+                if (currentMainSection === 'home-content' && typeof setupHomePageRightColumnImages === 'function') {
+                    clearTimeout(window.resizeHomeImagesTimeout);
+                    window.resizeHomeImagesTimeout = setTimeout(setupHomePageRightColumnImages, 250);
+                }
+            });
         });
     </script>
 </body>
