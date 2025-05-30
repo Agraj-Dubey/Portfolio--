@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>agraj - Portfolio</title>
+    <!-- Ensure frieren.png is in the same folder as this HTML file -->
     <link rel="icon" type="image/png" href="frieren.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,36 +21,36 @@
                 extend: {
                     colors: {
                         // New Theme Base
-                        'brand-white': '#FFFFFF',
+                        'brand-white': '#FFFFFF', // For navbar bg
                         'brand-black': '#000000',
                         'brand-purple': '#800080', 
                         'brand-purple-light': '#A64CA6',
-                        'brand-purple-dark': '#5F005F',
+                        'brand-purple-dark': '#5F005F', // For page titles
                         'brand-grey': '#808080',
-                        'brand-grey-light': '#CCCCCC', // Lighter grey for borders on xlight bg
-                        'brand-grey-xlight': '#F5F5F5', // Main content bg
-                        'brand-content-dark-bg': '#1E1E1E', // For toggled dark background
+                        'brand-grey-light': '#CCCCCC', 
+                        'brand-grey-xlight': '#F5F5F5', // Main content bg default
+                        'brand-content-dark-bg': '#1A1A1A', // For toggled dark background (slightly lighter than pure black)
 
                         'text-primary': '#000000', 
                         'text-secondary': '#333333', 
                         'text-tertiary': '#555555',
                         
-                        // Colors for OLD dark-themed components (About Me, Writings Cards, Navbar Quote)
+                        // Colors for OLD dark-themed components
                         'old-dark': '#0f0a19', 
-                        'old-darker': '#090613', // Used for navbar quote bg
+                        'old-darker': '#090613', 
                         'old-accent': '#9272CE', 
                         'old-accent-hover': '#AE8BD5', 
                         'old-light-accent': '#CBB8E8',
                         'old-text-primary': '#ffffff', 
                         'old-text-secondary': '#D1D1D1', 
-                        'old-text-tertiary': '#A8A8A8', // Used for navbar quote text
-                        'old-article-bg': 'rgba(20, 20, 22, 0.93)', 
-                        'old-writings-card-bg': 'rgba(25, 15, 40, 0.9)', /* Slightly more opaque */
-                        'old-writings-card-hover-bg': 'rgba(45, 35, 60, 0.97)',
-                        'old-questionnaire-block-bg': 'rgba(28, 18, 52, 0.9)', /* More opaque */
-                        'old-questionnaire-option-bg': 'rgba(45, 30, 70, 0.85)',
-                        'old-questionnaire-feedback-bg': 'rgba(15, 10, 30, 0.95)',
-                        'old-questionnaire-match-bg': 'rgba(35, 25, 60, 0.95)',
+                        'old-text-tertiary': '#A8A8A8', 
+                        'old-article-bg': 'rgba(20, 20, 22, 0.95)', // More opaque
+                        'old-writings-card-bg': 'rgba(25, 15, 40, 0.92)',
+                        'old-writings-card-hover-bg': 'rgba(45, 35, 60, 0.98)',
+                        'old-questionnaire-block-bg': 'rgba(28, 18, 52, 0.92)',
+                        'old-questionnaire-option-bg': 'rgba(45, 30, 70, 0.88)',
+                        'old-questionnaire-feedback-bg': 'rgba(15, 10, 30, 0.97)',
+                        'old-questionnaire-match-bg': 'rgba(35, 25, 60, 0.97)',
                         'old-correct-answer-bg': 'rgba(146, 114, 206, 0.35)', 
                         'old-selected-wrong-bg': 'rgba(100, 100, 100, 0.3)', 
                         'old-disabled-option-bg': 'rgba(30, 20, 50, 0.7)',
@@ -67,7 +68,7 @@
     <style>
         html { scroll-behavior: smooth; }
         body {
-            background-color: tailwind.theme.extend.colors['brand-grey-xlight']; /* Light grey main background */
+            background-color: tailwind.theme.extend.colors['brand-grey-xlight'];
             color: tailwind.theme.extend.colors['text-primary']; 
             font-family: 'Inter', sans-serif;
             overflow-x: hidden; line-height: 1.6; font-size: 16px;
@@ -79,277 +80,177 @@
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
                 
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #E0E0E0; } /* Adjusted for light grey */
+        ::-webkit-scrollbar-track { background: #E0E0E0; }
         ::-webkit-scrollbar-thumb { background: tailwind.theme.extend.colors['brand-grey']; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: tailwind.theme.extend.colors['brand-purple-dark']; }
 
         /* --- Left Navigation Bar --- */
         #left-navbar {
-            width: 300px; /* Further Increased width */
-            height: 100vh;
-            position: fixed; top: 0; left: 0;
-            background-color: tailwind.theme.extend.colors['brand-white']; /* Navbar itself is white */
+            width: 300px; height: 100vh; position: fixed; top: 0; left: 0;
+            background-color: tailwind.theme.extend.colors['brand-white'];
             border-right: 1px solid tailwind.theme.extend.colors['brand-grey-light'];
-            padding: 1.5rem; 
-            display: flex; flex-direction: column;
-            align-items: flex-start; 
-            z-index: 100; box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            padding: 1.5rem; display: flex; flex-direction: column;
+            align-items: flex-start; z-index: 100; box-shadow: 2px 0 10px rgba(0,0,0,0.05);
         }
         #nav-logo-type {
-            width: 200px; /* Increased size */
-            height: auto; margin-bottom: 2rem;
-            align-self: center; 
-            cursor: pointer; /* For background toggle */
+            width: 200px; height: auto; margin-bottom: 2rem; align-self: center; cursor: pointer;
         }
-        #left-navbar nav {
-            width: 100%; display: flex; flex-direction: column;
-            gap: 0.85rem; /* Increased gap */
-        }
+        #left-navbar nav { width: 100%; display: flex; flex-direction: column; gap: 0.85rem; }
         #left-navbar nav a {
             color: tailwind.theme.extend.colors['text-secondary']; text-decoration: none;
-            font-size: 1.1rem; /* Increased font size */
-            padding: 0.8rem 1.1rem; /* Increased padding */
-            border-radius: 6px;
+            font-size: 1.1rem; padding: 0.8rem 1.1rem; border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
             font-weight: 500; text-align: left; display: block;
         }
-        #left-navbar nav a:hover {
-            background-color: rgba(128, 0, 128, 0.08); 
-            color: tailwind.theme.extend.colors['brand-purple-dark'];
-            transform: translateX(3px);
-        }
-        #left-navbar nav a.active {
-            background-color: tailwind.theme.extend.colors['brand-purple'];
-            color: tailwind.theme.extend.colors['brand-white'];
-            font-weight: 600;
-        }
-        #left-navbar nav a[target="_blank"]::after { 
-            content: ' \2197'; font-size: 0.8em; vertical-align: super; opacity: 0.7;
-        }
+        #left-navbar nav a:hover { background-color: rgba(128, 0, 128, 0.08); color: tailwind.theme.extend.colors['brand-purple-dark']; transform: translateX(3px); }
+        #left-navbar nav a.active { background-color: tailwind.theme.extend.colors['brand-purple']; color: tailwind.theme.extend.colors['brand-white']; font-weight: 600; }
+        #left-navbar nav a[target="_blank"]::after { content: ' \2197'; font-size: 0.8em; vertical-align: super; opacity: 0.7; }
+        
         #nav-blockquote-container { /* OLD DARK THEME FOR NAVBAR QUOTE */
-            width: 100%;
-            margin-top: 2rem; margin-bottom: auto; /* Pushes logo to bottom */
-            padding: 1.25rem 1rem; /* Increased padding */
-            font-size: 0.95rem; /* Increased font size */
-            color: tailwind.theme.extend.colors['old-text-tertiary'];
+            width: 100%; margin-top: 2rem; margin-bottom: auto; padding: 1.25rem 1rem; 
+            font-size: 0.95rem; color: tailwind.theme.extend.colors['old-text-tertiary'];
             border-left: 4px solid tailwind.theme.extend.colors['old-accent'];
             background-color: tailwind.theme.extend.colors['old-darker'];
-            min-height: 8em; /* Increased min height */
-            line-height: 1.6;
-            border-radius: 4px;
+            min-height: 8em; line-height: 1.6; border-radius: 4px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Subtle shadow for depth */
         }
-        #nav-blockquote-text .typed-cursor {
-            display: inline-block; width: 2px; 
-            background-color: tailwind.theme.extend.colors['old-accent']; 
-            margin-left: 3px; animation: pulseCursor 1s infinite; vertical-align: baseline;
-            height: 1em;
-        }
+        #nav-blockquote-text .typed-cursor { display: inline-block; width: 2px; background-color: tailwind.theme.extend.colors['old-accent']; margin-left: 3px; animation: pulseCursor 1s infinite; vertical-align: baseline; height: 1em; }
         @keyframes pulseCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        #nav-logo-icon-trigger {
-            width: 60px; height: auto; margin-top: 1.5rem;
-            cursor: pointer; transition: transform 0.3s ease;
-            align-self: center;
-        }
+        #nav-logo-icon-trigger { width: 60px; height: auto; margin-top: 1.5rem; cursor: pointer; transition: transform 0.3s ease; align-self: center; }
         #nav-logo-icon-trigger:hover { transform: scale(1.1); }
 
         /* --- Main Content Area --- */
         #main-content-area {
-            margin-left: 300px; /* Matches new left-navbar width */
-            width: calc(100% - 300px);
-            min-height: 100vh;
-            background-color: tailwind.theme.extend.colors['brand-grey-xlight']; /* Default light grey */
-            transition: background-color 0.5s ease; /* For smooth bg toggle */
+            margin-left: 300px; width: calc(100% - 300px); min-height: 100vh;
+            background-color: tailwind.theme.extend.colors['brand-grey-xlight'];
+            transition: background-color 0.5s ease;
         }
-        #main-content-area.content-dark-mode {
-            background-color: tailwind.theme.extend.colors['brand-content-dark-bg'];
+        #main-content-area.content-dark-mode { background-color: tailwind.theme.extend.colors['brand-content-dark-bg']; }
+        
+        /* Main Page Titles (e.g., "My Writings", "A Little More About Me") */
+        .page-title-container { /* Wrapper for H1 and subtitle */
+            text-align: center; 
+            padding-top: 2rem; /* Reduced top padding */
+            margin-bottom: 2.5rem; /* Reduced bottom margin */
         }
-        /* Main Page Titles */
-        .page-section .container h1.font-outfit { /* Target specific H1s */
+        .page-title-container h1.page-main-title {
              color: tailwind.theme.extend.colors['brand-purple-dark'];
+             font-family: 'Outfit', sans-serif; /* As per original potentially */
+             font-size: 2.5rem; /* md:text-5xl was 3rem */
         }
-        .page-section .container .text-center.mb-12 { /* Reduce top space for title blocks */
-            padding-top: 1.5rem; /* Was pt-8 (2rem) */
-            margin-bottom: 2rem; /* Was md:mb-16 (4rem) */
+        @media (min-width: 768px) { .page-title-container h1.page-main-title {font-size: 3rem;} }
+
+        .page-title-container p.page-subtitle {
+            color: tailwind.theme.extend.colors['text-secondary'];
+            margin-top: 0.75rem;
+            font-size: 1.1rem;
+        }
+        /* When main content is dark, adjust title colors */
+        #main-content-area.content-dark-mode .page-title-container h1.page-main-title {
+             color: tailwind.theme.extend.colors['old-light-accent'];
+        }
+        #main-content-area.content-dark-mode .page-title-container p.page-subtitle {
+             color: tailwind.theme.extend.colors['old-text-secondary'];
         }
         
-        /* Responsive (Basic) */
-        @media (max-width: 820px) { /* Adjusted breakpoint */
+        @media (max-width: 820px) { /* Responsive adjustments */
             body { display: block; }
             #left-navbar { width: 100%; height: auto; position: static; border-right: none; border-bottom: 1px solid tailwind.theme.extend.colors['brand-grey-light']; align-items: center; padding-bottom:1rem;}
             #left-navbar nav { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 0.5rem;}
             #left-navbar nav a {padding: 0.5rem 0.8rem; font-size: 1rem;}
             #nav-blockquote-container { display: none; }
             #main-content-area { margin-left: 0; width: 100%; }
+            .page-title-container h1.page-main-title { font-size: 2rem; }
         }
 
-
-        /* --- Home Section (#home-content) --- */
-        #home-content { padding: 2rem 2rem 0 2rem; /* Reduced bottom padding */ display: flex; flex-direction: column; align-items: center; }
-        #home-animated-post-images-container {
-            position: relative; width: 100%; max-width: 1200px; 
-            min-height: calc(100vh - 4rem); /* Fill more vertical space, accounting for padding */
-            margin-top: 0; /* Removed top margin */
-        }
-        .animated-post-image-bubble { /* Styles remain largely same */ }
-        #home-single-post-view { /* When a bubble is clicked, this shows the post */
-            display: none; width: 100%; max-width: 900px; margin: 0 auto; /* Centered, no top margin from here */
-            padding: 2.5rem 2rem; background-color: tailwind.theme.extend.colors['brand-grey-xlight']; /* Match page bg */
-            border-radius: 8px;
-        }
-        /* Style for post content shown in home-single-post-view on light grey background */
+        /* --- Home Section Specific Styles --- */
+        #home-content { padding: 2rem 2rem 0 2rem; display: flex; flex-direction: column; align-items: center; }
+        #home-animated-post-images-container { position: relative; width: 100%; max-width: 1200px; min-height: calc(100vh - 4rem); margin-top: 0; }
+        .animated-post-image-bubble { position: absolute; border-radius: 50%; overflow: hidden; box-shadow: 0 5px 20px rgba(128, 0, 128, 0.15), 0 0 8px rgba(0,0,0,0.1); border: 2px solid rgba(128, 0, 128, 0.3); transition: border-color 0.3s ease, transform 0.3s ease; opacity: 0; }
+        .animated-post-image-bubble:hover { border-color: tailwind.theme.extend.colors['brand-purple-dark']; transform: scale(1.05); }
+        .animated-post-image-bubble img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        #home-single-post-view { display: none; width: 100%; max-width: 900px; margin: 0 auto; padding: 2.5rem 2rem; background-color: tailwind.theme.extend.colors['brand-grey-xlight']; border-radius: 8px; }
         #home-single-post-view h2 { color: tailwind.theme.extend.colors['brand-purple-dark']; font-size: 2.2rem; margin-bottom: 1rem;}
         #home-single-post-view .post-meta-info { color: tailwind.theme.extend.colors['text-tertiary']; font-size: 0.9rem; margin-bottom: 2rem;}
         #home-single-post-view .post-content-html { line-height: 1.75; }
-        #home-single-post-view .post-content-html p, 
-        #home-single-post-view .post-content-html span { color: tailwind.theme.extend.colors['text-primary']; }
+        #home-single-post-view .post-content-html p, #home-single-post-view .post-content-html span { color: tailwind.theme.extend.colors['text-primary']; }
         #home-single-post-view .post-content-html strong { color: tailwind.theme.extend.colors['text-primary']; font-weight: 600;}
         #home-single-post-view .post-content-html a { color: tailwind.theme.extend.colors['brand-purple']; text-decoration: underline;}
         #home-single-post-view .post-content-html a:hover { color: tailwind.theme.extend.colors['brand-purple-dark'];}
-        #home-single-post-view .post-content-html blockquote {
-            border-left-color: tailwind.theme.extend.colors['brand-purple'];
-            background-color: tailwind.theme.extend.colors['brand-white']; /* White quote box on light grey */
-            padding: 1.25em 2rem; margin: 1.5em 0;
-            color: tailwind.theme.extend.colors['text-secondary'];
-            border-radius: 4px;
-        }
-         /* If main content is dark, adjust single post view for readability */
-        #main-content-area.content-dark-mode #home-single-post-view {
-            background-color: tailwind.theme.extend.colors['brand-content-dark-bg'];
-        }
+        #home-single-post-view .post-content-html blockquote { border-left-color: tailwind.theme.extend.colors['brand-purple']; background-color: tailwind.theme.extend.colors['brand-white']; padding: 1.25em 2rem; margin: 1.5em 0; color: tailwind.theme.extend.colors['text-secondary']; border-radius: 4px; }
+        #main-content-area.content-dark-mode #home-single-post-view { background-color: tailwind.theme.extend.colors['brand-content-dark-bg']; }
         #main-content-area.content-dark-mode #home-single-post-view h2 { color: tailwind.theme.extend.colors['old-light-accent'];}
         #main-content-area.content-dark-mode #home-single-post-view .post-meta-info { color: tailwind.theme.extend.colors['old-text-tertiary'];}
-        #main-content-area.content-dark-mode #home-single-post-view .post-content-html p,
-        #main-content-area.content-dark-mode #home-single-post-view .post-content-html span { color: tailwind.theme.extend.colors['old-text-secondary'];}
+        #main-content-area.content-dark-mode #home-single-post-view .post-content-html p, #main-content-area.content-dark-mode #home-single-post-view .post-content-html span { color: tailwind.theme.extend.colors['old-text-secondary'];}
         #main-content-area.content-dark-mode #home-single-post-view .post-content-html strong { color: tailwind.theme.extend.colors['old-text-primary'];}
         #main-content-area.content-dark-mode #home-single-post-view .post-content-html a { color: tailwind.theme.extend.colors['old-accent'];}
-        #main-content-area.content-dark-mode #home-single-post-view .post-content-html blockquote {
-            border-left-color: tailwind.theme.extend.colors['old-accent'];
-            background-color: tailwind.theme.extend.colors['old-darker'];
-            color: tailwind.theme.extend.colors['old-text-tertiary'];
-        }
-
+        #main-content-area.content-dark-mode #home-single-post-view .post-content-html blockquote { border-left-color: tailwind.theme.extend.colors['old-accent']; background-color: tailwind.theme.extend.colors['old-darker']; color: tailwind.theme.extend.colors['old-text-tertiary']; }
 
         /* --- Writings Section & About Me - OLD DARK STYLES RESTORED for components --- */
-        /* General container for dark components on light page bg */
-        .dark-component-container {
-            background-color: tailwind.theme.extend.colors['brand-grey-xlight']; /* Match page bg */
-            padding: 2rem; 
-        }
-        #main-content-area.content-dark-mode .dark-component-container { /* If page is dark, make component bg match */
-             background-color: tailwind.theme.extend.colors['brand-content-dark-bg'];
-        }
-        /* Titles inside dark-component-container if page bg is light */
-        .dark-component-container > .container > .text-center h1 {
-            color: tailwind.theme.extend.colors['brand-purple-dark'] !important; /* Purple for titles */
-        }
-        .dark-component-container > .container > .text-center p {
-            color: tailwind.theme.extend.colors['text-secondary'] !important; /* Dark grey for subtitle */
-        }
+        /* The .page-section for Writings and About will have the overall page background (light grey or dark). */
+        /* The actual components (cards, questionnaire) will have their specific old dark backgrounds. */
 
-        /* If page bg is dark, titles in dark-component-container should be light */
-        #main-content-area.content-dark-mode .dark-component-container > .container > .text-center h1 {
-             color: tailwind.theme.extend.colors['old-light-accent'] !important;
-        }
-        #main-content-area.content-dark-mode .dark-component-container > .container > .text-center p {
-             color: tailwind.theme.extend.colors['old-text-secondary'] !important;
-        }
-
-
-        /* Writings Cards - Using OLD styles */
-        .writing-preview-card { 
-            background-color: tailwind.theme.extend.colors['old-writings-card-bg']; 
-            backdrop-filter: blur(7px); border-radius: 0.75rem; padding: 2rem; 
-            border: 1px solid rgba(146, 114, 206, 0.25); 
-            display: flex; flex-direction: column; 
-            box-shadow: 0 6px 18px rgba(0,0,0, 0.35), 0 0 8px 1px rgba(146, 114, 206, 0.2);
-            position: relative; overflow: hidden;   
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                        box-shadow 0.4s ease-out, border-color 0.4s ease-out,
-                        background-color 0.3s ease;
-        }
+        /* Writings Cards */
+        .writing-preview-card { background-color: tailwind.theme.extend.colors['old-writings-card-bg']; backdrop-filter: blur(7px); border-radius: 0.75rem; padding: 2rem; border: 1px solid rgba(146, 114, 206, 0.25); display: flex; flex-direction: column; box-shadow: 0 6px 18px rgba(0,0,0, 0.35), 0 0 8px 1px rgba(146, 114, 206, 0.2); position: relative; overflow: hidden; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease; }
         .writing-preview-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(146, 114, 206, 0.1), transparent); transform: translateX(-100%); transition: transform 0.8s ease; pointer-events: none; z-index: 0; }
         .writing-preview-card:hover { background-color: tailwind.theme.extend.colors['old-writings-card-hover-bg']; box-shadow: 0 15px 30px rgba(9, 6, 19, 0.6), 0 0 20px rgba(146, 114, 206, 0.35); border-color: rgba(146, 114, 206, 0.45); }
         .writing-preview-card:hover::before { transform: translateX(100%); }
-        .writing-preview-card h3 { color: tailwind.theme.extend.colors['old-text-primary']; font-size: 1.55rem; }
-        .writing-preview-card .post-meta-info { color: tailwind.theme.extend.colors['old-light-accent'];}
-        .writing-preview-card .excerpt { color: tailwind.theme.extend.colors['old-text-secondary']; }
-        .writing-preview-card a.read-more-link { color: tailwind.theme.extend.colors['old-accent'];}
+        .writing-preview-card h3 { color: tailwind.theme.extend.colors['old-text-primary']; font-size: 1.55rem; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem; }
+        .writing-preview-card .post-meta-info { color: tailwind.theme.extend.colors['old-light-accent']; font-size: 0.9rem; margin-bottom: 1.25rem; }
+        .writing-preview-card .excerpt { color: tailwind.theme.extend.colors['old-text-secondary']; font-size: 1.05rem; line-height: 1.65; flex-grow: 1; margin-bottom: 1.5rem; }
+        .writing-preview-card a.read-more-link { color: tailwind.theme.extend.colors['old-accent']; font-weight: 500; font-size: 1.05rem; margin-top: auto; text-decoration: none; display:inline-block; }
         .writing-preview-card a.read-more-link:hover { color: tailwind.theme.extend.colors['old-accent-hover']; }
         
-        /* Full Article View (Writings section) - Using OLD styles */
-        #full-articles-container article { 
-            background-color: tailwind.theme.extend.colors['old-article-bg']; 
-            border-top: 5px solid tailwind.theme.extend.colors['old-accent']; 
-             /* Other old styles: backdrop-filter, border, box-shadow etc. */
-            backdrop-filter: blur(10px); border-radius: 0.75rem; padding: 2.5rem 2rem; margin-bottom: 3rem; 
-            box-shadow: 0 10px 40px rgba(0,0,0, 0.6), inset 0 1px 3px rgba(146, 114, 206, 0.1); 
-            border: 1px solid rgba(146, 114, 206, 0.3); 
-            display: none; opacity: 0; /* Handled by JS */
-        }
+        /* Full Article View (Writings section) */
+        #full-articles-container article { background-color: tailwind.theme.extend.colors['old-article-bg']; border-top: 5px solid tailwind.theme.extend.colors['old-accent']; backdrop-filter: blur(10px); border-radius: 0.75rem; padding: 2.5rem 2rem; margin-bottom: 3rem; box-shadow: 0 10px 40px rgba(0,0,0, 0.6), inset 0 1px 3px rgba(146, 114, 206, 0.1); border: 1px solid rgba(146, 114, 206, 0.3); display: none; opacity: 0; }
         #full-articles-container article:target { display: block !important; opacity: 1 !important; animation: fadeInArticle 0.6s ease-out forwards; }
-        #full-articles-container h2 { color: tailwind.theme.extend.colors['old-accent']; }
-        #full-articles-container .post-meta-info { color: tailwind.theme.extend.colors['old-light-accent'];}
-        #full-articles-container a.back-button { background-color: tailwind.theme.extend.colors['old-accent']; color: tailwind.theme.extend.colors['old-text-primary'];}
-        #full-articles-container a.back-button:hover { background-color: tailwind.theme.extend.colors['old-accent-hover'];}
-        #full-articles-container .post-content-html p, 
-        #full-articles-container .post-content-html span { color: tailwind.theme.extend.colors['old-text-secondary']; }
+        #full-articles-container h2 { color: tailwind.theme.extend.colors['old-accent']; font-size: 2.1rem; margin-bottom: 0.75rem;}
+        #full-articles-container .post-meta-info { color: tailwind.theme.extend.colors['old-light-accent']; font-size: 0.95rem; margin-bottom: 2.5rem;}
+        #full-articles-container a.back-button { background-color: tailwind.theme.extend.colors['old-accent']; color: tailwind.theme.extend.colors['old-text-primary']; /* other styles from before */ display: inline-block; margin-top: 2.5rem; padding: 0.7rem 1.4rem; border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; box-shadow: 0 3px 10px rgba(146, 114, 206, 0.2); font-size: 1rem; text-decoration: none;}
+        #full-articles-container a.back-button:hover { background-color: tailwind.theme.extend.colors['old-accent-hover']; transform: scale(1.05) translateY(-2px); box-shadow: 0 8px 20px rgba(146, 114, 206, 0.3);}
+        #full-articles-container .post-content-html p, #full-articles-container .post-content-html span { color: tailwind.theme.extend.colors['old-text-secondary']; font-size: 1.1rem; line-height: 1.7; }
         #full-articles-container .post-content-html strong { color: tailwind.theme.extend.colors['old-text-primary']; }
-        #full-articles-container .post-content-html a { color: tailwind.theme.extend.colors['old-accent']; }
-        #full-articles-container .post-content-html blockquote { border-left-color: tailwind.theme.extend.colors['old-accent']; background-color: rgba(146, 114, 206, 0.05); color: tailwind.theme.extend.colors['old-text-tertiary']; }
+        #full-articles-container .post-content-html a { color: tailwind.theme.extend.colors['old-accent']; text-decoration:underline; }
+        #full-articles-container .post-content-html blockquote { border-left-color: tailwind.theme.extend.colors['old-accent']; background-color: rgba(146, 114, 206, 0.05); color: tailwind.theme.extend.colors['old-text-tertiary']; padding: 1em 1.75rem; margin: 1.5em 0; font-style:italic;}
         
-        /* About Me Questionnaire - Using OLD styles */
-        .question-block { 
-            background-color: tailwind.theme.extend.colors['old-questionnaire-block-bg']; 
-            border: 1px solid rgba(174, 139, 213, 0.35); 
-            /* All other old styles for .question-block */
-            backdrop-filter: blur(8px); border-radius: 1rem; padding: 2.25rem 2.5rem; margin-bottom: 3.5rem; 
-            box-shadow: 0 8px 30px rgba(0,0,0,0.4); min-height: 220px; display: flex; flex-direction: column;
-            opacity: 0; transform: translateY(30px); 
-        }
-        .question-block h3 { color: #D7C2F2; }
-        .answer-option { 
-            background-color: tailwind.theme.extend.colors['old-questionnaire-option-bg']; 
-            color: #E0D8F0; 
-            border: 1px solid rgba(174, 139, 213, 0.45); 
-             /* All other old styles for .answer-option */
-            padding: 1rem 1.3rem; border-radius: 0.75rem; cursor: pointer;
-            transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.2s ease-out, box-shadow 0.25s ease;
-        }
+        /* About Me Questionnaire */
+        #about-content .container { padding: 0 2rem 2rem 2rem; } /* Add padding around content, title container already has top */
+        .question-block { background-color: tailwind.theme.extend.colors['old-questionnaire-block-bg']; border: 1px solid rgba(174, 139, 213, 0.35); backdrop-filter: blur(8px); border-radius: 1rem; padding: 2.25rem 2.5rem; margin-bottom: 3.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.4); min-height: 220px; display: flex; flex-direction: column; opacity: 0; transform: translateY(30px); }
+        .question-block h3 { color: #D7C2F2; font-size: 1.5rem; font-family: 'Outfit', sans-serif; margin-bottom: 1.75rem; font-weight:600;}
+        .answer-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem; margin-bottom: 1.75rem; flex-grow: 1; }
+        .answer-option { background-color: tailwind.theme.extend.colors['old-questionnaire-option-bg']; color: #E0D8F0; border: 1px solid rgba(174, 139, 213, 0.45); padding: 1rem 1.3rem; border-radius: 0.75rem; cursor: pointer; transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.2s ease-out, box-shadow 0.25s ease; text-align:left; font-size:1.05rem; line-height:1.4;}
         .answer-option:not([disabled]):hover { background-color: rgba(174, 139, 213, 0.25); border-color: tailwind.theme.extend.colors['old-accent-hover']; transform: translateY(-4px) scale(1.035); box-shadow: 0 5px 15px rgba(174, 139, 213, 0.25); }
-        .answer-option.selected-visitor { background-color: #825FBD !important; color: tailwind.theme.extend.colors['old-text-primary'] !important; border-color: tailwind.theme.extend.colors['old-light-accent'] !important; }
-        .answer-option.selected-visitor-wrong { background-color: tailwind.theme.extend.colors['old-selected-wrong-bg'] !important; }
-        .answer-option.agraj-correct-answer { background-color: tailwind.theme.extend.colors['old-correct-answer-bg'] !important; }
-        .answer-option[disabled] { background-color: tailwind.theme.extend.colors['old-disabled-option-bg'] !important; opacity: 0.6 !important}
-        .feedback-area { 
-            background-color: tailwind.theme.extend.colors['old-questionnaire-feedback-bg']; 
-            border-left: 5px solid tailwind.theme.extend.colors['old-accent-hover']; 
-            color: #D7C2F2; 
-            /* All other old styles */
-            margin-top: auto; padding: 1.35rem; border-radius: 0.6rem; font-size: 1rem; 
-            display: none; animation: fadeInFeedback 0.6s ease-out forwards; 
-        }
+        .answer-option.selected-visitor { background-color: #825FBD !important; color: tailwind.theme.extend.colors['old-text-primary'] !important; border-color: tailwind.theme.extend.colors['old-light-accent'] !important; font-weight: 700; box-shadow: 0 0 18px rgba(146, 114, 206, 0.7); }
+        .answer-option.selected-visitor-wrong { background-color: tailwind.theme.extend.colors['old-selected-wrong-bg'] !important; color: #D8D8D8 !important; border-color: tailwind.theme.extend.colors['old-text-tertiary'] !important; font-weight: 500; box-shadow: 0 0 8px rgba(120, 120, 120, 0.25); }
+        .answer-option.agraj-correct-answer { background-color: tailwind.theme.extend.colors['old-correct-answer-bg'] !important; color: tailwind.theme.extend.colors['old-text-primary'] !important; border-color: tailwind.theme.extend.colors['old-light-accent'] !important; font-weight: 700; box-shadow: 0 0 15px rgba(174, 139, 213, 0.6); }
+        .answer-option[disabled] { background-color: tailwind.theme.extend.colors['old-disabled-option-bg'] !important; color: #9a9a9a !important; cursor: not-allowed; border-color: rgba(146, 114, 206, 0.25) !important; opacity: 0.6 !important;}
+        .answer-option[disabled]:not(.selected-visitor):not(.selected-visitor-wrong):not(.agraj-correct-answer) { opacity: 0.45 !important; }
+        .feedback-area { background-color: tailwind.theme.extend.colors['old-questionnaire-feedback-bg']; border-left: 5px solid tailwind.theme.extend.colors['old-accent-hover']; color: #D7C2F2; margin-top: auto; padding: 1.35rem; border-radius: 0.6rem; font-size: 1rem; line-height:1.65; display: none; animation: fadeInFeedback 0.6s ease-out forwards; }
         .feedback-area.visible { display: block; }
-        .feedback-area strong { color: tailwind.theme.extend.colors['old-text-primary']; }
-        #personality-match-section { 
-            background-color: tailwind.theme.extend.colors['old-questionnaire-match-bg']; 
-            border: 1px solid rgba(174, 139, 213, 0.45); 
-            /* All other old styles */
-            backdrop-filter: blur(10px); margin-top: 4rem; padding: 2.75rem; border-radius: 1rem;
-            text-align: center; box-shadow: 0 10px 35px rgba(0,0,0,0.4); 
-        }
-        #personality-match-section h2 { color: tailwind.theme.extend.colors['old-light-accent']; }
-        #personality-match-section p { color: #E0D8F0; }
-        #personality-match-section #match-percentage-value { color: tailwind.theme.extend.colors['old-text-primary']; background: linear-gradient(135deg, tailwind.theme.extend.colors['old-accent-hover'], tailwind.theme.extend.colors['old-accent']); }
-        #personality-match-section #mbti-type-value { color: tailwind.theme.extend.colors['old-light-accent']; }
-        #calculate-match-button { background-color: tailwind.theme.extend.colors['old-accent']; color: tailwind.theme.extend.colors['old-text-primary']; }
-        #calculate-match-button:disabled { background: #5a506b; color: tailwind.theme.extend.colors['old-text-tertiary']; }
+        .feedback-area strong { color: tailwind.theme.extend.colors['old-text-primary']; font-weight:700; }
+        #personality-match-section { background-color: tailwind.theme.extend.colors['old-questionnaire-match-bg']; border: 1px solid rgba(174, 139, 213, 0.45); backdrop-filter: blur(10px); margin-top: 4rem; padding: 2.75rem; border-radius: 1rem; text-align: center; box-shadow: 0 10px 35px rgba(0,0,0,0.4); }
+        #personality-match-section h2 { color: tailwind.theme.extend.colors['old-light-accent']; font-size:2.2rem; font-family:'Outfit', sans-serif; margin-bottom:2rem; }
+        #personality-match-section p { color: #E0D8F0; font-size:1.2rem; margin-bottom:1.25rem;}
+        #personality-match-section #match-percentage-value { color: tailwind.theme.extend.colors['old-text-primary']; background: linear-gradient(135deg, tailwind.theme.extend.colors['old-accent-hover'], tailwind.theme.extend.colors['old-accent']); font-weight: 700; font-size: 3.5rem; display: inline-block; margin: 0.5rem 0 1rem 0; padding: 0.3rem 0.8rem; border-radius: 0.5rem; box-shadow: 0 4px 15px rgba(146, 114, 206, 0.4); opacity: 1; transform: scale(1); }
+        #personality-match-section #mbti-type-value { color: tailwind.theme.extend.colors['old-light-accent']; font-weight:600; font-size:1.3rem; }
+        #calculate-match-button { background-color: tailwind.theme.extend.colors['old-accent']; color: tailwind.theme.extend.colors['old-text-primary']; margin-top: 3rem; padding: 1rem 2.2rem; border: none; border-radius: 0.6rem; font-weight: 600; font-size: 1.15rem;}
+        #calculate-match-button:disabled { background: #5a506b; color: tailwind.theme.extend.colors['old-text-tertiary']; cursor: not-allowed; opacity: 0.7;}
 
 
         /* Glitch Button and Secret Game styles remain the same */
-        .glitch-button { /* ... */ }
-        #secret-game-modal { /* ... */ }
-
+        .glitch-button { position: relative; display: inline-block; cursor: pointer; padding: 0.75rem 1.5rem; text-decoration: none; overflow: hidden; transition: transform 0.1s ease-out; -webkit-user-select: none; -ms-user-select: none; user-select: none; }
+        .glitch-button .btn-text { position: relative; z-index: 1; }
+        .glitch-button::before, .glitch-button::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: inherit; color: inherit; padding: inherit; overflow: hidden; transition: transform 0.3s cubic-bezier(0.75, 0, 0.25, 1), opacity 0.3s ease; opacity: 0; }
+        .glitch-button:not(:disabled):hover::before { transform: translate(-3px, -2px) skewX(-5deg); text-shadow: 2px 0px #FF00FF; opacity: 0.8; animation: glitchEffectBefore 0.2s infinite alternate; }
+        .glitch-button:not(:disabled):hover::after { transform: translate(3px, 2px) skewX(5deg); text-shadow: -2px 0px #00FFFF; opacity: 0.8; animation: glitchEffectAfter 0.2s infinite alternate-reverse; }
+        #secret-game-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(9, 6, 19, 0.97); backdrop-filter: blur(8px); z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center; animation: fadeInGameModal 0.5s ease-out forwards; }
+        @keyframes fadeInGameModal { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        #matter-canvas { background-color: rgba(20, 15, 35, 0.6); border: 2px solid rgba(146, 114, 206, 0.4);}
+        .game-controls button { padding: 10px 20px; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 500; transition: background-color 0.3s, transform 0.2s; font-family: 'Outfit', sans-serif;}
+        #close-game-button { background-color: #7c5bab; } #reset-game-button { background-color: #5887a7; }
+        #game-info { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); padding: 8px 15px; background-color: rgba(0,0,0,0.4); border-radius: 5px; color: #CBB8E8; font-size: 0.9rem; text-align: center; min-width: 250px; }
+        #game-info p { margin: 2px 0; } #game-win-message { font-weight: bold; color: #AE8BD5; }
     </style>
 </head>
 <body>
@@ -358,6 +259,7 @@
     <audio id="revealSound" src="reveal_sound.mp3" preload="auto"></audio>
 
     <div id="left-navbar">
+        <!-- IMPORTANT: Ensure Agraj.png is in the same folder as this HTML file -->
         <img src="Agraj.png" alt="Agraj Typeface Logo" id="nav-logo-type">
         <nav>
             <a href="#home" data-navlink="home" class="active">Home</a>
@@ -369,6 +271,7 @@
         <div id="nav-blockquote-container">
             <span id="nav-blockquote-text"></span>
         </div>
+        <!-- IMPORTANT: Ensure asexual.png is in the same folder as this HTML file -->
         <img src="asexual.png" alt="Site Logo - Secret Game Trigger" id="nav-logo-icon-trigger">
     </div>
 
@@ -379,24 +282,24 @@
                 <div id="home-single-post-view"></div>
             </section>
             
-            <section id="writings-content" class="page-section dark-component-container"> 
-                <main class="container mx-auto min-h-screen">  <!-- Removed px-6 py-16 etc, handled by dark-component-container -->
-                    <div class="text-center mb-12"> 
-                        <h1 class="text-4xl md:text-5xl font-bold font-outfit">My Writings</h1> 
+            <section id="writings-content" class="page-section"> 
+                <main class="container mx-auto px-6 py-0 min-h-screen"> 
+                    <div class="page-title-container"> 
+                        <h1 class="page-main-title">My Writings</h1> 
                     </div> 
                     <section id="writings-grid-container" class="mb-12 md:mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"></section> 
-                    <hr class="separator" style="background-image: linear-gradient(to right, transparent, #9272CE, #AE8BD5, #9272CE, transparent);"> 
+                    <hr class="separator" style="background-image: linear-gradient(to right, transparent, #9272CE, #AE8BD5, #9272CE, transparent); margin-top:3rem; margin-bottom:3rem;"> 
                     <section id="full-articles-container"> 
                         <div class="full-articles-content max-w-4xl mx-auto" id="full-articles-dynamic-content"></div> 
                     </section> 
                 </main> 
             </section>
 
-            <section id="about-content" class="page-section dark-component-container">
-                <main class="container mx-auto min-h-screen">
-                    <div class="text-center mb-12">
-                        <h1 class="text-4xl md:text-5xl font-bold font-outfit">A Little More About Me</h1>
-                        <p class="mt-4 text-lg">Answer these questions to see how our perspectives align (or amusingly diverge!).</p>
+            <section id="about-content" class="page-section">
+                <main class="container mx-auto px-6 py-0 min-h-screen">
+                    <div class="page-title-container">
+                        <h1 class="page-main-title">A Little More About Me</h1>
+                        <p class="page-subtitle">Answer these questions to see how our perspectives align (or amusingly diverge!).</p>
                     </div>
                     <div id="questionnaire-container-wrapper" class="questionnaire-container-wrapper">
                         <div id="questionnaire-render-area">
@@ -425,61 +328,99 @@
     </div>
 
     <script>
+        // --- APP_CONFIG, $, $$, and all helper functions (simpleMarkdownToHtml, createPostPreviewCard, etc.)
+        // --- setupRotatingText, setupWritingsCardHoverEffects, questionnaire logic, secret game logic, routing logic
+        // --- should be exactly as in the previous *approved* and working version, with the specific fixes applied below.
+
         const APP_CONFIG = {
              NAV_BLOCKQUOTE_TEXTS: { 
-                 texts: [ /* ... Same texts as before ... */
-                    "The stream ran bright, water paving away, tap dancing with sunlight.",
-                    "Was I born different? What did I do different that made me the way I am?",
-                    "Time flies by; for me it does so in gloom. Worries of the future, regrets of the past.",
-                    "If a book doesn't change you, even in the slightest, it isn't worth reading.",
-                    "All went away for nothing, and all I am now is who I was never supposed to be.",
-                    "Kingdoms never meant to last anyways.",
-                    "To sink sweetly, for the freedom below.",
-                    "Like a hawk that couldn’t be caged anymore.",
-                    "Society, globally, is broken.",
-                    "Isolation breeds introspection.",
-                    "Now I smile at what made me frown.",
-                    "Cherish that is left hoping for a better tomorrow.",
-                    "The only season with so much warmth... Mornings so lazy, yet so cozy and full of perfection.",
-                    "Got no way to run but all my feelings to hide."
-                 ], 
-                 typeSpeed: 60, deleteSpeed: 30, pauseDuration: 4000 
+                 texts: ["The stream ran bright, water paving away, tap dancing with sunlight.","Was I born different? What did I do different that made me the way I am?","Time flies by; for me it does so in gloom. Worries of the future, regrets of the past.","If a book doesn't change you, even in the slightest, it isn't worth reading.","All went away for nothing, and all I am now is who I was never supposed to be.","Kingdoms never meant to last anyways.","To sink sweetly, for the freedom below.","Like a hawk that couldn’t be caged anymore.","Society, globally, is broken.","Isolation breeds introspection.","Now I smile at what made me frown.","Cherish that is left hoping for a better tomorrow.","The only season with so much warmth... Mornings so lazy, yet so cozy and full of perfection.","Got no way to run but all my feelings to hide."], 
+                 typeSpeed: 70, deleteSpeed: 35, pauseDuration: 5000 /* Slower typing, longer pause */
              },
             DEFAULT_TITLES: { home: "agraj - Portfolio", writings: "Writings - Agraj Dubey", about: "About Me - Agraj Dubey" },
             POSTS_JSON_PATH: 'posts.json', QUESTIONS_JSON_PATH: 'questions.json',
             TELEGRAM_USERNAME: 'agraj0669', MATCH_THRESHOLD_FOR_CONTACT: 70, MAX_HOME_BUBBLES: 8
         };
         
-        // --- All JS variables and functions ($, $$, simpleMarkdownToHtml, createPostPreviewCard, etc.) remain the same ---
-        // Ensure setupRotatingText, setupWritingsCardHoverEffects, questionnaire logic, secret game logic, routing logic are all present and correct from the previous approved version.
-        // The main new JS part is the background toggle.
-
         let ALL_QUESTIONNAIRE_DATA = []; let visitorAnswers = {}; let questionsAnsweredCount = 0;
         let revealSound, gameSpawnSoundEl, gameWinSoundEl; let rotatingTextInstances = {};
         function $(selector) { return document.querySelector(selector); } function $$(selector) { return document.querySelectorAll(selector); }
         let ALL_POSTS_DATA = [];
+
         function simpleMarkdownToHtml(md) { if (typeof md !== 'string') return ''; let html = md; html = html.replace(/\r\n/g, '\n'); html = html.replace(/<br\s*\/?>\n?/gi, '\n'); html = html.replace(/\n\s*\n+/g, '<br>\n<br>\n'); html = html.replace(/\n/g, '<br>\n'); html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); html = html.replace(/\*(.*?)\*/g, '<em>$1</em>'); html = html.replace(/\\\"/g, '"'); html = html.replace(/(<br>\n\s*){3,}/g, '<br>\n<br>\n'); return html; }
         function createPostPreviewCard(post) { const cardClass = 'writing-preview-card'; const anchorClass = `read-more-link glitch-button`; const readMoreTextContent = `Read More →`; const dataText = readMoreTextContent.trim(); return `<div class="${cardClass}"><h3 class="text-hover-scale">${post.title}</h3><div class="post-meta-info">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div><div class="mb-5"><p class="excerpt line-clamp-4">${post.excerpt}</p></div><a href="#${post.id}" class="${anchorClass}" data-text="${dataText}"><span class="btn-text">${readMoreTextContent}</span></a></div>`; }
         function createFullArticleHtml(post, isForHomeView = false) { const htmlContent = simpleMarkdownToHtml(post.contentMarkdown); let articleContainerId = post.id; let backButtonHtml = `<a href="#writings" class="back-button mt-8 glitch-button" data-text="← Back to Writings"><span class="btn-text">← Back to Writings</span></a>`; if (isForHomeView) { backButtonHtml = ''; } return `<article id="${articleContainerId}" tabindex="-1"><h2>${post.title}</h2><div class="post-meta-info">Published: ${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>${post.image ? `<img src="${post.image}" alt="${post.imageAlt || post.title}" class="my-8 rounded-lg shadow-lg mx-auto max-w-full md:max-w-2xl" loading="lazy">` : ''}<div class="post-content-html">${htmlContent}</div>${backButtonHtml}</article>`; }
-        async function setupHomePostBubbles() { const container = $('#home-animated-post-images-container'); if (!container) { return; } if (ALL_POSTS_DATA.length === 0) { setTimeout(setupHomePostBubbles, 200); return; } const postsWithImages = ALL_POSTS_DATA.filter(post => post.image).slice(0, APP_CONFIG.MAX_HOME_BUBBLES); if (postsWithImages.length === 0) { container.innerHTML = '<p class="text-text-tertiary text-sm text-center">No recent visual entries.</p>'; return; } container.innerHTML = ''; const bubbleBaseSizeVW = 12; const minBubbleSize = 120; const maxBubbleSize = 250; requestAnimationFrame(() => { const containerWidth = container.offsetWidth; const containerHeight = container.offsetHeight; postsWithImages.forEach((post, index) => { const escapedTitle = post.title.replace(/"/g, '"'); let bubbleSize = Math.max(minBubbleSize, Math.min(maxBubbleSize, window.innerWidth * ((bubbleBaseSizeVW + Math.random() * 4 - 2) / 100) )); bubbleSize = Math.min(bubbleSize, (containerWidth > 0 ? containerWidth * 0.8 : maxBubbleSize), (containerHeight > 0 ? containerHeight * 0.40 : maxBubbleSize)); const bubbleLink = document.createElement('a'); bubbleLink.href = `#home/${post.id}`; bubbleLink.classList.add('animated-post-image-bubble'); bubbleLink.setAttribute('aria-label', `Read more about ${escapedTitle}`); bubbleLink.title = escapedTitle; bubbleLink.dataset.postId = post.id; bubbleLink.style.width = `${bubbleSize}px`; bubbleLink.style.height = `${bubbleSize}px`; bubbleLink.style.zIndex = Math.floor(Math.random() * 3) + 1; bubbleLink.style.opacity = 0; const img = document.createElement('img'); img.src = post.image; img.alt = `Preview for ${escapedTitle}`; bubbleLink.appendChild(img); container.appendChild(bubbleLink); bubbleLink.addEventListener('click', function(e) { e.preventDefault(); const postId = this.dataset.postId; showPostInHomeView(postId); window.location.hash = `home/${postId}`; }); }); const imageBubbles = $$('#home-animated-post-images-container .animated-post-image-bubble'); if (typeof anime === 'function' && imageBubbles.length > 0) { imageBubbles.forEach((bubble) => { function fizzleAnimation() { const bubbleSize = parseFloat(bubble.style.width); const currentContainerHeight = container.offsetHeight > 0 ? container.offsetHeight : 600; const currentContainerWidth = container.offsetWidth > 0 ? container.offsetWidth : 300; const maxTop = Math.max(0, currentContainerHeight - bubbleSize - 10); const maxLeft = Math.max(0, currentContainerWidth - bubbleSize - 10); const newTop = anime.random(0, maxTop); const newLeft = anime.random(0, maxLeft); bubble.style.top = `${newTop}px`; bubble.style.left = `${newLeft}px`; bubble.style.transform = 'translateX(0px) translateY(0px)'; anime.timeline({ targets: bubble, easing: 'easeOutExpo', complete: fizzleAnimation }).add({ opacity: [0, 0.9], scale: [0.3, 1], duration: anime.random(700, 1200)}).add({ translateX: () => anime.random(-20, 20) + 'px', translateY: () => anime.random(-20, 20) + 'px', scale: () => anime.random(0.9, 1.1), duration: anime.random(3000, 5000), easing: 'easeInOutSine'}, '-=300') .add({ opacity: [bubble.style.opacity, 0], scale: [parseFloat(getComputedStyle(bubble).transform.split(',')[0].split('(')[1]) || 1, 0.2], duration: anime.random(600, 900), easing: 'easeInExpo', delay: anime.random(0, 500) }); } setTimeout(fizzleAnimation, anime.random(0, 2500)); }); } }); }
+        
+        async function setupHomePostBubbles() {
+            const container = $('#home-animated-post-images-container');
+            if (!container) { console.warn("Home animated images container not found."); return; }
+            if (ALL_POSTS_DATA.length === 0) { setTimeout(setupHomePostBubbles, 200); return; }
+
+            // Ensure unique posts with images
+            const uniquePostIdsWithImages = new Set();
+            const uniquePostsWithImages = ALL_POSTS_DATA.filter(post => {
+                if (post.image && !uniquePostIdsWithImages.has(post.id)) {
+                    uniquePostIdsWithImages.add(post.id);
+                    return true;
+                }
+                return false;
+            }).slice(0, APP_CONFIG.MAX_HOME_BUBBLES);
+
+            if (uniquePostsWithImages.length === 0) { container.innerHTML = '<p class="text-text-tertiary text-sm text-center">No recent visual entries.</p>'; return; }
+            
+            container.innerHTML = ''; 
+            const bubbleBaseSizeVW = 12; const minBubbleSize = 120; const maxBubbleSize = 250;   
+            requestAnimationFrame(() => {
+                const containerWidth = container.offsetWidth; const containerHeight = container.offsetHeight;
+                uniquePostsWithImages.forEach((post) => { // Use uniquePostsWithImages
+                    const escapedTitle = post.title.replace(/"/g, '"');
+                    let bubbleSize = Math.max(minBubbleSize, Math.min(maxBubbleSize, window.innerWidth * ((bubbleBaseSizeVW + Math.random() * 4 - 2) / 100) ));
+                    bubbleSize = Math.min(bubbleSize, (containerWidth > 0 ? containerWidth * 0.8 : maxBubbleSize), (containerHeight > 0 ? containerHeight * 0.40 : maxBubbleSize));
+                    const bubbleLink = document.createElement('a');
+                    bubbleLink.href = `#home/${post.id}`; bubbleLink.classList.add('animated-post-image-bubble');
+                    bubbleLink.setAttribute('aria-label', `Read more about ${escapedTitle}`); bubbleLink.title = escapedTitle;
+                    bubbleLink.dataset.postId = post.id; 
+                    bubbleLink.style.width = `${bubbleSize}px`; bubbleLink.style.height = `${bubbleSize}px`;
+                    bubbleLink.style.zIndex = Math.floor(Math.random() * 3) + 1; bubbleLink.style.opacity = 0; 
+                    const img = document.createElement('img'); img.src = post.image; img.alt = `Preview for ${escapedTitle}`;
+                    bubbleLink.appendChild(img); container.appendChild(bubbleLink);
+                    bubbleLink.addEventListener('click', function(e) { e.preventDefault(); const postId = this.dataset.postId; showPostInHomeView(postId); window.location.hash = `home/${postId}`; });
+                });
+                const imageBubbles = $$('#home-animated-post-images-container .animated-post-image-bubble');
+                if (typeof anime === 'function' && imageBubbles.length > 0) {
+                    imageBubbles.forEach((bubble) => {
+                        function fizzleAnimation() {
+                            const bubbleSize = parseFloat(bubble.style.width); const currentContainerHeight = container.offsetHeight > 0 ? container.offsetHeight : 600; 
+                            const currentContainerWidth = container.offsetWidth > 0 ? container.offsetWidth : 300; 
+                            const maxTop = Math.max(0, currentContainerHeight - bubbleSize - 20); /* Add some margin */ const maxLeft = Math.max(0, currentContainerWidth - bubbleSize - 20);
+                            const newTop = anime.random(10, maxTop); const newLeft = anime.random(10, maxLeft); /* Start slightly offset */
+                            bubble.style.top = `${newTop}px`; bubble.style.left = `${newLeft}px`; bubble.style.transform = 'translateX(0px) translateY(0px)';
+                            anime.timeline({ targets: bubble, easing: 'easeOutExpo', complete: fizzleAnimation })
+                            .add({ opacity: [0, 0.85], scale: [0.2, 1], duration: anime.random(1200, 1800) /* Slower appearance */})
+                            .add({ translateX: () => anime.random(-25, 25) + 'px', translateY: () => anime.random(-25, 25) + 'px', scale: () => anime.random(0.9, 1.1), duration: anime.random(4000, 7000) /* Much slower float */, easing: 'easeInOutSine'}, '-=500') 
+                            .add({ opacity: [bubble.style.opacity, 0], scale: [parseFloat(getComputedStyle(bubble).transform.split(',')[0].split('(')[1]) || 1, 0.1], duration: anime.random(1000, 1500) /* Slower disappearance */, easing: 'easeInExpo', delay: anime.random(200, 800) });
+                        } setTimeout(fizzleAnimation, anime.random(0, 3000)); 
+                    });
+                }
+            }); 
+        }
         function showPostInHomeView(postId) { const post = ALL_POSTS_DATA.find(p => p.id === postId); if (!post) return; const homePostViewContainer = $('#home-single-post-view'); const bubblesContainer = $('#home-animated-post-images-container'); if (homePostViewContainer && bubblesContainer) { homePostViewContainer.innerHTML = createFullArticleHtml(post, true); bubblesContainer.style.display = 'none'; homePostViewContainer.style.display = 'block'; homePostViewContainer.scrollIntoView({ behavior: 'smooth', block: 'start' }); document.title = `${post.title} - ${APP_CONFIG.DEFAULT_TITLES.home}`; } }
         function hidePostInHomeView() { const homePostViewContainer = $('#home-single-post-view'); const bubblesContainer = $('#home-animated-post-images-container'); if (homePostViewContainer && bubblesContainer) { homePostViewContainer.style.display = 'none'; homePostViewContainer.innerHTML = ''; bubblesContainer.style.display = 'block'; document.title = APP_CONFIG.DEFAULT_TITLES.home; } }
         async function loadAndRenderPosts() { try { const response = await fetch(APP_CONFIG.POSTS_JSON_PATH); if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}, path: ${APP_CONFIG.POSTS_JSON_PATH}`); } ALL_POSTS_DATA = await response.json(); ALL_POSTS_DATA.sort((a, b) => new Date(b.date) - new Date(a.date)); const writingsGrid = $('#writings-grid-container'); if (writingsGrid) { if (ALL_POSTS_DATA.length > 0) { writingsGrid.innerHTML = ALL_POSTS_DATA.map(post => createPostPreviewCard(post)).join(''); } else { writingsGrid.innerHTML = '<p class="text-text-secondary col-span-full text-center">No writings available.</p>'; } setupWritingsCardHoverEffects(); } const fullArticlesTarget = $('#full-articles-dynamic-content'); if (fullArticlesTarget) { fullArticlesTarget.innerHTML = ALL_POSTS_DATA.map(post => createFullArticleHtml(post, false)).join(''); } if (typeof setupHomePostBubbles === 'function' && (!$('.page-section.active-section') || $('.page-section.active-section').id === 'home-content')) { await setupHomePostBubbles(); } } catch (error) { console.error("ERROR in loadAndRenderPosts:", error); } }
         function setupRotatingText(elementId, config) { if (rotatingTextInstances[elementId]) { return; } const element = document.getElementById(elementId); if (!element) { return; } let currentIndex = -1, isBusy = false, cycleTimeout = null, isVisible = true; const runOnce = (config.runOnce === true); element.textContent = ''; function typeWriterInternal(text, callback) { let i = 0; isBusy = true; function type() { if (!isVisible || !isBusy) { isBusy = false; if (!isVisible) element.textContent = ''; return; } if (i < text.length) { element.textContent += text.charAt(i); i++; setTimeout(type, config.typeSpeed); } else { if (element.querySelector('.typed-cursor')) element.removeChild(element.querySelector('.typed-cursor')); const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor); isBusy = false; if (callback) callback(); } } type(); } function deleteWriterInternal(callback) { if (runOnce && element.textContent.length > 0) { if (callback) callback(); return; } let text = element.textContent; const existingCursor = element.querySelector('.typed-cursor'); if (existingCursor) element.removeChild(existingCursor); text = element.textContent; let i = text.length; isBusy = true; function del() { if (!isVisible || !isBusy) { isBusy = false; if (!isVisible) element.textContent = ''; return; } if (i > 0) { element.textContent = text.substring(0, i - 1); i--; if (!element.querySelector('.typed-cursor') && element.textContent.length > 0) { const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor); } setTimeout(del, config.deleteSpeed); } else { const finalCursor = element.querySelector('.typed-cursor'); if (finalCursor) element.removeChild(finalCursor); element.textContent = ''; isBusy = false; if (callback) callback(); } } del(); } function scheduleCycle(delay) { if (runOnce) return; clearTimeout(cycleTimeout); cycleTimeout = setTimeout(() => { if(isVisible) startCycle(); }, delay); } function startCycle() { if (runOnce || isBusy || !isVisible) return; deleteWriterInternal(() => { if (!isVisible) return; let nextIndex; do { nextIndex = Math.floor(Math.random() * config.texts.length); } while (nextIndex === currentIndex && config.texts.length > 1); currentIndex = nextIndex; const nextText = config.texts[currentIndex]; element.textContent = ''; typeWriterInternal(nextText, () => scheduleCycle(config.pauseDuration)); }); } currentIndex = Math.floor(Math.random() * config.texts.length); const firstText = config.texts[currentIndex]; element.textContent = ''; typeWriterInternal(firstText, () => { if (!runOnce) scheduleCycle(config.pauseDuration); }); rotatingTextInstances[elementId] = { element: element }; }
         function setupWritingsCardHoverEffects() { $$('#writings-content .writing-preview-card').forEach(card => { card.addEventListener('mousemove', (e) => { const rect = card.getBoundingClientRect(); const x = e.clientX - rect.left; const y = e.clientY - rect.top; const centerX = rect.width / 2; const centerY = rect.height / 2; const rotateX = (y - centerY) / 15; const rotateY = (centerX - x) / 15; card.style.transition = 'transform 0.1s ease-out'; card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(30px)`; }); card.addEventListener('mouseleave', () => { card.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; }); card.querySelectorAll('a').forEach(link => { link.addEventListener('click', (e) => e.stopPropagation()); }); }); }
-        async function renderQuestionnaire() { const container = $('#questionnaire-render-area'); const calculateButton = $('#calculate-match-button'); const personalityMatchSection = $('#personality-match-section'); const contactTelegramBtn = $('#contact-telegram-btn'); if (!container || !calculateButton || !personalityMatchSection || !contactTelegramBtn) { return; } container.innerHTML = '<p>Loading questions...</p>'; try { const response = await fetch(APP_CONFIG.QUESTIONS_JSON_PATH); if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); ALL_QUESTIONNAIRE_DATA = await response.json(); } catch (error) { container.innerHTML = `<p>Error: Could not load questions.</p>`; return; } if (ALL_QUESTIONNAIRE_DATA.length === 0) { container.innerHTML = '<p>No questions available.</p>'; return; } let html = ''; ALL_QUESTIONNAIRE_DATA.forEach((q) => { html += `<div class="question-block" id="question-${q.id}" data-question-id="${q.id}"><h3>${q.questionText}</h3><div class="answer-options">`; q.options.forEach((opt) => { const escapedOptionText = String(opt.text).replace(/"/g, '"'); html += `<button class="answer-option" data-option-text="${escapedOptionText}">${opt.text}</button>`; }); html += `</div><div class="feedback-area" id="feedback-${q.id}"></div></div>`; }); container.innerHTML = html; if (typeof anime === 'function') { anime({ targets: '.question-block', translateY: [30, 0], opacity: [0, 1], delay: anime.stagger(120, { start: 100 }), duration: 600, easing: 'easeOutExpo' }); } visitorAnswers = {}; questionsAnsweredCount = 0; personalityMatchSection.style.display = 'none'; personalityMatchSection.style.opacity = '0'; personalityMatchSection.style.transform = 'translateY(20px)'; contactTelegramBtn.style.display = 'none'; calculateButton.style.display = 'none'; calculateButton.disabled = true; setupQuestionnaireInteractions(); }
+        async function renderQuestionnaire() { const container = $('#questionnaire-render-area'); const calculateButton = $('#calculate-match-button'); const personalityMatchSection = $('#personality-match-section'); const contactTelegramBtn = $('#contact-telegram-btn'); if (!container || !calculateButton || !personalityMatchSection || !contactTelegramBtn) { return; } container.innerHTML = '<p class="text-center" style="color: #A8A8A8;">Loading questions...</p>'; try { const response = await fetch(APP_CONFIG.QUESTIONS_JSON_PATH); if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); ALL_QUESTIONNAIRE_DATA = await response.json(); } catch (error) { container.innerHTML = `<p class="text-center" style="color: #A8A8A8;">Error: Could not load questions.</p>`; return; } if (ALL_QUESTIONNAIRE_DATA.length === 0) { container.innerHTML = '<p class="text-center" style="color: #A8A8A8;">No questions available.</p>'; return; } let html = ''; ALL_QUESTIONNAIRE_DATA.forEach((q) => { html += `<div class="question-block" id="question-${q.id}" data-question-id="${q.id}"><h3>${q.questionText}</h3><div class="answer-options">`; q.options.forEach((opt) => { const escapedOptionText = String(opt.text).replace(/"/g, '"'); html += `<button class="answer-option" data-option-text="${escapedOptionText}">${opt.text}</button>`; }); html += `</div><div class="feedback-area" id="feedback-${q.id}"></div></div>`; }); container.innerHTML = html; if (typeof anime === 'function') { anime({ targets: '.question-block', translateY: [30, 0], opacity: [0, 1], delay: anime.stagger(120, { start: 100 }), duration: 600, easing: 'easeOutExpo' }); } visitorAnswers = {}; questionsAnsweredCount = 0; personalityMatchSection.style.display = 'none'; personalityMatchSection.style.opacity = '0'; personalityMatchSection.style.transform = 'translateY(20px)'; contactTelegramBtn.style.display = 'none'; calculateButton.style.display = 'none'; calculateButton.disabled = true; setupQuestionnaireInteractions(); }
         function setupQuestionnaireInteractions() { const answerOptionButtons = $$('#questionnaire-render-area .answer-option'); answerOptionButtons.forEach(button => { button.addEventListener('click', function() { const questionBlock = this.closest('.question-block'); if (questionBlock.classList.contains('answered')) return; const questionId = questionBlock.dataset.questionId; const selectedOptionText = this.dataset.optionText; const questionData = ALL_QUESTIONNAIRE_DATA.find(q => q.id === questionId); if (!questionData) return; const selectedOptionData = questionData.options.find(opt => opt.text === selectedOptionText); if (!selectedOptionData) return; questionBlock.classList.add('answered'); if (!visitorAnswers.hasOwnProperty(questionId)) questionsAnsweredCount++; visitorAnswers[questionId] = selectedOptionText; const optionsInBlock = questionBlock.querySelectorAll('.answer-option'); optionsInBlock.forEach(opt => { opt.disabled = true; opt.classList.remove('selected-visitor', 'selected-visitor-wrong', 'agraj-correct-answer'); if (opt !== this && opt.dataset.optionText !== questionData.agrajAnswerText && typeof anime === 'function') { anime({ targets: opt, opacity: 0.4, scale: 0.95, duration: 400, easing: 'easeOutQuad' }); } }); let animParams = { targets: this, duration: 400, easing: 'easeOutBack' }; if (selectedOptionText === questionData.agrajAnswerText) { this.classList.add('selected-visitor'); animParams.scale = [1, 1.05, 1];  } else { this.classList.add('selected-visitor-wrong'); const agrajAnswerButton = Array.from(optionsInBlock).find(optBtn => optBtn.dataset.optionText === questionData.agrajAnswerText); if (agrajAnswerButton) { agrajAnswerButton.classList.add('agraj-correct-answer'); if (typeof anime === 'function') { anime({ targets: agrajAnswerButton, scale: [1, 1.03, 1], duration: 400, delay:100, easing: 'easeOutBack' }); } } } if (typeof anime === 'function') anime(animParams); const feedbackArea = questionBlock.querySelector('.feedback-area'); feedbackArea.innerHTML = selectedOptionData.feedback; feedbackArea.classList.add('visible'); if (typeof anime === 'function') { anime({ targets: feedbackArea, opacity: [0, 1], translateY: [10,0], duration: 500, delay: 200, easing: 'easeOutExpo' }); } const calculateButton = $('#calculate-match-button'); if (ALL_QUESTIONNAIRE_DATA.length > 0 && questionsAnsweredCount === ALL_QUESTIONNAIRE_DATA.length) { calculateButton.style.display = 'inline-block'; calculateButton.disabled = false; if (typeof anime === 'function') { anime({ targets: calculateButton, opacity: [0, 1], scale: [0.8, 1], duration: 500, easing: 'easeOutExpo' }); } } else { calculateButton.style.display = 'none'; calculateButton.disabled = true; } }); }); const calculateButton = $('#calculate-match-button'); if (calculateButton) calculateButton.addEventListener('click', calculateAndShowMatch); }
-        function calculateAndShowMatch() { const calcButton = $('#calculate-match-button'); if(calcButton) calcButton.disabled = true; if (ALL_QUESTIONNAIRE_DATA.length === 0 || questionsAnsweredCount < ALL_QUESTIONNAIRE_DATA.length) return; let matches = 0; ALL_QUESTIONNAIRE_DATA.forEach(qData => { const visitorSelectedText = visitorAnswers[qData.id]; if (visitorSelectedText && typeof visitorSelectedText === 'string' && typeof qData.agrajAnswerText === 'string' && visitorSelectedText.trim() === qData.agrajAnswerText.trim()) { matches++; } }); const totalQuestions = ALL_QUESTIONNAIRE_DATA.length; const percentage = totalQuestions > 0 ? Math.round((matches / totalQuestions) * 100) : 0; const percentageEl = $('#match-percentage-value'); const personalityMatchSection = $('#personality-match-section'); const contactTelegramBtn = $('#contact-telegram-btn'); if (!percentageEl || !personalityMatchSection || !contactTelegramBtn) return; percentageEl.textContent = percentage; percentageEl.style.opacity = '0'; percentageEl.style.transform = 'scale(0.5)'; if (revealSound && typeof revealSound.play === 'function') { revealSound.currentTime = 0; revealSound.play().catch(e => console.warn("Reveal sound play failed:", e)); } personalityMatchSection.style.display = 'block'; setTimeout(() => { if (typeof anime === 'function') { anime.timeline({ easing: 'easeOutExpo' }).add({ targets: personalityMatchSection, opacity: [0, 1], translateY: [30, 0], duration: 700, begin: () => personalityMatchSection.classList.add('visible') }).add({ targets: percentageEl, opacity: [0,1], scale: [0.5, 1.1, 1], duration: 800 }, '-=400') .add({ targets: [$('#personality-match-section h2'), $('#personality-match-section p'), $('#personality-match-section #mbti-type-value')], opacity: [0,1], translateY: [10,0], delay: anime.stagger(100), duration: 500 }, '-=500').finished.then(() => { personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' }); if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) { contactTelegramBtn.style.display = 'inline-block'; anime({targets: contactTelegramBtn, opacity: [0,1], scale: [0.8,1], duration: 500, easing: 'easeOutExpo'}); } else { contactTelegramBtn.style.display = 'none'; } }); } }, 50); }
+        function calculateAndShowMatch() { const calcButton = $('#calculate-match-button'); if(calcButton) calcButton.disabled = true; if (ALL_QUESTIONNAIRE_DATA.length === 0 || questionsAnsweredCount < ALL_QUESTIONNAIRE_DATA.length) return; let matches = 0; ALL_QUESTIONNAIRE_DATA.forEach(qData => { const visitorSelectedText = visitorAnswers[qData.id]; if (visitorSelectedText && typeof visitorSelectedText === 'string' && typeof qData.agrajAnswerText === 'string' && visitorSelectedText.trim() === qData.agrajAnswerText.trim()) { matches++; } }); const totalQuestions = ALL_QUESTIONNAIRE_DATA.length; const percentage = totalQuestions > 0 ? Math.round((matches / totalQuestions) * 100) : 0; const percentageEl = $('#match-percentage-value'); const personalityMatchSection = $('#personality-match-section'); const contactTelegramBtn = $('#contact-telegram-btn'); if (!percentageEl || !personalityMatchSection || !contactTelegramBtn) return; percentageEl.textContent = percentage; percentageEl.style.opacity = '0'; percentageEl.style.transform = 'scale(0.5)'; if (revealSound && typeof revealSound.play === 'function') { revealSound.currentTime = 0; revealSound.play().catch(e => {}); } personalityMatchSection.style.display = 'block'; setTimeout(() => { if (typeof anime === 'function') { anime.timeline({ easing: 'easeOutExpo' }).add({ targets: personalityMatchSection, opacity: [0, 1], translateY: [30, 0], duration: 700, begin: () => personalityMatchSection.classList.add('visible') }).add({ targets: percentageEl, opacity: [0,1], scale: [0.5, 1.1, 1], duration: 800 }, '-=400') .add({ targets: [$('#personality-match-section h2'), $('#personality-match-section p'), $('#personality-match-section #mbti-type-value')], opacity: [0,1], translateY: [10,0], delay: anime.stagger(100), duration: 500 }, '-=500').finished.then(() => { personalityMatchSection.scrollIntoView({ behavior: 'smooth', block: 'center' }); if (percentage >= APP_CONFIG.MATCH_THRESHOLD_FOR_CONTACT) { contactTelegramBtn.style.display = 'inline-block'; anime({targets: contactTelegramBtn, opacity: [0,1], scale: [0.8,1], duration: 500, easing: 'easeOutExpo'}); } else { contactTelegramBtn.style.display = 'none'; } }); } }, 50); }
         let matterEngine, matterRender, matterRunner; let gameShapes = []; const MAX_SHAPES_TO_SPAWN = 10; const SHAPES_TO_WIN = 3; let shapesSpawned = 0; let gameHasBeenWon = false; let targetZoneBody; function playSound(soundElement) { if (soundElement && typeof soundElement.play === 'function') { soundElement.currentTime = 0; soundElement.play().catch(e => {}); } } function resetSecretGame() { gameHasBeenWon = false; shapesSpawned = 0; if (matterEngine) Matter.Composite.clear(matterEngine.world, false); gameShapes = []; const canvas = $('#matter-canvas'); if (!canvas || !matterEngine) return; const canvasWidth = parseFloat(canvas.width); const canvasHeight = parseFloat(canvas.height); const ground = Matter.Bodies.rectangle(canvasWidth / 2, canvasHeight - 10, canvasWidth + 20, 60, { isStatic: true, render: { fillStyle: '#6a4a9a' } }); const leftWall = Matter.Bodies.rectangle(-30, canvasHeight / 2, 60, canvasHeight, { isStatic: true, render: { fillStyle: '#6a4a9a' } }); const rightWall = Matter.Bodies.rectangle(canvasWidth + 30, canvasHeight / 2, 60, canvasHeight, { isStatic: true, render: { fillStyle: '#6a4a9a' } }); const targetZoneHeight = 50; const targetZoneY = canvasHeight - 30 - (targetZoneHeight / 2) - 10; targetZoneBody = Matter.Bodies.rectangle(canvasWidth / 2, targetZoneY, canvasWidth * 0.5, targetZoneHeight, { isStatic: true, isSensor: true, label: 'targetZone', render: { fillStyle: 'rgba(174, 139, 213, 0.35)', strokeStyle: 'rgba(203, 184, 232, 0.6)', lineWidth: 2 } }); Matter.Composite.add(matterEngine.world, [ground, leftWall, rightWall, targetZoneBody]); updateGameInfoDisplay(); if ($('#game-win-message')) $('#game-win-message').textContent = "Drag shapes into the purple zone!"; }
         function updateGameInfoDisplay() { if ($('#game-shapes-dropped')) $('#game-shapes-dropped').textContent = shapesSpawned; if ($('#game-max-shapes')) $('#game-max-shapes').textContent = MAX_SHAPES_TO_SPAWN; let shapesInTargetCount = 0; if (targetZoneBody && gameShapes.length > 0) { gameShapes.forEach(shape => { if (Matter.Bounds.overlaps(shape.bounds, targetZoneBody.bounds) && shape.position.y > targetZoneBody.bounds.min.y && shape.position.y < targetZoneBody.bounds.max.y && Math.abs(shape.velocity.x) < 0.1 && Math.abs(shape.velocity.y) < 0.1) { shapesInTargetCount++; } }); } if ($('#game-shapes-in-target')) $('#game-shapes-in-target').textContent = shapesInTargetCount; if ($('#game-shapes-to-win')) $('#game-shapes-to-win').textContent = SHAPES_TO_WIN; const winMessageEl = $('#game-win-message'); if (winMessageEl) { if (!gameHasBeenWon && shapesInTargetCount >= SHAPES_TO_WIN) { gameHasBeenWon = true; winMessageEl.textContent = "YOU WIN! ✨"; playSound(gameWinSoundEl); if (typeof anime === 'function') { anime({ targets: winMessageEl, scale: [1, 1.2, 1], color: ['#AE8BD5', '#FFFFFF', '#AE8BD5'], duration: 1000, easing: 'easeInOutQuad' }); } } else if (!gameHasBeenWon && shapesSpawned >= MAX_SHAPES_TO_SPAWN && shapesInTargetCount < SHAPES_TO_WIN) { winMessageEl.textContent = "Out of shapes! Try again?"; } } }
         function setupSecretGame() { const trigger = $('#nav-logo-icon-trigger'); const modal = $('#secret-game-modal'); const canvas = $('#matter-canvas'); const closeButton = $('#close-game-button'); const resetButton = $('#reset-game-button'); if (!trigger || !modal || !canvas || !closeButton || !resetButton || typeof Matter === 'undefined') { if(trigger) trigger.style.display = 'none'; return; } const Engine = Matter.Engine, Render = Matter.Render, Runner = Matter.Runner, Bodies = Matter.Bodies, Composite = Matter.Composite, Mouse = Matter.Mouse, MouseConstraint = Matter.MouseConstraint, Events = Matter.Events; trigger.addEventListener('click', () => { modal.style.display = 'flex'; if (typeof anime === 'function') { anime({ targets: modal, opacity: [0,1], scale: [0.9, 1], duration: 400, easing: 'easeOutExpo' }); } if (matterRender) Matter.Render.stop(matterRender); if (matterRunner) Runner.stop(matterRunner); if (matterEngine) Matter.Engine.clear(matterEngine); if (canvas.firstChild && canvas.firstChild.tagName === 'CANVAS') { canvas.removeChild(canvas.firstChild); } matterEngine = Engine.create({ gravity: { y: 0.7 } }); let canvasWidth = Math.min(window.innerWidth * 0.85, 700); let canvasHeight = Math.min(window.innerHeight * 0.75, 450); canvas.width = canvasWidth; canvas.height = canvasHeight; matterRender = Render.create({ element: modal, canvas: canvas, engine: matterEngine, options: { width: canvasWidth, height: canvasHeight, wireframes: false, background: 'transparent' } }); resetSecretGame(); const mouse = Mouse.create(matterRender.canvas); const mouseConstraint = MouseConstraint.create(matterEngine, { mouse: mouse, constraint: { stiffness: 0.1, render: { visible: false } } }); Composite.add(matterEngine.world, mouseConstraint); matterRender.mouse = mouse; Events.on(mouseConstraint, 'mousedown', (event) => { if (gameHasBeenWon || shapesSpawned >= MAX_SHAPES_TO_SPAWN) return; const mousePosition = event.mouse.position; let body; const size = Math.random() * 20 + 15; const color = ['#CBB8E8', '#AE8BD5', '#FFFFFF', '#9272CE'][Math.floor(Math.random() * 4)]; if (shapesSpawned % 2 === 0) { body = Bodies.rectangle(mousePosition.x, mousePosition.y, size, size, { render: { fillStyle: color }, frictionAir: 0.03, restitution: 0.4 }); } else { body = Bodies.circle(mousePosition.x, mousePosition.y, size / 1.8, { render: { fillStyle: color }, frictionAir: 0.02, restitution: 0.6 }); } Composite.add(matterEngine.world, body); gameShapes.push(body); shapesSpawned++; playSound(gameSpawnSoundEl); updateGameInfoDisplay(); }); Events.on(matterEngine, 'afterUpdate', updateGameInfoDisplay); Render.run(matterRender); matterRunner = Runner.create(); Runner.run(matterRunner, matterEngine); }); closeButton.addEventListener('click', () => { if (typeof anime === 'function') { anime({ targets: modal, opacity: [1,0], scale: [1, 0.9], duration: 300, easing: 'easeInExpo', complete: () => modal.style.display = 'none' }); } else { modal.style.display = 'none'; } if (matterRender) Matter.Render.stop(matterRender); if (matterRunner) Runner.stop(matterRunner); if (matterEngine) Matter.Engine.clear(matterEngine); }); resetButton.addEventListener('click', resetSecretGame); }
         let currentMainSection = 'home-content'; let lastClickedReadMoreLink = null; 
-        function showMainSection(sectionId) { $$('.page-section').forEach(s => s.classList.remove('active-section')); if (sectionId !== 'home-content') { if ($('#home-animated-post-images-container')) $('#home-animated-post-images-container').style.display = 'none'; if ($('#home-single-post-view')) $('#home-single-post-view').style.display = 'none'; } else { if ($('#home-animated-post-images-container')) $('#home-animated-post-images-container').style.display = 'block'; if ($('#home-single-post-view')) $('#home-single-post-view').style.display = 'none'; } const targetSection = $(`#${sectionId}`); if (targetSection) { targetSection.classList.add('active-section'); currentMainSection = sectionId; $$('#left-navbar nav a').forEach(navLink => { navLink.classList.remove('active'); if (navLink.dataset.navlink === sectionId.replace('-content', '')) { navLink.classList.add('active'); } }); if (sectionId === 'about-content') { if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); } else if (sectionId === 'home-content') { if ($('#home-animated-post-images-container') && !$('#home-animated-post-images-container').innerHTML.includes('animated-post-image-bubble')) { setupHomePostBubbles(); } } window.scrollTo({ top: 0, behavior: 'auto' }); } }
+        function showMainSection(sectionId) { $$('.page-section').forEach(s => s.classList.remove('active-section')); if (sectionId !== 'home-content') { if ($('#home-animated-post-images-container')) $('#home-animated-post-images-container').style.display = 'none'; if ($('#home-single-post-view')) $('#home-single-post-view').style.display = 'none'; } else { if ($('#home-animated-post-images-container')) $('#home-animated-post-images-container').style.display = 'block'; if ($('#home-single-post-view')) $('#home-single-post-view').style.display = 'none'; } const targetSection = $(`#${sectionId}`); if (targetSection) { targetSection.classList.add('active-section'); currentMainSection = sectionId; $$('#left-navbar nav a').forEach(navLink => { navLink.classList.remove('active'); if (navLink.dataset.navlink === sectionId.replace('-content', '')) { navLink.classList.add('active'); } }); if (sectionId === 'about-content') { if(typeof renderQuestionnaire === 'function') renderQuestionnaire(); } else if (sectionId === 'home-content') { if ($('#home-animated-post-images-container') && (!$('#home-animated-post-images-container').innerHTML || !$('#home-animated-post-images-container').innerHTML.includes('animated-post-image-bubble'))) { setupHomePostBubbles(); } } window.scrollTo({ top: 0, behavior: 'auto' }); } }
         function handleMainRouteChange() { let mainSectionTarget = 'home-content'; let articleDetailHash = ''; const currentFullHash = window.location.hash; if (currentFullHash.startsWith('#home/post-')) { mainSectionTarget = 'home-content'; const postId = currentFullHash.split('/')[1]; showMainSection(mainSectionTarget); showPostInHomeView(postId); } else if (currentFullHash.startsWith('#post-')) { mainSectionTarget = 'writings-content'; articleDetailHash = currentFullHash; showMainSection(mainSectionTarget); } else if (currentFullHash === '#writings') { mainSectionTarget = 'writings-content'; showMainSection(mainSectionTarget); } else if (currentFullHash === '#about') { mainSectionTarget = 'about-content'; showMainSection(mainSectionTarget); } else if (currentFullHash === '#home' || currentFullHash === '' || currentFullHash === '#') { mainSectionTarget = 'home-content'; if (currentFullHash === '' || currentFullHash === '#') window.location.hash = 'home'; showMainSection(mainSectionTarget); } else { return; } if (mainSectionTarget === 'writings-content') { handleWritingsArticleLogic(articleDetailHash); } else if (mainSectionTarget === 'about-content') { document.title = APP_CONFIG.DEFAULT_TITLES.about; } else if (mainSectionTarget === 'home-content' && !currentFullHash.startsWith('#home/post-')) { document.title = APP_CONFIG.DEFAULT_TITLES.home; } }
         function handleWritingsArticleLogic(articleHash) { const defaultWritingsTitle = APP_CONFIG.DEFAULT_TITLES.writings; if (articleHash && articleHash.startsWith('#post-')) { const targetId = articleHash.substring(1); const targetArticle = $(`#full-articles-dynamic-content #${targetId}`); if (targetArticle) { const titleElement = targetArticle.querySelector('h2'); const articleTitle = titleElement ? titleElement.textContent.trim() : "Article"; document.title = `${articleTitle} - Writings - Agraj Dubey`; setTimeout(() => { if (!isElementInViewport(targetArticle)) targetArticle.scrollIntoView({ behavior: 'smooth', block: 'start' }); const heading = targetArticle.querySelector('h2'); if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); } }, 100); } else { document.title = defaultWritingsTitle; } } else { document.title = defaultWritingsTitle; const grid = $('#writings-grid-container'); if (grid && lastClickedReadMoreLink && document.body.contains(lastClickedReadMoreLink)) { setTimeout(() => { lastClickedReadMoreLink.focus({preventScroll: true}); if (!isElementInViewport(lastClickedReadMoreLink)) lastClickedReadMoreLink.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 50); } lastClickedReadMoreLink = null; } }
         function isElementInViewport(el) { if(!el) return false; const rect = el.getBoundingClientRect(); return (rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth));}
         
-        // Background Toggle Function
         function setupBackgroundToggle() {
             const logoType = $('#nav-logo-type');
             const mainContentArea = $('#main-content-area');
@@ -497,7 +438,7 @@
                 setupRotatingText('nav-blockquote-text', APP_CONFIG.NAV_BLOCKQUOTE_TEXTS);
             }
             document.body.addEventListener('click', function(event) { const clickedLink = event.target.closest('a.glitch-button[href^="#post-"]'); if (clickedLink) { lastClickedReadMoreLink = clickedLink; } });
-            setupBackgroundToggle(); // Initialize background toggle
+            setupBackgroundToggle();
             handleMainRouteChange(); 
             window.addEventListener('hashchange', handleMainRouteChange); 
             setupSecretGame();
