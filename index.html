@@ -47,7 +47,7 @@
             --article-bg-color: rgba(20, 20, 22, 0.93); --writings-card-bg-color: rgba(25, 15, 40, 0.88);
             --writings-card-hover-bg-color: rgba(45, 35, 60, 0.96); --card-border-color: rgba(146, 114, 206, 0.25);
             --card-hover-border-color: rgba(146, 114, 206, 0.45);
-            --hamburger-top-spacing: calc(2.5rem / 1.618); /* Approx 1.54rem */
+            --hamburger-top-spacing: calc(2.5rem / 1.618); 
             --hamburger-right-spacing: calc(2.5rem / 1.618);
         }
         html { scroll-behavior: smooth; }
@@ -55,15 +55,17 @@
         #p5-background-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
         .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, var(--bg-overlay-color-1), var(--bg-overlay-color-2) 70%); z-index: -5; pointer-events:none; }
         .site-container { display: flex; min-height: 100vh; }
+        
         .site-navbar { 
-            width: 38.2vw; min-width: 300px; max-width: 550px; 
             background-color: var(--nav-bg); 
             border-right: 1px solid #CCCCCC; 
             position: fixed; top: 0; left: 0; height: 100vh; 
             padding: 2.5rem calc(2.5rem / 1.618); 
             display: flex; flex-direction: column; justify-content: space-between; 
             overflow-y: auto; z-index: 100;
-            transition: transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1); /* Smoother transition */
+            transition: transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+            /* Desktop width defined in min-width: 993px media query */
+            width: 38.2vw; min-width: 300px; max-width: 550px; 
         }
         .navbar-top-content { text-align: center; }
         #navbar-agraj-image { width: 70%; max-width: 220px; height: auto; margin: 0 auto 1rem; display: block; }
@@ -80,9 +82,18 @@
         .navbar-bottom { text-align: center; margin-top:1rem; }
         #navbar-logo-image { width: 60px; height: auto; margin: 1.5rem auto 0; cursor: pointer; display: block; opacity: 0.8; transition: opacity 0.2s ease; }
         #navbar-logo-image:hover { opacity: 1; }
-        .site-content { margin-left: 38.2vw; width: calc(100% - 38.2vw); padding: 2rem; background-color: var(--page-bg); overflow-x: hidden; position: relative; transition: margin-left 0.35s cubic-bezier(0.25, 0.1, 0.25, 1), width 0.35s cubic-bezier(0.25, 0.1, 0.25, 1); }
-        @media (max-width: calc(300px / 0.382)) { .site-content:not(.navbar-mobile-active) { margin-left: 300px; width: calc(100% - 300px); } } /* Adjusted for specificity */
-        @media (min-width: calc(550px / 0.382)) { .site-content:not(.navbar-mobile-active) { margin-left: 550px; width: calc(100% - 550px); } } /* Adjusted for specificity */
+
+        /* Mobile First approach for site-content */
+        .site-content {
+            margin-left: 0; /* Default for mobile */
+            width: 100%;   /* Default for mobile */
+            padding: 1.5rem 1rem; /* Default mobile padding */
+            background-color: var(--page-bg); 
+            overflow-x: hidden; 
+            position: relative; 
+            transition: margin-left 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
         .page-section { display: none; animation: fadeInPage 0.7s ease-out forwards; }
         .page-section.active-section { display: block; }
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -105,12 +116,12 @@
         .writing-preview-card .excerpt { color: #D1D1D1; overflow-wrap: break-word; } 
         .writing-preview-card .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
         .writing-preview-card a.read-more-link { color: var(--highlight-purple); } .writing-preview-card a.read-more-link:hover { color: var(--highlight-purple-hover); }
-        #full-articles-container article { background-color: var(--article-bg-color); border: 1px solid var(--card-border-color); border-top: 5px solid var(--highlight-purple); /* Existing styles */ display: none; /* Default: hide all full articles */ opacity: 0; /* For animation */ padding: 2rem 1.5rem; /* Add some padding to the article box */ }
-        @media (min-width: 768px) { #full-articles-container article { padding: 2.5rem 2rem; /* Slightly more padding on larger screens */ } }
+        #full-articles-container article { background-color: var(--article-bg-color); border: 1px solid var(--card-border-color); border-top: 5px solid var(--highlight-purple); display: none; opacity: 0; padding: 2rem 1.5rem; }
+        @media (min-width: 768px) { #full-articles-container article { padding: 2.5rem 2rem; } }
         #full-articles-container article:target { display: block !important; opacity: 1 !important; animation: fadeInArticle 0.6s ease-out forwards; }
         #writings-content:has(#full-articles-container article:target) #writings-grid-container,
         #writings-content:has(#full-articles-container article:target) hr.separator.above-articles { display: none !important; }
-        #writings-content #writings-grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Or your specific grid setup */ }
+        #writings-content #writings-grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));}
         #writings-content hr.separator.above-articles { display: block; }
         #full-articles-container .post-meta-info { color: var(--highlight-purple-lighter); }
         a.back-button { background-color: var(--highlight-purple); color: #FFFFFF; } a.back-button:hover { background-color: var(--highlight-purple-hover); }
@@ -130,7 +141,7 @@
         #game-info p { margin: 2px 0; } #game-win-message { font-weight: bold; color: var(--highlight-purple-hover); } .game-instructions { color: var(--text-on-black-secondary); font-size: 0.85rem; margin-top: 5px; }
         #about-content .questionnaire-container-wrapper { max-width: 850px; margin-left: auto; margin-right: auto; }
         .question-block { background-color: rgba(28, 18, 52, 0.85); backdrop-filter: blur(8px); border: 1px solid rgba(174, 139, 213, 0.35); border-radius: 1rem; padding: 2.25rem 2.5rem; margin-bottom: 3.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.4); min-height: 220px; display: flex; flex-direction: column; opacity: 0; transform: translateY(30px); }
-        .question-block h3 { color: #D7C2F2; font-size: 1.5rem; margin-bottom: 1.75rem; /* MODIFIED: Added margin-bottom for spacing */ } 
+        .question-block h3 { color: #D7C2F2; font-size: 1.5rem; margin-bottom: 1.75rem; } 
         .answer-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem; margin-bottom: 1.75rem; flex-grow: 1; }
         .answer-option { background-color: rgba(45, 30, 70, 0.8); color: #E0D8F0; padding: 1rem 1.3rem; border-radius: 0.75rem; border: 1px solid rgba(174, 139, 213, 0.45); cursor: pointer; transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.2s ease-out, box-shadow 0.25s ease; text-align: left; font-size: 1.05rem; line-height: 1.4; opacity: 1; transform: scale(1); }
         .answer-option:not([disabled]):hover { background-color: rgba(174, 139, 213, 0.25); border-color: #AE8BD5; transform: translateY(-4px) scale(1.035); box-shadow: 0 5px 15px rgba(174, 139, 213, 0.25); }
@@ -154,68 +165,69 @@
         #calculate-match-button:disabled { background: #5a506b; color: #a8a8a8; cursor: not-allowed; opacity: 0.7; }
         #calculate-match-button:disabled::before, #calculate-match-button:disabled::after { display: none; }
         
-        /* --- HAMBURGER MENU STYLES --- */
         .hamburger-button {
-            display: none; /* Hidden by default, shown in media query */
+            display: none; 
             position: fixed;
             top: var(--hamburger-top-spacing, 1.5rem);
             right: var(--hamburger-right-spacing, 1.5rem);
-            width: 40px; /* A good clickable size */
-            height: 30px; /* Proportionate height */
+            width: 40px; 
+            height: 30px; 
             background: transparent;
             border: none;
             padding: 0;
             cursor: pointer;
-            z-index: 1005; /* Above navbar and content overlay */
+            z-index: 1005; 
             flex-direction: column;
-            justify-content: space-around; /* Distributes bars evenly */
+            justify-content: space-around; 
             align-items: center;
         }
         .hamburger-bar {
             display: block;
-            width: 28px; /* Slightly less than button width */
+            width: 28px; 
             height: 3px;
-            background-color: var(--highlight-purple); /* Use a prominent theme color */
+            background-color: var(--highlight-purple); 
             border-radius: 3px;
-            transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); /* Smooth transition for bars */
+            transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); 
         }
-        .hamburger-button.active .hamburger-bar:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-        }
-        .hamburger-button.active .hamburger-bar:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger-button.active .hamburger-bar:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-        }
+        .hamburger-button.active .hamburger-bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger-button.active .hamburger-bar:nth-child(2) { opacity: 0; }
+        .hamburger-button.active .hamburger-bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-        @media (max-width: 992px) { /* Breakpoint for hamburger menu */
-            .hamburger-button {
-                display: flex; 
-            }
+        /* Desktop specific layout for .site-content and .site-navbar */
+        @media (min-width: 993px) {
             .site-navbar {
-                transform: translateX(-100%);
-                position: fixed; /* Ensure it's fixed for sliding */
-                top: 0;
-                left: 0;
-                height: 100vh;
-                width: min(300px, calc(38.2vw * 1.618)); /* Golden ratio width, or max 300px */
-                min-width: unset; /* Override desktop min-width */
-                max-width: unset; /* Override desktop max-width */
-                border-right: 1px solid #B0B0B0; /* Keep a subtle border */
-                box-shadow: 3px 0px 15px rgba(0,0,0,0.15); /* Softer shadow */
-                z-index: 1000; /* Below hamburger, above content */
-                padding: 1.5rem 1rem; /* Use smaller padding like old 768px styles */
-            }
-            .site-navbar.navbar-mobile-open {
-                transform: translateX(0);
+                /* Already has desktop defaults: width: 38.2vw; min-width: 300px; max-width: 550px; */
+                /* Ensure transform is reset if it was changed for mobile */
+                transform: translateX(0); 
             }
             .site-content {
-                margin-left: 0;
-                width: 100%;
-                padding: 1.5rem 1rem; /* Match smaller padding */
+                margin-left: 38.2vw; /* This should be calculated based on final navbar width */
+                width: calc(100% - 38.2vw); /* Adjust if navbar width is clamped */
+                padding: 2rem; /* Desktop padding */
             }
-            /* Adjustments from old 768px breakpoint */
+             /* If navbar width is clamped, content margin needs to match */
+            .site-navbar:has(+ .site-content) { /* A bit of future CSS, might not be fully supported */
+                 /* This is tricky without JS to get the actual clamped width */
+            }
+        }
+
+        /* Mobile and Tablet specific layout */
+        @media (max-width: 992px) { 
+            .hamburger-button { display: flex; }
+            .site-navbar {
+                transform: translateX(-100%);
+                width: min(300px, 80vw); /* Adjusted mobile navbar width */
+                min-width: unset; 
+                max-width: unset; 
+                border-right: 1px solid #B0B0B0; 
+                box-shadow: 3px 0px 15px rgba(0,0,0,0.15); 
+                z-index: 1000; 
+                padding: 1.5rem 1rem; 
+            }
+            .site-navbar.navbar-mobile-open { transform: translateX(0); }
+            
+            /* .site-content already has mobile defaults (margin-left:0, width:100%) from base styles */
+
             #navbar-agraj-image { width: 50%; max-width: 150px; margin-bottom: 0.5rem;}
             .site-navbar #typewriter { font-size: 0.85rem; min-height: 2em; margin-bottom: 0.75rem; }
             .site-navbar .quote { font-size: 0.9rem; min-height: 5em; margin-bottom: 1.5rem; padding: 1rem; }
@@ -224,20 +236,15 @@
             #animated-images-container-wrapper { height: 50vh; }
             .progress-container { display: none; } 
         }
-        /* Remove specific static positioning for .site-navbar from old 768px media query if it was separate */
-        /* The @media (max-width: 768px) block has been integrated/modified above for 992px */
-
 
         /* === ADDED STYLES FOR FULL ARTICLE VIEW === */
         #full-articles-container article .post-content-html {
-            font-size: 1.1875rem; /* Approx 19px, for better readability */
-            line-height: 1.75;   /* Adjusted line height for new font size */
-            max-width: 45rem;    /* Constrain line length (approx 70-75 chars per line) */
-            margin-left: auto;   /* Center the text block */
+            font-size: 1.1875rem; 
+            line-height: 1.75;   
+            max-width: 45rem;    
+            margin-left: auto;   
             margin-right: auto;
         }
-
-        /* Ensure child elements within post-content-html inherit the new font size */
         #full-articles-container article .post-content-html p,
         #full-articles-container article .post-content-html span,
         #full-articles-container article .post-content-html div,
@@ -247,22 +254,20 @@
         #full-articles-container article .post-content-html em,
         #full-articles-container article .post-content-html u,
         #full-articles-container article .post-content-html li {
-            font-size: inherit; /* Make them pick up the parent's font size */
+            font-size: inherit; 
         }
-
         #full-articles-container article a.back-button {
-            display: block;          /* Make it a block element to allow auto margins for centering */
-            width: -moz-fit-content; /* For Firefox */
-            width: fit-content;      /* Standard, size to content */
-            margin-left: auto;       /* Center the button */
+            display: block;          
+            width: -moz-fit-content; 
+            width: fit-content;      
+            margin-left: auto;       
             margin-right: auto;
-            margin-top: 3.5rem;      /* Increased top margin for separation */
-            margin-bottom: 2.5rem;   /* Ample bottom margin */
-            padding: 0.85rem 1.75rem; /* Adjusted padding for a balanced look */
-            text-align: center;      /* Ensure text inside button is centered if it wraps */
+            margin-top: 3.5rem;      
+            margin-bottom: 2.5rem;   
+            padding: 0.85rem 1.75rem; 
+            text-align: center;      
         }
         /* === END OF ADDED STYLES === */
-
     </style>
 </head>
 <body>
@@ -499,12 +504,11 @@
                 if (!isExternalNav) { if (window.history.replaceState) { window.history.replaceState(null, '', '#home'); } else { window.location.hash = '#home'; } mainSectionTarget = 'home-content'; } 
                 else { return; }
             }
-            if (currentMainSection !== mainSectionTarget || mainSectionTarget === 'home-content' || (mainSectionTarget === 'writings-content' /* && articleDetailHash - always show writings section if it's the target*/)) {
+            if (currentMainSection !== mainSectionTarget || mainSectionTarget === 'home-content' || (mainSectionTarget === 'writings-content' )) {
                  showMainSection(mainSectionTarget);
             }
             if (mainSectionTarget === 'writings-content' && typeof handleWritingsArticleLogic === 'function') { 
                 handleWritingsArticleLogic(articleDetailHash); 
-                // Title update logic:
                 let pageTitle = APP_CONFIG.DEFAULT_TITLES.writings;
                 if(articleDetailHash){
                     const post = ALL_POSTS_DATA.find(p => p.id === articleDetailHash.substring(1));
@@ -549,34 +553,22 @@
             setupSecretGame(); 
             window.addEventListener('resize', () => { if (currentMainSection === 'home-content' && typeof setupHomePageRightColumnImages === 'function') { clearTimeout(window.resizeHomeImagesTimeout); window.resizeHomeImagesTimeout = setTimeout(setupHomePageRightColumnImages, 250); } });
 
-            // --- HAMBURGER MENU SCRIPT ---
             const hamburgerButton = $('#hamburger-menu');
             const siteNavbar = $('.site-navbar');
-            const siteContent = $('.site-content'); // For adding class to adjust content margin
-
-            if (hamburgerButton && siteNavbar && siteContent) {
+            
+            if (hamburgerButton && siteNavbar) {
                 hamburgerButton.addEventListener('click', () => {
-                    siteNavbar.classList.toggle('navbar-mobile-open');
-                    hamburgerButton.classList.toggle('active');
-                    const isExpanded = siteNavbar.classList.contains('navbar-mobile-open');
+                    const isExpanded = siteNavbar.classList.toggle('navbar-mobile-open');
+                    hamburgerButton.classList.toggle('active', isExpanded);
                     hamburgerButton.setAttribute('aria-expanded', isExpanded.toString());
-                    
-                    // Add/remove class to site-content if needed for specific adjustments
-                    // Example: siteContent.classList.toggle('navbar-mobile-active', isExpanded);
-                    // This class is used in CSS to conditionally change site-content margin if the navbar is NOT fixed overlay
-                    // For a fixed overlay navbar, this might not be strictly necessary for margin,
-                    // but could be useful for other effects like an overlay.
                 });
 
-                // Close navbar when a link inside it is clicked
                 siteNavbar.querySelectorAll('a').forEach(link => {
                     link.addEventListener('click', () => {
-                        // Only close if it's a mobile view and menu is open
                         if (window.innerWidth <= 992 && siteNavbar.classList.contains('navbar-mobile-open')) {
                             siteNavbar.classList.remove('navbar-mobile-open');
                             hamburgerButton.classList.remove('active');
                             hamburgerButton.setAttribute('aria-expanded', 'false');
-                            // siteContent.classList.remove('navbar-mobile-active');
                         }
                     });
                 });
