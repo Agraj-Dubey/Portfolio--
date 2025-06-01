@@ -42,7 +42,6 @@
             --highlight-purple: #9272CE; --highlight-purple-hover: #AE8BD5; --highlight-purple-lighter: #CBB8E8;
             --nav-bg: var(--nav-bg-light-grey, #E9E9E9); --nav-text: var(--nav-text-dark, #222222); --nav-text-subtle: var(--nav-text-dark-subtle, #555555);
             --nav-quote-bg: var(--nav-quote-bg-on-light, #DDDDDD); --nav-link-hover-bg: rgba(146, 114, 206, 0.1); 
-            /* --p5-blob-hue-min: 230; --p5-blob-hue-max: 310; --p5-blob-opacity: 4; -- These are no longer used by the new p5 sketch */
             --bg-overlay-color-1: rgba(146, 114, 206, 0.02); --bg-overlay-color-2: rgba(0, 0, 0, 0.85); 
             --article-bg-color: rgba(20, 20, 22, 0.93); --writings-card-bg-color: rgba(25, 15, 40, 0.88);
             --writings-card-hover-bg-color: rgba(45, 35, 60, 0.96); --card-border-color: rgba(146, 114, 206, 0.25);
@@ -194,7 +193,6 @@
         @media (min-width: 993px) {
             .site-navbar {
                 transform: translateX(0); 
-                /* Desktop widths are already set as base styles for .site-navbar */
             }
             .site-content {
                 margin-left: 38.2vw; 
@@ -216,9 +214,6 @@
                 padding: 1.5rem 1rem; 
             }
             .site-navbar.navbar-mobile-open { transform: translateX(0); }
-            
-            /* .site-content uses its base styles for mobile (margin-left:0, width:100%, padding: 1.5rem 1rem) */
-
             #navbar-agraj-image { width: 50%; max-width: 150px; margin-bottom: 0.5rem;}
             .site-navbar #typewriter { font-size: 0.85rem; min-height: 2em; margin-bottom: 0.75rem; }
             .site-navbar .quote { font-size: 0.9rem; min-height: 5em; margin-bottom: 1.5rem; padding: 1rem; }
@@ -390,64 +385,77 @@
         function $(selector) { return document.querySelector(selector); }
         function $$(selector) { return document.querySelectorAll(selector); }
 
-        // New p5.js sketch for lightspeed effect
         function lightspeedSketch(p) {
             let particles = [];
-            const numParticles = 350; // Adjusted for a bit more density
+            const numParticles = 350;
+            let originX, originY;
+            let siteNavbarElement; // To store the DOM element
+
+            function calculateOrigin() {
+                if (!siteNavbarElement) {
+                    siteNavbarElement = document.querySelector('.site-navbar');
+                }
+
+                let navbarWidth = 0;
+                // Check if navbar is visible (desktop view, not mobile-open state)
+                if (window.innerWidth >= 993 && siteNavbarElement) { 
+                    // Check if transform is not translateX(-100%)
+                    const transformStyle = window.getComputedStyle(siteNavbarElement).transform;
+                    if (transformStyle === 'none' || !transformStyle.includes('translateX(-100%)')) {
+                         navbarWidth = siteNavbarElement.offsetWidth;
+                    }
+                }
+                
+                originX = (p.width + navbarWidth) / 2;
+                originY = p.height / 2;
+            }
 
             class Particle {
                 constructor() {
-                    this.reset();
                     this.colors = [
-                        p.color(146, 114, 206, p.random(150, 220)), // brand-purple with random alpha
-                        p.color(255, 255, 255, p.random(180, 255)), // white with random alpha
-                        p.color(200, 200, 200, p.random(120, 200)), // light grey with random alpha
-                        p.color(100, 100, 100, p.random(100, 180))  // mid grey with random alpha
+                        p.color(146, 114, 206, p.random(150, 220)), 
+                        p.color(255, 255, 255, p.random(180, 255)), 
+                        p.color(200, 200, 200, p.random(120, 200)), 
+                        p.color(100, 100, 100, p.random(100, 180))  
                     ];
-                    this.c = p.random(this.colors);
+                    this.reset(); // Call reset which now uses originX, originY
                 }
 
                 reset() {
-                    this.x = p.width / 2;
-                    this.y = p.height / 2;
+                    // Origin is now global and updated on resize/setup
+                    this.x = originX;
+                    this.y = originY;
                     this.px = this.x; 
                     this.py = this.y;
 
                     this.angle = p.random(p.TWO_PI);
-                    this.speed = p.random(0.5, 3); // Initial base speed
+                    this.speed = p.random(0.5, 3); 
                     this.vx = p.cos(this.angle) * this.speed;
                     this.vy = p.sin(this.angle) * this.speed;
                     
                     this.life = 0;
-                    this.maxLife = p.random(80, 250); // How long/far until it resets
+                    this.maxLife = p.random(80, 250); 
+                    this.c = p.random(this.colors); // Re-pick color on reset
                 }
 
                 update() {
                     this.px = this.x;
                     this.py = this.y;
-
-                    // Acceleration: speed increases as particle moves further or as life increases
-                    // Map life to an acceleration factor, making it more pronounced towards the end of life
                     let accelerationFactor = p.map(this.life, 0, this.maxLife, 1, 20, true); 
-                    
                     this.x += this.vx * accelerationFactor;
                     this.y += this.vy * accelerationFactor;
-                    
                     this.life++;
 
                     if (this.x < -50 || this.x > p.width + 50 || this.y < -50 || this.y > p.height + 50 || this.life > this.maxLife) {
                         this.reset();
-                        this.c = p.random(this.colors);
                     }
                 }
 
                 display() {
                     p.stroke(this.c);
-                    
                     let currentSpeedMagnitude = p.mag(this.vx, this.vy) * p.map(this.life, 0, this.maxLife, 1, 20, true);
                     let thickness = p.map(currentSpeedMagnitude, 1, 40, 0.5, 3.5, true); 
                     p.strokeWeight(thickness);
-                    
                     p.line(this.px, this.py, this.x, this.y);
                 }
             }
@@ -458,14 +466,22 @@
                 const p5Renderer = p.createCanvas(p.windowWidth, p.windowHeight);
                 p5Renderer.parent(p5CanvasContainer);
                 
+                siteNavbarElement = document.querySelector('.site-navbar'); // Cache the element
+                calculateOrigin(); // Calculate initial origin
+
+                particles = []; // Clear existing particles if any
                 for (let i = 0; i < numParticles; i++) {
                     particles.push(new Particle());
                 }
             };
 
             p.draw = function() {
-                p.background(5, 3, 8, 35); // Very dark purple, semi-transparent for trails
+                p.background(5, 3, 8, 35); 
                 
+                // Potentially recalculate origin if navbar state could change dynamically without resize
+                // For simplicity, we'll rely on windowResized for major layout changes.
+                // calculateOrigin(); // Uncomment if needed for very dynamic navbar changes
+
                 for (let particle of particles) {
                     particle.update();
                     particle.display();
@@ -474,6 +490,7 @@
 
             p.windowResized = function() {
                 p.resizeCanvas(p.windowWidth, p.windowHeight);
+                calculateOrigin(); // Recalculate origin based on new window size and navbar state
                 particles = []; 
                 for (let i = 0; i < numParticles; i++) {
                     particles.push(new Particle());
@@ -613,7 +630,7 @@
             revealSound = $('#revealSound'); gameSpawnSoundEl = $('#gameSpawnSound'); gameWinSoundEl = $('#gameWinSound');
             
             if (typeof p5 !== 'undefined') { 
-                new p5(lightspeedSketch); // Changed to new sketch
+                new p5(lightspeedSketch); 
             } else { console.error("p5.js is not loaded!"); }
 
             setupScrollProgressBar();
@@ -623,7 +640,18 @@
             handleMainRouteChange();
             window.addEventListener('hashchange', handleMainRouteChange); 
             setupSecretGame(); 
-            window.addEventListener('resize', () => { if (currentMainSection === 'home-content' && typeof setupHomePageRightColumnImages === 'function') { clearTimeout(window.resizeHomeImagesTimeout); window.resizeHomeImagesTimeout = setTimeout(setupHomePageRightColumnImages, 250); } });
+            window.addEventListener('resize', () => { 
+                if (currentMainSection === 'home-content' && typeof setupHomePageRightColumnImages === 'function') { 
+                    clearTimeout(window.resizeHomeImagesTimeout); 
+                    window.resizeHomeImagesTimeout = setTimeout(setupHomePageRightColumnImages, 250); 
+                }
+                // Also ensure p5 sketch recalculates origin on resize if it's running
+                if (typeof p5 !== 'undefined' && window.p5 && window.p5.instance && typeof window.p5.instance.windowResized === 'function') {
+                    // This is a bit of a hack to trigger the p5's windowResized if it exists globally
+                    // It's better if p5 instance is stored and its windowResized called directly.
+                    // For now, we assume it will pick up the new window dimensions.
+                }
+            });
 
             const hamburgerButton = $('#hamburger-menu');
             const siteNavbar = $('.site-navbar');
