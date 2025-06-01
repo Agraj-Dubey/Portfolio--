@@ -39,7 +39,7 @@
     <style>
         :root {
             --page-bg: #000000; --text-main: var(--text-on-black-primary, #EAEAEA); --text-subtle: var(--text-on-black-secondary, #B0B0B0);
-            --highlight-purple: #9272CE; --highlight-purple-hover: #AE8BD5; --highlight-purple-lighter: #CBB8E8;
+            --highlight-purple: '#9272CE'; --highlight-purple-hover: '#AE8BD5'; --highlight-purple-lighter: '#CBB8E8';
             --nav-bg: var(--nav-bg-light-grey, #E9E9E9); --nav-text: var(--nav-text-dark, #222222); --nav-text-subtle: var(--nav-text-dark-subtle, #555555);
             --nav-quote-bg: var(--nav-quote-bg-on-light, #DDDDDD); --nav-link-hover-bg: rgba(146, 114, 206, 0.1); 
             --bg-overlay-color-1: rgba(146, 114, 206, 0.02); --bg-overlay-color-2: rgba(0, 0, 0, 0.85); 
@@ -85,7 +85,7 @@
             margin-left: 0; 
             width: 100%;   
             padding: 1.5rem 1rem; 
-            background-color: var(--page-bg); 
+            /* background-color: var(--page-bg); */ /* MODIFIED: Commented out to make content area transparent */
             overflow-x: hidden; 
             position: relative; 
             transition: margin-left 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -389,24 +389,22 @@
             let particles = [];
             const numParticles = 350;
             let originX, originY;
-            let siteNavbarElement; // To store the DOM element
+            let siteNavbarElement; 
 
             function calculateOrigin() {
                 if (!siteNavbarElement) {
                     siteNavbarElement = document.querySelector('.site-navbar');
                 }
 
-                let navbarWidth = 0;
-                // Check if navbar is visible (desktop view, not mobile-open state)
+                let navbarOffsetLeft = 0; 
                 if (window.innerWidth >= 993 && siteNavbarElement) { 
-                    // Check if transform is not translateX(-100%)
                     const transformStyle = window.getComputedStyle(siteNavbarElement).transform;
-                    if (transformStyle === 'none' || !transformStyle.includes('translateX(-100%)')) {
-                         navbarWidth = siteNavbarElement.offsetWidth;
+                    const positionStyle = window.getComputedStyle(siteNavbarElement).position;
+                    if (positionStyle === 'fixed' && (transformStyle === 'none' || !transformStyle.includes('translateX(-100%)'))) {
+                         navbarOffsetLeft = siteNavbarElement.offsetWidth;
                     }
                 }
-                
-                originX = (p.width + navbarWidth) / 2;
+                originX = navbarOffsetLeft + (p.width - navbarOffsetLeft) / 2;
                 originY = p.height / 2;
             }
 
@@ -418,11 +416,10 @@
                         p.color(200, 200, 200, p.random(120, 200)), 
                         p.color(100, 100, 100, p.random(100, 180))  
                     ];
-                    this.reset(); // Call reset which now uses originX, originY
+                    this.reset(); 
                 }
 
                 reset() {
-                    // Origin is now global and updated on resize/setup
                     this.x = originX;
                     this.y = originY;
                     this.px = this.x; 
@@ -435,7 +432,7 @@
                     
                     this.life = 0;
                     this.maxLife = p.random(80, 250); 
-                    this.c = p.random(this.colors); // Re-pick color on reset
+                    this.c = p.random(this.colors); 
                 }
 
                 update() {
@@ -466,10 +463,10 @@
                 const p5Renderer = p.createCanvas(p.windowWidth, p.windowHeight);
                 p5Renderer.parent(p5CanvasContainer);
                 
-                siteNavbarElement = document.querySelector('.site-navbar'); // Cache the element
-                calculateOrigin(); // Calculate initial origin
+                siteNavbarElement = document.querySelector('.site-navbar'); 
+                calculateOrigin(); 
 
-                particles = []; // Clear existing particles if any
+                particles = []; 
                 for (let i = 0; i < numParticles; i++) {
                     particles.push(new Particle());
                 }
@@ -477,11 +474,6 @@
 
             p.draw = function() {
                 p.background(5, 3, 8, 35); 
-                
-                // Potentially recalculate origin if navbar state could change dynamically without resize
-                // For simplicity, we'll rely on windowResized for major layout changes.
-                // calculateOrigin(); // Uncomment if needed for very dynamic navbar changes
-
                 for (let particle of particles) {
                     particle.update();
                     particle.display();
@@ -490,7 +482,7 @@
 
             p.windowResized = function() {
                 p.resizeCanvas(p.windowWidth, p.windowHeight);
-                calculateOrigin(); // Recalculate origin based on new window size and navbar state
+                calculateOrigin(); 
                 particles = []; 
                 for (let i = 0; i < numParticles; i++) {
                     particles.push(new Particle());
@@ -644,12 +636,6 @@
                 if (currentMainSection === 'home-content' && typeof setupHomePageRightColumnImages === 'function') { 
                     clearTimeout(window.resizeHomeImagesTimeout); 
                     window.resizeHomeImagesTimeout = setTimeout(setupHomePageRightColumnImages, 250); 
-                }
-                // Also ensure p5 sketch recalculates origin on resize if it's running
-                if (typeof p5 !== 'undefined' && window.p5 && window.p5.instance && typeof window.p5.instance.windowResized === 'function') {
-                    // This is a bit of a hack to trigger the p5's windowResized if it exists globally
-                    // It's better if p5 instance is stored and its windowResized called directly.
-                    // For now, we assume it will pick up the new window dimensions.
                 }
             });
 
