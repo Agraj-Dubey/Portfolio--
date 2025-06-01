@@ -42,7 +42,7 @@
             --highlight-purple: #9272CE; --highlight-purple-hover: #AE8BD5; --highlight-purple-lighter: #CBB8E8;
             --nav-bg: var(--nav-bg-light-grey, #E9E9E9); --nav-text: var(--nav-text-dark, #222222); --nav-text-subtle: var(--nav-text-dark-subtle, #555555);
             --nav-quote-bg: var(--nav-quote-bg-on-light, #DDDDDD); --nav-link-hover-bg: rgba(146, 114, 206, 0.1); 
-            --p5-blob-hue-min: 230; --p5-blob-hue-max: 310; --p5-blob-opacity: 4; 
+            /* --p5-blob-hue-min: 230; --p5-blob-hue-max: 310; --p5-blob-opacity: 4; -- These are no longer used by the new p5 sketch */
             --bg-overlay-color-1: rgba(146, 114, 206, 0.02); --bg-overlay-color-2: rgba(0, 0, 0, 0.85); 
             --article-bg-color: rgba(20, 20, 22, 0.93); --writings-card-bg-color: rgba(25, 15, 40, 0.88);
             --writings-card-hover-bg-color: rgba(45, 35, 60, 0.96); --card-border-color: rgba(146, 114, 206, 0.25);
@@ -64,7 +64,6 @@
             display: flex; flex-direction: column; justify-content: space-between; 
             overflow-y: auto; z-index: 100;
             transition: transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
-            /* Desktop width defined in min-width: 993px media query */
             width: 38.2vw; min-width: 300px; max-width: 550px; 
         }
         .navbar-top-content { text-align: center; }
@@ -83,11 +82,10 @@
         #navbar-logo-image { width: 60px; height: auto; margin: 1.5rem auto 0; cursor: pointer; display: block; opacity: 0.8; transition: opacity 0.2s ease; }
         #navbar-logo-image:hover { opacity: 1; }
 
-        /* Mobile First approach for site-content */
         .site-content {
-            margin-left: 0; /* Default for mobile */
-            width: 100%;   /* Default for mobile */
-            padding: 1.5rem 1rem; /* Default mobile padding */
+            margin-left: 0; 
+            width: 100%;   
+            padding: 1.5rem 1rem; 
             background-color: var(--page-bg); 
             overflow-x: hidden; 
             position: relative; 
@@ -193,30 +191,23 @@
         .hamburger-button.active .hamburger-bar:nth-child(2) { opacity: 0; }
         .hamburger-button.active .hamburger-bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-        /* Desktop specific layout for .site-content and .site-navbar */
         @media (min-width: 993px) {
             .site-navbar {
-                /* Already has desktop defaults: width: 38.2vw; min-width: 300px; max-width: 550px; */
-                /* Ensure transform is reset if it was changed for mobile */
                 transform: translateX(0); 
+                /* Desktop widths are already set as base styles for .site-navbar */
             }
             .site-content {
-                margin-left: 38.2vw; /* This should be calculated based on final navbar width */
-                width: calc(100% - 38.2vw); /* Adjust if navbar width is clamped */
-                padding: 2rem; /* Desktop padding */
-            }
-             /* If navbar width is clamped, content margin needs to match */
-            .site-navbar:has(+ .site-content) { /* A bit of future CSS, might not be fully supported */
-                 /* This is tricky without JS to get the actual clamped width */
+                margin-left: 38.2vw; 
+                width: calc(100% - 38.2vw); 
+                padding: 2rem; 
             }
         }
 
-        /* Mobile and Tablet specific layout */
         @media (max-width: 992px) { 
             .hamburger-button { display: flex; }
             .site-navbar {
                 transform: translateX(-100%);
-                width: min(300px, 80vw); /* Adjusted mobile navbar width */
+                width: min(300px, 80vw); 
                 min-width: unset; 
                 max-width: unset; 
                 border-right: 1px solid #B0B0B0; 
@@ -226,7 +217,7 @@
             }
             .site-navbar.navbar-mobile-open { transform: translateX(0); }
             
-            /* .site-content already has mobile defaults (margin-left:0, width:100%) from base styles */
+            /* .site-content uses its base styles for mobile (margin-left:0, width:100%, padding: 1.5rem 1rem) */
 
             #navbar-agraj-image { width: 50%; max-width: 150px; margin-bottom: 0.5rem;}
             .site-navbar #typewriter { font-size: 0.85rem; min-height: 2em; margin-bottom: 0.75rem; }
@@ -237,7 +228,6 @@
             .progress-container { display: none; } 
         }
 
-        /* === ADDED STYLES FOR FULL ARTICLE VIEW === */
         #full-articles-container article .post-content-html {
             font-size: 1.1875rem; 
             line-height: 1.75;   
@@ -267,7 +257,6 @@
             padding: 0.85rem 1.75rem; 
             text-align: center;      
         }
-        /* === END OF ADDED STYLES === */
     </style>
 </head>
 <body>
@@ -401,16 +390,95 @@
         function $(selector) { return document.querySelector(selector); }
         function $$(selector) { return document.querySelectorAll(selector); }
 
-        let p5Blobs = []; const NUM_P5_BLOBS = 5; 
-        function p5Sketch(p) { 
-            class Blob {
-                constructor() { this.x = p.random(p.width); this.y = p.random(p.height); this.r = p.random(p.width / 3.5, p.width / 1.3); this.xSpeed = p.random(-0.35, 0.35); this.ySpeed = p.random(-0.35, 0.35); this.numPoints = p.int(p.random(6, 12)); this.noiseSeedX = p.random(1000); this.noiseSeedY = p.random(1000); this.noiseSeedR = p.random(1000); this.hueMin = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-hue-min')); this.hueMax = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-hue-max')); this.hue = p.random(this.hueMin, this.hueMax); this.hueShiftSpeed = p.random(-0.12, 0.12); this.opacity = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--p5-blob-opacity')); }
-                update() { this.x += this.xSpeed + (p.noise(this.noiseSeedX + p.frameCount * 0.0005) - 0.5) * 0.5; this.y += this.ySpeed + (p.noise(this.noiseSeedY + p.frameCount * 0.0005) - 0.5) * 0.5; this.r = p.map(p.noise(this.noiseSeedR + p.frameCount * 0.0012), 0, 1, p.width / 4.5, p.width / 1.1); if (this.x < -this.r * 1.5) this.x = p.width + this.r * 1.5; if (this.x > p.width + this.r * 1.5) this.x = -this.r * 1.5; if (this.y < -this.r * 1.5) this.y = p.height + this.r * 1.5; if (this.y > p.height + this.r * 1.5) this.y = -this.r * 1.5; this.hue = (this.hue + this.hueShiftSpeed); if (this.hue > this.hueMax) this.hue = this.hueMin; if (this.hue < this.hueMin) this.hue = this.hueMax; }
-                display() { p.fill(this.hue, 60, 70, this.opacity); p.beginShape(); let angleStep = p.TWO_PI / this.numPoints; for (let i = 0; i <= this.numPoints; i++) { let angle = i * angleStep; let radiusOffset = p.map(p.noise(this.noiseSeedX + i * 0.2 + p.frameCount * 0.002, this.noiseSeedY + i * 0.2), 0, 1, -this.r * 0.4, this.r * 0.4); let currentR = this.r + radiusOffset; let vx = this.x + currentR * p.cos(angle); let vy = this.y + currentR * p.sin(angle); p.curveVertex(vx, vy); if (i === 0 || i === 1 || i === this.numPoints-1 || i === this.numPoints) { p.curveVertex(vx, vy); } } p.endShape(); }
+        // New p5.js sketch for lightspeed effect
+        function lightspeedSketch(p) {
+            let particles = [];
+            const numParticles = 350; // Adjusted for a bit more density
+
+            class Particle {
+                constructor() {
+                    this.reset();
+                    this.colors = [
+                        p.color(146, 114, 206, p.random(150, 220)), // brand-purple with random alpha
+                        p.color(255, 255, 255, p.random(180, 255)), // white with random alpha
+                        p.color(200, 200, 200, p.random(120, 200)), // light grey with random alpha
+                        p.color(100, 100, 100, p.random(100, 180))  // mid grey with random alpha
+                    ];
+                    this.c = p.random(this.colors);
+                }
+
+                reset() {
+                    this.x = p.width / 2;
+                    this.y = p.height / 2;
+                    this.px = this.x; 
+                    this.py = this.y;
+
+                    this.angle = p.random(p.TWO_PI);
+                    this.speed = p.random(0.5, 3); // Initial base speed
+                    this.vx = p.cos(this.angle) * this.speed;
+                    this.vy = p.sin(this.angle) * this.speed;
+                    
+                    this.life = 0;
+                    this.maxLife = p.random(80, 250); // How long/far until it resets
+                }
+
+                update() {
+                    this.px = this.x;
+                    this.py = this.y;
+
+                    // Acceleration: speed increases as particle moves further or as life increases
+                    // Map life to an acceleration factor, making it more pronounced towards the end of life
+                    let accelerationFactor = p.map(this.life, 0, this.maxLife, 1, 20, true); 
+                    
+                    this.x += this.vx * accelerationFactor;
+                    this.y += this.vy * accelerationFactor;
+                    
+                    this.life++;
+
+                    if (this.x < -50 || this.x > p.width + 50 || this.y < -50 || this.y > p.height + 50 || this.life > this.maxLife) {
+                        this.reset();
+                        this.c = p.random(this.colors);
+                    }
+                }
+
+                display() {
+                    p.stroke(this.c);
+                    
+                    let currentSpeedMagnitude = p.mag(this.vx, this.vy) * p.map(this.life, 0, this.maxLife, 1, 20, true);
+                    let thickness = p.map(currentSpeedMagnitude, 1, 40, 0.5, 3.5, true); 
+                    p.strokeWeight(thickness);
+                    
+                    p.line(this.px, this.py, this.x, this.y);
+                }
             }
-            p.setup = function() { const p5CanvasContainer = $('#p5-background-canvas'); if (!p5CanvasContainer) { return; } const p5Renderer = p.createCanvas(p.windowWidth, p.windowHeight); p5Renderer.parent(p5CanvasContainer); p.colorMode(p.HSB, 360, 100, 100, 100); p.noStroke(); for (let i = 0; i < NUM_P5_BLOBS; i++) { p5Blobs.push(new Blob()); } };
-            p.draw = function() { p.clear(); for (let blob of p5Blobs) { blob.update(); blob.display(); } };
-            p.windowResized = function() { p.resizeCanvas(p.windowWidth, p.windowHeight); p5Blobs = []; for (let i = 0; i < NUM_P5_BLOBS; i++) { p5Blobs.push(new Blob()); } };
+
+            p.setup = function() {
+                const p5CanvasContainer = $('#p5-background-canvas');
+                if (!p5CanvasContainer) return;
+                const p5Renderer = p.createCanvas(p.windowWidth, p.windowHeight);
+                p5Renderer.parent(p5CanvasContainer);
+                
+                for (let i = 0; i < numParticles; i++) {
+                    particles.push(new Particle());
+                }
+            };
+
+            p.draw = function() {
+                p.background(5, 3, 8, 35); // Very dark purple, semi-transparent for trails
+                
+                for (let particle of particles) {
+                    particle.update();
+                    particle.display();
+                }
+            };
+
+            p.windowResized = function() {
+                p.resizeCanvas(p.windowWidth, p.windowHeight);
+                particles = []; 
+                for (let i = 0; i < numParticles; i++) {
+                    particles.push(new Particle());
+                }
+            };
         }
         
         let ALL_POSTS_DATA = [];
@@ -543,7 +611,11 @@
         
         document.addEventListener('DOMContentLoaded', async () => {
             revealSound = $('#revealSound'); gameSpawnSoundEl = $('#gameSpawnSound'); gameWinSoundEl = $('#gameWinSound');
-            if (typeof p5 !== 'undefined') { new p5(p5Sketch); } else { console.error("p5.js is not loaded!"); }
+            
+            if (typeof p5 !== 'undefined') { 
+                new p5(lightspeedSketch); // Changed to new sketch
+            } else { console.error("p5.js is not loaded!"); }
+
             setupScrollProgressBar();
             await loadAndRenderPosts(); 
             for (const elId in APP_CONFIG.ROTATING_TEXT_HOME) { if (document.getElementById(elId) && typeof setupRotatingText === 'function') { setupRotatingText(elId, APP_CONFIG.ROTATING_TEXT_HOME[elId]); } }
