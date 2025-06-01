@@ -85,11 +85,16 @@
             margin-left: 0; 
             width: 100%;   
             padding: 1.5rem 1rem; 
-            /* background-color: var(--page-bg); */ /* MODIFIED: Commented out to make content area transparent */
+            background-color: var(--page-bg); /* MODIFIED: Restored background color */
             overflow-x: hidden; 
             position: relative; 
             transition: margin-left 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
         }
+        /* Make home page animated images container transparent */
+        #home-content #animated-images-container-wrapper {
+            background-color: transparent;
+        }
+
 
         .page-section { display: none; animation: fadeInPage 0.7s ease-out forwards; }
         .page-section.active-section { display: block; }
@@ -390,6 +395,7 @@
             const numParticles = 350;
             let originX, originY;
             let siteNavbarElement; 
+            const particleSpread = 50; // How much to scatter the initial particle positions
 
             function calculateOrigin() {
                 if (!siteNavbarElement) {
@@ -420,25 +426,27 @@
                 }
 
                 reset() {
-                    this.x = originX;
-                    this.y = originY;
+                    // Scatter starting position around the calculated origin
+                    this.x = originX + p.random(-particleSpread, particleSpread);
+                    this.y = originY + p.random(-particleSpread, particleSpread);
                     this.px = this.x; 
                     this.py = this.y;
 
                     this.angle = p.random(p.TWO_PI);
-                    this.speed = p.random(0.5, 3); 
+                    this.speed = p.random(0.8, 4); // Slightly increased initial speed variation
                     this.vx = p.cos(this.angle) * this.speed;
                     this.vy = p.sin(this.angle) * this.speed;
                     
                     this.life = 0;
-                    this.maxLife = p.random(80, 250); 
+                    this.maxLife = p.random(70, 200); // Slightly shorter max life for faster turnover
                     this.c = p.random(this.colors); 
                 }
 
                 update() {
                     this.px = this.x;
                     this.py = this.y;
-                    let accelerationFactor = p.map(this.life, 0, this.maxLife, 1, 20, true); 
+                    // Slightly reduced acceleration for a softer streaking effect
+                    let accelerationFactor = p.map(this.life, 0, this.maxLife, 1, 15, true); 
                     this.x += this.vx * accelerationFactor;
                     this.y += this.vy * accelerationFactor;
                     this.life++;
@@ -450,8 +458,8 @@
 
                 display() {
                     p.stroke(this.c);
-                    let currentSpeedMagnitude = p.mag(this.vx, this.vy) * p.map(this.life, 0, this.maxLife, 1, 20, true);
-                    let thickness = p.map(currentSpeedMagnitude, 1, 40, 0.5, 3.5, true); 
+                    let currentSpeedMagnitude = p.mag(this.vx, this.vy) * p.map(this.life, 0, this.maxLife, 1, 15, true);
+                    let thickness = p.map(currentSpeedMagnitude, 1, 30, 0.5, 3, true); // Adjusted mapping for thickness
                     p.strokeWeight(thickness);
                     p.line(this.px, this.py, this.x, this.y);
                 }
